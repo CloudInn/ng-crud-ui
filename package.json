@@ -1,0 +1,52 @@
+{
+  "name": "@cloudinn/ng-crud-ui",
+  "version": "1.0.0",
+  "description": "An angular module for common admin panels components and crud operations",
+  "scripts": {
+    "build": "tsc src",
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cloudinn/ng-crud-ui.git"
+  },
+  "dependencies": {
+    "angular2-moment": "^1.4.0",
+    "rxjs": "^5.4.2",
+    "zone.js": "^0.8.13"
+  },
+  "devDependencies": {
+    "@angular/core": "4.4.5",
+    "@angular/forms": "4.4.5",
+    "@angular/http": "4.4.5",
+    "@angular/animations": "4.4.5",
+    "@angular/common": "4.4.5",
+    "@angular/cdk": "2.0.0-beta.12",
+    "@angular/material": "2.0.0-beta.12",
+    "@angular/compiler": "4.4.5",
+    "@angular/platform-browser": "4.4.5",
+    "@types/node": "^8.0.11",
+    "codelyzer": "~2.0.0",
+    "ts-node": "~2.0.0",
+    "tslint": "~4.5.0",
+    "typescript": "~2.2.0"
+  },
+  "keywords": [
+    "angular",
+    "admin",
+    "extadmin",
+    "components",
+    "modules",
+    "typescript",
+    "javascript",
+    "ng",
+    "angular2",
+    "angular4"
+  ],
+  "author": "Eslam Mostafa <cseslam@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cloudinn/ng-crud-ui/issues"
+  },
+  "homepage": "https://github.com/cloudinn/ng-crud-ui#readme"
+}

@@ -1,0 +1,30 @@
+<mat-progress-bar *ngIf="isLoading" mode="query"></mat-progress-bar>
+
+<!--<form>-->
+<mat-card>
+    <div class="form-container">
+        <ng-template let-f ngFor [ngForOf]="model.fields">
+            <ng-template [ngIf]="f.type === fieldType.Text">
+                <mat-form-field>
+                    <input  matInput placeholder="{{ f.label }}" [(ngModel)]="ngModel[f.key]" [name]="ngModel[f.key]" [disabled]="!f.is_editable" />
+                </mat-form-field>
+            </ng-template>
+            <ng-template [ngIf]="f.type === fieldType.Number">
+                <mat-form-field>
+                    <input  matInput type="number" placeholder="{{ f.label }}" [(ngModel)]="ngModel[f.key]" [name]="ngModel[f.key]" [disabled]="!f.is_editable" />
+                </mat-form-field>
+            </ng-template>
+            <ng-template [ngIf]="f.type === fieldType.Boolean">
+                <mat-slide-toggle matInput [(ngModel)]="ngModel[f.key]">{{ f.label }}</mat-slide-toggle>
+            </ng-template>
+            <ng-template [ngIf]="f.type === fieldType.ForeignKey">
+                <mat-form-field>
+                    <mat-select  placeholder="{{ f.label }}" [(ngModel)]="ngModel[f.key]" [disabled]="!f.is_editable">
+                        <mat-option></mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </ng-template>
+        </ng-template>
+    </div>
+</mat-card>
+<!--</form>-->
