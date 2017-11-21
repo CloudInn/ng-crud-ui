@@ -4,7 +4,7 @@ import { DataSource } from '@angular/cdk/collections';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { ApiService, Registry } from '../../services';
-import { MatTable } from '@angular/material/table';
+import { MatTable } from '@angular/material';
 
 const items = new BehaviorSubject<any[]>([]);
 
