@@ -27,14 +27,15 @@ import {
   MatNativeDateModule,
   MatSelectModule,
   MatTabsModule,
+  MatExpansionModule,
 } from '@angular/material';
 
 import { ApiService, Registry } from './services';
 import {
   AutoCompleteFieldComponent,
-  DataTableComponent,
+  ListingComponent,
   ModelFormComponent,
-  AppSettingsComponent,
+  ModelFormScreenComponent,
 } from './components';
 
 @NgModule({
@@ -64,13 +65,14 @@ import {
     MatDatepickerModule,
     MatSelectModule,
     MatTabsModule,
+    MatExpansionModule,
     RouterModule,
   ],
   declarations: [
     AutoCompleteFieldComponent,
-    DataTableComponent,
+    ListingComponent,
     ModelFormComponent,
-    AppSettingsComponent,
+    ModelFormScreenComponent,
   ],
   providers: [
     ApiService,
@@ -98,9 +100,10 @@ import {
     MatDatepickerModule,
     MatSelectModule,
     MatTabsModule,
-    DataTableComponent,
+    MatExpansionModule,
+    ListingComponent,
     ModelFormComponent,
-    AppSettingsComponent,
+    ModelFormScreenComponent,
   ]
 })
 export class NgCrudUiModule { }
