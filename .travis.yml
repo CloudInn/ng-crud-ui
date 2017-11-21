@@ -1,0 +1,4 @@
+language: typescript
+
+script:
+    npm run build
