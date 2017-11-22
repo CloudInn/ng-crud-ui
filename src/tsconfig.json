@@ -19,8 +19,13 @@
     ]
   },
   "include": [
+	  "../index.ts",
     "index.ts",
     "*.ts",
     "**/*.ts"
-  ]
+  ],
+  "angularCompilerOptions": {    // Angular compiler specific config
+    "genDir": "dist",
+    "skipTemplateCodegen": true // Don't produce *.ngfactory.ts
+  }
 }
