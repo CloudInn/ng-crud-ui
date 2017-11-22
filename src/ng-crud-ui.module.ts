@@ -32,10 +32,12 @@ import {
 
 import { ApiService, Registry } from './services';
 import {
+  FormFieldComponent,
   AutoCompleteFieldComponent,
   ListingComponent,
   ModelFormComponent,
   ModelFormScreenComponent,
+  FormsetComponent,
 } from './components';
 
 @NgModule({
@@ -73,6 +75,8 @@ import {
     ListingComponent,
     ModelFormComponent,
     ModelFormScreenComponent,
+    FormFieldComponent,
+    FormsetComponent,
   ],
   providers: [
     ApiService,
@@ -104,6 +108,7 @@ import {
     ListingComponent,
     ModelFormComponent,
     ModelFormScreenComponent,
+    FormsetComponent,
   ]
 })
 export class NgCrudUiModule { }

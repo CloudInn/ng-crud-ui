@@ -7,23 +7,25 @@ import { Field, FieldType } from '../../forms';
   template: `
   <ng-template [ngIf]="field.type === fieldType.Text">
     <mat-form-field>
-        <input  matInput placeholder="{{ f.label }}" [(ngModel)]="ngModel[f.key]" 
-            [name]="ngModel[f.key]" [disabled]="!f.is_editable" />
+        <input  matInput placeholder="{{ field.label }}" [(ngModel)]="ngModel" 
+          [disabled]="disabled" [id]="'id_'+field.key" />
     </mat-form-field>
-    </ng-template>
-    <ng-template [ngIf]="field.type === fieldType.Number">
+  </ng-template>
+  <ng-template [ngIf]="field.type === fieldType.Number">
     <mat-form-field>
-      <input  matInput type="number" placeholder="{{ f.label }}" 
-        [(ngModel)]="ngModel[field.key]" [name]="ngModel[field.key]" [disabled]="!field.is_editable" />
+        <input  matInput type="number" placeholder="{{ field.label }}" [(ngModel)]="ngModel" 
+          [name]="field.key"  [disabled]="disabled" />
     </mat-form-field>
-    </ng-template>
-    <ng-template [ngIf]="field.type === fieldType.Boolean">
-    <mat-slide-toggle matInput [(ngModel)]="ngModel[f.key]">{{ f.label }}</mat-slide-toggle>
-    </ng-template>
-    <ng-template [ngIf]="f.type === fieldType.ForeignKey">
+  </ng-template>
+  <ng-template [ngIf]="field.type === fieldType.Boolean">
+    <mat-slide-toggle matInput [(ngModel)]="ngModel" [disabled]="disabled" >{{ field.label }}</mat-slide-toggle>
+  </ng-template>
+  <ng-template [ngIf]="field.type === fieldType.ForeignKey && choices[field.key]">
     <mat-form-field>
-        <mat-select  placeholder="{{ f.label }}" [(ngModel)]="ngModel[f.key]" [disabled]="!f.is_editable">
+        <mat-select [name]="field.key" placeholder="{{ field.label }}" [(ngModel)]="ngModel" [disabled]="disabled">
             <mat-option></mat-option>
+            <mat-option [value]="c[field.foreign_model.external_value]" *ngFor="let c of choices[field.key]">
+              {{ c[field.foreign_model.external_label] }}</mat-option>
         </mat-select>
     </mat-form-field>
   </ng-template>
@@ -34,6 +36,8 @@ export class FormFieldComponent implements OnInit {
   @Input() ngModel: any = {};
   @Input() forcedSearchParams: any = [];
   @Input() field: Field;
+  @Input() disabled = false;
+  @Input() choices = {};
   fieldType: typeof FieldType = FieldType;
 
   constructor(private api: ApiService, private reg: Registry) {

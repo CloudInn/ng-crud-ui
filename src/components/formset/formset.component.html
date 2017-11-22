@@ -1,0 +1,37 @@
+<mat-progress-bar *ngIf="isLoading" mode="query"></mat-progress-bar>
+
+    <h4>{{ label }}</h4>
+    <button mat-icon-button color="primary" (click)="_onAdd()">
+        <mat-icon>add_box</mat-icon>
+    </button>
+    <ng-template ngFor let-item let-i="index" [ngForOf]="internalNgModel">
+        <mat-grid-list [cols]="fields.length" rowHeight="2:1">
+            <mat-grid-tile *ngFor="let f of fields">
+                <ng-template [ngIf]="f.type === fieldType.Text">
+                    <mat-form-field>
+                        <input  matInput placeholder="{{ f.label }}" [(ngModel)]="internalNgModel[i][f.key]" [name]="internalNgModel[f.key]" [disabled]="model !== 'search' && !f.is_editable" />
+                    </mat-form-field>
+                </ng-template>
+                <ng-template [ngIf]="f.type === fieldType.Number">
+                    <mat-form-field>
+                        <input  matInput type="number" placeholder="{{ f.label }}" [(ngModel)]="internalNgModel[i][f.key]" [name]="internalNgModel[f.key]"  [disabled]="model !== 'search' && !f.is_editable" />
+                    </mat-form-field>
+                </ng-template>
+                <ng-template [ngIf]="f.type === fieldType.Boolean">
+                    <mat-slide-toggle matInput [name]="internalNgModel[i][f.key]" [(ngModel)]="internalNgModel[i][f.key]" [disabled]="model !== 'search' && !f.is_editable" >{{ f.label }}</mat-slide-toggle>
+                </ng-template>
+                <ng-template [ngIf]="f.type === fieldType.ForeignKey">
+                    <mat-form-field>
+                        <mat-select [name]="f.key" placeholder="{{ f.label }}" [(ngModel)]="internalNgModel[i][f.key]" [disabled]="model !== 'search' && !f.is_editable">
+                            <mat-option></mat-option>
+                            <mat-option [value]="c[f.foreign_model.external_value]" *ngFor="let c of choices[f.key]">{{ c[f.foreign_model.external_label] }}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </ng-template>
+            </mat-grid-tile>
+        </mat-grid-list>
+    </ng-template>
+    <!-- <button mat-raised-button color="primary" (click)="_onSubmit()">
+        Save
+    </button> -->
+    <!-- </div> -->

@@ -7,21 +7,18 @@ import { ApiService, Registry } from '../../services';
 import { FieldType, Field } from '../../forms';
 
 @Component({
-  selector: 'ngcrudui-model-form',
-  templateUrl: './model-form.component.html'
+  selector: 'ngcrudui-formset',
+  templateUrl: './formset.component.html'
 })
-export class ModelFormComponent implements OnChanges {
+export class FormsetComponent implements OnChanges {
 
-    @Input() module: string;
     @Input() appName: string;
     @Input() modelName: string;
-    @Input() mode = 'search';
-    @Input() id: number = null;
-    ngModel: any = {};
+    @Input() label: string;
+    @Input() internalNgModel: any = null;
     model: any;
     fieldType: typeof FieldType = FieldType;
     fields: Field[] = [];
-    formsets: Field[] = [];
     choices = {};
     @Output() onSubmit = new EventEmitter<any>();
 
@@ -33,33 +30,43 @@ export class ModelFormComponent implements OnChanges {
             return;
         }
         this.model = this.reg.getModel(this.appName, this.modelName).model;
-        if (this.mode === 'search') {
-            this.fields = this.model.fields.filter(f => f.is_searchable === true && f.type !== FieldType.Formset);
-        } else {
-            this.fields = this.model.fields.filter(f => f.type !== FieldType.Formset);
-            this.formsets = this.model.fields.filter(f => f.type === FieldType.Formset);
-        }
+        this.fields = this.model.fields;
 
         this.model.fields.filter(f => f.type === FieldType.ForeignKey).map(f => {
             this.api.fetch(`${f.foreign_model.api}`, []).subscribe(res => {
                 this.choices[f.key] = res;
             });
         });
-        if (this.mode === 'edit') {
-            const api = `${this.model.api}${this.id}`;
-            this.api.fetch(api, {}).subscribe(res => {
-                this.ngModel = res;
-            });
-        } else {
-            this.ngModel = this.model.fields.reduce((m, f) => {
+        const api = `${this.model.api}`;
+        if (this.internalNgModel != null) {
+            return;
+        }
+        this.api.fetch(api, {}).subscribe(res => {
+            if (res.length === 0) {
+                this.internalNgModel = [this.model.fields.reduce((m, f) => {
+                    m[f.key] = null;
+                    return m;
+                }, {})];
+            } else {
+                this.internalNgModel = res;
+            }
+        }, err => {
+            this.internalNgModel = [this.model.fields.reduce((m, f) => {
                 m[f.key] = null;
                 return m;
-            }, {});
-        }
+            }, {})];
+        });
+    }
+
+    _onAdd() {
+        this.internalNgModel.push(this.model.fields.reduce((m, f) => {
+            m[f.key] = null;
+            return m;
+        }, {}));
     }
 
     _onSubmit() {
-        this.onSubmit.emit(this.ngModel);
+        this.onSubmit.emit(this.internalNgModel);
     }
 
 }

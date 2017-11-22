@@ -1,5 +1,7 @@
 export interface BaseField {
   label: string;
+  key: string;
+  type: FieldType;
 }
 
 export enum FieldType {
@@ -11,8 +13,10 @@ export enum FieldType {
   Boolean,
   ForeignKey,
   ManyToMany,
-  FormSet,
+  Formset,
+  Fieldset,
   File,
+  Hidden,
 }
 
 export class Field implements BaseField {
@@ -44,26 +48,19 @@ export class Field implements BaseField {
 
 export class Fieldset implements BaseField {
   label: string;
+  key: string;
+  type: FieldType.Fieldset;
   is_fieldset = true;
   fields: Field[];
 }
 
 export class Formset implements BaseField {
   label: string;
+  key: string;
   model: any;
+  type: FieldType.Formset;
+
+  constructor(label: string, key: string, model: any) {
+
+  }
 }
-
-// export class BaseModel {
-//   api: string
-//   fields: BaseField[]
-//   displayField: string
-//   valueField: string
-
-//   getNgModel(): any {
-//     const obj = {};
-//     for (let f of this.fields) {
-//       obj[f['key']] = null;
-//     }
-//     return obj;
-//   }
-// }

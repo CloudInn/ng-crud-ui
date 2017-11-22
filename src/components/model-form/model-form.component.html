@@ -4,6 +4,7 @@
     <!-- <div class="form-container"> -->
     <mat-grid-list cols="4" rowHeight="2:1">
         <mat-grid-tile *ngFor="let f of fields">
+            <!-- <ngcrudui-form-field [field]="f" [ngModel]="ngModel[f.key]" [choices]="choices"></ngcrudui-form-field>                 -->
             <ng-template [ngIf]="f.type === fieldType.Text">
                 <mat-form-field>
                     <input  matInput placeholder="{{ f.label }}" [(ngModel)]="ngModel[f.key]" [name]="ngModel[f.key]" [disabled]="model !== 'search' && !f.is_editable" />
@@ -27,6 +28,11 @@
             </ng-template>
         </mat-grid-tile>
     </mat-grid-list>
+    <ng-template ngFor let-f [ngForOf]="formsets">
+        <ng-template [ngIf]="f.is_searchable === false && f.type === fieldType.Formset">
+            <ngcrudui-formset [label]="f.label" [appName]="this.appName" [modelName]="f.foreign_model" [(internalNgModel)]="ngModel[f.key]"></ngcrudui-formset>
+        </ng-template>
+    </ng-template>
     <button mat-raised-button color="primary" (click)="_onSubmit()">
         <span *ngIf="mode === 'search'">Search</span>
         <span *ngIf="mode === 'create'">Create</span>
