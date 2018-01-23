@@ -1,9 +1,9 @@
 {
   "name": "@cloudinn/ng-crud-ui",
-  "version": "2.0.0",
+  "version": "2.0.0-beta.1",
   "description": "An angular module for common admin panels components and crud operations",
   "scripts": {
-    "build": "ngc -p src",
+    "build": "ng-packagr -p ng-package.json",
     "test": "npm test"
   },
   "repository": {

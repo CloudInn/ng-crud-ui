@@ -1,0 +1,6 @@
+{
+    "$schema": "./node_modules/@cloudinn/ng-crud-ui/ng-crud-ui.schema.json",
+    "lib": {
+        "entryFile": "index.ts"
+    }
+}
