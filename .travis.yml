@@ -1,4 +1,4 @@
 language: typescript
 
 script:
-    npm run build
+    npm install && npm run build

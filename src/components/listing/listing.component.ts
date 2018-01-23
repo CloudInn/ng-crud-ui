@@ -8,7 +8,7 @@ import { MatTable } from '@angular/material';
 
 const items = new BehaviorSubject<any[]>([]);
 
-class ModelDataSource extends DataSource<any> {
+export class ModelDataSource extends DataSource<any> {
     connect(): Observable<any> {
         return items;
     }

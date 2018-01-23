@@ -1,6 +1,6 @@
 {
-    "$schema": "./node_modules/@cloudinn/ng-crud-ui/ng-crud-ui.schema.json",
+    "$schema": "./node_modules/ng-packagr/ng-packagr.schema.json",
     "lib": {
-        "entryFile": "index.ts"
+        "entryFile": "public_api.ts"
     }
 }
