@@ -1,5 +1,7 @@
 # Angular Crud UI
 
+[![Build Status](https://travis-ci.org/CloudInn/ng-crud-ui.svg?branch=master)](https://travis-ci.org/CloudInn/ng-crud-ui)
+
 ng-crud-ui is an angular module that provides you with common components and forms to help you rapidly implement editing and search forms based on models definitions and CRUD operations for REST apis.
 
 ## Installation
