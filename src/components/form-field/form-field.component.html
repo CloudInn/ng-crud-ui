@@ -1,0 +1,39 @@
+<div [ngSwitch]="field.control_type" [formGroup]="form">
+
+    <div *ngSwitchCase="'switch'">
+        <mat-slide-toggle matInput [formControlName]="field.key">{{ field.label }}</mat-slide-toggle>
+    </div>
+
+    <mat-form-field *ngSwitchCase="'textarea'">
+        <textarea matInput matTextareaAutosize [placeholder]="field.label" [formControlName]="field.key"
+            [rows]="field.rowspan || 1"></textarea>
+    </mat-form-field>
+
+    <mat-form-field *ngSwitchCase="'select'">
+        <mat-select  placeholder="{{ field.label }}" [formControlName]="field.key">
+            <mat-option></mat-option>
+            <mat-option [value]="c.value" *ngFor="let c of field.choices">
+                {{ c.label }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    
+    <div *ngSwitchCase="'foreign_key'">
+        <!-- <mat-select  placeholder="{{ field.label }}" [formControlName]="field.key">
+            <mat-option></mat-option>
+            <mat-option [value]="c[foreign_model.external_value_field]" *ngFor="let c of choices">
+                {{ c[foreign_model.external_name_field] }}
+            </mat-option>
+        </mat-select> -->
+        <ngcrudui-autocomplete [form]="form" [field]="field" [choices]="choices" [foreign_model]="foreign_model">
+
+        </ngcrudui-autocomplete>
+    </div>
+
+    <!-- this fallsback from number and text -->
+    <mat-form-field *ngSwitchDefault>
+        <input  matInput placeholder="{{ field.label }}" [formControlName]="field.key"
+                [type]="field.control_type || field.value_type || text" />
+    </mat-form-field>
+
+</div>

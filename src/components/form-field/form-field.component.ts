@@ -1,49 +1,30 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { ApiService, Registry } from '../../services';
-import { Field, FieldType } from '../../forms';
+import { Component, OnChanges, Input } from '@angular/core';
+import { FormGroup, AbstractControl } from '@angular/forms';
+import { ApiService, Registry, Model } from '../../services';
+import { Field } from '../../forms';
 
 @Component({
   selector: 'ngcrudui-form-field',
-  template: `
-  <ng-template [ngIf]="field.type === fieldType.Text">
-    <mat-form-field>
-        <input  matInput placeholder="{{ field.label }}" [(ngModel)]="ngModel" 
-          [disabled]="disabled" [id]="'id_'+field.key" />
-    </mat-form-field>
-  </ng-template>
-  <ng-template [ngIf]="field.type === fieldType.Number">
-    <mat-form-field>
-        <input  matInput type="number" placeholder="{{ field.label }}" [(ngModel)]="ngModel" 
-          [name]="field.key"  [disabled]="disabled" />
-    </mat-form-field>
-  </ng-template>
-  <ng-template [ngIf]="field.type === fieldType.Boolean">
-    <mat-slide-toggle matInput [(ngModel)]="ngModel" [disabled]="disabled" >{{ field.label }}</mat-slide-toggle>
-  </ng-template>
-  <ng-template [ngIf]="field.type === fieldType.ForeignKey && choices[field.key]">
-    <mat-form-field>
-        <mat-select [name]="field.key" placeholder="{{ field.label }}" [(ngModel)]="ngModel" [disabled]="disabled">
-            <mat-option></mat-option>
-            <mat-option [value]="c[field.foreign_model.external_value]" *ngFor="let c of choices[field.key]">
-              {{ c[field.foreign_model.external_label] }}</mat-option>
-        </mat-select>
-    </mat-form-field>
-  </ng-template>
-  `
+  templateUrl: './form-field.component.html'
 })
-export class FormFieldComponent implements OnInit {
+export class FormFieldComponent implements OnChanges {
 
-  @Input() ngModel: any = {};
+  @Input() form: AbstractControl;
   @Input() forcedSearchParams: any = [];
   @Input() field: Field;
-  @Input() disabled = false;
-  @Input() choices = {};
-  fieldType: typeof FieldType = FieldType;
+  choices = [];
+  foreign_model?: Model;
 
   constructor(private api: ApiService, private reg: Registry) {
   }
 
-   ngOnInit() {
-
-   }
+  ngOnChanges() {
+    if (this.field.control_type === 'foreign_key') {
+      const path = this.field.foreign_model_path.split('.');
+      this.foreign_model = this.reg.getModel(path[0], path[1], path[2]);
+      this.api.fetch(`${this.foreign_model.api}`, []).subscribe(res => {
+        this.choices = res;
+      });
+    }
+  }
 }

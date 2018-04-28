@@ -1,42 +1,32 @@
-<mat-progress-bar *ngIf="isLoading" mode="query"></mat-progress-bar>
+<!-- <mat-progress-bar *ngIf="isLoading" mode="query"></mat-progress-bar> -->
 
-<mat-card>
+<mat-card *ngIf="is_ready">
     <!-- <div class="form-container"> -->
-    <mat-grid-list cols="4" rowHeight="2:1">
-        <mat-grid-tile *ngFor="let f of fields">
-            <!-- <ngcrudui-form-field [field]="f" [ngModel]="ngModel[f.key]" [choices]="choices"></ngcrudui-form-field>                 -->
-            <ng-template [ngIf]="f.type === fieldType.Text">
-                <mat-form-field>
-                    <input  matInput placeholder="{{ f.label }}" [(ngModel)]="ngModel[f.key]" [name]="ngModel[f.key]" [disabled]="model !== 'search' && !f.is_editable" />
-                </mat-form-field>
-            </ng-template>
-            <ng-template [ngIf]="f.type === fieldType.Number">
-                <mat-form-field>
-                    <input  matInput type="number" placeholder="{{ f.label }}" [(ngModel)]="ngModel[f.key]" [name]="ngModel[f.key]"  [disabled]="model !== 'search' && !f.is_editable" />
-                </mat-form-field>
-            </ng-template>
-            <ng-template [ngIf]="f.type === fieldType.Boolean">
-                <mat-slide-toggle matInput [(ngModel)]="ngModel[f.key]" [disabled]="model !== 'search' && !f.is_editable" >{{ f.label }}</mat-slide-toggle>
-            </ng-template>
-            <ng-template [ngIf]="f.type === fieldType.ForeignKey">
-                <mat-form-field>
-                    <mat-select [name]="f.key" placeholder="{{ f.label }}" [(ngModel)]="ngModel[f.key]" [disabled]="model !== 'search' && !f.is_editable">
-                        <mat-option></mat-option>
-                        <mat-option [value]="c[f.foreign_model.external_value]" *ngFor="let c of choices[f.key]">{{ c[f.foreign_model.external_label] }}</mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </ng-template>
-        </mat-grid-tile>
-    </mat-grid-list>
-    <ng-template ngFor let-f [ngForOf]="formsets">
-        <ng-template [ngIf]="f.is_searchable === false && f.type === fieldType.Formset">
-            <ngcrudui-formset [label]="f.label" [appName]="this.appName" [modelName]="f.foreign_model" [(internalNgModel)]="ngModel[f.key]"></ngcrudui-formset>
-        </ng-template>
-    </ng-template>
+    <ng-container [ngSwitch]="model.form_type">
+        <div *ngSwitchCase="'formset'">
+            <div *ngFor="let ctrl of formset.controls">
+                <mat-grid-list *ngSwitchDefault cols="4" rowHeight="2:1">
+                    <mat-grid-tile *ngFor="let field of fields">
+                        <ngcrudui-form-field [form]="ctrl" [field]="field"></ngcrudui-form-field>
+                    </mat-grid-tile>
+                </mat-grid-list>        
+            </div>    
+        </div>
+        <mat-grid-list *ngSwitchDefault cols="4" rowHeight="2:1">
+            <mat-grid-tile *ngFor="let field of fields" [colspan]="field.colspan || 1" [rowspan]="field.rowspan || 1">
+                <ngcrudui-form-field  [form]="form" [field]="field"></ngcrudui-form-field>
+            </mat-grid-tile>
+        </mat-grid-list>
+    </ng-container>
+
+
+    <div *ngFor="let formarray of formsets; let i=index">
+        <ngcrudui-formset  [model]="model" [config]="model.formsets[i]"  [formarray]="formarray" [form]="form"></ngcrudui-formset>        
+    </div>
+
     <button mat-raised-button color="primary" (click)="_onSubmit()">
         <span *ngIf="mode === 'search'">Search</span>
         <span *ngIf="mode === 'create'">Create</span>
         <span *ngIf="mode === 'edit'">Update</span>
     </button>
-    <!-- </div> -->
 </mat-card>

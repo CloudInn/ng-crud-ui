@@ -1,43 +1,64 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Field } from '../forms';
+
+export class Module {
+  label: string;
+  apps: App[] = [];
+}
+
+export class App {
+  key: string;
+  label: string;
+  icon: string;
+  models: Model[] = [];
+}
+
+export class Model {
+  key: string;
+  api: string;
+  verbose_name: string;
+  fields: Field[] = [];
+  formsets: Field[] = [];
+  external_value_field: string;
+  external_name_field: string;
+  listing_fields: string[];
+  actions: string[] = [];
+  bulk_actions: string[] = [];
+  list_actions: string[] = [];
+}
 
 @Injectable()
 export class Registry {
 
-  models = [];
-  apps = [];
-  modules = [];
-  // apps = new EventEmitter<any[]>();
-  // modules = new EventEmitter<any[]>();
+  private registry: any = {};
+  public isReady: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
-  constructor() {
+  constructor() {}
+
+  register(meta: {}) {
+    this.registry = meta;
+    console.log('registry is ready');
+    this.isReady.next(true);
   }
 
-  registerModule(name, key) {
-    this.modules.push({name, key, children: []});
-    // this.modules.next(this._modules);
+  getModules(): any {
+    return this.registry;
   }
 
-  registerApp(module, name, key, icon) {
-    this.apps.push({name, key, module, icon});
-    // this.apps.next(this._apps);
+  getModel(moduleName: string, app: string, key: string): Model {
+    return this.registry[moduleName].apps.filter((a: App) => a.key === app)[0]
+      .models.filter(m => m.key === key)[0];
   }
 
-  registerModel(app: string, name: string, model: any) {
-    const item = {app, name, model};
-    this.models.push(item);
+  getApp(moduleName: string, app: string): App {
+    return this.registry[moduleName].apps.filter(a => a.key === app)[0];
   }
 
-  getModel(app: string, key: string) {
-    return this.models.filter(model => model.app === app && model.name === key)[0];
-  }
-
-  getApp(key) {
-    return this.apps.filter(app => app.key === key)[0];
-  }
-
-  getAppModels(key) {
-    return this.models.filter(model => model.app === key);
+  getAppModels(moduleName: string, app: string): {string: Model} {
+    return this.registry[moduleName].apps.filter(a => a.key === app).models;
   }
 
 }

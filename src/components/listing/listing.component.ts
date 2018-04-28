@@ -1,14 +1,15 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnChanges, Input, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DataSource } from '@angular/cdk/collections';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { ApiService, Registry } from '../../services';
-import { MatTable } from '@angular/material';
+import { MatTable } from '@angular/material/table';
+import { Model } from '../../services';
 
 const items = new BehaviorSubject<any[]>([]);
 
-export class ModelDataSource extends DataSource<any> {
+class ModelDataSource extends DataSource<any> {
     connect(): Observable<any> {
         return items;
     }
@@ -22,18 +23,18 @@ export class ModelDataSource extends DataSource<any> {
   selector: 'ngcrudui-listing',
   templateUrl: './listing.component.html'
 })
-export class ListingComponent implements OnInit {
+export class ListingComponent implements OnChanges {
 
-    private module: string;
-    private appName: string;
-    private modelName: string;
+    @Input('moduleName') moduleName: string;
+    @Input('appName') appName: string;
+    @Input('modelName') modelName: string;
     is_actions_set = false;
     @Input() forcedSearchParams: any;
     dataSource = new ModelDataSource();
     searchParams = {
         page: 1,
     };
-    model: any;
+    model: Model;
     columns = [];
     displayColumns: string[] = [];
     resultsCount = 0;
@@ -45,18 +46,10 @@ export class ListingComponent implements OnInit {
                 private route: ActivatedRoute,
                 private router: Router) {}
 
-    ngOnInit() {
-        this.route.parent.params.subscribe(params => {
-            this.module = params['module'];
-            this.appName = params['app'];
-        });
-        this.route.params.subscribe(params => {
-            this.modelName = params['model_name'];
-            if (this.appName != null && this.modelName != null) {
-                this.populateDataTable();
-            }
-            this.isLoading = true;
-        });
+    ngOnChanges() {
+        if (this.modelName) {
+            this.populateDataTable();
+        }
    }
 
     private prepareColumns() {
@@ -74,7 +67,7 @@ export class ListingComponent implements OnInit {
 
     private populateDataTable() {
         items.next([]);
-        this.model = this.reg.getModel(this.appName, this.modelName).model;
+        this.model = this.reg.getModel(this.moduleName, this.appName, this.modelName);
         this.prepareColumns();
         this.displayColumns = this.columns.map(c => c.columnDef);
         // this.displayColumns.push('actions');
@@ -99,7 +92,7 @@ export class ListingComponent implements OnInit {
     }
 
    _rowClicked(row) {
-       this.router.navigate(['/', this.module, this.appName, this.modelName, row.id]);
+       this.router.navigate(['/', this.moduleName, this.appName, this.modelName, row.id]);
    }
 
     onSearch(searchParams) {
@@ -114,9 +107,6 @@ export class ListingComponent implements OnInit {
     }
 
     onCheckAll() {
-    }
-
-    ngOnDestroy() {
     }
 
 }

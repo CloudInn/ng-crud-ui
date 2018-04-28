@@ -1,42 +1,37 @@
 import { Injectable } from '@angular/core';
-import { Http, RequestOptions, URLSearchParams } from '@angular/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class ApiService {
 
-    constructor(private http: Http) { }
+    constructor(private http: HttpClient) { }
 
-    public fetch(api: string, params: any): Observable<any> {
-        const opts = new RequestOptions();
-        opts.search = new URLSearchParams();
+    public fetch(api: string, params?: any): Observable<any> {
+        const opts = new HttpParams();
         Object.keys(params).forEach(p => {
-            opts.search.set(p, params[p]);
+            opts.set(p, params[p]);
         });
 
-        return this.http.get(api, opts).map(res => {
-            return res.json();
-        });
+        return this.http.get(api, {params: opts});
     }
 
     public put(api: string, body, params = {}): Observable<any> {
-        const opts = new RequestOptions();
-        opts.search = new URLSearchParams();
+        const opts = new HttpParams();
         Object.keys(params).forEach(p => {
-            opts.search.set(p, params[p]);
+            opts.set(p, params[p]);
         });
 
-        return this.http.put(api, body, opts).map(res => res.json());
+        return this.http.put(api, body, {params: opts});
     }
 
     public post(api: string, body, params = {}): Observable<any> {
-        const opts = new RequestOptions();
-        opts.search = new URLSearchParams();
+        const opts = new HttpParams();
         Object.keys(params).forEach(p => {
-            opts.search.set(p, params[p]);
+            opts.set(p, params[p]);
         });
 
-        return this.http.post(api, body, opts).map(res => res.json());
+        return this.http.post(api, body, {params: opts});
     }
 
 }

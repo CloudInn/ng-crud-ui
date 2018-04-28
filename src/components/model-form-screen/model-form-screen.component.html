@@ -1,4 +1,4 @@
-<mat-progress-bar *ngIf="isLoading" mode="query"></mat-progress-bar>
+<!-- <mat-progress-bar *ngIf="isLoading" mode="query"></mat-progress-bar> -->
 
 <!--<form>-->
 <mat-toolbar>
@@ -12,6 +12,6 @@
     <span *ngIf="mode === 'create'" class="mat-caption">Creating new {{ modelName }}</span>
     <span class="toolbar-fill-remaining-space"></span>
 </mat-toolbar>
-<ngcrudui-model-form [module]="module" [appName]="appName" [mode]='mode'
+<ngcrudui-model-form [moduleName]="module" [appName]="appName" [mode]='mode'
     [modelName]="modelName" (onSubmit)="onSubmit($event)" [id]="id"></ngcrudui-model-form>
 <!--</form>-->

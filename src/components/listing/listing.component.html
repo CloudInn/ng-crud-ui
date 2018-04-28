@@ -1,11 +1,11 @@
 <mat-toolbar>
     <a routerLink="/" mat-icon-button class="mat-caption"><mat-icon>home</mat-icon></a>
     <mat-icon>keyboard_arrow_right</mat-icon>
-    <a mat-button [routerLink]="'/'+module+'/'+appName" class="mat-caption">{{ appName }}</a>
+    <a mat-button [routerLink]="'/'+moduleName+'/'+appName" class="mat-caption">{{ appName }}</a>
     <mat-icon>keyboard_arrow_right</mat-icon>
     <a mat-button class="mat-caption">{{ model.verbose_name }}s</a>
     <span class="toolbar-fill-remaining-space"></span>
-    <a mat-raised-button [routerLink]="'/'+module+'/'+appName+'/'+modelName+'/new'" color="primary">Create</a>
+    <a mat-raised-button [routerLink]="'/'+moduleName+'/'+appName+'/'+modelName+'/new'" color="primary">Create</a>
     &nbsp;
     <button mat-raised-button color="warn" [matMenuTriggerFor]="menu">Bulk Actions</button>    
     <mat-menu #menu="matMenu" >
@@ -23,7 +23,7 @@
         </mat-panel-description>                
     </mat-expansion-panel-header>
 
-    <ngcrudui-model-form [module]="module" [appName]="appName" mode='search'
+    <ngcrudui-model-form [moduleName]="moduleName" [appName]="appName" mode='search'
                  [modelName]="modelName" (onSubmit)="onSearch($event)"></ngcrudui-model-form>
 
 </mat-expansion-panel>    

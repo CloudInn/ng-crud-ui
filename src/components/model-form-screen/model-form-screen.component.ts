@@ -14,10 +14,10 @@ import { FieldType, Field } from '../../forms';
 })
 export class ModelFormScreenComponent implements OnInit {
 
-    private module: string;
-    private appName: string;
-    private modelName: string;
-    private id: any = null;
+    module: string;
+    appName: string;
+    modelName: string;
+    id: any = null;
     mode = 'create';
     ngModel: any = {};
     model: any;
@@ -39,7 +39,7 @@ export class ModelFormScreenComponent implements OnInit {
         });
         this.route.params.subscribe(params => {
             this.modelName = params['model_name'];
-            this.model = this.reg.getModel(this.appName, this.modelName).model;
+            this.model = this.reg.getModel(this.module, this.appName, this.modelName);
             this.id = params['id'];
             if (this.id != null && this.id !== 'new') {
                 this.mode = 'edit';

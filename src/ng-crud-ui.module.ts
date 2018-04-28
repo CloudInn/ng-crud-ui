@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MomentModule } from 'angular2-moment';
@@ -28,24 +28,30 @@ import {
   MatSelectModule,
   MatTabsModule,
   MatExpansionModule,
+  MatAutocompleteModule,
 } from '@angular/material';
 
-import { ApiService, Registry } from './services';
+import { ApiService, Registry, FormService, Navigator } from './services';
 import {
-  FormFieldComponent,
   AutoCompleteFieldComponent,
   ListingComponent,
   ModelFormComponent,
   ModelFormScreenComponent,
+  FormFieldComponent,
   FormsetComponent,
 } from './components';
+
+import {
+  AppSettingsContainer,
+  ListingContainer,
+} from './containers';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpModule,
+    HttpClientModule,
     MomentModule,
     MatToolbarModule,
     MatSidenavModule,
@@ -68,21 +74,27 @@ import {
     MatSelectModule,
     MatTabsModule,
     MatExpansionModule,
+    MatAutocompleteModule,
     RouterModule,
   ],
   declarations: [
+    FormFieldComponent,
     AutoCompleteFieldComponent,
     ListingComponent,
     ModelFormComponent,
+    AppSettingsContainer,
+    ListingContainer,
     ModelFormScreenComponent,
-    FormFieldComponent,
     FormsetComponent,
   ],
   providers: [
     ApiService,
-    Registry
+    Registry,
+    FormService,
+    Navigator,
   ],
   exports: [
+    HttpClientModule,
     AutoCompleteFieldComponent,
     MatToolbarModule,
     MatSidenavModule,
@@ -104,9 +116,13 @@ import {
     MatDatepickerModule,
     MatSelectModule,
     MatTabsModule,
+    MatAutocompleteModule,
     MatExpansionModule,
+    FormFieldComponent,
     ListingComponent,
     ModelFormComponent,
+    AppSettingsContainer,
+    ListingContainer,
     ModelFormScreenComponent,
     FormsetComponent,
   ]
