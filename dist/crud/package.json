@@ -1,0 +1,24 @@
+{
+  "name": "crud",
+  "version": "0.0.1",
+  "peerDependencies": {
+    "@angular/common": "^6.0.0-rc.0 || ^6.0.0",
+    "@angular/core": "^6.0.0-rc.0 || ^6.0.0",
+    "@angular/material": "^6.0.0-rc.0 || ^6.0.0",
+    "moment": "^2.22.2",
+    "ngx-moment": "^3.0.1"
+  },
+  "main": "bundles/crud.umd.js",
+  "module": "fesm5/crud.js",
+  "es2015": "fesm2015/crud.js",
+  "esm5": "esm5/crud.js",
+  "esm2015": "esm2015/crud.js",
+  "fesm5": "fesm5/crud.js",
+  "fesm2015": "fesm2015/crud.js",
+  "typings": "crud.d.ts",
+  "metadata": "crud.metadata.json",
+  "sideEffects": false,
+  "dependencies": {
+    "tslib": "^1.9.0"
+  }
+}

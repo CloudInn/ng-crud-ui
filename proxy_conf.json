@@ -1,0 +1,18 @@
+{
+    "/api": {
+        "secure": false,
+        "target": "http://localhost:8080"
+    },
+    "/shadowinn/api": {
+        "secure": false,
+        "target": "http://localhost:8080"
+    },
+    "/income/api": {
+        "secure": false,
+        "target": "http://localhost:8080"
+    },
+    "/reservation/api": {
+        "secure": false,
+        "target": "http://localhost:8080"
+    }
+}

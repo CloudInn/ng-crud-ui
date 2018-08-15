@@ -1,0 +1,16 @@
+<div [formGroup]="formGroup">
+    <div class="row">
+        <h4> {{ config.label }}</h4>
+        <span class="spacer"></span>
+        <button mat-icon-button (click)="addForm()">
+            <mat-icon>add_circle</mat-icon>
+        </button>
+    </div>
+    <ng-container [formArrayName]="config.name">
+        <div class="row"  *ngFor="let ctrl of formArray.controls; let i=index" [formGroupName]="i">
+            <ng-container  *ngFor="let f of config.fields">
+                <ng-crud-form-field [choices]="choices[f.name]" [formGroup]="ctrl" [config]="f"></ng-crud-form-field>
+            </ng-container>
+        </div>
+    </ng-container>
+</div>

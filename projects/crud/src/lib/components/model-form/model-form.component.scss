@@ -1,0 +1,10 @@
+.row {
+    display: flex;
+    flex: 1 1 auto;
+    // justify-content: space-between;
+    flex-flow: row wrap;
+}
+
+.submit-button {
+    align-self: flex-end;
+}
