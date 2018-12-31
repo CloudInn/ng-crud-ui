@@ -1,0 +1,1091 @@
+{
+  "admin": {
+    "key": "admin",
+    "label": "Administration",
+    "apps": [{
+      "key": "users",
+      "label": "Users",
+      "icon": "supervisor_account",
+      "models": [{
+        "key": "account",
+        "api": "/income/api/cashier/",
+        "verbose_name": "Account",
+        "fields": [{
+          "is_editable": false,
+          "key": "id",
+          "label": "ID",
+          "value_type": "number"
+        }, {
+          "key": "name",
+          "label": "Name",
+          "value_type": "text"
+        }, {
+          "key": "number",
+          "label": "Number",
+          "value_type": "number"
+        }, {
+          "key": "employee_id",
+          "label": "Employee ID",
+          "value_type": "text"
+        }, {
+          "control_type": "password",
+          "key": "pin",
+          "label": "Pin",
+          "value_type": "string"
+        }],
+        "formsets": null,
+        "listing_fields": ["id", "name", "number", "employee_id"],
+        "actions": [],
+        "bulk_actions": [],
+        "list_actions": [],
+        "external_value_field": "id",
+        "external_name_field": "name"
+      }, {
+        "key": "account_family",
+        "api": "/income/api/cashier/",
+        "verbose_name": "Account Family",
+        "fields": [{
+          "is_editable": false,
+          "key": "id",
+          "label": "ID",
+          "value_type": "number"
+        }, {
+          "key": "name",
+          "label": "Name",
+          "value_type": "text"
+        }, {
+          "key": "number",
+          "label": "Number",
+          "value_type": "number"
+        }, {
+          "key": "employee_id",
+          "label": "Employee ID",
+          "value_type": "text"
+        }, {
+          "control_type": "password",
+          "key": "pin",
+          "label": "Pin",
+          "value_type": "string"
+        }],
+        "formsets": null,
+        "listing_fields": ["id", "name", "number", "employee_id"],
+        "actions": [],
+        "bulk_actions": [],
+        "list_actions": [],
+        "external_value_field": "id",
+        "external_name_field": "name"
+      }, {
+        "key": "account_group",
+        "api": "/income/api/cashier/",
+        "verbose_name": "Account Group",
+        "fields": [{
+          "is_editable": false,
+          "key": "id",
+          "label": "ID",
+          "value_type": "number"
+        }, {
+          "key": "name",
+          "label": "Name",
+          "value_type": "text"
+        }, {
+          "key": "number",
+          "label": "Number",
+          "value_type": "number"
+        }, {
+          "key": "employee_id",
+          "label": "Employee ID",
+          "value_type": "text"
+        }, {
+          "control_type": "password",
+          "key": "pin",
+          "label": "Pin",
+          "value_type": "string"
+        }],
+        "formsets": null,
+        "listing_fields": ["id", "name", "number", "employee_id"],
+        "actions": [],
+        "bulk_actions": [],
+        "list_actions": [],
+        "external_value_field": "id",
+        "external_name_field": "name"
+      }]
+    }]
+  },
+  "bo": {
+    "key": "bo",
+    "label": "Back Office",
+    "apps": [{
+      "key": "accounts",
+      "label": "Accounts",
+      "icon": "account_balance_wallet",
+      "models": [{
+        "key": "account",
+        "api": "/income/api/cashier/",
+        "verbose_name": "Account",
+        "fields": [{
+          "is_editable": false,
+          "key": "id",
+          "label": "ID",
+          "value_type": "number"
+        }, {
+          "key": "name",
+          "label": "Name",
+          "value_type": "text"
+        }, {
+          "key": "number",
+          "label": "Number",
+          "value_type": "number"
+        }, {
+          "key": "employee_id",
+          "label": "Employee ID",
+          "value_type": "text"
+        }, {
+          "control_type": "password",
+          "key": "pin",
+          "label": "Pin",
+          "value_type": "string"
+        }],
+        "formsets": null,
+        "listing_fields": ["id", "name", "number", "employee_id"],
+        "actions": [],
+        "bulk_actions": [],
+        "list_actions": [],
+        "external_value_field": "id",
+        "external_name_field": "name"
+      }, {
+        "key": "account_family",
+        "api": "/income/api/cashier/",
+        "verbose_name": "Account Family",
+        "fields": [{
+          "is_editable": false,
+          "key": "id",
+          "label": "ID",
+          "value_type": "number"
+        }, {
+          "key": "name",
+          "label": "Name",
+          "value_type": "text"
+        }, {
+          "key": "number",
+          "label": "Number",
+          "value_type": "number"
+        }, {
+          "key": "employee_id",
+          "label": "Employee ID",
+          "value_type": "text"
+        }, {
+          "control_type": "password",
+          "key": "pin",
+          "label": "Pin",
+          "value_type": "string"
+        }],
+        "formsets": null,
+        "listing_fields": ["id", "name", "number", "employee_id"],
+        "actions": [],
+        "bulk_actions": [],
+        "list_actions": [],
+        "external_value_field": "id",
+        "external_name_field": "name"
+      }, {
+        "key": "account_group",
+        "api": "/income/api/cashier/",
+        "verbose_name": "Account Group",
+        "fields": [{
+          "is_editable": false,
+          "key": "id",
+          "label": "ID",
+          "value_type": "number"
+        }, {
+          "key": "name",
+          "label": "Name",
+          "value_type": "text"
+        }, {
+          "key": "number",
+          "label": "Number",
+          "value_type": "number"
+        }, {
+          "key": "employee_id",
+          "label": "Employee ID",
+          "value_type": "text"
+        }, {
+          "control_type": "password",
+          "key": "pin",
+          "label": "Pin",
+          "value_type": "string"
+        }],
+        "formsets": null,
+        "listing_fields": ["id", "name", "number", "employee_id"],
+        "actions": [],
+        "bulk_actions": [],
+        "list_actions": [],
+        "external_value_field": "id",
+        "external_name_field": "name"
+      }]
+    }]
+  },
+  "fo": {
+    "key": "fo",
+    "label": "Front Office",
+    "apps": [{
+      "key": "cashiering",
+      "label": "Cashiering",
+      "icon": "verified_user",
+      "models": [{
+        "key": "cashier",
+        "api": "/income/api/cashier/",
+        "verbose_name": "Cashier",
+        "fields": [{
+          "is_editable": false,
+          "key": "id",
+          "label": "ID",
+          "value_type": "number"
+        }, {
+          "key": "name",
+          "label": "Name",
+          "value_type": "text"
+        }, {
+          "key": "number",
+          "label": "Number",
+          "value_type": "number"
+        }, {
+          "key": "employee_id",
+          "label": "Employee ID",
+          "value_type": "text"
+        }, {
+          "control_type": "password",
+          "key": "pin",
+          "label": "Pin",
+          "value_type": "string"
+        }],
+        "formsets": null,
+        "listing_fields": ["id", "name", "number", "employee_id"],
+        "actions": [],
+        "bulk_actions": [],
+        "list_actions": [],
+        "external_value_field": "id",
+        "external_name_field": "name"
+      }]
+    }, {
+      "key": "departments",
+      "label": "Departments",
+      "icon": "attach_money",
+      "models": [{
+        "key": "currency",
+        "api": "/income/api/currency/",
+        "verbose_name": "Currency",
+        "fields": [{
+          "is_editable": false,
+          "key": "id",
+          "label": "ID",
+          "value_type": "number"
+        }, {
+          "key": "code",
+          "label": "Code",
+          "value_type": "text"
+        }, {
+          "key": "factor",
+          "label": "Factor",
+          "value_type": "text"
+        }, {
+          "control_type": "switch",
+          "key": "is_default",
+          "label": "Is Default",
+          "value_type": "boolean"
+        },
+        {
+          "control_type": "switch",
+          "key": "is_active",
+          "label": "Is Active",
+          "value_type": "boolean"
+        }
+      ],
+        "formsets": null,
+        "listing_fields": ["id", "code", "factor", "is_active", "is_default"],
+        "actions": [],
+        "bulk_actions": [],
+        "list_actions": ["edit"],
+        "external_value_field": "id",
+        "external_name_field": "code"
+      }, {
+        "key": "department",
+        "api": "income/api/department/",
+        "verbose_name": "Department",
+        "fields": [{
+          "is_editable": false,
+          "key": "id",
+          "label": "ID",
+          "value_type": "number"
+        }, {
+          "key": "code",
+          "label": "Code",
+          "value_type": "text"
+        }, {
+          "key": "name",
+          "label": "Name",
+          "value_type": "text"
+        }, {
+          "key": "type",
+          "label": "Type",
+          "value_type": "text",
+          "control_type": "select",
+          "choices": [
+            {"label": "Credit", "value": "credit"},
+            {"label": "Debit", "value": "debit"},
+            {"label": "Tax", "value": "tax"}
+          ]
+        }, 
+        {
+          "key": "receivable_account",
+          "label": "Receivable Account",
+          "value_type": "boolean",
+          "control_type": "switch"
+        },
+        {
+          "key": "non_hotel_revenue",
+          "label": "Non Hotel Revenue",
+          "value_type": "boolean",
+          "control_type": "switch"
+        },
+        {
+          "key": "pos_payment",
+          "label": "POS Payment",
+          "value_type": "boolean",
+          "control_type": "switch"
+        },
+        {
+          "control_type": "foreign_key",
+          "foreign_model_path": "fo.departments.currency",
+          "key": "currency",
+          "label": "Currency",
+          "value_type": "number"
+        }],
+        "formsets": [
+          {
+            "key": "tax_definitions",
+            "label": "Tax Definitions",
+            "fields": [
+              {
+                "key": "tax_definition_id",
+                "label": "Tax Definition",
+                "value_type": "number",
+                "control_type": "foreign_key",
+                "foreign_model_path": "fo.departments.currency"
+              },
+              {
+                "key": "start_date",
+                "label": "Start Date",
+                "value_type": "date",
+                "control_type": "date"
+              },
+              {
+                "key": "end_date",
+                "label": "End Date",
+                "value_type": "date",
+                "control_type": "date"
+              }
+            ]
+          }
+        ],
+        "listing_fields": ["id", "code", "name", "type", "currency"],
+        "actions": [],
+        "bulk_actions": [],
+        "list_actions": ["edit"],
+        "external_value_field": "id",
+        "external_name_field": "name"
+      }, {
+        "key": "tax_definition",
+        "api": "/income/api/taxes/",
+        "verbose_name": "Tax Defintion",
+        "fields": [{
+          "is_editable": false,
+          "key": "id",
+          "label": "ID",
+          "value_type": "number"
+        }, {
+          "key": "code",
+          "label": "Code",
+          "value_type": "text"
+        }, {
+          "key": "description",
+          "label": "Description",
+          "value_type": "text"
+        }],
+        "formsets": [{
+          "control_type": "formset",
+          "fields": [{
+            "is_editable": false,
+            "key": "id",
+            "label": "ID",
+            "value_type": "number"
+          }, {
+            "key": "name",
+            "label": "Name",
+            "value_type": "text"
+          }, {
+            "key": "formula",
+            "label": "Formula",
+            "value_type": "text"
+          }, {
+            "choices": [{
+              "label": "Included",
+              "value": "in"
+            }, {
+              "label": "Excluded",
+              "value": "ex"
+            }, {
+              "label": "Fixed Included",
+              "value": "fix"
+            }, {
+              "label": "Fixed Excluded",
+              "value": "fix_ex"
+            }],
+            "control_type": "select",
+            "key": "tax_type",
+            "label": "Tax Type",
+            "value_type": "text"
+          }, {
+            "choices": [{
+              "label": "All",
+              "value": "all"
+            }, {
+              "label": "Dine In",
+              "value": "dinein"
+            }, {
+              "label": "Take Out",
+              "value": "takeout"
+            }],
+            "control_type": "select",
+            "key": "pos",
+            "label": "POS",
+            "value_type": "text"
+          }, {
+            "choices": [{
+              "label": "Person",
+              "value": "person"
+            }, {
+              "label": "Adult",
+              "value": "adult"
+            }, {
+              "label": "Child",
+              "value": "child"
+            }],
+            "control_type": "select",
+            "key": "per",
+            "label": "Per",
+            "value_type": "text"
+          }],
+          "is_searchable": false,
+          "key": "taxdetails_set",
+          "label": "Tax Details Set",
+          "value_type": "text"
+        }],
+        "listing_fields": ["id", "code", "description"],
+        "actions": [],
+        "bulk_actions": [],
+        "list_actions": [],
+        "external_value_field": "id",
+        "external_name_field": "description"
+      }]
+    }, {
+      "key": "guests",
+      "label": "Guests",
+      "icon": "loyalty",
+      "models": [{
+        "key": "guest",
+        "api": "/income/api/currency/",
+        "verbose_name": "Guests",
+        "fields": [{
+          "is_editable": false,
+          "key": "id",
+          "label": "ID",
+          "value_type": "number"
+        }, {
+          "key": "code",
+          "label": "Code",
+          "value_type": "text"
+        }, {
+          "key": "factor",
+          "label": "Factor",
+          "value_type": "text"
+        }, {
+          "control_type": "switch",
+          "key": "is_default",
+          "label": "Is Default",
+          "value_type": "boolean"
+        }],
+        "formsets": null,
+        "listing_fields": ["id", "code", "factor", "is_default"],
+        "actions": [],
+        "bulk_actions": [],
+        "list_actions": [],
+        "external_value_field": "id",
+        "external_name_field": "code"
+      }]
+    }, {
+      "key": "markets",
+      "label": "Markets",
+      "icon": "contacts",
+      "models": [{
+        "key": "booker",
+        "api": "/income/api/taxes/",
+        "verbose_name": "Booker",
+        "fields": [{
+          "is_editable": false,
+          "key": "id",
+          "label": "ID",
+          "value_type": "number"
+        }, {
+          "key": "code",
+          "label": "Code",
+          "value_type": "text"
+        }, {
+          "key": "description",
+          "label": "Description",
+          "value_type": "text"
+        }],
+        "formsets": [{
+          "control_type": "formset",
+          "fields": [{
+            "is_editable": false,
+            "key": "id",
+            "label": "ID",
+            "value_type": "number"
+          }, {
+            "key": "name",
+            "label": "Name",
+            "value_type": "text"
+          }, {
+            "key": "formula",
+            "label": "Formula",
+            "value_type": "text"
+          }, {
+            "choices": [{
+              "label": "Included",
+              "value": "in"
+            }, {
+              "label": "Excluded",
+              "value": "ex"
+            }, {
+              "label": "Fixed Included",
+              "value": "fix"
+            }, {
+              "label": "Fixed Excluded",
+              "value": "fix_ex"
+            }],
+            "control_type": "select",
+            "key": "tax_type",
+            "label": "Tax Type",
+            "value_type": "text"
+          }, {
+            "choices": [{
+              "label": "All",
+              "value": "all"
+            }, {
+              "label": "Dine In",
+              "value": "dinein"
+            }, {
+              "label": "Take Out",
+              "value": "takeout"
+            }],
+            "control_type": "select",
+            "key": "pos",
+            "label": "POS",
+            "value_type": "text"
+          }, {
+            "choices": [{
+              "label": "Person",
+              "value": "person"
+            }, {
+              "label": "Adult",
+              "value": "adult"
+            }, {
+              "label": "Child",
+              "value": "child"
+            }],
+            "control_type": "select",
+            "key": "per",
+            "label": "Per",
+            "value_type": "text"
+          }],
+          "is_searchable": false,
+          "key": "taxdetails_set",
+          "label": "Tax Details Set",
+          "value_type": "text"
+        }],
+        "listing_fields": ["id", "code", "description"],
+        "actions": [],
+        "bulk_actions": [],
+        "list_actions": [],
+        "external_value_field": "id",
+        "external_name_field": "description"
+      }, {
+        "key": "channel",
+        "api": "/income/api/taxes/",
+        "verbose_name": "Channel",
+        "fields": [{
+          "is_editable": false,
+          "key": "id",
+          "label": "ID",
+          "value_type": "number"
+        }, {
+          "key": "code",
+          "label": "Code",
+          "value_type": "text"
+        }, {
+          "key": "description",
+          "label": "Description",
+          "value_type": "text"
+        }],
+        "formsets": [{
+          "control_type": "formset",
+          "fields": [{
+            "is_editable": false,
+            "key": "id",
+            "label": "ID",
+            "value_type": "number"
+          }, {
+            "key": "name",
+            "label": "Name",
+            "value_type": "text"
+          }, {
+            "key": "formula",
+            "label": "Formula",
+            "value_type": "text"
+          }, {
+            "choices": [{
+              "label": "Included",
+              "value": "in"
+            }, {
+              "label": "Excluded",
+              "value": "ex"
+            }, {
+              "label": "Fixed Included",
+              "value": "fix"
+            }, {
+              "label": "Fixed Excluded",
+              "value": "fix_ex"
+            }],
+            "control_type": "select",
+            "key": "tax_type",
+            "label": "Tax Type",
+            "value_type": "text"
+          }, {
+            "choices": [{
+              "label": "All",
+              "value": "all"
+            }, {
+              "label": "Dine In",
+              "value": "dinein"
+            }, {
+              "label": "Take Out",
+              "value": "takeout"
+            }],
+            "control_type": "select",
+            "key": "pos",
+            "label": "POS",
+            "value_type": "text"
+          }, {
+            "choices": [{
+              "label": "Person",
+              "value": "person"
+            }, {
+              "label": "Adult",
+              "value": "adult"
+            }, {
+              "label": "Child",
+              "value": "child"
+            }],
+            "control_type": "select",
+            "key": "per",
+            "label": "Per",
+            "value_type": "text"
+          }],
+          "is_searchable": false,
+          "key": "taxdetails_set",
+          "label": "Tax Details Set",
+          "value_type": "text"
+        }],
+        "listing_fields": ["id", "code", "description"],
+        "actions": [],
+        "bulk_actions": [],
+        "list_actions": [],
+        "external_value_field": "id",
+        "external_name_field": "description"
+      }, {
+        "key": "company",
+        "api": "/income/api/taxes/",
+        "verbose_name": "Company",
+        "fields": [{
+          "is_editable": false,
+          "key": "id",
+          "label": "ID",
+          "value_type": "number"
+        }, {
+          "key": "code",
+          "label": "Code",
+          "value_type": "text"
+        }, {
+          "key": "description",
+          "label": "Description",
+          "value_type": "text"
+        }],
+        "formsets": [{
+          "control_type": "formset",
+          "fields": [{
+            "is_editable": false,
+            "key": "id",
+            "label": "ID",
+            "value_type": "number"
+          }, {
+            "key": "name",
+            "label": "Name",
+            "value_type": "text"
+          }, {
+            "key": "formula",
+            "label": "Formula",
+            "value_type": "text"
+          }, {
+            "choices": [{
+              "label": "Included",
+              "value": "in"
+            }, {
+              "label": "Excluded",
+              "value": "ex"
+            }, {
+              "label": "Fixed Included",
+              "value": "fix"
+            }, {
+              "label": "Fixed Excluded",
+              "value": "fix_ex"
+            }],
+            "control_type": "select",
+            "key": "tax_type",
+            "label": "Tax Type",
+            "value_type": "text"
+          }, {
+            "choices": [{
+              "label": "All",
+              "value": "all"
+            }, {
+              "label": "Dine In",
+              "value": "dinein"
+            }, {
+              "label": "Take Out",
+              "value": "takeout"
+            }],
+            "control_type": "select",
+            "key": "pos",
+            "label": "POS",
+            "value_type": "text"
+          }, {
+            "choices": [{
+              "label": "Person",
+              "value": "person"
+            }, {
+              "label": "Adult",
+              "value": "adult"
+            }, {
+              "label": "Child",
+              "value": "child"
+            }],
+            "control_type": "select",
+            "key": "per",
+            "label": "Per",
+            "value_type": "text"
+          }],
+          "is_searchable": false,
+          "key": "taxdetails_set",
+          "label": "Tax Details Set",
+          "value_type": "text"
+        }],
+        "listing_fields": ["id", "code", "description"],
+        "actions": [],
+        "bulk_actions": [],
+        "list_actions": [],
+        "external_value_field": "id",
+        "external_name_field": "description"
+      }, {
+        "key": "market",
+        "api": "/income/api/currency/",
+        "verbose_name": "Market",
+        "fields": [{
+          "is_editable": false,
+          "key": "id",
+          "label": "ID",
+          "value_type": "number"
+        }, {
+          "key": "code",
+          "label": "Code",
+          "value_type": "text"
+        }, {
+          "key": "factor",
+          "label": "Factor",
+          "value_type": "text"
+        }, {
+          "control_type": "switch",
+          "key": "is_default",
+          "label": "Is Default",
+          "value_type": "boolean"
+        }],
+        "formsets": null,
+        "listing_fields": ["id", "code", "factor", "is_default"],
+        "actions": [],
+        "bulk_actions": [],
+        "list_actions": [],
+        "external_value_field": "id",
+        "external_name_field": "code"
+      }]
+    }]
+  },
+  "pos": {
+    "key": "pos",
+    "label": "Point Of Sale",
+    "apps": [{
+      "key": "access",
+      "label": "Access",
+      "icon": "screen_share",
+      "models": [{
+        "key": "terminal",
+        "api": "/api/pos/terminal/",
+        "verbose_name": "Terminal",
+        "fields": [{
+          "is_editable": "false",
+          "key": "id",
+          "label": "ID",
+          "value_type": "number"
+        }, {
+          "key": "number",
+          "label": "Number",
+          "value_type": "text"
+        }, {
+          "key": "description",
+          "label": "Description",
+          "value_type": "text"
+        }, {
+          "control_type": "foreign_key",
+          "foreign_model_path": "ps.pos.store",
+          "key": "store",
+          "label": "Store",
+          "value_type": "number"
+        }],
+        "formsets": null,
+        "listing_fields": ["id", "number", "description", "store"],
+        "actions": [],
+        "bulk_actions": [],
+        "list_actions": [],
+        "external_value_field": "id",
+        "external_name_field": "description"
+      }]
+    }, {
+      "key": "inventory",
+      "label": "Inventory",
+      "icon": "assignment",
+      "models": [{
+        "key": "store",
+        "api": "/api/pos/store/",
+        "verbose_name": "Store",
+        "fields": [{
+          "is_editable": false,
+          "key": "id",
+          "label": "ID",
+          "value_type": "number"
+        }, {
+          "key": "code",
+          "label": "Code",
+          "value_type": "text"
+        }, {
+          "colspan": 2,
+          "key": "description",
+          "label": "Description",
+          "value_type": "text"
+        }, {
+          "key": "logo",
+          "label": "Logo",
+          "value_type": "text"
+        }, {
+          "choices": [{
+            "label": "Transfer",
+            "value": "transfer"
+          }, {
+            "label": "Consumption",
+            "value": "consumption"
+          }],
+          "control_type": "select",
+          "key": "type",
+          "label": "Type",
+          "value_type": "text"
+        }, {
+          "control_type": "switch",
+          "key": "outlet",
+          "label": "Outlet",
+          "value_type": "boolean"
+        }, {
+          "key": "number_of_tables",
+          "label": "No. of Tables",
+          "value_type": "number"
+        }, {
+          "control_type": "switch",
+          "key": "show_paymaster",
+          "label": "Show Paymaster",
+          "value_type": "boolean"
+        }, {
+          "choices": [{
+            "label": "Checked In",
+            "value": "checkedin"
+          }, {
+            "label": "Checked In \u0026 Expected",
+            "value": "checkedinandexpected"
+          }],
+          "control_type": "select",
+          "key": "allowed_rooms",
+          "label": "Allowed Rooms",
+          "value_type": "text"
+        }, {
+          "control_type": "textarea",
+          "key": "invoice_footer",
+          "label": "Invoice Footer",
+          "rowspan": 3,
+          "value_type": "text"
+        }, {
+          "control_type": "textarea",
+          "key": "invoice_header",
+          "label": "Invoice Header",
+          "rowspan": 3,
+          "value_type": "text"
+        }],
+        "formsets": null,
+        "listing_fields": ["id", "code", "description", "type", "outlet", "number_of_tables", "show_paymaster"],
+        "actions": [],
+        "bulk_actions": [],
+        "list_actions": [],
+        "external_value_field": "id",
+        "external_name_field": "description"
+      }, {
+        "key": "vendor",
+        "api": "/api/pos/store/",
+        "verbose_name": "Vendor",
+        "fields": [{
+          "is_editable": false,
+          "key": "id",
+          "label": "ID",
+          "value_type": "number"
+        }, {
+          "key": "code",
+          "label": "Code",
+          "value_type": "text"
+        }, {
+          "colspan": 2,
+          "key": "description",
+          "label": "Description",
+          "value_type": "text"
+        }, {
+          "key": "logo",
+          "label": "Logo",
+          "value_type": "text"
+        }, {
+          "choices": [{
+            "label": "Transfer",
+            "value": "transfer"
+          }, {
+            "label": "Consumption",
+            "value": "consumption"
+          }],
+          "control_type": "select",
+          "key": "type",
+          "label": "Type",
+          "value_type": "text"
+        }, {
+          "control_type": "switch",
+          "key": "outlet",
+          "label": "Outlet",
+          "value_type": "boolean"
+        }, {
+          "key": "number_of_tables",
+          "label": "No. of Tables",
+          "value_type": "number"
+        }, {
+          "control_type": "switch",
+          "key": "show_paymaster",
+          "label": "Show Paymaster",
+          "value_type": "boolean"
+        }, {
+          "choices": [{
+            "label": "Checked In",
+            "value": "checkedin"
+          }, {
+            "label": "Checked In \u0026 Expected",
+            "value": "checkedinandexpected"
+          }],
+          "control_type": "select",
+          "key": "allowed_rooms",
+          "label": "Allowed Rooms",
+          "value_type": "text"
+        }, {
+          "control_type": "textarea",
+          "key": "invoice_footer",
+          "label": "Invoice Footer",
+          "rowspan": 3,
+          "value_type": "text"
+        }, {
+          "control_type": "textarea",
+          "key": "invoice_header",
+          "label": "Invoice Header",
+          "rowspan": 3,
+          "value_type": "text"
+        }],
+        "formsets": null,
+        "listing_fields": ["id", "code", "description", "type", "outlet", "number_of_tables", "show_paymaster"],
+        "actions": [],
+        "bulk_actions": [],
+        "list_actions": [],
+        "external_value_field": "id",
+        "external_name_field": "description"
+      }]
+    }, {
+      "key": "menus",
+      "label": "Menus",
+      "icon": "room_service",
+      "models": [{
+        "key": "group",
+        "api": "/api/pos/group/",
+        "verbose_name": "Group",
+        "fields": [{
+          "key": "id",
+          "label": "ID",
+          "value_type": "number"
+        }, {
+          "key": "name",
+          "label": "Name",
+          "value_type": "text"
+        }],
+        "formsets": null,
+        "listing_fields": ["id", "name"],
+        "actions": [],
+        "bulk_actions": [],
+        "list_actions": [],
+        "external_value_field": "id",
+        "external_name_field": ""
+      }, {
+        "key": "menu",
+        "api": "/api/pos/menu/",
+        "verbose_name": "Menu",
+        "fields": [{
+          "key": "id",
+          "label": "ID",
+          "value_type": "number"
+        }, {
+          "key": "name",
+          "label": "Name",
+          "value_type": "text"
+        }],
+        "formsets": null,
+        "listing_fields": ["id", "name"],
+        "actions": [],
+        "bulk_actions": [],
+        "list_actions": [],
+        "external_value_field": "id",
+        "external_name_field": ""
+      }]
+    }]
+  }
+}

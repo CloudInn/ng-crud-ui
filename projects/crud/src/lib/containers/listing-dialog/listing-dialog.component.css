@@ -1,0 +1,17 @@
+#custom-header {
+  padding-top: 12px;
+  margin-bottom: 12px;
+}
+
+.page-title a {
+  color: #333;
+}
+
+mat-tab-nav-bar,
+.mat-tab-nav-bar {
+  border: none !important;
+}
+
+.tabs-bar a {
+  color: #fff;
+}

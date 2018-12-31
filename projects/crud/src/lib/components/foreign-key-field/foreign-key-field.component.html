@@ -1,0 +1,15 @@
+<div [formGroup]="formGroup">
+    <mat-form-field>
+        <mat-label>{{ config.label }}</mat-label>
+        <button mat-icon-button matPrefix (click)="removeSelection()"><mat-icon [color]="'warn'">delete</mat-icon></button>        
+        <input type="text" matInput [formControlName]="config.name" [matAutocomplete]="auto">
+        <button mat-icon-button matSuffix (click)="openListingDialog()"><mat-icon>search</mat-icon></button>        
+        <!-- <mat-icon matSuffix (click)="openListingDialog()">search</mat-icon> -->
+    </mat-form-field>
+
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+        <mat-option *ngFor="let option of filteredOptions | async" [value]="option[config.control.metadata.externalValueField]">
+            {{ option[config.control.metadata.externalNameField] }}
+        </mat-option>
+    </mat-autocomplete>
+</div>

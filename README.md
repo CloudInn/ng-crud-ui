@@ -1,133 +1,167 @@
-# Angular Crud UI
+# NgCrudUi
 
-[![Build Status](https://travis-ci.org/CloudInn/ng-crud-ui.svg?branch=master)](https://travis-ci.org/CloudInn/ng-crud-ui)
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.0.
 
-ng-crud-ui is an angular module that provides you with common components and forms to help you rapidly implement editing and search forms based on models definitions and CRUD operations for REST apis.
+The projects is splitted in two packages, one for the demo project and one for the library itself,
+the library itself is under projects/crud. You have to build the library first then run the development server
+to check the demo app. using `ng build crud` to build the library. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
 
-## Installation
+## Development server
 
-```bash
-npm install --save @cloudinn/ng-crud-ui
-```
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-## How NgCrudUi Works
+## Features
 
-- NgCrudUi has a registery service that registers modules > apps > models.
-It means each module can have one or more apps, and each app can have one or more models.
+### Model's Registry
 
-- Making use of the registery service, NgCrudU compnents can understand models and retreive
-models' information from that registery.
+A registry to save the metadata of the models in it. It consists of a hirearchy that reselmbles 
 
-- Through importing `NgCrudUiModule` into your app, all the services and components will be
-available to you to use.
+Module > App > Model
 
+So it can be used to fetch metata of any of these elements.
 
-## Importing the module
+example of metadata:
 
-In your module, import the module
-
-```typescript
-import { NgCrudUiModule } from '@cloudinn/ng-crud-ui';
-```
-
-Then inside your module defenition
-
-```typescript
-{
-	imports: [
-		...
-		NgCrudUiModule,
-		...
-	]
-}
-```
-
-
-## Creating Models
-
-First step is to start creating and registering your models,
-For your models you need ti implement interface `BaseModelInterface`.
-
-example:
-```typescript
-import { BaseModelInterface } from '@cloudinn/ng-crud-ui';
-import { Store } from '../inventory';
-
-export class Terminal implements BaseModelInterface {
-
-  api = '/api/pos/terminal/';
-  verbose_name = 'Terminal';
-  fields = [
-    new Field('ID', 'id', FieldType.Number, false, true),
-    new Field('Number', 'number', FieldType.Text, true, true),
-    new Field('Description', 'description', FieldType.Text, true, true),
-    new Field('Store', 'store_id', FieldType.ForeignKey, true, true, new Store()),
-  ];
-
-  listing_fields = [
-    'id', 'number', 'description', 'store'
-  ];
-
-  actions = [];
-
-  bulk_actions = [];
-
-  list_actions = [
-    {title: 'Unlock', action: 'unlock'}
-  ];
-
-  unlock(id) {
-
+```json
+"admin": {
+    "key": "admin",
+    "label": "Administration",
+    "apps": [{
+      "key": "users",
+      "label": "Users",
+      "icon": "supervisor_account",
+      "models": [{
+        "key": "account",
+        "api": "/income/api/cashier/",
+        "verbose_name": "Account",
+        "fields": [{
+          "is_editable": false,
+          "key": "id",
+          "label": "ID",
+          "value_type": "number"
+        }, {
+          "key": "name",
+          "label": "Name",
+          "value_type": "text"
+        }, {
+          "key": "number",
+          "label": "Number",
+          "value_type": "number"
+        }, {
+          "key": "employee_id",
+          "label": "Employee ID",
+          "value_type": "text"
+        }, {
+          "control_type": "password",
+          "key": "pin",
+          "label": "Pin",
+          "value_type": "string"
+        }],
+        "formsets": null,
+        "listing_fields": ["id", "name", "number", "employee_id"],
+        "actions": [],
+        "bulk_actions": [],
+        "list_actions": [],
+        "external_value_field": "id",
+        "external_name_field": "name"
+      }, {
+        "key": "account_family",
+        "api": "/income/api/cashier/",
+        "verbose_name": "Account Family",
+        "fields": [{
+          "is_editable": false,
+          "key": "id",
+          "label": "ID",
+          "value_type": "number"
+        }, {
+          "key": "name",
+          "label": "Name",
+          "value_type": "text"
+        }, {
+          "key": "number",
+          "label": "Number",
+          "value_type": "number"
+        }, {
+          "key": "employee_id",
+          "label": "Employee ID",
+          "value_type": "text"
+        }, {
+          "control_type": "password",
+          "key": "pin",
+          "label": "Pin",
+          "value_type": "string"
+        }],
+        "formsets": null,
+        "listing_fields": ["id", "name", "number", "employee_id"],
+        "actions": [],
+        "bulk_actions": [],
+        "list_actions": [],
+        "external_value_field": "id",
+        "external_name_field": "name"
+      }, {
+        "key": "account_group",
+        "api": "/income/api/cashier/",
+        "verbose_name": "Account Group",
+        "fields": [{
+          "is_editable": false,
+          "key": "id",
+          "label": "ID",
+          "value_type": "number"
+        }, {
+          "key": "name",
+          "label": "Name",
+          "value_type": "text"
+        }, {
+          "key": "number",
+          "label": "Number",
+          "value_type": "number"
+        }, {
+          "key": "employee_id",
+          "label": "Employee ID",
+          "value_type": "text"
+        }, {
+          "control_type": "password",
+          "key": "pin",
+          "label": "Pin",
+          "value_type": "string"
+        }],
+        "formsets": null,
+        "listing_fields": ["id", "name", "number", "employee_id"],
+        "actions": [],
+        "bulk_actions": [],
+        "list_actions": [],
+        "external_value_field": "id",
+        "external_name_field": "name"
+      }]
+    }]
   }
-
-}
 ```
 
-## Registering Models
+### Reactive Model Form
 
-In your `app.component.ts` import the register service, register a new module, register a new app
-to that module, then register your model.
+Making use of the power of Angular's reactive forms, now forms are handled in the components logic
+instead of the templates.
 
-```typescript
-import { Registery } from '@cloudinn/ng-crud-ui';
-// import your models
-import { Terminal, Store } from './models';
-...
+#### Search Froms
 
-	constructor(private reg: Registery) {}
+It is easy to construct 
 
+#### Editing Froms
 
-	ngOnInit() {
-		// register module
-		this.reg.registerModule('Inventory', 'inventory');
+### Listing Table
 
-		// register app
-		this.reg.registerApp('inventory', 'POS', 'pos', 'room_service');
+### Form Fields
 
-		// register model
-		this.registerModel('pos', 'terminal', new Terminal());
-		this.registerModel('pos', 'store', new Store());
-	}
-```
+#### Input Field (string, number)
+#### Date Field
+#### DateTime Field
+#### Select Field (single, mutliple)
+#### ForeignKey Field
+#### Autocomplete Field
 
-## Field Types
+| # | Field            | Status  |
+| - | ---------------- | ------- |
+|   | String Field      | Done    |
+|   | Date Field      | Done    |
 
- - Text
- - Number
- - Date
- - DateTime
- - Time
- - Boolean
- - ForeignKey
- - ManyToMany
- - Formset
- - Fieldset
- - File
- - Hidden
-
-## Components 
-
- - ModelFormScreen
- - ModelForm
- - Listing
- - Formset
+### Formsets
