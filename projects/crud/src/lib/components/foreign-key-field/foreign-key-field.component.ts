@@ -1,7 +1,6 @@
 import { Component, OnChanges, Input } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { of } from 'rxjs';
+import { Observable ,  of } from 'rxjs';
 import { map, startWith, debounceTime, distinctUntilChanged, switchMap, take } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 

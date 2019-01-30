@@ -1,14 +1,18 @@
 # NgCrudUi
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.0.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version >= 7.0.0.
 
-The projects is splitted in two packages, one for the demo project and one for the library itself,
+The projects is splitted in two proejcts, one for the demo/examples project and one for the library itself,
 the library itself is under projects/crud. You have to build the library first then run the development server
 to check the demo app. using `ng build crud` to build the library. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
 
-## Development server
+## Development
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+1. Build `crud` project in watch mode: `ng build crud --watch`, any change made to `crud` will be reloaded automatically
+
+2. run the json mock server to serve data to the example app, cd to `json-mock` directory and then `npm start`
+
+3. Run `npm start` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
 ## Features
 
@@ -22,119 +26,50 @@ So it can be used to fetch metata of any of these elements.
 
 example of metadata:
 
-```json
-"admin": {
-    "key": "admin",
-    "label": "Administration",
-    "apps": [{
-      "key": "users",
-      "label": "Users",
-      "icon": "supervisor_account",
-      "models": [{
-        "key": "account",
-        "api": "/income/api/cashier/",
-        "verbose_name": "Account",
-        "fields": [{
-          "is_editable": false,
-          "key": "id",
-          "label": "ID",
-          "value_type": "number"
-        }, {
-          "key": "name",
-          "label": "Name",
-          "value_type": "text"
-        }, {
-          "key": "number",
-          "label": "Number",
-          "value_type": "number"
-        }, {
-          "key": "employee_id",
-          "label": "Employee ID",
-          "value_type": "text"
-        }, {
-          "control_type": "password",
-          "key": "pin",
-          "label": "Pin",
-          "value_type": "string"
-        }],
-        "formsets": null,
-        "listing_fields": ["id", "name", "number", "employee_id"],
-        "actions": [],
-        "bulk_actions": [],
-        "list_actions": [],
-        "external_value_field": "id",
-        "external_name_field": "name"
-      }, {
-        "key": "account_family",
-        "api": "/income/api/cashier/",
-        "verbose_name": "Account Family",
-        "fields": [{
-          "is_editable": false,
-          "key": "id",
-          "label": "ID",
-          "value_type": "number"
-        }, {
-          "key": "name",
-          "label": "Name",
-          "value_type": "text"
-        }, {
-          "key": "number",
-          "label": "Number",
-          "value_type": "number"
-        }, {
-          "key": "employee_id",
-          "label": "Employee ID",
-          "value_type": "text"
-        }, {
-          "control_type": "password",
-          "key": "pin",
-          "label": "Pin",
-          "value_type": "string"
-        }],
-        "formsets": null,
-        "listing_fields": ["id", "name", "number", "employee_id"],
-        "actions": [],
-        "bulk_actions": [],
-        "list_actions": [],
-        "external_value_field": "id",
-        "external_name_field": "name"
-      }, {
-        "key": "account_group",
-        "api": "/income/api/cashier/",
-        "verbose_name": "Account Group",
-        "fields": [{
-          "is_editable": false,
-          "key": "id",
-          "label": "ID",
-          "value_type": "number"
-        }, {
-          "key": "name",
-          "label": "Name",
-          "value_type": "text"
-        }, {
-          "key": "number",
-          "label": "Number",
-          "value_type": "number"
-        }, {
-          "key": "employee_id",
-          "label": "Employee ID",
-          "value_type": "text"
-        }, {
-          "control_type": "password",
-          "key": "pin",
-          "label": "Pin",
-          "value_type": "string"
-        }],
-        "formsets": null,
-        "listing_fields": ["id", "name", "number", "employee_id"],
-        "actions": [],
-        "bulk_actions": [],
-        "list_actions": [],
-        "external_value_field": "id",
-        "external_name_field": "name"
-      }]
-    }]
-  }
+```typescript
+import { Validators } from '@angular/forms';
+import { Metadata } from 'projects/crud/src/lib/models/metadata';
+import { Store } from '../models/store.model';
+import { FieldConfig } from 'crud/lib/models/metadata';
+
+export class StoreMetadata implements Metadata {
+    name = 'store';
+    label = 'Store';
+    api = '/api/stores';
+    model = Store;
+    listingFields = ['id', 'code', 'description'];
+    externalNameField = 'description';
+    externalValueField = 'id';
+    formsets = [];
+    fields: FieldConfig[] = [
+        {
+            name: 'id',
+            label: 'ID',
+            type: 'number',
+            isEditable: false,
+        },
+        {
+            name: 'code',
+            label: 'Code',
+            type: 'number',
+            isEditable: true,
+        },
+        {
+            name: 'description',
+            label: 'Description',
+            type: 'text'
+        },
+        {
+            name: 'show_paymaster',
+            label: 'Show Paymaster',
+            type: 'boolean',
+            control: {
+                type: 'switch'
+            }
+        }
+    ];
+    formActions = {};
+}
 ```
 
 ### Reactive Model Form
@@ -161,7 +96,11 @@ It is easy to construct
 
 | # | Field            | Status  |
 | - | ---------------- | ------- |
+|   | ID Field      |     |
 |   | String Field      | Done    |
 |   | Date Field      | Done    |
+|   | Switch Field      | Done    |
+|   | AutoComplete Field      |     |
+|   | ForeignKey Field      |    |
 
 ### Formsets

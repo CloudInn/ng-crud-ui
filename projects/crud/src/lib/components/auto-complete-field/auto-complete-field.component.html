@@ -1,8 +1,8 @@
 <mat-form-field [formGroup]="form">
   <input type="text" matInput [placeholder]="field.label" [formControl]="ctrl" [matAutocomplete]="auto">
   <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayWith(foreign_model)">
-      <mat-option *ngFor="let c of filteredOptions | async" [value]="c[foreign_model.external_value_field]">
-        {{ c[foreign_model.external_name_field] }}
+      <mat-option *ngFor="let c of filteredOptions | async" [value]="c[foreign_model.externalValueField]">
+        {{ c[foreign_model.externalNameField] }}
       </mat-option>
     </mat-autocomplete>
 </mat-form-field>

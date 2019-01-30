@@ -1,5 +1,5 @@
 import { Component, OnInit, ComponentFactoryResolver, Type, ComponentRef, ViewContainerRef, ViewChild } from '@angular/core';
-import { ActivatedRoute , Router} from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 
 import { Registry } from '../../services/registry.service';
@@ -20,9 +20,6 @@ const Components = {
 })
 export class ScreenWrapperComponent implements OnInit {
 
-    appName: string = null;
-    moduleName: string = null;
-    modelName: string = null;
     screen: ViewConfig;
     component: Type<any>;
     componentRef: ComponentRef<any>;
@@ -31,7 +28,6 @@ export class ScreenWrapperComponent implements OnInit {
 
     constructor(
       private reg: Registry,
-      private router: Router,
       private route: ActivatedRoute,
       private container: ViewContainerRef,
       private resolver: ComponentFactoryResolver,
@@ -51,8 +47,9 @@ export class ScreenWrapperComponent implements OnInit {
         this.screen = this.reg.screens[this.route.routeConfig.path];
 
         if (!this.screen) {
-          throw new Error('Screen not found');
+          throw new Error('Screen not found in registry');
         }
+        console.log(this.screen['controls']);
         const factory = this.resolver.resolveComponentFactory<any>(this.screen.component);
         const componentRef = this.container.createComponent(factory);
         this.title.setTitle(this.screen.title);
