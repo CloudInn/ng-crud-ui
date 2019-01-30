@@ -1,4 +1,4 @@
 language: typescript
 
 script:
-    npm install && npm run build
+    npm install && ng build crud && ng buld example-app
