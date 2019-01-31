@@ -9,6 +9,21 @@ export class AppComponent {
   title = 'Ng Crud Ui';
   sidenavItems = [
     {
+      title: 'Get Started',
+      items: [
+        {
+          title: "Installation",
+          icon: "get_app",
+          routerLink: "/installation"
+        },
+        {
+          title: "Configuration",
+          icon: "settings",
+          routerLink: "/configuration"
+        },
+      ]
+    },
+    {
       title: 'MetaData',
       items: [
         {
@@ -19,7 +34,7 @@ export class AppComponent {
         {
           title: "Fields",
           icon: "extension",
-          routerLink: "/metadata/fields"
+          routerLink: "/fields"
         },
       ]
     },
@@ -28,13 +43,13 @@ export class AppComponent {
       items: [
         {
           title: "Rendering Forms",
-          icon: "search",
+          icon: "build",
           routerLink: "/forms"
         },
         {
-          title: "ForeignKey Field",
+          title: "ForeignKey Fields",
           icon: "public",
-          routerLink: "/forms/foreignKey"
+          routerLink: "/foreignKeys"
         }
       ]
     },
@@ -43,7 +58,7 @@ export class AppComponent {
       items: [
         {
           title: "Building Views",
-          icon: "build",
+          icon: "screen_share",
           routerLink: "/views"
         }
       ]

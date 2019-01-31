@@ -190,10 +190,15 @@
               "projects/docs/src/assets"
             ],
             "styles": [
+              "projects/docs/src/assets/material-theme.scss",
               "projects/docs/src/styles.css",
-              "projects/docs/src/assets/material-theme.scss"
+              "node_modules/prismjs/themes/prism-solarizedlight.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/marked/lib/marked.js",
+              "node_modules/prismjs/prism.js",
+              "node_modules/prismjs/components/prism-typescript.min.js"
+            ]
           },
           "configurations": {
             "production": {

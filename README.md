@@ -14,7 +14,9 @@ to check the demo app. using `ng build crud` to build the library. The build art
 
 3. Run `npm start` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-## Features
+## Documentation
+
+[Installation](./projects/docs/src/assets/docs/installation.md)
 
 ### Model's Registry
 

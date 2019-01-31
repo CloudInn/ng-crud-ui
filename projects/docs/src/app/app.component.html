@@ -11,7 +11,7 @@
 
   <mat-sidenav mode="side" [opened]="true">
     <mat-nav-list>
-      <a class="sidenav-link" mat-list-item routerLink="/"><mat-icon>home</mat-icon> Getting Started</a>
+      <a class="sidenav-link" mat-list-item routerLink="/"><mat-icon>home</mat-icon> Home</a>
       <ng-template ngFor let-header [ngForOf]="sidenavItems">
         <h4 matSubheading>{{ header.title }}</h4>
         <ng-template ngFor let-item [ngForOf]="header.items">

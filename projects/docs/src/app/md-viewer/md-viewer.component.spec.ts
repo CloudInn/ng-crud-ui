@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MetadataDocsComponent } from './metadata-docs.component';
+import { MdViewerComponent } from './md-viewer.component';
 
-describe('MetadataDocsComponent', () => {
-  let component: MetadataDocsComponent;
-  let fixture: ComponentFixture<MetadataDocsComponent>;
+describe('MdViewerComponent', () => {
+  let component: MdViewerComponent;
+  let fixture: ComponentFixture<MdViewerComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MetadataDocsComponent ]
+      declarations: [ MdViewerComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MetadataDocsComponent);
+    fixture = TestBed.createComponent(MdViewerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
