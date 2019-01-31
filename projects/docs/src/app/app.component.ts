@@ -32,7 +32,7 @@ export class AppComponent {
           routerLink: "/metadata"
         },
         {
-          title: "Fields",
+          title: "Field Defintions",
           icon: "extension",
           routerLink: "/fields"
         },

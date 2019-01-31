@@ -22,7 +22,7 @@ export interface Metadata {
 ```
 
 The following example shows an example of building a metadata class for Terminal model,
-don't worry if you don't everything there, we will break them down one by one.
+don't worry if you don't understand everything there, we will break them down one by one.
 
 ```typescript
 import { Validators } from "@angular/forms";

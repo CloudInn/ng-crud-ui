@@ -32,7 +32,7 @@ export class FormFieldComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (this.config.control && this.config.control.type === 'foreignKey') {
+    if (this.config.control && this.config.type === 'foreignKey') {
       // FOREIGN_MODEL = this.foreign_model;
       // if (this.choices) {
       //   this.filteredOptions = of(this.choices);
@@ -53,8 +53,7 @@ export class FormFieldComponent implements OnChanges {
       //   console.log('setting ctrl value', this.form.value[this.field.key]);
       //   ctrl.setValue(this.form.value[this.field.key]);
       // }
-    } else if (this.config.control && this.config.control.type === 'select') {
-      this.type = this.config.control.type;
+    } else if (this.config.control && this.config.type === 'select') {
       this.choices = this.config.control.choices;
     }
 

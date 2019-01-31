@@ -1,4 +1,5 @@
 import { ViewConfig } from './views';
+
 export interface ControlConfig {
     type: string;
     // type: 'input' | 'number' | 'select' | 'date' | 'datetime' | 'foreignKey';
@@ -10,6 +11,7 @@ export interface ControlConfig {
         valueField: string,
         labelFields: string[],
     };
+    rowSpan?: Number;
     choices?: {[key: string]: any}[]; // for select controls
     viewConfig?: ViewConfig;
     fields?: FieldConfig[];
@@ -24,7 +26,6 @@ export class FieldConfig {
     control?: ControlConfig;
     validators?: any[];
     foreignModelPath?: string;
-    rowSpan?: Number;
     valueType?: string;
     choices?: any[];
     // if fieldset

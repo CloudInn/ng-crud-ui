@@ -1,4 +1,4 @@
-# NgCrudUi
+# NgCrudUi (Under Heavy Development)
 
 NgCrudUI is a library for Angular focused on building re-usable forms, formsets and views based on metadata definitions
 
@@ -21,7 +21,7 @@ to check the demo app. using `ng build crud` to build the library. The build art
 - [Installation](./projects/docs/src/assets/docs/installation.md)
 - [Configuraation](./projects/docs/src/assets/docs/configuraation.md)
 - [Building Metadata](./projects/docs/src/assets/docs/metadata.md)
-- [Metadata Fields](./projects/docs/src/assets/docs/fields.md)
+- [Metadata Field Definitions](./projects/docs/src/assets/docs/fields.md)
 - [Rendering Forms](./projects/docs/src/assets/docs/forms.md)
 - [Foreign Keys](./projects/docs/src/assets/docs/foreignKeys.md)
 - [Constructing Views](./projects/docs/src/assets/docs/views.md)
