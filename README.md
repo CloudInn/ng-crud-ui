@@ -1,5 +1,7 @@
 # NgCrudUi
 
+NgCrudUI is a library for Angular focused on building re-usable forms, formsets and views based on metadata definitions
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version >= 7.0.0.
 
 The projects is splitted in two proejcts, one for the demo/examples project and one for the library itself,
