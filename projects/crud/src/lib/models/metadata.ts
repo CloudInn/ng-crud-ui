@@ -1,7 +1,7 @@
 import { ViewConfig } from './views';
 
 export interface ControlConfig {
-    type: string;
+    type?: string;
     // type: 'input' | 'number' | 'select' | 'date' | 'datetime' | 'foreignKey';
     metadata?: any;
     multiple?: boolean;
