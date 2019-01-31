@@ -1,10 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter,
     ComponentFactoryResolver, ViewChild, ViewContainerRef } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 
 import { ApiService } from '../../services/api.service';
-import { Registry } from '../../services/registry.service';
 import { ListViewer } from '../../models/views';
 
 @Component({
@@ -31,9 +29,6 @@ export class ListingComponent implements OnInit {
     @ViewChild('searchComponent', { read: ViewContainerRef }) searchComponent: ViewContainerRef;
 
     constructor(private api: ApiService,
-        private reg: Registry,
-        private route: ActivatedRoute,
-        private router: Router,
         private container: ViewContainerRef,
         private resolver: ComponentFactoryResolver) { }
 

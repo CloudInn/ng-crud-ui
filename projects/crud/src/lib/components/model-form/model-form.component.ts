@@ -20,7 +20,7 @@ export class ModelFormComponent implements OnInit {
 
     @Input() viewConfig: FormViewer;
     @Input() mode = 'search';
-    @Input() id: number | string = null;
+    @Input() id: number | 'new' = null;
     ngModel: any = {};
     metadata: Metadata;
     fieldType: typeof FieldType = FieldType;

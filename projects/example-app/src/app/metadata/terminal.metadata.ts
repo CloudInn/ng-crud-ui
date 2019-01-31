@@ -62,8 +62,8 @@ export class TerminalMetadata implements Metadata {
         {
             name: 'store',
             label: 'Outlet',
+            type: 'foreignKey',
             control: {
-                type: 'foreignKey',
                 metadata: new StoreMetadata(),
                 viewConfig: new StoreListView(),
             },

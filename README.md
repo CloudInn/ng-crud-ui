@@ -1,4 +1,6 @@
-# NgCrudUi
+# NgCrudUi (Under Heavy Development)
+
+NgCrudUI is a library for Angular focused on building re-usable forms, formsets and views based on metadata definitions
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version >= 7.0.0.
 
@@ -14,61 +16,64 @@ to check the demo app. using `ng build crud` to build the library. The build art
 
 3. Run `npm start` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-## Features
+## Documentation
+
+- [Installation](./projects/docs/src/assets/docs/installation.md)
+- [Configuraation](./projects/docs/src/assets/docs/configuraation.md)
+- [Building Metadata](./projects/docs/src/assets/docs/metadata.md)
+- [Metadata Field Definitions](./projects/docs/src/assets/docs/fields.md)
+- [Rendering Forms](./projects/docs/src/assets/docs/forms.md)
+- [Foreign Keys](./projects/docs/src/assets/docs/foreignKeys.md)
+- [Constructing Views](./projects/docs/src/assets/docs/views.md)
+- [Reusable Components](./projects/docs/src/assets/docs/components.md)
 
 ### Model's Registry
 
-A registry to save the metadata of the models in it. It consists of a hirearchy that reselmbles 
-
-Module > App > Model
-
-So it can be used to fetch metata of any of these elements.
-
-example of metadata:
+example of metadata definition for `store` model:
 
 ```typescript
-import { Validators } from '@angular/forms';
-import { Metadata } from 'crud';
-import { Store } from '../models/store.model';
-import { FieldConfig } from 'crud/lib/models/metadata';
+import { Validators } from "@angular/forms";
+import { Metadata } from "crud";
+import { Store } from "../models/store.model";
+import { FieldConfig } from "crud/lib/models/metadata";
 
 export class StoreMetadata implements Metadata {
-    name = 'store';
-    label = 'Store';
-    api = '/api/stores';
-    model = Store;
-    listingFields = ['id', 'code', 'description'];
-    externalNameField = 'description';
-    externalValueField = 'id';
-    formsets = [];
-    fields: FieldConfig[] = [
-        {
-            name: 'id',
-            label: 'ID',
-            type: 'number',
-            isEditable: false,
-        },
-        {
-            name: 'code',
-            label: 'Code',
-            type: 'number',
-            isEditable: true,
-        },
-        {
-            name: 'description',
-            label: 'Description',
-            type: 'text'
-        },
-        {
-            name: 'show_paymaster',
-            label: 'Show Paymaster',
-            type: 'boolean',
-            control: {
-                type: 'switch'
-            }
-        }
-    ];
-    formActions = {};
+  name = "store";
+  label = "Store";
+  api = "/api/stores";
+  model = Store;
+  listingFields = ["id", "code", "description"];
+  externalNameField = "description";
+  externalValueField = "id";
+  formsets = [];
+  fields: FieldConfig[] = [
+    {
+      name: "id",
+      label: "ID",
+      type: "number",
+      isEditable: false
+    },
+    {
+      name: "code",
+      label: "Code",
+      type: "number",
+      isEditable: true
+    },
+    {
+      name: "description",
+      label: "Description",
+      type: "text"
+    },
+    {
+      name: "show_paymaster",
+      label: "Show Paymaster",
+      type: "boolean",
+      control: {
+        type: "switch"
+      }
+    }
+  ];
+  formActions = {};
 }
 ```
 
@@ -77,30 +82,13 @@ export class StoreMetadata implements Metadata {
 Making use of the power of Angular's reactive forms, now forms are handled in the components logic
 instead of the templates.
 
-#### Search Froms
-
-It is easy to construct 
-
-#### Editing Froms
-
-### Listing Table
-
-### Form Fields
-
-#### Input Field (string, number)
-#### Date Field
-#### DateTime Field
-#### Select Field (single, mutliple)
-#### ForeignKey Field
-#### Autocomplete Field
-
-| # | Field            | Status  |
-| - | ---------------- | ------- |
-|   | ID Field      |     |
-|   | String Field      | Done    |
-|   | Date Field      | Done    |
-|   | Switch Field      | Done    |
-|   | AutoComplete Field      |     |
-|   | ForeignKey Field      |    |
-
-### Formsets
+| #   | Field                           | Status |
+| --- | ------------------------------- | ------ |
+|     | ID Field                        |        |
+|     | String Field                    |        |
+|     | Date Field                      |        |
+|     | DateTime Field                  |        |
+|     | Switch Field                    |        |
+|     | Select Field (single, multiple) |        |
+|     | AutoComplete Field              |        |
+|     | ForeignKey Field                |        |
