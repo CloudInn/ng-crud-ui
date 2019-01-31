@@ -1,7 +1,6 @@
 import { Validators } from '@angular/forms';
-import { Metadata } from 'projects/crud/src/lib/models/metadata';
 import { Store } from '../models/store.model';
-import { FieldConfig } from 'crud/lib/models/metadata';
+import { Metadata, FieldConfig } from 'crud';
 
 export class StoreMetadata implements Metadata {
     name = 'store';

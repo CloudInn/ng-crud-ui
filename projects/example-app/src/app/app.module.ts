@@ -3,7 +3,7 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { RouterModule, Route } from '@angular/router';
 import { NgModule, APP_INITIALIZER } from '@angular/core';
 
-import { CrudModule } from 'projects/crud/src/lib/crud.module';
+import { CrudModule } from 'crud';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';

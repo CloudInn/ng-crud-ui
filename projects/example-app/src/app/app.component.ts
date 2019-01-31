@@ -1,9 +1,8 @@
 import { Component, OnInit, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import { SidenavService } from './sidenav.service';
-import { Registry } from 'projects/crud/src/lib/services/registry.service';
-// import { DefaultCrudForm, ListingView } from 'projects/crud/src/lib/forms';
-import { ListingView, FormView } from 'projects/crud/src/lib/models/views';
+import { Registry } from 'crud';
+import { ListingView, FormView } from 'crud';
 import { TerminalMetadata } from './metadata/terminal.metadata';
 import { DepartmentMetadata } from './metadata/department.metadata';
 import { RoomMetadata } from './metadata/room.metadata';
@@ -12,7 +11,7 @@ import { StoreSearchForm } from './forms/store.search.form';
 import { RoomForm } from './forms/room.edit.form';
 import { TerminalSearchForm } from './forms/terminal.search.form';
 import { StoreListView } from './views/store.list.view';
-import { ScreenWrapperComponent } from 'projects/crud/src/lib/containers/screen-wrapper/screen-wrapper.component';
+import { ScreenWrapperComponent } from 'crud';
 
 @Component({
   selector: 'app-root',

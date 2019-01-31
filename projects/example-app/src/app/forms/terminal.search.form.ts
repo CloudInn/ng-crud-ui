@@ -1,4 +1,4 @@
-import { FormView } from 'projects/crud/src/lib/models/views';
+import { FormView } from 'crud';
 import { StoreListView } from '../views/store.list.view';
 import { StoreMetadata } from '../metadata/store.metadata';
 

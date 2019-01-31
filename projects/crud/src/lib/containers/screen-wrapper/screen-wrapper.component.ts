@@ -49,7 +49,6 @@ export class ScreenWrapperComponent implements OnInit {
         if (!this.screen) {
           throw new Error('Screen not found in registry');
         }
-        console.log(this.screen['controls']);
         const factory = this.resolver.resolveComponentFactory<any>(this.screen.component);
         const componentRef = this.container.createComponent(factory);
         this.title.setTitle(this.screen.title);

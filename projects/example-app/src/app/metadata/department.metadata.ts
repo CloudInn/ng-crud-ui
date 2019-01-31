@@ -1,5 +1,5 @@
 import { Validators } from '@angular/forms';
-import { Metadata } from 'projects/crud/src/lib/models/metadata';
+import { Metadata } from 'crud';
 import { Department } from '../models/department.model';
 
 export class DepartmentMetadata implements Metadata {

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Registry } from 'projects/crud/src/lib/services/registry.service';
-import { Navigator } from 'projects/crud/src/lib/services/navigator.service';
+import { Registry } from 'crud';
+import { Navigator } from 'crud';
 
 import { ReplaySubject } from 'rxjs';
 

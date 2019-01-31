@@ -1,6 +1,6 @@
 import { Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { Metadata } from 'projects/crud/src/lib/models/metadata';
+import { Metadata } from 'crud';
 import { Room } from '../models/room.model';
 import { StoreMetadata } from '../metadata/store.metadata';
 import { StoreListView } from '../views/store.list.view';

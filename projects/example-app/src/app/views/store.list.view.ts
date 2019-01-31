@@ -1,5 +1,5 @@
-import { ListingComponent } from 'projects/crud/src/lib/components/listing/listing.component';
-import { ListViewer } from 'projects/crud/src/lib/models/views';
+import { ListingComponent } from 'crud';
+import { ListViewer } from 'crud';
 import { StoreMetadata } from '../metadata/store.metadata';
 import { StoreSearchForm } from '../forms/store.search.form';
 

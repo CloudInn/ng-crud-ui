@@ -1,4 +1,4 @@
-import { FormView } from 'projects/crud/src/lib/models/views';
+import { FormView } from 'crud';
 
 export class StoreSearchForm extends FormView {
     layout = 'horizontal';

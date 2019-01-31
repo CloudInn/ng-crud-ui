@@ -28,7 +28,7 @@ example of metadata:
 
 ```typescript
 import { Validators } from '@angular/forms';
-import { Metadata } from 'projects/crud/src/lib/models/metadata';
+import { Metadata } from 'crud';
 import { Store } from '../models/store.model';
 import { FieldConfig } from 'crud/lib/models/metadata';
 
