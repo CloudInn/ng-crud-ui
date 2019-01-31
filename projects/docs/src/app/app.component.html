@@ -1,0 +1,24 @@
+<mat-toolbar color="primary">
+  <!-- <a routerLink="/">Ng Crud UI</a> -->
+  <a mat-button routerLink="/">Ng Crud UI</a>
+  <a mat-button href="https://github.com/cloudinn/ng-crud-ui" target="_blank">Github</a>
+</mat-toolbar>
+<!--The content below is only a placeholder and can be replaced.-->
+<mat-sidenav-container>
+  <mat-sidenav-content class="mat-typography">
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+
+  <mat-sidenav mode="side" [opened]="true">
+    <mat-nav-list>
+      <a class="sidenav-link" mat-list-item routerLink="/"><mat-icon>home</mat-icon> Getting Started</a>
+      <ng-template ngFor let-header [ngForOf]="sidenavItems">
+        <h4 matSubheading>{{ header.title }}</h4>
+        <ng-template ngFor let-item [ngForOf]="header.items">
+          <a class="sidenav-link" mat-list-item [routerLink]="item.routerLink"><mat-icon>{{ item.icon }}</mat-icon> {{ item.title }}</a>
+        </ng-template>
+      </ng-template>
+    </mat-nav-list>
+  </mat-sidenav>
+
+</mat-sidenav-container>

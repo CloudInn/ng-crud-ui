@@ -1,0 +1,13 @@
+section {
+    padding: 42px;
+}
+
+#home-jumbotron {
+    background-color: #212121;
+    color: #fff;
+}
+
+#home-jumbotron h2 {
+    font-size: 24px;
+    font-weight: 100;
+}
