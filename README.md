@@ -28,57 +28,51 @@ to check the demo app. using `ng build crud` to build the library. The build art
 
 ### Model's Registry
 
-A registry to save the metadata of the models in it. It consists of a hirearchy that reselmbles 
-
-Module > App > Model
-
-So it can be used to fetch metata of any of these elements.
-
-example of metadata:
+example of metadata definition for `store` model:
 
 ```typescript
-import { Validators } from '@angular/forms';
-import { Metadata } from 'crud';
-import { Store } from '../models/store.model';
-import { FieldConfig } from 'crud/lib/models/metadata';
+import { Validators } from "@angular/forms";
+import { Metadata } from "crud";
+import { Store } from "../models/store.model";
+import { FieldConfig } from "crud/lib/models/metadata";
 
 export class StoreMetadata implements Metadata {
-    name = 'store';
-    label = 'Store';
-    api = '/api/stores';
-    model = Store;
-    listingFields = ['id', 'code', 'description'];
-    externalNameField = 'description';
-    externalValueField = 'id';
-    formsets = [];
-    fields: FieldConfig[] = [
-        {
-            name: 'id',
-            label: 'ID',
-            type: 'number',
-            isEditable: false,
-        },
-        {
-            name: 'code',
-            label: 'Code',
-            type: 'number',
-            isEditable: true,
-        },
-        {
-            name: 'description',
-            label: 'Description',
-            type: 'text'
-        },
-        {
-            name: 'show_paymaster',
-            label: 'Show Paymaster',
-            type: 'boolean',
-            control: {
-                type: 'switch'
-            }
-        }
-    ];
-    formActions = {};
+  name = "store";
+  label = "Store";
+  api = "/api/stores";
+  model = Store;
+  listingFields = ["id", "code", "description"];
+  externalNameField = "description";
+  externalValueField = "id";
+  formsets = [];
+  fields: FieldConfig[] = [
+    {
+      name: "id",
+      label: "ID",
+      type: "number",
+      isEditable: false
+    },
+    {
+      name: "code",
+      label: "Code",
+      type: "number",
+      isEditable: true
+    },
+    {
+      name: "description",
+      label: "Description",
+      type: "text"
+    },
+    {
+      name: "show_paymaster",
+      label: "Show Paymaster",
+      type: "boolean",
+      control: {
+        type: "switch"
+      }
+    }
+  ];
+  formActions = {};
 }
 ```
 
@@ -87,30 +81,13 @@ export class StoreMetadata implements Metadata {
 Making use of the power of Angular's reactive forms, now forms are handled in the components logic
 instead of the templates.
 
-#### Search Froms
-
-It is easy to construct 
-
-#### Editing Froms
-
-### Listing Table
-
-### Form Fields
-
-#### Input Field (string, number)
-#### Date Field
-#### DateTime Field
-#### Select Field (single, mutliple)
-#### ForeignKey Field
-#### Autocomplete Field
-
-| # | Field            | Status  |
-| - | ---------------- | ------- |
-|   | ID Field      |     |
-|   | String Field      | Done    |
-|   | Date Field      | Done    |
-|   | Switch Field      | Done    |
-|   | AutoComplete Field      |     |
-|   | ForeignKey Field      |    |
-
-### Formsets
+| #   | Field                           | Status |
+| --- | ------------------------------- | ------ |
+|     | ID Field                        |        |
+|     | String Field                    |        |
+|     | Date Field                      |        |
+|     | DateTime Field                  |        |
+|     | Switch Field                    |        |
+|     | Select Field (single, multiple) |        |
+|     | AutoComplete Field              |        |
+|     | ForeignKey Field                |        |
