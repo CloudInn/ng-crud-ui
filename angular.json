@@ -192,7 +192,7 @@
             "styles": [
               "projects/docs/src/assets/material-theme.scss",
               "projects/docs/src/styles.css",
-              "node_modules/prismjs/themes/prism-solarizedlight.css"
+              "node_modules/prismjs/themes/prism-tomorrow.css"
             ],
             "scripts": [
               "node_modules/marked/lib/marked.js",

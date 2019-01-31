@@ -57,7 +57,7 @@ export class AppComponent {
       title: "Views",
       items: [
         {
-          title: "Building Views",
+          title: "Constructing Views",
           icon: "screen_share",
           routerLink: "/views"
         }
