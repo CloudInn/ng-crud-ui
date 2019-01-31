@@ -8,7 +8,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "build-docs": "ng build --prod docs --output-path ./docs --base-href /ng-crud-ui --deploy-url https://cloudinn.github.io/ng-crud-ui"
+    "build-docs": "ng build --prod docs --output-path ./docs --base-href /ng-crud-ui/ --deploy-url /ng-crud-ui/"
   },
   "private": true,
   "dependencies": {
