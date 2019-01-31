@@ -16,7 +16,13 @@ to check the demo app. using `ng build crud` to build the library. The build art
 
 ## Documentation
 
-[Installation](./projects/docs/src/assets/docs/installation.md)
+- [Installation](./projects/docs/src/assets/docs/installation.md)
+- [Configuraation](./projects/docs/src/assets/docs/configuraation.md)
+- [Building Metadata](./projects/docs/src/assets/docs/metadata.md)
+- [Metadata Fields](./projects/docs/src/assets/docs/fields.md)
+- [Rendering Forms](./projects/docs/src/assets/docs/forms.md)
+- [Foreign Keys](./projects/docs/src/assets/docs/foreignKeys.md)
+- [Constructing Views](./projects/docs/src/assets/docs/views.md)
 
 ### Model's Registry
 
