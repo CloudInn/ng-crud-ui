@@ -20,7 +20,7 @@ export class ModelFormComponent implements OnInit {
 
     @Input() viewConfig: FormViewer;
     @Input() mode = 'search';
-    @Input() id: number = null;
+    @Input() id: number | string = null;
     ngModel: any = {};
     metadata: Metadata;
     fieldType: typeof FieldType = FieldType;
@@ -59,10 +59,15 @@ export class ModelFormComponent implements OnInit {
             this.form.addControl(c.name, new FormArray([]));
         });
         this.is_ready = true;
+        if (this.id === 'new') {
+            this.mode = 'create';
+        }
+
         if (this.mode !== 'search') {
             this.submitButtonText = 'Create';
         }
-        if (this.id) {
+        
+        if(this.id && this.id !== 'new') {
             this.mode = 'edit';
             this.submitButtonText = 'Update';
             this.actions = this.viewConfig.actions;

@@ -15,12 +15,12 @@ export interface ControlConfig {
     fields?: FieldConfig[];
 }
 
-export interface FieldConfig {
+export class FieldConfig {
     name: string;
     label: string;
     type?: string;
-    isEditable?: boolean;
-    isSearchable?: boolean;
+    isEditable?: boolean = true;
+    isSearchable?: boolean = true;
     control?: ControlConfig;
     validators?: any[];
     foreignModelPath?: string;

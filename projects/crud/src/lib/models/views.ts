@@ -50,9 +50,14 @@ export class FormView implements FormViewer {
     breadcrumbs = [];
     component = ModelFormComponent;
     layout = 'vertical';
-    controls = this.metadata.fields.filter(c => c.isEditable === true);
+    controls: FieldConfig[] = [];
     actions = this.metadata.formActions;
     formsets = this.metadata.formsets;
 
-    constructor(public metadata: Metadata) {}
+    constructor(public metadata: Metadata) {
+        // const fields: FieldConfig[] = [];
+        metadata.fields.filter(f => f.isEditable !== false).forEach(field => {
+            this.controls.push(field as FieldConfig);
+        });
+    }
 }
