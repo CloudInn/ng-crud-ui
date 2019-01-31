@@ -25,6 +25,7 @@ to check the demo app. using `ng build crud` to build the library. The build art
 - [Rendering Forms](./projects/docs/src/assets/docs/forms.md)
 - [Foreign Keys](./projects/docs/src/assets/docs/foreignKeys.md)
 - [Constructing Views](./projects/docs/src/assets/docs/views.md)
+- [Reusable Components](./projects/docs/src/assets/docs/components.md)
 
 ### Model's Registry
 

@@ -43,7 +43,7 @@ export class AppComponent {
       items: [
         {
           title: "Rendering Forms",
-          icon: "build",
+          icon: "format_shapes",
           routerLink: "/forms"
         },
         {
@@ -60,6 +60,11 @@ export class AppComponent {
           title: "Constructing Views",
           icon: "screen_share",
           routerLink: "/views"
+        },
+        {
+          title: "Reusable Components",
+          icon: "build",
+          routerLink: "/components"
         }
       ]
     }
