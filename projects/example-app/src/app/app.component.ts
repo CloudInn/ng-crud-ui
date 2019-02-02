@@ -40,14 +40,15 @@ export class AppComponent implements OnInit {
 
   registerViews() {
     const terminalListing = new ListingView(new TerminalMetadata());
-    terminalListing.search.enabled = true;
-    terminalListing.search.view = new TerminalSearchForm(new TerminalMetadata());
     terminalListing.pagination.enabled = false;
+    terminalListing.search.view = new TerminalSearchForm(new TerminalMetadata());
     this.reg.registerScreen('pos/terminals', terminalListing);
     const terminalForm = new FormView(new TerminalMetadata());
+    // this.reg.registerScreen('pos/terminals/new', terminalForm);
     this.reg.registerScreen('pos/terminals/:id', terminalForm);
     //
     this.reg.registerScreen('inventory/stores', new StoreListView());
+    // this.reg.registerScreen('inventory/stores/new', new FormView(new StoreMetadata()));
     this.reg.registerScreen('inventory/stores/:id', new FormView(new StoreMetadata()))
     //
     const departmentListing = new ListingView(new DepartmentMetadata());
@@ -57,10 +58,9 @@ export class AppComponent implements OnInit {
     // rooms
     const roomListing = new ListingView(new RoomMetadata());
     roomListing.pagination.enabled = false;
-    roomListing.search.enabled = false;
     this.reg.registerScreen('pms/rooms', roomListing);
-    const roomForm = new RoomForm(new RoomMetadata());
-    this.reg.registerScreen('pms/rooms/:id', roomForm);
+    // const roomForm = new FormView(new RoomFo());
+    this.reg.registerScreen('pms/rooms/:id', new RoomForm(new RoomMetadata()));
   }
 
 }

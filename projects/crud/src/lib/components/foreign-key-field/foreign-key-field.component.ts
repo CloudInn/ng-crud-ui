@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 
 import { ApiService } from '../../services/api.service';
-import { FieldConfig, Metadata } from '../../models/metadata';
+import { FieldConfig, ForeignKeyControlConfig } from '../../models/metadata';
 import { ListingDialogComponent } from '../../containers/listing-dialog/listing-dialog.component';
 
 @Component({
@@ -18,6 +18,7 @@ export class ForeignKeyFieldComponent implements OnChanges {
   @Input() forcedSearchParams: any = [];
   @Input() config: FieldConfig;
   @Input() initialChoices: any[];
+  controlConfig: ForeignKeyControlConfig = null;
   availableOptions: Observable<any[]>;
   _underlyingCtrl = new FormControl(null);
 
@@ -29,6 +30,7 @@ export class ForeignKeyFieldComponent implements OnChanges {
     if (!this.formGroup) {
       return;
     }
+    this.controlConfig = this.config.control as ForeignKeyControlConfig;
     const ctrl = this.formGroup.get(this.config.name) as FormControl;
     this._underlyingCtrl.valueChanges.subscribe(res => {
       if ((typeof res) === 'string') {
@@ -36,7 +38,7 @@ export class ForeignKeyFieldComponent implements OnChanges {
           this.availableOptions = of(res);
         });
       } else if (res != null) {
-        this._setControlValue(res[this.config.control.metadata.externalValueField]);
+        this._setControlValue(res[this.controlConfig.metadata.externalValueField]);
       } else {
         this._setControlValue(null);
       }
@@ -52,7 +54,7 @@ export class ForeignKeyFieldComponent implements OnChanges {
   }
 
   fetchById(id: number | string = null) {
-    let url = `${this.config.control.metadata.api}`
+    let url = `${this.controlConfig.metadata.api}`
     if (id != null) {
       url += `/${id}`
     }
@@ -63,7 +65,7 @@ export class ForeignKeyFieldComponent implements OnChanges {
   }
 
   fetch() {
-    let url = `${this.config.control.metadata.api}`
+    let url = `${this.controlConfig.metadata.api}`
     this.api.fetch(url).subscribe(res => {
       this.availableOptions = of(res);
     });
@@ -71,14 +73,14 @@ export class ForeignKeyFieldComponent implements OnChanges {
 
   displayFn(option) {
     if (option == null ) return;
-    return option[this.config.control.metadata.externalNameField];
+    return option[this.controlConfig.metadata.externalNameField];
   }
 
   _filter(value: string): Observable<any[]> {
     const filterValue = value ? value : '';
     const params = {};
-    params[this.config.control.metadata.externalNameField] = filterValue;
-    return this.api.fetch(`${this.config.control.metadata.api}`, params).pipe(
+    params[this.controlConfig.metadata.externalNameField] = filterValue;
+    return this.api.fetch(`${this.controlConfig.metadata.api}`, params).pipe(
       map(res => {
         return res;
       })
@@ -100,7 +102,7 @@ export class ForeignKeyFieldComponent implements OnChanges {
       width: '90%',
       height: '90%',
       data: {
-        viewConfig: this.config.control.viewConfig,
+        viewConfig: this.controlConfig.viewConfig,
       }
     });
     ref.afterClosed().subscribe(value => {

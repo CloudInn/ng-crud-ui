@@ -7,7 +7,7 @@ import { ApiService } from '../../services/api.service';
 import { Registry } from '../../services/registry.service';
 import { FormService } from '../../services/form.service';
 import { FieldType, Field, AutoCompleteField } from '../../forms';
-import { Metadata, FieldConfig } from '../../models/metadata';
+import { Metadata, FieldConfig, FormSetControlConfig } from '../../models/metadata';
 import { FormViewer } from '../../models/views';
 
 @Component({
@@ -20,15 +20,9 @@ export class ModelFormComponent implements OnInit {
 
     @Input() viewConfig: FormViewer;
     @Input() mode = 'search';
-    @Input() id: number | 'new' = null;
-    ngModel: any = {};
-    metadata: Metadata;
-    fieldType: typeof FieldType = FieldType;
-    AutoCompleteField: typeof AutoCompleteField = AutoCompleteField;
-    choices = {};
+    @Input() id?: number | 'new' = null;
     @Output() submit = new EventEmitter<any>();
     formGroup: FormGroup = new FormGroup({});
-    formset: FormArray = new FormArray([]);
     formsets: FormArray[] = new Array<FormArray>();
     is_ready = false;
     controlsConfig: FieldConfig[] = [];
@@ -51,7 +45,9 @@ export class ModelFormComponent implements OnInit {
         //     this.controlsConfig = this.viewConfig.controls;
         // }
         this.controlsConfig = this.viewConfig.controls;
-        this._visibleControls = this.controlsConfig.filter(c => c.isHidden !== true);
+        this._visibleControls = this.viewConfig.controls;
+        console.log(this.mode, this._visibleControls);
+        // this._visibleControls = this.controlsConfig.filter(c => c.isHidden !== true);
         this.formGroup = this.formService.create(this.controlsConfig);
         // attach formsets to the main form group
         this.viewConfig.formsets.forEach(c => {
@@ -62,24 +58,19 @@ export class ModelFormComponent implements OnInit {
             this.mode = 'create';
             this.submitButtonText = 'Create';
             this.is_ready = true;
-        }
-
-        if (this.mode !== 'search') {
-            this.is_ready = true;
-        }
-        
-        if(this.id && this.id !== 'new') {
+        } else if (this.id != null) {
             this.mode = 'edit';
             this.submitButtonText = 'Update';
             this.actions = this.viewConfig.actions;
             this.api.fetch(this.viewConfig.metadata.api + '/' + this.id).subscribe(data => {
                 this.controlsConfig.forEach(c => {
-                    let ctrl = this.formGroup.get(c.name);
+                    const cotnrolConfig = c.control as FormSetControlConfig; 
+                    const ctrl = this.formGroup.get(c.name);
                     if (c.type === 'formset') {
-                        let fa = ctrl as FormArray
+                        let fa = ctrl as FormArray;
                         for (let i = 0; i < data[c.name].length; i++) {
-                            const fg = this.formService.create(c.control.fields);
-                            (ctrl as FormArray).setControl(i, fg);
+                            const fg = this.formService.create(cotnrolConfig.fields);
+                            fa.setControl(i, fg);
                             // ctrl.controls.push(ctrl.controls[0]);
                         }
                     }

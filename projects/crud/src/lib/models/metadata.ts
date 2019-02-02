@@ -2,27 +2,46 @@ import { ViewConfig } from './views';
 
 export interface ControlConfig {
     type?: string;
-    metadata?: any;
+}
+
+export interface FieldSetControlConfig extends ControlConfig {
+    fields: FieldConfig[];
+}
+
+export interface FormSetControlConfig extends ControlConfig {
+    fields: FieldConfig[];
+}
+
+export interface ForeignKeyControlConfig extends ControlConfig {
+    metadata: Metadata;
+    viewConfig?: ViewConfig;
+}
+
+export interface SelectControlConfig extends ControlConfig {
     multiple?: boolean;
-    autocomplete?: {
+    choices: {[key: string]: any}[];
+}
+
+export interface AutoCompleteControlConfig extends SelectControlConfig {
+    autocomplete: {
         api?: string;
         valueField: string,
         labelFields: string[],
     };
+}
+
+export interface TextAreaControlConfig extends ControlConfig {
     rowSpan?: Number;
-    choices?: {[key: string]: any}[]; // for select controls
-    viewConfig?: ViewConfig;
-    fields?: FieldConfig[];
 }
 
 export class FieldConfig {
     name: string;
     label: string;
-    type?: 'text' | 'number' | 'boolean' | 'select' | 'date' | 'datetime' | 'foreignKey' | 'formset' | 'fieldset' = 'text';
+    type?: 'text' | 'number' | 'boolean' | 'textArea' | 'select' | 'date' | 'datetime' | 'foreignKey' | 'formset' | 'fieldset' = 'text';
     isEditable?: boolean = true;
     isSearchable?: boolean = true;
     isHidden? = false;
-    control?: ControlConfig;
+    control?: ControlConfig | ForeignKeyControlConfig | TextAreaControlConfig | SelectControlConfig | AutoCompleteControlConfig | FormSetControlConfig | FieldSetControlConfig;
     validators?: any[];
     foreignModelPath?: string;
     valueType?: string;

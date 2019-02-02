@@ -2,7 +2,7 @@ import { Injectable, EventEmitter } from '@angular/core';
 import { AbstractControl, FormGroup, FormControl, FormArray } from '@angular/forms';
 import { Observable ,  Subject } from 'rxjs';
 import { Field  } from '../forms';
-import { FieldConfig, Fieldset, FormsetConfig } from '../models/metadata';
+import { FieldConfig, Fieldset, FormsetConfig, FormSetControlConfig } from '../models/metadata';
 
 @Injectable({
   providedIn: 'root'
@@ -56,7 +56,8 @@ export class FormService {
         });
         return;
       } else if (c.type === 'formset') {
-        const group = this.create(c.control.fields);
+        const controlConfig = c.control as FormSetControlConfig;
+        const group = this.create(controlConfig.fields);
         ctrls[c.name] = new FormArray([group]);
         return;
       }

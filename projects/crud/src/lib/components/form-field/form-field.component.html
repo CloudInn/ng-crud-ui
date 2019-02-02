@@ -4,21 +4,13 @@
         <mat-slide-toggle matInput [formControlName]="config.name">{{ config.label }}</mat-slide-toggle>
     </div>
 
-    <mat-form-field *ngSwitchCase="'textarea'">
-        <mat-label>{{ config.label }}</mat-label>
-        <textarea matInput matTextareaAutosize [formControlName]="config.name"
-            [rows]="config.control.rowSpan || 1"></textarea>
-    </mat-form-field>
+    <ng-container *ngSwitchCase="'textArea'">
+        <ng-crud-text-area-field [formGroup]="formGroup" [config]="config"></ng-crud-text-area-field>
+    </ng-container>
 
-    <mat-form-field *ngSwitchCase="'select'">
-        <mat-label>{{ config.label }}</mat-label>
-        <mat-select [formControlName]="config.name">
-            <mat-option></mat-option>
-            <mat-option [value]="c.value" *ngFor="let c of config.control.choices">
-                {{ c.label }}
-            </mat-option>
-        </mat-select>
-    </mat-form-field>
+    <ng-container *ngSwitchCase="'select'">
+        <ng-crud-select-field [formGroup]="formGroup" [config]="config"></ng-crud-select-field>
+    </ng-container>
 
     <mat-form-field *ngSwitchCase="'date'">
         <mat-label>{{ config.label }}</mat-label>
