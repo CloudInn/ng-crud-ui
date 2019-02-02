@@ -38,16 +38,8 @@ export class ModelFormComponent implements OnInit {
     }
 
     ngOnInit() {
-        // if (this.mode === 'search') {
-        //     console.log(this.viewConfig.controls);
-        //     this.controlsConfig = this.viewConfig.controls.filter(c => c.isSearchable === true);
-        // } else {
-        //     this.controlsConfig = this.viewConfig.controls;
-        // }
         this.controlsConfig = this.viewConfig.controls;
-        this._visibleControls = this.viewConfig.controls;
-        console.log(this.mode, this._visibleControls);
-        // this._visibleControls = this.controlsConfig.filter(c => c.isHidden !== true);
+        this._visibleControls = this.controlsConfig.filter(c => c.isHidden !== true);
         this.formGroup = this.formService.create(this.controlsConfig);
         // attach formsets to the main form group
         this.viewConfig.formsets.forEach(c => {
@@ -82,6 +74,8 @@ export class ModelFormComponent implements OnInit {
                 });
                 this.is_ready = true;
             });
+        } else {
+            this.is_ready = true;
         }
     }
 

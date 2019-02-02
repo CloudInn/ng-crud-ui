@@ -6,7 +6,7 @@ export class RoomMetadata implements Metadata {
     label = 'Room';
     api = '/api/rooms';
     model = Room;
-    listingFields = ['id', 'number', 'type'];
+    listingFields = ['id', 'number', 'type', 'description'];
     externalNameField = 'type';
     externalValueField = 'id';
     fields: FieldConfig[] = [
@@ -29,6 +29,11 @@ export class RoomMetadata implements Metadata {
             type: 'text',
             isEditable: true,
             isSearchable: true,
+        },
+        {
+            name: 'description',
+            label: 'Description',
+            type: 'textArea',
         }
     ];
     formsets = [];

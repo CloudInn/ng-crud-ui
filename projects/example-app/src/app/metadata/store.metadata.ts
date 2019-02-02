@@ -26,10 +26,7 @@ export class StoreMetadata implements Metadata {
         {
             name: 'description',
             label: 'Description',
-            type: 'textArea',
-            control: {
-                rowSpan: 5,
-            }
+            type: 'text',
         },
         {
             name: 'show_paymaster',

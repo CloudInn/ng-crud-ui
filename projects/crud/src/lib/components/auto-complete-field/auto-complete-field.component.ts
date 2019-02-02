@@ -34,7 +34,6 @@ export class AutoCompleteFieldComponent implements OnChanges {
      }
       this.searchParams = {page: 1};
       this.ctrl = this.form.get(this.field.name) as FormControl;
-      console.log('foreign key value', this.ctrl.value);
       this.filteredOptions = observableOf(this.choices);
       this.filteredOptions = this.ctrl.valueChanges.pipe(
         startWith(''),
@@ -47,7 +46,6 @@ export class AutoCompleteFieldComponent implements OnChanges {
 
    filter(text: string): any[] {
     return this.choices.filter(option => {
-      console.log(text);
       const val = option[this.foreign_model.externalNameField];
       return val ? val.toLowerCase().indexOf(text.toLowerCase()) === 0 : false;
     });

@@ -54,7 +54,6 @@ export class FormView implements FormViewer {
     formsets = this.metadata.formsets;
 
     constructor(public metadata: Metadata) {
-        // const fields: FieldConfig[] = [];
         metadata.fields.filter(f => f.isEditable !== false).forEach(field => {
             this.controls.push(field as FieldConfig);
         });

@@ -20,7 +20,6 @@ export class ListingComponent implements OnInit {
     dataSource = new MatTableDataSource();
     searchParams: {page?: number} = {
     };
-    // model: Model;
     columns = [];
     displayColumns: string[] = [];
     resultsCount = 0;
@@ -34,9 +33,6 @@ export class ListingComponent implements OnInit {
 
     ngOnInit() {
         this.populateDataTable();
-    }
-
-    ngOnChanges() {
         if (this.viewConfig.pagination.enabled) {
             this.searchParams['page'] = 1;
         }
