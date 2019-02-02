@@ -1,6 +1,6 @@
-<div [ngSwitch]="type" class="form-field-wrapper" [formGroup]="formGroup">
+<div [ngSwitch]="config.type" class="form-field-wrapper" [formGroup]="formGroup">
 
-    <div *ngSwitchCase="'switch'">
+    <div *ngSwitchCase="'boolean'">
         <mat-slide-toggle matInput [formControlName]="config.name">{{ config.label }}</mat-slide-toggle>
     </div>
 
@@ -14,7 +14,7 @@
         <mat-label>{{ config.label }}</mat-label>
         <mat-select [formControlName]="config.name">
             <mat-option></mat-option>
-            <mat-option [value]="c.value" *ngFor="let c of choices">
+            <mat-option [value]="c.value" *ngFor="let c of config.control.choices">
                 {{ c.label }}
             </mat-option>
         </mat-select>
@@ -28,17 +28,6 @@
     </mat-form-field>
     
     <ng-container *ngSwitchCase="'foreignKey'">
-        <!-- <mat-form-field>
-            <mat-label>{{ config.label }}</mat-label>
-            <input type="text" matInput [formControlName]="config.name" [matAutocomplete]="auto">
-        </mat-form-field>
-        <button mat-icon-button (click)="openListingDialog()"><mat-icon>search</mat-icon></button>
-        
-        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-            <mat-option *ngFor="let option of filteredOptions | async" [value]="option[foreign_model.externalValueField]">
-                {{ option[foreign_model.externalNameField] }}
-            </mat-option>
-        </mat-autocomplete> -->
         <ng-crud-foreign-key-field [config]="config" [formGroup]="formGroup"></ng-crud-foreign-key-field>
     </ng-container>
 

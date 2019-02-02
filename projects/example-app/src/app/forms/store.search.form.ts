@@ -1,8 +1,8 @@
-import { FormView } from 'crud';
+import { FormView, FieldConfig } from 'crud';
 
 export class StoreSearchForm extends FormView {
     layout = 'horizontal';
-    controls = [
+    controls: FieldConfig[] = [
         {
             name: 'code',
             label: 'Code'
@@ -14,17 +14,17 @@ export class StoreSearchForm extends FormView {
         {
             name: 'fieldset1',
             label: 'Fieldset',
+            type: 'fieldset',
             control: {
-                type: 'fieldset',
-            },
-            fields: [{
-                name: 'show_paymaster',
-                label: 'Show Paymaster',
-                type: 'boolean',
-                control: {
-                    type: 'switch'
-                }
-            }]
+                fields: [{
+                    name: 'show_paymaster',
+                    label: 'Show Paymaster',
+                    type: 'boolean',
+                    control: {
+                        type: 'switch'
+                    }
+                }]
+            }
         }
     ];
 }

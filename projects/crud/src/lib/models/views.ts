@@ -11,7 +11,7 @@ export interface ViewConfig {
 }
 
 export interface ListViewer extends ViewConfig {
-    search?: {
+    search: {
         enabled: boolean,
         view: FormViewer
     };
@@ -29,7 +29,6 @@ export interface FormViewer extends ViewConfig {
 }
 
 export class ListingView implements ListViewer {
-
     title = this.metadata.label;
     breadcrumbs = [];
     component = ListingComponent;

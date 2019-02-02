@@ -1,6 +1,7 @@
-import { FormView } from 'crud';
+import { FormView, FormsetConfig } from 'crud';
 
 export class RoomForm extends FormView {
+    label = 'Rooms';
     layout = 'horizontal';
     controls = [
         {
@@ -12,7 +13,7 @@ export class RoomForm extends FormView {
             label: 'Type'
         }
     ];
-    formsets = [
+    formsets: FormsetConfig[] = [
         {
             name: 'occupancy',
             label: 'Occupancy',
@@ -20,16 +21,12 @@ export class RoomForm extends FormView {
                 {
                     name: 'number_of_adults',
                     label: 'Adults',
-                    control: {
-                        type: 'number'
-                    }
+                    type: 'number'
                 },
                 {
                     name: 'number_of_children',
                     label: 'Children',
-                    control: {
-                        type: 'number'
-                    }
+                    type: 'number'
                 }
             ]
         }

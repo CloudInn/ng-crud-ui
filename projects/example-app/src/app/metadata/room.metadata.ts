@@ -1,9 +1,5 @@
-import { Validators } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
-import { Metadata } from 'crud';
+import { Metadata, FieldConfig } from 'crud';
 import { Room } from '../models/room.model';
-import { StoreMetadata } from '../metadata/store.metadata';
-import { StoreListView } from '../views/store.list.view';
 
 export class RoomMetadata implements Metadata {
     name = 'room';
@@ -13,11 +9,11 @@ export class RoomMetadata implements Metadata {
     listingFields = ['id', 'number', 'type'];
     externalNameField = 'type';
     externalValueField = 'id';
-    fields = [
+    fields: FieldConfig[] = [
         {
             name: 'id',
             label: 'ID',
-            type: 'id',
+            type: 'number',
             isSearchable: true,
         },
         {
@@ -30,6 +26,7 @@ export class RoomMetadata implements Metadata {
         {
             name: 'type',
             label: 'Type',
+            type: 'text',
             isEditable: true,
             isSearchable: true,
         }

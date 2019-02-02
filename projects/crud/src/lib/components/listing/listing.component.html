@@ -22,20 +22,21 @@
     </mat-menu>
 </div>
 
-<!-- *ngIf="viewConfig.search.enabled" -->
-<mat-expansion-panel>
-    <mat-expansion-panel-header>
-        <mat-panel-title>
-            <mat-icon>search</mat-icon>
-        </mat-panel-title>
-        <mat-panel-description>
-            Search and filter restults
-        </mat-panel-description>                
-    </mat-expansion-panel-header>
+<ng-template [ngIf]="viewConfig.search.enabled">
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                <mat-icon>search</mat-icon>
+            </mat-panel-title>
+            <mat-panel-description>
+                Search and filter restults
+            </mat-panel-description>                
+        </mat-expansion-panel-header>
 
-    <div #searchComponent></div>
+        <div #searchComponent></div>
 
-</mat-expansion-panel>    
+    </mat-expansion-panel>
+</ng-template>
 
 <mat-progress-bar *ngIf="isLoading" mode="query"></mat-progress-bar>
 

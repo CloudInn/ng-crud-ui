@@ -50,12 +50,12 @@ export class FormService {
   create(config: FieldConfig[]): FormGroup {
     const ctrls = {};
     config.forEach(c => {
-      if (c.control && c.control.type === 'fieldset') {
+      if (c.type === 'fieldset') {
         (c as Fieldset).fields.forEach(innerC => {
           ctrls[innerC.name] = new FormControl(null, c.validators);
         });
         return;
-      } else if (c.control && c.control.type === 'formset') {
+      } else if (c.type === 'formset') {
         const group = this.create(c.control.fields);
         ctrls[c.name] = new FormArray([group]);
         return;

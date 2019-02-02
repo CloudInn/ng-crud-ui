@@ -1,6 +1,6 @@
 import { Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { Metadata } from 'crud';
+import { Metadata, FieldConfig } from 'crud';
 import { Terminal } from '../models/terminal.model';
 import { StoreMetadata } from '../metadata/store.metadata';
 import { StoreListView } from '../views/store.list.view';
@@ -10,16 +10,16 @@ export class TerminalMetadata implements Metadata {
     label = 'Terminal';
     api = '/api/terminals';
     model = Terminal;
-    listingFields = ['id', 'number', 'description', 'rcrs_number', 'last_invoice_id', 'is_locked'];
+    listingFields = ['id', 'number', 'description', 'rcrs_number', 'last_invoice_id', 'is_locked', 'store'];
     externalNameField = 'description';
     externalValueField = 'id';
     formsets = [];
-    fields = [
+    fields: FieldConfig[] = [
         {
             name: 'id',
             label: 'ID',
             type: 'number',
-            isSearchable: true,
+            isEditable: false,
         },
         {
             name: 'number',
@@ -38,7 +38,7 @@ export class TerminalMetadata implements Metadata {
         {
             name: 'rcrs_number',
             label: 'RCRS',
-            type: 'string',
+            type: 'text',
             validators: [
                 Validators.required,
                 Validators.maxLength(11),
@@ -60,9 +60,16 @@ export class TerminalMetadata implements Metadata {
             isEditable: false,
         },
         {
+            name: 'store_id',
+            label: 'Outlet ID',
+            type: 'number',
+            isHidden: true,
+        },
+        {
             name: 'store',
             label: 'Outlet',
             type: 'foreignKey',
+            resolveValueFrom: 'store_id',
             control: {
                 metadata: new StoreMetadata(),
                 viewConfig: new StoreListView(),

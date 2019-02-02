@@ -1,5 +1,4 @@
-import { Validators } from '@angular/forms';
-import { Metadata } from 'crud';
+import { Metadata, FieldConfig } from 'crud';
 import { Department } from '../models/department.model';
 
 export class DepartmentMetadata implements Metadata {
@@ -10,11 +9,11 @@ export class DepartmentMetadata implements Metadata {
     listingFields = ['id', 'code', 'name'];
     externalNameField = 'name';
     externalValueField = 'id';
-    fields = [
+    fields: FieldConfig[] = [
         {
             name: 'id',
             label: 'ID',
-            type: 'id',
+            type: 'number',
             isEditable: false,
         },
         {
@@ -25,12 +24,13 @@ export class DepartmentMetadata implements Metadata {
         {
             name: 'name',
             label: 'Name',
+            type: 'text'
         },
         {
             name: 'payment_type',
             label: 'Payment Type',
+            type: 'select',
             control: {
-                type: 'select',
                 choices: [{label: 'Debit', value: 'debit'}, {label: 'Credit', value: 'credit'}]
             }
         }

@@ -1,10 +1,9 @@
 import { Component, OnChanges, Input } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Observable ,  of } from 'rxjs';
-import { map, startWith, debounceTime, distinctUntilChanged, switchMap, take } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 
-import { Registry } from '../../services/registry.service';
 import { ApiService } from '../../services/api.service';
 import { FieldConfig, Metadata } from '../../models/metadata';
 import { ListingDialogComponent } from '../../containers/listing-dialog/listing-dialog.component';
@@ -19,79 +18,89 @@ export class ForeignKeyFieldComponent implements OnChanges {
   @Input() forcedSearchParams: any = [];
   @Input() config: FieldConfig;
   @Input() initialChoices: any[];
-  // choices = [];
-  filteredOptions: Observable<any[]>;
+  availableOptions: Observable<any[]>;
+  _underlyingCtrl = new FormControl(null);
 
   constructor(private api: ApiService, private dialog: MatDialog) {
     this.displayFn = this.displayFn.bind(this);
   }
 
-  //   ngOnInit() {
-  //   }
-
   ngOnChanges() {
     if (!this.formGroup) {
       return;
     }
+    const ctrl = this.formGroup.get(this.config.name) as FormControl;
+    this._underlyingCtrl.valueChanges.subscribe(res => {
+      if ((typeof res) === 'string') {
+        this._filter(res).subscribe(res => {
+          this.availableOptions = of(res);
+        });
+      } else if (res != null) {
+        this._setControlValue(res[this.config.control.metadata.externalValueField]);
+      } else {
+        this._setControlValue(null);
+      }
+    });
     if (!this.initialChoices) {
-      this.fetch();
+      if(ctrl.value) {
+        this.fetchById(ctrl.value);
+      } else {
+        this.fetch();
+      }
     }
-    const ctrl = this.formGroup.get(this.config.name);
-    this.filteredOptions = ctrl.valueChanges.pipe(
-      startWith(''),
-      debounceTime(200),
-      distinctUntilChanged(),
-      switchMap(val => this._filter(val || null))
-    );
+    
+  }
+
+  fetchById(id: number | string = null) {
+    let url = `${this.config.control.metadata.api}`
+    if (id != null) {
+      url += `/${id}`
+    }
+    this.api.fetch(url).subscribe(res => {
+      this.availableOptions = of([res]);
+      this._underlyingCtrl.setValue(res);
+    });
   }
 
   fetch() {
-    this.api.fetch(`${this.config.control.metadata.api}`, []).subscribe(res => {
-      this.filteredOptions = of(res);
+    let url = `${this.config.control.metadata.api}`
+    this.api.fetch(url).subscribe(res => {
+      this.availableOptions = of(res);
     });
   }
 
   displayFn(option) {
-    let result = null;
-    this.filteredOptions.pipe(take(1)).forEach(items => {
-      const item = items.filter(i => i['id'] === option)[0];
-      if (item) {
-        result = item[this.config.control.metadata.externalNameField];
-      }
-    });
-    return result;
-    // for (const c of this.choices) {
-    //   if (c['id'] === option) {
-    //     return c[this.config.control.metadata.externalNameField];
-    //   }
-    // }
+    if (option == null ) return;
+    return option[this.config.control.metadata.externalNameField];
   }
 
   _filter(value: string): Observable<any[]> {
-    console.log('called filter', value);
-    if ((typeof value) !== 'string') {
-      return new Observable();
-    }
-    const filterValue = value ? value.toLowerCase() : null;
+    const filterValue = value ? value : '';
     const params = {};
     params[this.config.control.metadata.externalNameField] = filterValue;
     return this.api.fetch(`${this.config.control.metadata.api}`, params).pipe(
       map(res => {
-        console.log(res);
-          // this.filteredOptions = of(res);
-          return res;
+        return res;
       })
     );
-    // return this.choices.filter(option => option.code.toLowerCase().indexOf(filterValue) === 0);
   }
 
-  openListingDialog() {
+  _setControlValue(value: any) {
+    const ctrl = this.formGroup.get(this.config.name);
+    if (this.config.resolveValueFrom) {
+      const resolvedControl = this.formGroup.get(this.config.resolveValueFrom);
+      resolvedControl.setValue(value);
+    }
+
+    ctrl.setValue(value);
+  }
+
+  openListingDialog(event) {
     const ref = this.dialog.open(ListingDialogComponent, {
       width: '90%',
       height: '90%',
       data: {
         viewConfig: this.config.control.viewConfig,
-        // metadata: this.foreign_model,
       }
     });
     ref.afterClosed().subscribe(value => {
@@ -102,6 +111,6 @@ export class ForeignKeyFieldComponent implements OnChanges {
   }
 
   removeSelection() {
-    this.formGroup.get(this.config.name).setValue(null);
+    this._underlyingCtrl.setValue(null);
   }
 }

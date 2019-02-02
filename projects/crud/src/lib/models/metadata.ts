@@ -2,11 +2,9 @@ import { ViewConfig } from './views';
 
 export interface ControlConfig {
     type?: string;
-    // type: 'input' | 'number' | 'select' | 'date' | 'datetime' | 'foreignKey';
     metadata?: any;
     multiple?: boolean;
     autocomplete?: {
-        enabled: boolean,
         api?: string;
         valueField: string,
         labelFields: string[],
@@ -20,9 +18,10 @@ export interface ControlConfig {
 export class FieldConfig {
     name: string;
     label: string;
-    type?: string;
+    type?: 'text' | 'number' | 'boolean' | 'select' | 'date' | 'datetime' | 'foreignKey' | 'formset' | 'fieldset' = 'text';
     isEditable?: boolean = true;
     isSearchable?: boolean = true;
+    isHidden? = false;
     control?: ControlConfig;
     validators?: any[];
     foreignModelPath?: string;
@@ -30,6 +29,8 @@ export class FieldConfig {
     choices?: any[];
     // if fieldset
     fields?: FieldConfig[];
+    // if foreignKey
+    resolveValueFrom?: string;
 }
 
 export interface Fieldset extends FieldConfig {

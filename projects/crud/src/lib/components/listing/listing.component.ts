@@ -34,6 +34,9 @@ export class ListingComponent implements OnInit {
 
     ngOnInit() {
         this.populateDataTable();
+    }
+
+    ngOnChanges() {
         if (this.viewConfig.pagination.enabled) {
             this.searchParams['page'] = 1;
         }

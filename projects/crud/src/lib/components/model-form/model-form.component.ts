@@ -25,20 +25,19 @@ export class ModelFormComponent implements OnInit {
     metadata: Metadata;
     fieldType: typeof FieldType = FieldType;
     AutoCompleteField: typeof AutoCompleteField = AutoCompleteField;
-    fields: Field[] = [];
     choices = {};
     @Output() submit = new EventEmitter<any>();
-    form: FormGroup = new FormGroup({});
+    formGroup: FormGroup = new FormGroup({});
     formset: FormArray = new FormArray([]);
     formsets: FormArray[] = new Array<FormArray>();
     is_ready = false;
     controlsConfig: FieldConfig[] = [];
     actions: {};
     submitButtonText = 'Search';
+    _visibleControls: FieldConfig[] = [];
 
     constructor(
         private api: ApiService,
-        private reg: Registry,
         private formService: FormService,
     ) {
 
@@ -52,19 +51,21 @@ export class ModelFormComponent implements OnInit {
         //     this.controlsConfig = this.viewConfig.controls;
         // }
         this.controlsConfig = this.viewConfig.controls;
-        this.form = this.formService.create(this.controlsConfig);
+        this._visibleControls = this.controlsConfig.filter(c => c.isHidden !== true);
+        this.formGroup = this.formService.create(this.controlsConfig);
         // attach formsets to the main form group
         this.viewConfig.formsets.forEach(c => {
             // const formArray = this.formService.createFormArray(c);
-            this.form.addControl(c.name, new FormArray([]));
+            this.formGroup.addControl(c.name, new FormArray([]));
         });
-        this.is_ready = true;
         if (this.id === 'new') {
             this.mode = 'create';
+            this.submitButtonText = 'Create';
+            this.is_ready = true;
         }
 
         if (this.mode !== 'search') {
-            this.submitButtonText = 'Create';
+            this.is_ready = true;
         }
         
         if(this.id && this.id !== 'new') {
@@ -72,57 +73,39 @@ export class ModelFormComponent implements OnInit {
             this.submitButtonText = 'Update';
             this.actions = this.viewConfig.actions;
             this.api.fetch(this.viewConfig.metadata.api + '/' + this.id).subscribe(data => {
-                // this.form.setValue(data);
-                Object.keys(this.form.controls).forEach(c => {
-                    // this.form.setValue({[c]: data[c]}, {onlySelf: true});
-
-                    const ctrl = this.form.get(c);
-                    if (ctrl instanceof FormArray) {
-                        const formsetConfig = this.viewConfig.formsets.filter(f => f.name === c)[0];
-                        for (let i = 0; i < data[c].length; i++) {
-                            const fg = this.formService.create(formsetConfig.fields);
+                this.controlsConfig.forEach(c => {
+                    let ctrl = this.formGroup.get(c.name);
+                    if (c.type === 'formset') {
+                        let fa = ctrl as FormArray
+                        for (let i = 0; i < data[c.name].length; i++) {
+                            const fg = this.formService.create(c.control.fields);
                             (ctrl as FormArray).setControl(i, fg);
                             // ctrl.controls.push(ctrl.controls[0]);
                         }
                     }
-                    ctrl.setValue(data[c]);
+                    if (c.resolveValueFrom) {
+                        ctrl.setValue(data[c.resolveValueFrom]);
+                        return
+                    }
+                    ctrl.setValue(data[c.name]);
                 });
-
+                this.is_ready = true;
             });
         }
     }
 
     _onSubmit() {
         if ( this.mode === 'create') {
-            this.api.post(this.viewConfig.metadata.api, this.form.value).subscribe(res => {
+            this.api.post(this.viewConfig.metadata.api, this.formGroup.value).subscribe(res => {
                 console.log(res);
             });
         } else if (this.mode === 'edit') {
-            this.api.put(`${this.viewConfig.metadata.api}${this.id}/`, this.form.value).subscribe(res => {
+            this.api.put(`${this.viewConfig.metadata.api}/${this.id}/`, this.formGroup.value).subscribe(res => {
                 console.log(res);
             });
         } else {
-            this.submit.emit(this.form.value);
+            this.submit.emit(this.formGroup.value);
         }
-    }
-
-    buildForm(values: any) {
-        if (values !== null) {
-            this.fields.map(f => {
-                f._value = values[f.key];
-                return f;
-            });
-        }
-        this.form = this.formService.toFormGroup(this.fields);
-        // Check if the model has formsets, render them beneath the main form
-        // if (this.mode !== 'search' && this.model.formsets) {
-        //     for (const formset of this.model.formsets) {
-        //         const fs = this.formService.toFormArray(formset.fields, values[formset.key]);
-        //         this.formsets.push(fs);
-        //         this.form.addControl(formset.key, fs);
-        //     }
-        // }
-        this.is_ready = true;
     }
 
 }
