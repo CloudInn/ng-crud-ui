@@ -1,10 +1,7 @@
 import { Component, OnInit, Inject, ComponentFactoryResolver, ViewContainerRef, ViewChild } from '@angular/core';
-import { ActivatedRoute , Router} from '@angular/router';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
-import { Registry } from '../../services/registry.service';
 import { Metadata } from '../../models/metadata';
-import { ListingView, ListViewer } from '../../models/views';
 
 @Component({
   templateUrl: 'listing-dialog.component.html',
@@ -16,7 +13,6 @@ export class ListingDialogComponent implements OnInit {
     @ViewChild('listingView', {read: ViewContainerRef}) listingView: ViewContainerRef;
 
     constructor(
-      private reg: Registry,
       private ref: MatDialogRef<ListingDialogComponent>,
       private container: ViewContainerRef,
       private resolver: ComponentFactoryResolver,
@@ -38,6 +34,7 @@ export class ListingDialogComponent implements OnInit {
     }
 
     picked(value) {
+      console.log('value picked', value)
       this.ref.close(value);
     }
 

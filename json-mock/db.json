@@ -1,13 +1,12 @@
 {
   "terminals": [
     {
-      "id": 1,
       "number": 1,
       "description": "Terminal 1",
-      "store_id": 1,
       "rcrs_number": "1234",
-      "last_invoice_id": 1,
-      "is_locked": false
+      "store_id": 1,
+      "store": 2,
+      "id": 1
     }
   ],
   "stores": [

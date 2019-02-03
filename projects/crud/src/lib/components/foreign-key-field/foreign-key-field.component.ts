@@ -105,9 +105,10 @@ export class ForeignKeyFieldComponent implements OnChanges {
         viewConfig: this.controlConfig.viewConfig,
       }
     });
-    ref.afterClosed().subscribe(value => {
-      if (value) {
-        this.formGroup.get(this.config.name).setValue(value);
+    ref.afterClosed().subscribe(result => {
+      if (result.value) {
+        this.availableOptions = of(result.dataSource);
+        this._underlyingCtrl.setValue(result.value);
       }
     });
   }
