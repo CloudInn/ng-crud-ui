@@ -10,6 +10,7 @@ import { ListingDialogComponent } from '../../containers/listing-dialog/listing-
 
 @Component({
   selector: 'ng-crud-foreign-key-field',
+  exportAs: 'ngcrudui-foreign-key',
   templateUrl: './foreign-key-field.component.html'
 })
 export class ForeignKeyFieldComponent implements OnChanges {
