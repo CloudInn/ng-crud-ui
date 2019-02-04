@@ -1,23 +1,19 @@
-import { Validators } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
-import { Metadata } from 'crud';
+import { Metadata, FieldConfig } from 'crud';
 import { Room } from '../models/room.model';
-import { StoreMetadata } from '../metadata/store.metadata';
-import { StoreListView } from '../views/store.list.view';
 
 export class RoomMetadata implements Metadata {
     name = 'room';
     label = 'Room';
     api = '/api/rooms';
     model = Room;
-    listingFields = ['id', 'number', 'type'];
+    listingFields = ['id', 'number', 'type', 'description'];
     externalNameField = 'type';
     externalValueField = 'id';
-    fields = [
+    fields: FieldConfig[] = [
         {
             name: 'id',
             label: 'ID',
-            type: 'id',
+            type: 'number',
             isSearchable: true,
         },
         {
@@ -30,8 +26,14 @@ export class RoomMetadata implements Metadata {
         {
             name: 'type',
             label: 'Type',
+            type: 'text',
             isEditable: true,
             isSearchable: true,
+        },
+        {
+            name: 'description',
+            label: 'Description',
+            type: 'textArea',
         }
     ];
     formsets = [];

@@ -4,6 +4,7 @@ import { MatTableDataSource } from '@angular/material/table';
 
 import { ApiService } from '../../services/api.service';
 import { ListViewer } from '../../models/views';
+import { DataSource } from '@angular/cdk/table';
 
 @Component({
     selector: 'ng-crud-listing',
@@ -20,7 +21,6 @@ export class ListingComponent implements OnInit {
     dataSource = new MatTableDataSource();
     searchParams: {page?: number} = {
     };
-    // model: Model;
     columns = [];
     displayColumns: string[] = [];
     resultsCount = 0;
@@ -132,7 +132,10 @@ export class ListingComponent implements OnInit {
     }
 
     _picked(value) {
-        this.picked.next(value);
+        this.picked.next({
+            'value': value,
+            'dataSource': this.dataSource.data,
+        });
     }
 
 }

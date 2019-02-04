@@ -11,7 +11,7 @@ export interface ViewConfig {
 }
 
 export interface ListViewer extends ViewConfig {
-    search?: {
+    search: {
         enabled: boolean,
         view: FormViewer
     };
@@ -29,7 +29,6 @@ export interface FormViewer extends ViewConfig {
 }
 
 export class ListingView implements ListViewer {
-
     title = this.metadata.label;
     breadcrumbs = [];
     component = ListingComponent;
@@ -55,7 +54,6 @@ export class FormView implements FormViewer {
     formsets = this.metadata.formsets;
 
     constructor(public metadata: Metadata) {
-        // const fields: FieldConfig[] = [];
         metadata.fields.filter(f => f.isEditable !== false).forEach(field => {
             this.controls.push(field as FieldConfig);
         });

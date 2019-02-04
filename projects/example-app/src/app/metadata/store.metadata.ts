@@ -1,4 +1,3 @@
-import { Validators } from '@angular/forms';
 import { Store } from '../models/store.model';
 import { Metadata, FieldConfig } from 'crud';
 
@@ -27,7 +26,7 @@ export class StoreMetadata implements Metadata {
         {
             name: 'description',
             label: 'Description',
-            type: 'text'
+            type: 'text',
         },
         {
             name: 'show_paymaster',

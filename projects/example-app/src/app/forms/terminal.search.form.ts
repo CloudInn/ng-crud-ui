@@ -1,10 +1,11 @@
-import { FormView } from 'crud';
+import { FormView, FieldConfig } from 'crud';
 import { StoreListView } from '../views/store.list.view';
 import { StoreMetadata } from '../metadata/store.metadata';
 
 export class TerminalSearchForm extends FormView {
+    title = 'Search Teminals';
     layout = 'horizontal';
-    controls = [
+    controls: FieldConfig[] = [
         {
             name: 'number',
             label: 'Number',
@@ -18,11 +19,10 @@ export class TerminalSearchForm extends FormView {
         {
             name: 'rcrs_number',
             label: 'RCRS',
-            type: 'string',
+            type: 'select',
             control: {
-                type: 'select',
+                type: 'autocomplete',
                 autocomplete: {
-                    enabled: true,
                     api: '/api/pos/rcrs/',
                     valueField: 'id',
                     labelFields: ['description']
@@ -33,11 +33,12 @@ export class TerminalSearchForm extends FormView {
         {
             name: 'store',
             label: 'Outlet',
+            type: 'foreignKey',
             control: {
-                type: 'foreignKey',
                 metadata: new StoreMetadata(),
                 viewConfig: new StoreListView(),
             }
         }
     ];
+
 }

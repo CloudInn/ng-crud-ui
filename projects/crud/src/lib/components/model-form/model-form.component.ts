@@ -7,7 +7,7 @@ import { ApiService } from '../../services/api.service';
 import { Registry } from '../../services/registry.service';
 import { FormService } from '../../services/form.service';
 import { FieldType, Field, AutoCompleteField } from '../../forms';
-import { Metadata, FieldConfig } from '../../models/metadata';
+import { Metadata, FieldConfig, FormSetControlConfig } from '../../models/metadata';
 import { FormViewer } from '../../models/views';
 
 @Component({
@@ -20,109 +20,77 @@ export class ModelFormComponent implements OnInit {
 
     @Input() viewConfig: FormViewer;
     @Input() mode = 'search';
-    @Input() id: number | 'new' = null;
-    ngModel: any = {};
-    metadata: Metadata;
-    fieldType: typeof FieldType = FieldType;
-    AutoCompleteField: typeof AutoCompleteField = AutoCompleteField;
-    fields: Field[] = [];
-    choices = {};
+    @Input() id?: number | 'new' = null;
     @Output() submit = new EventEmitter<any>();
-    form: FormGroup = new FormGroup({});
-    formset: FormArray = new FormArray([]);
+    formGroup: FormGroup = new FormGroup({});
     formsets: FormArray[] = new Array<FormArray>();
     is_ready = false;
     controlsConfig: FieldConfig[] = [];
     actions: {};
     submitButtonText = 'Search';
+    _visibleControls: FieldConfig[] = [];
 
     constructor(
         private api: ApiService,
-        private reg: Registry,
         private formService: FormService,
     ) {
 
     }
 
     ngOnInit() {
-        // if (this.mode === 'search') {
-        //     console.log(this.viewConfig.controls);
-        //     this.controlsConfig = this.viewConfig.controls.filter(c => c.isSearchable === true);
-        // } else {
-        //     this.controlsConfig = this.viewConfig.controls;
-        // }
         this.controlsConfig = this.viewConfig.controls;
-        this.form = this.formService.create(this.controlsConfig);
+        this._visibleControls = this.controlsConfig.filter(c => c.isHidden !== true);
+        this.formGroup = this.formService.create(this.controlsConfig);
         // attach formsets to the main form group
         this.viewConfig.formsets.forEach(c => {
             // const formArray = this.formService.createFormArray(c);
-            this.form.addControl(c.name, new FormArray([]));
+            this.formGroup.addControl(c.name, new FormArray([]));
         });
-        this.is_ready = true;
         if (this.id === 'new') {
             this.mode = 'create';
-        }
-
-        if (this.mode !== 'search') {
             this.submitButtonText = 'Create';
-        }
-        
-        if(this.id && this.id !== 'new') {
+            this.is_ready = true;
+        } else if (this.id != null) {
             this.mode = 'edit';
             this.submitButtonText = 'Update';
             this.actions = this.viewConfig.actions;
             this.api.fetch(this.viewConfig.metadata.api + '/' + this.id).subscribe(data => {
-                // this.form.setValue(data);
-                Object.keys(this.form.controls).forEach(c => {
-                    // this.form.setValue({[c]: data[c]}, {onlySelf: true});
-
-                    const ctrl = this.form.get(c);
-                    if (ctrl instanceof FormArray) {
-                        const formsetConfig = this.viewConfig.formsets.filter(f => f.name === c)[0];
-                        for (let i = 0; i < data[c].length; i++) {
-                            const fg = this.formService.create(formsetConfig.fields);
-                            (ctrl as FormArray).setControl(i, fg);
+                this.controlsConfig.forEach(c => {
+                    const cotnrolConfig = c.control as FormSetControlConfig; 
+                    const ctrl = this.formGroup.get(c.name);
+                    if (c.type === 'formset') {
+                        let fa = ctrl as FormArray;
+                        for (let i = 0; i < data[c.name].length; i++) {
+                            const fg = this.formService.create(cotnrolConfig.fields);
+                            fa.setControl(i, fg);
                             // ctrl.controls.push(ctrl.controls[0]);
                         }
                     }
-                    ctrl.setValue(data[c]);
+                    if (c.resolveValueFrom) {
+                        ctrl.setValue(data[c.resolveValueFrom]);
+                        return
+                    }
+                    ctrl.setValue(data[c.name]);
                 });
-
+                this.is_ready = true;
             });
+        } else {
+            this.is_ready = true;
         }
     }
 
     _onSubmit() {
         if ( this.mode === 'create') {
-            this.api.post(this.viewConfig.metadata.api, this.form.value).subscribe(res => {
+            this.api.post(this.viewConfig.metadata.api, this.formGroup.value).subscribe(res => {
                 console.log(res);
             });
         } else if (this.mode === 'edit') {
-            this.api.put(`${this.viewConfig.metadata.api}${this.id}/`, this.form.value).subscribe(res => {
+            this.api.put(`${this.viewConfig.metadata.api}/${this.id}/`, this.formGroup.value).subscribe(res => {
                 console.log(res);
             });
         } else {
-            this.submit.emit(this.form.value);
+            this.submit.emit(this.formGroup.value);
         }
-    }
-
-    buildForm(values: any) {
-        if (values !== null) {
-            this.fields.map(f => {
-                f._value = values[f.key];
-                return f;
-            });
-        }
-        this.form = this.formService.toFormGroup(this.fields);
-        // Check if the model has formsets, render them beneath the main form
-        // if (this.mode !== 'search' && this.model.formsets) {
-        //     for (const formset of this.model.formsets) {
-        //         const fs = this.formService.toFormArray(formset.fields, values[formset.key]);
-        //         this.formsets.push(fs);
-        //         this.form.addControl(formset.key, fs);
-        //     }
-        // }
-        this.is_ready = true;
     }
 
 }
