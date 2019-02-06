@@ -37,8 +37,8 @@ import { FormFieldComponent } from './components/form-field/form-field.component
 import { FormsetComponent } from './components/formset/formset.component';
 import { AutoCompleteFieldComponent } from './components/auto-complete-field/auto-complete-field.component';
 import { ForeignKeyFieldComponent } from './components/foreign-key-field/foreign-key-field.component';
-import { TextAreaField } from './components/text-area-field/text-area-field.component';
-import { SelectField } from './components/select-field/select-field.component';
+import { TextAreaFieldComponent } from './components/text-area-field/text-area-field.component';
+import { SelectFieldComponent } from './components/select-field/select-field.component';
 
 import { ScreenWrapperComponent } from './containers/screen-wrapper/screen-wrapper.component';
 import { ListingDialogComponent } from './containers/listing-dialog/listing-dialog.component';
@@ -84,8 +84,8 @@ import { ListingDialogComponent } from './containers/listing-dialog/listing-dial
     FormsetComponent,
     ForeignKeyFieldComponent,
     ListingDialogComponent,
-    TextAreaField,
-    SelectField,
+    TextAreaFieldComponent,
+    SelectFieldComponent,
   ],
   providers: [
   ],
@@ -120,8 +120,8 @@ import { ListingDialogComponent } from './containers/listing-dialog/listing-dial
     ScreenWrapperComponent,
     FormsetComponent,
     ForeignKeyFieldComponent,
-    TextAreaField,
-    SelectField,
+    TextAreaFieldComponent,
+    SelectFieldComponent,
   ],
   entryComponents: [
     ListingComponent,

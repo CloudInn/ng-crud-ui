@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 import { FieldConfig, SelectControlConfig } from '../../models/metadata';
@@ -13,22 +13,20 @@ import { FieldConfig, SelectControlConfig } from '../../models/metadata';
         <mat-label>{{ config.label }}</mat-label>
         <mat-select [formControlName]="config.name">
             <mat-option></mat-option>
-            <mat-option [value]="c.value" *ngFor="let c of controlConfig.choices">
+            <mat-option *ngFor="let c of controlConfig.choices" [value]="c.value">
                 {{ c.label }}
             </mat-option>
         </mat-select>
     </mat-form-field>
   `
 })
-export class SelectField  {
+export class SelectFieldComponent implements OnInit  {
 
   @Input() formGroup: FormGroup;
   @Input() config: FieldConfig;
   controlConfig: SelectControlConfig;
 
-  constructor() {
-
-  }
+  constructor() { }
 
   ngOnInit() {
       this.controlConfig = this.config.control as SelectControlConfig;

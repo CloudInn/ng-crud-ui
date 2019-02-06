@@ -24,7 +24,7 @@ import { MdViewerComponent } from './md-viewer/md-viewer.component';
 const routes: Route[] = [
   {path: '', component: HomeComponent},
   {path: ':filename', component: MdViewerComponent},
-]
+];
 
 @NgModule({
   declarations: [

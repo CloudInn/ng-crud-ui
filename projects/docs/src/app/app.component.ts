@@ -12,14 +12,14 @@ export class AppComponent {
       title: 'Get Started',
       items: [
         {
-          title: "Installation",
-          icon: "get_app",
-          routerLink: "/installation"
+          title: 'Installation',
+          icon: 'get_app',
+          routerLink: '/installation'
         },
         {
-          title: "Configuration",
-          icon: "settings",
-          routerLink: "/configuration"
+          title: 'Configuration',
+          icon: 'settings',
+          routerLink: '/configuration'
         },
       ]
     },
@@ -27,46 +27,46 @@ export class AppComponent {
       title: 'MetaData',
       items: [
         {
-          title: "Building MetaData",
-          icon: "fingerprint",
-          routerLink: "/metadata"
+          title: 'Building MetaData',
+          icon: 'fingerprint',
+          routerLink: '/metadata'
         },
         {
-          title: "Field Defintions",
-          icon: "extension",
-          routerLink: "/fields"
+          title: 'Field Defintions',
+          icon: 'extension',
+          routerLink: '/fields'
         },
       ]
     },
     {
-      title: "Forms",
+      title: 'Forms',
       items: [
         {
-          title: "Rendering Forms",
-          icon: "format_shapes",
-          routerLink: "/forms"
+          title: 'Rendering Forms',
+          icon: 'format_shapes',
+          routerLink: '/forms'
         },
         {
-          title: "ForeignKey Fields",
-          icon: "public",
-          routerLink: "/foreignKeys"
+          title: 'ForeignKey Fields',
+          icon: 'public',
+          routerLink: '/foreignKeys'
         }
       ]
     },
     {
-      title: "Views",
+      title: 'Views',
       items: [
         {
-          title: "Constructing Views",
-          icon: "screen_share",
-          routerLink: "/views"
+          title: 'Constructing Views',
+          icon: 'screen_share',
+          routerLink: '/views'
         },
         {
-          title: "Reusable Components",
-          icon: "build",
-          routerLink: "/components"
+          title: 'Reusable Components',
+          icon: 'build',
+          routerLink: '/components'
         }
       ]
     }
-  ]
+  ];
 }

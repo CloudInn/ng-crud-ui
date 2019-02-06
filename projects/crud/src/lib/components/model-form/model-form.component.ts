@@ -56,10 +56,10 @@ export class ModelFormComponent implements OnInit {
             this.actions = this.viewConfig.actions;
             this.api.fetch(this.viewConfig.metadata.api + '/' + this.id).subscribe(data => {
                 this.controlsConfig.forEach(c => {
-                    const cotnrolConfig = c.control as FormSetControlConfig; 
+                    const cotnrolConfig = c.control as FormSetControlConfig;
                     const ctrl = this.formGroup.get(c.name);
                     if (c.type === 'formset') {
-                        let fa = ctrl as FormArray;
+                        const fa = ctrl as FormArray;
                         for (let i = 0; i < data[c.name].length; i++) {
                             const fg = this.formService.create(cotnrolConfig.fields);
                             fa.setControl(i, fg);
@@ -68,7 +68,7 @@ export class ModelFormComponent implements OnInit {
                     }
                     if (c.resolveValueFrom) {
                         ctrl.setValue(data[c.resolveValueFrom]);
-                        return
+                        return;
                     }
                     ctrl.setValue(data[c.name]);
                 });

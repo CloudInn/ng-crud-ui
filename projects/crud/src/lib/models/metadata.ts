@@ -19,7 +19,9 @@ export interface ForeignKeyControlConfig extends ControlConfig {
 
 export interface SelectControlConfig extends ControlConfig {
     multiple?: boolean;
-    choices: {[key: string]: any}[];
+    choices: {
+        [key: string]: any
+    }[];
 }
 
 export interface AutoCompleteControlConfig extends SelectControlConfig {
@@ -37,11 +39,13 @@ export interface TextAreaControlConfig extends ControlConfig {
 export class FieldConfig {
     name: string;
     label: string;
-    type?: 'text' | 'number' | 'boolean' | 'textArea' | 'select' | 'date' | 'datetime' | 'foreignKey' | 'formset' | 'fieldset' = 'text';
-    isEditable?: boolean = true;
-    isSearchable?: boolean = true;
-    isHidden? = false;
-    control?: ControlConfig | ForeignKeyControlConfig | TextAreaControlConfig | SelectControlConfig | AutoCompleteControlConfig | FormSetControlConfig | FieldSetControlConfig;
+    type?: 'text' | 'number' | 'boolean' | 'textArea' | 'select' |
+    'date' | 'datetime' | 'foreignKey' | 'formset' | 'fieldset' = 'text';
+    isEditable ? = true;
+    isSearchable ? = true;
+    isHidden ? = false;
+    control?: ControlConfig | ForeignKeyControlConfig | TextAreaControlConfig |
+    SelectControlConfig | AutoCompleteControlConfig | FormSetControlConfig | FieldSetControlConfig;
     validators?: any[];
     foreignModelPath?: string;
     valueType?: string;
