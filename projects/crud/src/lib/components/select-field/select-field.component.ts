@@ -13,8 +13,8 @@ import { FieldConfig, SelectControlConfig } from '../../models/metadata';
         <mat-label>{{ config.label }}</mat-label>
         <mat-select [formControlName]="config.name">
             <mat-option></mat-option>
-            <mat-option *ngFor="let c of controlConfig.choices" [value]="c.value">
-                {{ c.label }}
+            <mat-option *ngFor="let c of controlConfig?.choices" [value]="c['value']">
+                {{ c["label"] }}
             </mat-option>
         </mat-select>
     </mat-form-field>
