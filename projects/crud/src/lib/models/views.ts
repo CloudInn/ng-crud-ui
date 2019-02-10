@@ -28,6 +28,22 @@ export interface FormViewer extends ViewConfig {
     formsets: FormsetConfig[];
 }
 
+export class FormView implements FormViewer {
+    title = this.metadata.label;
+    breadcrumbs = [];
+    component = ModelFormComponent;
+    layout = 'vertical';
+    controls: FieldConfig[] = [];
+    actions = this.metadata.formActions;
+    formsets = this.metadata.formsets;
+
+    constructor(public metadata: Metadata) {
+        metadata.fields.filter(f => f.isEditable !== false).forEach(field => {
+            this.controls.push(field as FieldConfig);
+        });
+    }
+}
+
 export class ListingView implements ListViewer {
     title = this.metadata.label;
     breadcrumbs = [];
@@ -44,18 +60,3 @@ export class ListingView implements ListViewer {
     constructor(public metadata: Metadata) { }
 }
 
-export class FormView implements FormViewer {
-    title = this.metadata.label;
-    breadcrumbs = [];
-    component = ModelFormComponent;
-    layout = 'vertical';
-    controls: FieldConfig[] = [];
-    actions = this.metadata.formActions;
-    formsets = this.metadata.formsets;
-
-    constructor(public metadata: Metadata) {
-        metadata.fields.filter(f => f.isEditable !== false).forEach(field => {
-            this.controls.push(field as FieldConfig);
-        });
-    }
-}

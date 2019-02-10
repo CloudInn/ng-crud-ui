@@ -15,7 +15,7 @@ export class MdViewerComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.filename = params['filename'];
-    })
+    });
   }
 
 }

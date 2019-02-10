@@ -6,7 +6,7 @@
     "start": "ng serve --proxy-config proxy_conf.json",
     "build": "ng build",
     "test": "ng test",
-    "lint": "ng lint",
+    "lint": " ng lint --type-check",
     "e2e": "ng e2e",
     "build-docs": "ng build --prod docs --output-path ./docs --base-href /ng-crud-ui/ --deploy-url /ng-crud-ui/"
   },

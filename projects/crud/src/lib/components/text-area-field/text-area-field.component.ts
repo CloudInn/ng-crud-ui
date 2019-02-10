@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 import { FieldConfig, TextAreaControlConfig } from '../../models/metadata';
@@ -15,7 +15,7 @@ import { FieldConfig, TextAreaControlConfig } from '../../models/metadata';
     </mat-form-field>
   `
 })
-export class TextAreaField  {
+export class TextAreaFieldComponent implements OnInit {
 
   @Input() formGroup: FormGroup;
   @Input() config: FieldConfig;

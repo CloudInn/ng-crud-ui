@@ -27,6 +27,7 @@ export class FormService {
     if (!values) {
       values = [];
     }
+    const g = this.toFormGroup(fields);
     const groups: FormGroup[] = [];
     values.forEach(v => {
       // assign value to fields
@@ -37,7 +38,6 @@ export class FormService {
       groups.push(g);
     });
     // always add an empty row
-    const g = this.toFormGroup(fields);
     const emptyValues = {};
     for (const f of fields) {
       emptyValues[f.key] = null;

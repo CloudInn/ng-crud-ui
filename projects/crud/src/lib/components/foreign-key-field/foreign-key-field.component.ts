@@ -28,36 +28,36 @@ export class ForeignKeyFieldComponent implements OnChanges {
   }
 
   ngOnChanges() {
-    if (!this.formGroup) {
+    if (!this.formGroup || !this.controlConfig) {
       return;
     }
     this.controlConfig = this.config.control as ForeignKeyControlConfig;
     const ctrl = this.formGroup.get(this.config.name) as FormControl;
-    this._underlyingCtrl.valueChanges.subscribe(res => {
-      if ((typeof res) === 'string') {
-        this._filter(res).subscribe(res => {
+    this._underlyingCtrl.valueChanges.subscribe(value => {
+      if ((typeof value) === 'string') {
+        this._filter(value).subscribe(res => {
           this.availableOptions = of(res);
         });
-      } else if (res != null) {
-        this._setControlValue(res[this.controlConfig.metadata.externalValueField]);
+      } else if (value != null) {
+        this._setControlValue(value[this.controlConfig.metadata.externalValueField]);
       } else {
         this._setControlValue(null);
       }
     });
     if (!this.initialChoices) {
-      if(ctrl.value) {
+      if (ctrl.value) {
         this.fetchById(ctrl.value);
       } else {
         this.fetch();
       }
     }
-    
+
   }
 
   fetchById(id: number | string = null) {
-    let url = `${this.controlConfig.metadata.api}`
+    let url = `${this.controlConfig.metadata.api}`;
     if (id != null) {
-      url += `/${id}`
+      url += `/${id}`;
     }
     this.api.fetch(url).subscribe(res => {
       this.availableOptions = of([res]);
@@ -66,14 +66,16 @@ export class ForeignKeyFieldComponent implements OnChanges {
   }
 
   fetch() {
-    let url = `${this.controlConfig.metadata.api}`
+    const url = `${this.controlConfig.metadata.api}`;
     this.api.fetch(url).subscribe(res => {
       this.availableOptions = of(res);
     });
   }
 
   displayFn(option) {
-    if (option == null ) return;
+    if (option == null ) {
+      return;
+    }
     return option[this.controlConfig.metadata.externalNameField];
   }
 

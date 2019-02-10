@@ -49,7 +49,7 @@ export class AppComponent implements OnInit {
     //
     this.reg.registerScreen('inventory/stores', new StoreListView());
     // this.reg.registerScreen('inventory/stores/new', new FormView(new StoreMetadata()));
-    this.reg.registerScreen('inventory/stores/:id', new FormView(new StoreMetadata()))
+    this.reg.registerScreen('inventory/stores/:id', new FormView(new StoreMetadata()));
     //
     const departmentListing = new ListingView(new DepartmentMetadata());
     departmentListing.pagination.enabled = false;

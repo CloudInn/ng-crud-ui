@@ -34,7 +34,6 @@ export class ListingDialogComponent implements OnInit {
     }
 
     picked(value) {
-      console.log('value picked', value)
       this.ref.close(value);
     }
 
