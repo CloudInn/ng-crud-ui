@@ -29,6 +29,8 @@ export class SidenavService {
       {title: 'Departments', url: '/income/departments', icon: 'book'},
       {title: 'PMS', type: 'subheading'},
       {title: 'Rooms', url: '/pms/rooms', icon: 'hotel'},
+      {title: 'NEW Examples', type: 'subheading'},
+      {title: 'Todo', url: '/todos', icon: 'supervised_user_circle'},
     ];
     // const modules = this.reg.getModules();
     // Object.keys(modules).forEach(key => {

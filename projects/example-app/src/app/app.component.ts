@@ -1,4 +1,5 @@
-import { Component, OnInit, EventEmitter } from '@angular/core';
+import { TodoMetadata } from './metadata/todo.metadata';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SidenavService } from './sidenav.service';
 import { Registry } from 'crud';
@@ -7,9 +8,7 @@ import { TerminalMetadata } from './metadata/terminal.metadata';
 import { DepartmentMetadata } from './metadata/department.metadata';
 import { RoomMetadata } from './metadata/room.metadata';
 import { StoreMetadata } from './metadata/store.metadata';
-import { StoreSearchForm } from './forms/store.search.form';
 import { RoomForm } from './forms/room.edit.form';
-import { TerminalSearchForm } from './forms/terminal.search.form';
 import { StoreListView } from './views/store.list.view';
 import { ScreenWrapperComponent } from 'crud';
 
@@ -61,6 +60,14 @@ export class AppComponent implements OnInit {
     this.reg.registerScreen('pms/rooms', roomListing);
     // const roomForm = new FormView(new RoomFo());
     this.reg.registerScreen('pms/rooms/:id', new RoomForm(new RoomMetadata()));
+
+    // todo
+    const todoListing = new ListingView(new TodoMetadata());
+    todoListing.pagination.enabled = false;
+    this.reg.registerScreen('todos', todoListing);
+    const todoForm = new FormView(new TodoMetadata());
+    // this.reg.registerScreen('todos/new', todoForm);
+    this.reg.registerScreen('todos/:id', todoForm);
   }
 
 }
