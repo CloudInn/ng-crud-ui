@@ -1,11 +1,8 @@
 import { Component, OnChanges, Input, SimpleChanges } from '@angular/core';
 import { FormGroup, FormArray } from '@angular/forms';
-
-import { Registry } from '../../services/registry.service';
-import { ApiService } from '../../services/api.service';
 import { FormService } from '../../services/form.service';
 import { Field } from '../../forms';
-import { FormsetConfig, Metadata } from '../../models/metadata';
+import { FormsetConfigValue, FieldConfig } from '../../models/metadata';
 
 @Component({
   selector: 'ng-crud-formset',
@@ -16,26 +13,62 @@ import { FormsetConfig, Metadata } from '../../models/metadata';
 export class FormsetComponent implements OnChanges {
 
   @Input() formGroup: FormGroup;
-  @Input() config: FormsetConfig;
+  @Input() config: FormsetConfigValue;
+  @Input() mode: string;
   formArray: FormArray = new FormArray([]);
+  simpleFormGroup = new FormGroup({});
   choices = {};
 
-  constructor(private api: ApiService, private reg: Registry, private formService: FormService) {
-  }
+  constructor(private formService: FormService) { }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.config.firstChange) {
-      this.formArray = this.formGroup.get(this.config.name) as FormArray;
-      // for (const field of changes.config.control.currentValue.fields) {
-      //   if (field['control_type'] === 'foreign_key') {
-      //     this.getChoices(field);
-      //   }
-      // }
+    if (changes.config.firstChange && changes.mode.firstChange) {
+      // this.formArray = this.formGroup.get(this.config.name) as FormArray;
+      this.simpleFormGroup.addControl(this.config.name, new FormArray([]));
+      this.formArray = this.simpleFormGroup.get(this.config.name) as FormArray;
+      if (changes.mode.currentValue === 'edit') {
+        if (!this.config.values) {
+          return;
+        } else if (this.config.values && this.config.values.length !== 0) {
+          this.config.values.forEach(v => {
+            this.populateData(v, this.config.fields);
+          });
+        }
+      }
     }
   }
 
+  populateData(value, fields: FieldConfig[]) {
+    const fg = this.formService.create(this.config.fields);
+    fields.forEach(f => {
+      if (fg.get(f.name)) {
+        fg.get(f.name).setValue(value[f.name]);
+      } else {
+        // @todo handle error
+      }
+    });
+    this.formArray.controls.push(fg);
+    this.addToService();
+  }
+
   addForm() {
-    this.formArray.controls.push(this.formService.create(this.config.fields));
+    const fg = this.formService.create(this.config.fields);
+    this.formArray.controls.push(fg);
+    this.addToService();
+  }
+
+  addToService() {
+    for (let i = 0; i < this.formService.formSets.length; i++) {
+      if (this.formService.formSets[i].name === this.config.name) {
+        this.formService.formSets.splice(i, 1);
+      }
+    }
+    this.formService.formSets.push(
+      {
+        groups: this.formArray.controls,
+        name: this.config.name,
+      }
+    );
   }
 
   getChoices(field: Field) {

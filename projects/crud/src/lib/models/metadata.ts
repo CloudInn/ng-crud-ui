@@ -76,3 +76,13 @@ export interface Metadata {
     formActions: {[key: string]: any};
     formsets: FormsetConfig[];
 }
+
+export interface FormsetConfigValue extends FormsetConfig {
+    values: any;
+}
+
+export interface FormSetsData {
+    mode?: string;
+    sets?: FormsetConfigValue[];
+}
+

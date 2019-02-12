@@ -8,6 +8,7 @@ import { FieldConfig, Fieldset, FormsetConfig, FormSetControlConfig } from '../m
   providedIn: 'root'
 })
 export class FormService {
+  formSets = [];
 
   constructor() {}
 
@@ -60,8 +61,15 @@ export class FormService {
         const group = this.create(controlConfig.fields);
         ctrls[c.name] = new FormArray([group]);
         return;
+      } else if (c.type === 'number') {
+        ctrls[c.name] = new FormControl(undefined, c.validators);
+      } else if (c.type === 'text') {
+        ctrls[c.name] = new FormControl('', c.validators);
+      } else if (c.type === 'boolean') {
+        ctrls[c.name] = new FormControl(false, c.validators);
+      }  else {
+        ctrls[c.name] = new FormControl(null, c.validators);
       }
-      ctrls[c.name] = new FormControl(null, c.validators);
     });
     const fg = new FormGroup(ctrls);
     return fg;

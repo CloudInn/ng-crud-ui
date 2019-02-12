@@ -24,9 +24,9 @@
     </div>
 
 
-    <div class="row" *ngFor="let config of viewConfig.formsets; let i=index">
+    <div class="row" *ngFor="let config of formSetConfig?.sets; let i=index">
         <mat-divider></mat-divider>
-        <ng-crud-formset [config]="config" [formGroup]="formGroup"></ng-crud-formset>        
+        <ng-crud-formset [config]="config" [formGroup]="formGroup" [mode]="formSetConfig.mode"></ng-crud-formset>        
     </div>
 
     <div class="row">

@@ -7,7 +7,7 @@ import { ApiService } from '../../services/api.service';
 import { Registry } from '../../services/registry.service';
 import { FormService } from '../../services/form.service';
 import { FieldType, Field, AutoCompleteField } from '../../forms';
-import { Metadata, FieldConfig, FormSetControlConfig } from '../../models/metadata';
+import { Metadata, FieldConfig, FormSetControlConfig, FormsetConfigValue, FormSetsData } from '../../models/metadata';
 import { FormViewer } from '../../models/views';
 
 @Component({
@@ -29,6 +29,10 @@ export class ModelFormComponent implements OnInit {
     actions: {};
     submitButtonText = 'Search';
     _visibleControls: FieldConfig[] = [];
+    formArray: FormArray;
+    formSetConfig: FormSetsData = {
+        sets: [],
+    };
 
     constructor(
         private api: ApiService,
@@ -38,23 +42,32 @@ export class ModelFormComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.formService.formSets = [];
         this.controlsConfig = this.viewConfig.controls;
         this._visibleControls = this.controlsConfig.filter(c => c.isHidden !== true);
         this.formGroup = this.formService.create(this.controlsConfig);
         // attach formsets to the main form group
         this.viewConfig.formsets.forEach(c => {
-            // const formArray = this.formService.createFormArray(c);
-            this.formGroup.addControl(c.name, new FormArray([]));
+            // this.formArray = this.formService.createFormArray(c);
+            this.formSetConfig.sets.push(c as FormsetConfigValue);
+            // this.formGroup.addControl(c.name, new FormArray([]));
         });
         if (this.id === 'new') {
             this.mode = 'create';
+            this.formSetConfig.mode = 'create';
             this.submitButtonText = 'Create';
             this.is_ready = true;
         } else if (this.id != null) {
             this.mode = 'edit';
+            this.formSetConfig.mode = 'edit';
             this.submitButtonText = 'Update';
             this.actions = this.viewConfig.actions;
             this.api.fetch(this.viewConfig.metadata.api + '/' + this.id).subscribe(data => {
+                this.formSetConfig.sets.forEach(s => {
+                    if (data && data[s.name]) {
+                        s.values = data[s.name];
+                    }
+                });
                 this.controlsConfig.forEach(c => {
                     const cotnrolConfig = c.control as FormSetControlConfig;
                     const ctrl = this.formGroup.get(c.name);
@@ -81,11 +94,30 @@ export class ModelFormComponent implements OnInit {
 
     _onSubmit() {
         if ( this.mode === 'create') {
-            this.api.post(this.viewConfig.metadata.api, this.formGroup.value).subscribe(res => {
+            const req = {...this.formGroup.value};
+            this.viewConfig.formsets.forEach(c => {
+                const set = this.formService.formSets.filter(s => s.name === c.name)[0];
+                req[c.name] = [];
+                if (set) {
+                    const groups = set.groups as FormGroup[];
+                    groups.forEach(g => {
+                        req[c.name].push(g.value);
+                    });
+                }
+            });
+            this.api.post(this.viewConfig.metadata.api, req).subscribe(res => {
                 console.log(res);
             });
         } else if (this.mode === 'edit') {
-            this.api.put(`${this.viewConfig.metadata.api}/${this.id}/`, this.formGroup.value).subscribe(res => {
+            const req = {...this.formGroup.value};
+            this.viewConfig.formsets.forEach(c => {
+                const groups = this.formService.formSets.filter(s => s.name === c.name)[0].groups as FormGroup[];
+                req[c.name] = [];
+                groups.forEach(g => {
+                    req[c.name].push(g.value);
+                });
+            });
+            this.api.put(`${this.viewConfig.metadata.api}/${this.id}/`, req).subscribe(res => {
                 console.log(res);
             });
         } else {

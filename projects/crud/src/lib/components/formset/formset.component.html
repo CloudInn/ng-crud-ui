@@ -1,4 +1,4 @@
-<div [formGroup]="formGroup">
+<div [formGroup]="simpleFormGroup">
     <div class="row">
         <h4> {{ config.label }}</h4>
         <span class="spacer"></span>
@@ -9,7 +9,9 @@
     <ng-container [formArrayName]="config.name">
         <div class="row"  *ngFor="let ctrl of formArray.controls; let i=index" [formGroupName]="i">
             <ng-container  *ngFor="let f of config.fields">
-                <ng-crud-form-field [choices]="choices[f.name]" [formGroup]="ctrl" [config]="f"></ng-crud-form-field>
+                <ng-crud-form-field [hidden]="f.isHidden === true"
+                    [choices]="choices[f.name]" [formGroup]="ctrl" [config]="f">
+                </ng-crud-form-field>
             </ng-container>
         </div>
     </ng-container>
