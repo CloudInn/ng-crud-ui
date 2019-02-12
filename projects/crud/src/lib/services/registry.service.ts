@@ -1,9 +1,8 @@
-import { Injectable, EventEmitter } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Observable ,  Subject ,  BehaviorSubject } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { FormGroup, FormControl } from '@angular/forms';
+import { BehaviorSubject } from 'rxjs';
 import { ViewConfig } from '../models/views';
 import { Metadata } from '../models/metadata';
-import { Field } from '../forms';
 
 
 @Injectable({

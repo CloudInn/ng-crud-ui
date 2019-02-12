@@ -1,13 +1,9 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { AbstractControl, FormGroup, FormBuilder, FormControl, FormArray } from '@angular/forms';
-import { DataSource } from '@angular/cdk/collections';
-import { Observable ,  BehaviorSubject } from 'rxjs';
+import { FormGroup, FormArray } from '@angular/forms';
 
 import { ApiService } from '../../services/api.service';
-import { Registry } from '../../services/registry.service';
 import { FormService } from '../../services/form.service';
-import { FieldType, Field, AutoCompleteField } from '../../forms';
-import { Metadata, FieldConfig, FormSetControlConfig, FormsetConfigValue, FormSetsData } from '../../models/metadata';
+import { FieldConfig, FormSetControlConfig, FormsetConfigValue, FormSetsData } from '../../models/metadata';
 import { FormViewer } from '../../models/views';
 
 @Component({

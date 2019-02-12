@@ -1,5 +1,4 @@
 import { FormControl } from '@angular/forms';
-import { Metadata, FieldConfig } from './models/metadata';
 
 export interface BaseField {
   label: string;

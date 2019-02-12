@@ -1,13 +1,11 @@
 import { Component, OnChanges, Input, SimpleChanges } from '@angular/core';
-import { FormControl, AbstractControl, FormGroup } from '@angular/forms';
-import { Observable, of } from 'rxjs';
-import { map, startWith, debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { FormGroup } from '@angular/forms';
+import { Observable } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 
 import { Registry } from '../../services/registry.service';
 import { ApiService } from '../../services/api.service';
 import { Metadata, FieldConfig } from '../../models/metadata';
-import { ListingDialogComponent } from '../../containers/listing-dialog/listing-dialog.component';
 
 
 @Component({

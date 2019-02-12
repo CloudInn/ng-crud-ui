@@ -1,6 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Registry } from 'crud';
-import { Navigator } from 'crud';
 
 import { ReplaySubject } from 'rxjs';
 
@@ -11,7 +9,7 @@ export class SidenavService {
 
   items: ReplaySubject<any[]> = new ReplaySubject<any[]>();
 
-  constructor(private reg: Registry, private nav: Navigator) {
+  constructor() {
     // nav.navItems.subscribe(res => {
     //   this.items.next(res);
     // });

@@ -1,4 +1,4 @@
-import { Type, Component, ComponentRef } from '@angular/core';
+import { Type } from '@angular/core';
 import { ListingComponent } from '../components/listing/listing.component';
 import { ModelFormComponent } from '../components/model-form/model-form.component';
 import { Metadata, FieldConfig, FormsetConfig } from './metadata';
