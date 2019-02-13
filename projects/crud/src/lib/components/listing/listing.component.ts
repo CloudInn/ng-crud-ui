@@ -4,7 +4,6 @@ import { MatTableDataSource } from '@angular/material/table';
 
 import { ApiService } from '../../services/api.service';
 import { ListViewer } from '../../models/views';
-import { DataSource } from '@angular/cdk/table';
 
 @Component({
     selector: 'ng-crud-listing',

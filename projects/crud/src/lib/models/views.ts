@@ -1,7 +1,7 @@
-import { Type, Component, ComponentRef } from '@angular/core';
+import { Type } from '@angular/core';
 import { ListingComponent } from '../components/listing/listing.component';
 import { ModelFormComponent } from '../components/model-form/model-form.component';
-import { Metadata, FieldConfig, FormsetConfig } from './metadata';
+import { Metadata, FieldConfig } from './metadata';
 
 export interface ViewConfig {
     title: string;
@@ -25,7 +25,6 @@ export interface FormViewer extends ViewConfig {
     layout: string; // horizontal or vertical
     controls: FieldConfig[];
     actions: {[key: string]: any};
-    formsets: FormsetConfig[];
 }
 
 export class FormView implements FormViewer {
@@ -35,7 +34,6 @@ export class FormView implements FormViewer {
     layout = 'vertical';
     controls: FieldConfig[] = [];
     actions = this.metadata.formActions;
-    formsets = this.metadata.formsets;
 
     constructor(public metadata: Metadata) {
         metadata.fields.filter(f => f.isEditable !== false).forEach(field => {
