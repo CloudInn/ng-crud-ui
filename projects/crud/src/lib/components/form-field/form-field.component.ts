@@ -1,14 +1,7 @@
 import { Component, OnChanges, Input, SimpleChanges } from '@angular/core';
-import { FormControl, AbstractControl, FormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { Observable, of } from 'rxjs';
-import { map, startWith, debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
-import { MatDialog } from '@angular/material/dialog';
-
-import { Registry } from '../../services/registry.service';
-import { ApiService } from '../../services/api.service';
 import { Metadata, FieldConfig } from '../../models/metadata';
-import { ListingDialogComponent } from '../../containers/listing-dialog/listing-dialog.component';
-
 
 @Component({
   selector: 'ng-crud-form-field',
@@ -26,7 +19,7 @@ export class FormFieldComponent implements OnChanges {
   filteredOptions: Observable<any[]>;
   foreign_model?: Metadata;
 
-  constructor(private dialog: MatDialog, private api: ApiService, private reg: Registry) {
+  constructor() {
   }
 
   ngOnChanges(changes: SimpleChanges) {

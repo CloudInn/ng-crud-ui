@@ -4,8 +4,8 @@ import { FormGroup, FormArray } from '@angular/forms';
 import { Registry } from '../../services/registry.service';
 import { ApiService } from '../../services/api.service';
 import { FormService } from '../../services/form.service';
-import { Field } from '../../forms';
-import { FormsetConfig, Metadata } from '../../models/metadata';
+import { FieldConfig, Metadata } from '../../models/metadata';
+import { FormSetControlConfig } from 'crud/crud';
 
 @Component({
   selector: 'ng-crud-formset',
@@ -16,7 +16,8 @@ import { FormsetConfig, Metadata } from '../../models/metadata';
 export class FormsetComponent implements OnChanges {
 
   @Input() formGroup: FormGroup;
-  @Input() config: FormsetConfig;
+  @Input() config: FieldConfig;
+  control: FormSetControlConfig;
   formArray: FormArray = new FormArray([]);
   choices = {};
 
@@ -26,24 +27,11 @@ export class FormsetComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (changes.config.firstChange) {
       this.formArray = this.formGroup.get(this.config.name) as FormArray;
-      // for (const field of changes.config.control.currentValue.fields) {
-      //   if (field['control_type'] === 'foreign_key') {
-      //     this.getChoices(field);
-      //   }
-      // }
+      this.control = this.config.control as FormSetControlConfig;
     }
   }
 
   addForm() {
-    this.formArray.controls.push(this.formService.create(this.config.fields));
-  }
-
-  getChoices(field: Field) {
-    const path = field.foreign_model_path.split('.');
-    // const model = this.reg.getModel(path[0], path[1], path[2]);
-    // this.api.fetch(model.api, {}).subscribe(res => {
-    //   this.choices[field.key] = res;
-    //   console.log(this.choices);
-    // });
+    this.formArray.controls.push(this.formService.create(this.control.fields));
   }
 }

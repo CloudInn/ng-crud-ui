@@ -50,18 +50,8 @@ export class FieldConfig {
     foreignModelPath?: string;
     valueType?: string;
     choices?: any[];
-    // if fieldset
-    fields?: FieldConfig[];
     // if foreignKey
     resolveValueFrom?: string;
-}
-
-export interface Fieldset extends FieldConfig {
-    fields: FieldConfig[];
-}
-
-export interface FormsetConfig extends FieldConfig {
-    fields: FieldConfig[];
 }
 
 export interface Metadata {
@@ -74,5 +64,4 @@ export interface Metadata {
     externalNameField: string;
     externalValueField: string;
     formActions: {[key: string]: any};
-    formsets: FormsetConfig[];
 }

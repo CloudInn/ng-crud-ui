@@ -1,9 +1,8 @@
-import { Injectable, EventEmitter } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Observable ,  Subject ,  BehaviorSubject } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { FormGroup, FormControl } from '@angular/forms';
+import { BehaviorSubject } from 'rxjs';
 import { ViewConfig } from '../models/views';
 import { Metadata } from '../models/metadata';
-import { Field } from '../forms';
 
 
 @Injectable({
@@ -14,7 +13,6 @@ export class Registry {
   public forms: {[key: string]: FormGroup} = {};
   public screens: {[key: string]: ViewConfig} = {};
   public metadata: {[key: string]: Metadata} = {};
-  private registry: any = {};
   public isReady: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   constructor() {}
@@ -37,25 +35,7 @@ export class Registry {
   }
 
   register(meta: {}) {
-    this.registry = meta;
     this.isReady.next(true);
   }
-
-  // getModules() {
-  //   return this.registry;
-  // }
-
-  // getModel(moduleName: string, app: string, key: string): Model {
-  //   return this.registry[moduleName].apps.filter((a: App) => a.key === app)[0]
-  //     .models.filter(m => m.key === key)[0];
-  // }
-
-  // getApp(moduleName: string, app: string): App {
-  //   return this.registry[moduleName].apps.filter(a => a.key === app)[0];
-  // }
-
-  // getAppModels(moduleName: string, app: string): {string: Model} {
-  //   return this.registry[moduleName].apps.filter(a => a.key === app).models;
-  // }
 
 }

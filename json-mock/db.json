@@ -29,5 +29,37 @@
       "id": 1
     }
   ],
-  "rooms": []
+  "todos": [
+    {
+      "title": "Weekend Todo List",
+      "todoItems": [
+        {
+          "id": 4,
+          "content": "Recharge the headphones",
+          "complete": true
+        },
+        {
+          "id": 5,
+          "content": "Send message to Mr.X",
+          "complete": true
+        },
+        {
+          "id": 6,
+          "content": "Feed the dog",
+          "complete": true
+        },
+        {
+          "id": 7,
+          "content": "Fix Bug on Phoenix Project",
+          "complete": false
+        },
+        {
+          "id": 8,
+          "content": "Buy Toothpaste",
+          "complete": false
+        }
+      ],
+      "id": 1
+    }
+  ]
 }
