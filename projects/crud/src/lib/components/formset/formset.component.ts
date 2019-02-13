@@ -23,12 +23,17 @@ export class FormsetComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.config.firstChange) {
-      this.formArray = this.formGroup.get(this.config.name) as FormArray;
       this.control = this.config.control as FormSetControlConfig;
+      this.formArray = this.formGroup.get(this.config.name) as FormArray;
     }
   }
 
   addForm() {
-    this.formArray.controls.push(this.formService.create(this.control.fields));
+    const formGroup = this.formService.create(this.control.fields)
+    this.formArray.push(formGroup);
+  }
+
+  trackByFn(index) {
+    return index;
   }
 }

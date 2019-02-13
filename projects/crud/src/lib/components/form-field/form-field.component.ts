@@ -1,6 +1,6 @@
 import { Component, OnChanges, Input, SimpleChanges } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { Observable, of } from 'rxjs';
+import { FormGroup, FormControlName } from '@angular/forms';
+import { Observable } from 'rxjs';
 import { Metadata, FieldConfig } from '../../models/metadata';
 
 @Component({
