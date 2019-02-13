@@ -1,11 +1,8 @@
 import { Component, OnChanges, Input, SimpleChanges } from '@angular/core';
 import { FormGroup, FormArray } from '@angular/forms';
 
-import { Registry } from '../../services/registry.service';
-import { ApiService } from '../../services/api.service';
 import { FormService } from '../../services/form.service';
-import { FieldConfig, Metadata } from '../../models/metadata';
-import { FormSetControlConfig } from 'crud/crud';
+import { FieldConfig, FormSetControlConfig } from '../../models/metadata';
 
 @Component({
   selector: 'ng-crud-formset',
@@ -21,7 +18,7 @@ export class FormsetComponent implements OnChanges {
   formArray: FormArray = new FormArray([]);
   choices = {};
 
-  constructor(private api: ApiService, private reg: Registry, private formService: FormService) {
+  constructor(private formService: FormService) {
   }
 
   ngOnChanges(changes: SimpleChanges) {
