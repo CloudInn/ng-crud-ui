@@ -29,7 +29,7 @@ export class FormsetComponent implements OnChanges {
   }
 
   addForm() {
-    const formGroup = this.formService.create(this.control.fields)
+    const formGroup = this.formService.create(this.control.fields);
     this.formArray.push(formGroup);
   }
 
