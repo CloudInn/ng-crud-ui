@@ -54,10 +54,10 @@ export class ModelFormComponent implements OnInit {
                     const ctrl = this.formGroup.get(c.name);
                     if (c.type === 'formset') {
                         // set values of the formset rows
-                        const cotnrolConfig = c.control as FormSetControlConfig;
+                        const controlConfig = c.control as FormSetControlConfig;
                         const formArray = ctrl as FormArray;
                         for (let i = 0; i < data[c.name].length; i++) {
-                            const fg = this.formService.create(cotnrolConfig.fields);
+                            const fg = this.formService.create(controlConfig.fields);
                             fg.setValue(data[c.name][i]);
                             formArray.setControl(i, fg);
                         }
