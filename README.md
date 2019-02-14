@@ -8,6 +8,10 @@ The projects is splitted in two proejcts, one for the demo/examples project and 
 the library itself is under projects/crud. You have to build the library first then run the development server
 to check the demo app. using `ng build crud` to build the library. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
 
+## Documentation
+
+Check the docs at: [https://cloudinn.github.io/ng-crud-ui](https://cloudinn.github.io/ng-crud-ui)
+
 ## Development
 
 1. Build `crud` project in watch mode: `ng build crud --watch`, any change made to `crud` will be reloaded automatically
