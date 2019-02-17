@@ -1,8 +1,10 @@
+import { PermissionType } from './../../models/permissions';
 import { Component, OnChanges, Input, SimpleChanges } from '@angular/core';
 import { FormGroup, FormArray } from '@angular/forms';
 
 import { FormService } from '../../services/form.service';
 import { FieldConfig, FormSetControlConfig } from '../../models/metadata';
+import { PermissionsService } from '../../services/permissions.service';
 
 @Component({
   selector: 'ng-crud-formset',
@@ -17,8 +19,12 @@ export class FormsetComponent implements OnChanges {
   control: FormSetControlConfig;
   formArray: FormArray = new FormArray([]);
   choices = {};
+  permissionTypeEnum = PermissionType;
 
-  constructor(private formService: FormService) {
+  constructor(
+    private formService: FormService,
+    private permissionsService: PermissionsService,
+    ) {
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -35,5 +41,9 @@ export class FormsetComponent implements OnChanges {
 
   trackByFn(index) {
     return index;
+  }
+
+  checkPermission(name: string, type: PermissionType): boolean {
+    return this.permissionsService.checkPermission(name, type);
   }
 }

@@ -2,6 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 import { FieldConfig, TextAreaControlConfig } from '../../models/metadata';
+import { PermissionType } from '../../models/permissions';
+import { PermissionsService } from '../../services/permissions.service';
 
 
 @Component({
@@ -11,6 +13,7 @@ import { FieldConfig, TextAreaControlConfig } from '../../models/metadata';
   template: `<mat-form-field [formGroup]="formGroup">
       <mat-label>{{ config.label }}</mat-label>
       <textarea matInput matTextareaAutosize [formControlName]="config.name"
+      [readonly]="!checkPermission(config?.name, permissionTypeEnum.update)"
       [rows]="controlConfig?.rowSpan || 1"></textarea>
     </mat-form-field>
   `
@@ -20,8 +23,9 @@ export class TextAreaFieldComponent implements OnInit {
   @Input() formGroup: FormGroup;
   @Input() config: FieldConfig;
   controlConfig: TextAreaControlConfig;
+  permissionTypeEnum = PermissionType;
 
-  constructor() {
+  constructor(private permissionsService: PermissionsService) {
 
   }
 
@@ -29,5 +33,8 @@ export class TextAreaFieldComponent implements OnInit {
       this.controlConfig = this.config.control as TextAreaControlConfig;
   }
 
+  checkPermission(name: string, type: PermissionType): boolean {
+    return this.permissionsService.checkPermission(name, type);
+  }
 
 }

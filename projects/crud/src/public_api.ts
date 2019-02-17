@@ -4,6 +4,7 @@
 
 export * from './lib/models/metadata';
 export * from './lib/models/views';
+export * from './lib/models/permissions';
 
 export * from './lib/components/auto-complete-field/auto-complete-field.component';
 export * from './lib/components/foreign-key-field/foreign-key-field.component';
@@ -20,4 +21,5 @@ export * from './lib/services/registry.service';
 export * from './lib/services/navigator.service';
 export * from './lib/services/api.service';
 export * from './lib/services/form.service';
+export * from './lib/services/permissions.service';
 export * from './lib/crud.module';

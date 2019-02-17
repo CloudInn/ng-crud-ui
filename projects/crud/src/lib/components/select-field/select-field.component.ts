@@ -2,6 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 import { FieldConfig, SelectControlConfig } from '../../models/metadata';
+import { PermissionsService } from '../../services/permissions.service';
+import { PermissionType } from '../../models/permissions';
 
 
 @Component({
@@ -11,7 +13,8 @@ import { FieldConfig, SelectControlConfig } from '../../models/metadata';
   template: `
     <mat-form-field [formGroup]="formGroup">
         <mat-label>{{ config.label }}</mat-label>
-        <mat-select [formControlName]="config.name">
+        <mat-select [formControlName]="config.name"
+        [disabled]="!checkPermission(config?.name, permissionTypeEnum.update)">
             <mat-option></mat-option>
             <mat-option *ngFor="let c of controlConfig?.choices" [value]="c['value']">
                 {{ c["label"] }}
@@ -25,12 +28,16 @@ export class SelectFieldComponent implements OnInit  {
   @Input() formGroup: FormGroup;
   @Input() config: FieldConfig;
   controlConfig: SelectControlConfig;
+  permissionTypeEnum = PermissionType;
 
-  constructor() { }
+  constructor(private permissionsService: PermissionsService) { }
 
   ngOnInit() {
       this.controlConfig = this.config.control as SelectControlConfig;
   }
 
+  checkPermission(name: string, type: PermissionType): boolean {
+    return this.permissionsService.checkPermission(name, type);
+  }
 
 }

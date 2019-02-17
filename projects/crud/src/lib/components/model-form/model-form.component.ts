@@ -5,6 +5,8 @@ import { ApiService } from '../../services/api.service';
 import { FormService } from '../../services/form.service';
 import { FieldConfig, FormSetControlConfig } from '../../models/metadata';
 import { FormViewer } from '../../models/views';
+import { PermissionsService } from '../../services/permissions.service';
+import { PermissionType } from '../../models/permissions';
 
 @Component({
   selector: 'ng-crud-model-form',
@@ -25,10 +27,13 @@ export class ModelFormComponent implements OnInit {
     actions: {};
     submitButtonText = 'Search';
     _visibleControls: FieldConfig[] = [];
+    permissionType: PermissionType;
+    permissionTypeEnum = PermissionType;
 
     constructor(
         private api: ApiService,
         private formService: FormService,
+        private permissionsService: PermissionsService,
     ) {
 
     }
@@ -44,10 +49,12 @@ export class ModelFormComponent implements OnInit {
         if (this.id === 'new') {
             this.mode = 'create';
             this.submitButtonText = 'Create';
+            this.permissionType = PermissionType.create;
             this.is_ready = true;
         } else if (this.id != null) {
             this.mode = 'edit';
             this.submitButtonText = 'Update';
+            this.permissionType = PermissionType.update;
             this.actions = this.viewConfig.actions;
             this.api.fetch(this.viewConfig.metadata.api + '/' + this.id).subscribe(data => {
                 this.controlsConfig.forEach(c => {
@@ -87,6 +94,10 @@ export class ModelFormComponent implements OnInit {
         } else {
             this.submit.emit(this.formGroup.value);
         }
+    }
+
+    checkPermission(name: string, type: PermissionType): boolean {
+        return this.permissionsService.checkPermission(name, type);
     }
 
 }

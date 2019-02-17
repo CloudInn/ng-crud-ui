@@ -1,37 +1,42 @@
 <!-- <mat-progress-bar *ngIf="isLoading" mode="query"></mat-progress-bar> -->
 
-
-
-<ng-template [ngIf]="is_ready">
-    <!-- <div class="form-container"> -->
-    <div class="row" [formGroup]="formGroup">
-        <ng-container *ngFor="let config of _visibleControls">
-            <ng-container *ngIf="config.type === 'fieldset'">
-                <div class="fieldset">
-                    <h4>{{ config.label }}</h4>
-                    <ng-container *ngFor="let config2 of config.fields">
-                        <ng-crud-form-field [formGroup]="formGroup" [config]="config2"></ng-crud-form-field>
+<ng-container *ngIf="checkPermission(viewConfig?.metadata?.name, permissionTypeEnum.read)">
+    <ng-template [ngIf]="is_ready">
+        <!-- <div class="form-container"> -->
+        <div class="row" [formGroup]="formGroup">
+            <ng-container *ngFor="let config of _visibleControls">
+                <ng-container *ngIf="checkPermission(config?.name, permissionTypeEnum.read)">
+                    <ng-container *ngIf="config.type === 'fieldset'">
+                        <div class="fieldset">
+                            <h4>{{ config.label }}</h4>
+                            <ng-container *ngFor="let config2 of config.fields">
+                                <ng-crud-form-field [formGroup]="formGroup" [config]="config2"></ng-crud-form-field>
+                            </ng-container>
+                        </div>
                     </ng-container>
-                </div>
+                    <!-- <ng-container *ngIf="config.control && config.control.type === 'formset'">
+                        <ng-crud-formset [config]="config" [formGroup]="form"></ng-crud-formset>
+                    </ng-container> -->
+                    <ng-container *ngIf="config.type !== 'fieldset' && config.type !== 'formset'">
+                        <ng-crud-form-field [formGroup]="formGroup" [config]="config"></ng-crud-form-field>
+                    </ng-container>
+                </ng-container>
             </ng-container>
-            <!-- <ng-container *ngIf="config.control && config.control.type === 'formset'">
-                <ng-crud-formset [config]="config" [formGroup]="form"></ng-crud-formset>
-            </ng-container> -->
-            <ng-container *ngIf="config.type !== 'fieldset' && config.type !== 'formset'">
-                <ng-crud-form-field [formGroup]="formGroup" [config]="config"></ng-crud-form-field>
+        </div>
+      
+        <div class="row" *ngFor="let config of formsets; let i=index">
+            <ng-container *ngIf="checkPermission(config?.name, permissionTypeEnum.read)">
+                <mat-divider></mat-divider>
+                <ng-crud-formset [config]="config" [formGroup]="formGroup"></ng-crud-formset>
             </ng-container>
+        </div>
+    
+        <ng-container *ngIf="checkPermission(viewConfig?.metadata?.name, permissionType)">
+            <div class="row">
+                <button mat-raised-button color="primary" class="submit-button" (click)="_onSubmit()">
+                    {{ submitButtonText }}
+                </button>
+            </div>
         </ng-container>
-    </div>
-
-
-    <div class="row" *ngFor="let config of formsets; let i=index">
-        <mat-divider></mat-divider>
-        <ng-crud-formset [config]="config" [formGroup]="formGroup"></ng-crud-formset>        
-    </div>
-
-    <div class="row">
-        <button mat-raised-button color="primary" class="submit-button" (click)="_onSubmit()">
-            {{ submitButtonText }}
-        </button>
-    </div>
-</ng-template>
+    </ng-template>
+</ng-container>
