@@ -5,6 +5,8 @@ import { ApiService } from '../../services/api.service';
 import { FormService } from '../../services/form.service';
 import { FieldConfig, FormSetControlConfig } from '../../models/metadata';
 import { FormViewer } from '../../models/views';
+import { PermissionsService } from '../../services/permissions.service';
+import { PermissionType } from '../../models/permissions';
 
 @Component({
   selector: 'ng-crud-model-form',
@@ -25,10 +27,12 @@ export class ModelFormComponent implements OnInit {
     actions: {};
     submitButtonText = 'Search';
     _visibleControls: FieldConfig[] = [];
+    permissionTypeEnum = PermissionType;
 
     constructor(
         private api: ApiService,
         private formService: FormService,
+        public permissionsService: PermissionsService,
     ) {
 
     }

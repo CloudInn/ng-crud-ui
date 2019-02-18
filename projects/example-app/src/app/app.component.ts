@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SidenavService } from './sidenav.service';
-import { Registry } from 'crud';
+import { Registry, PermissionsService } from 'crud';
 import { ListingView, FormView } from 'crud';
 import { TerminalMetadata } from './metadata/terminal.metadata';
 import { DepartmentMetadata } from './metadata/department.metadata';
@@ -23,6 +23,7 @@ export class AppComponent implements OnInit {
     public sidenav: SidenavService,
     private reg: Registry,
     private router: Router,
+    private permissionsService: PermissionsService,
   ) {}
 
   ngOnInit() {
@@ -64,6 +65,8 @@ export class AppComponent implements OnInit {
     const todoForm = new FormView(new TodoMetadata());
     // this.reg.registerScreen('todos/new', todoForm);
     this.reg.registerScreen('todos/:id', todoForm);
+    this.permissionsService.setUserPermissions(['readTodo', 'readTodoItems',
+     'updateTodoItems', 'updateTodo', 'readTitle', 'readContent', 'readComplete']);
   }
 
 }

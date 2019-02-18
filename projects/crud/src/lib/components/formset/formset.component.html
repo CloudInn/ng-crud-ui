@@ -2,18 +2,20 @@
     <div class="row">
         <h4> {{ config.label }}</h4>
         <span class="spacer"></span>
-        <button mat-icon-button (click)="addForm()">
+        <button mat-icon-button (click)="addForm()" *ngIf="permissionsService.checkPermission(config?.permissions, permissionTypeEnum.update)">
             <mat-icon>add_circle</mat-icon>
         </button>
     </div>
     <ng-container [formGroup]="formGroup">
         <div [formArrayName]="config.name">
             <div class="row" *ngFor="let _formGroup of formArray.controls; index as i; trackBy: trackByFn">
-                <h1>{{ config.name }}, {{ i }}</h1>
-                <ng-container  *ngFor="let field of control.fields" >
-                    <h1>{{ field.name }}</h1>
-                    <br /><br />
-                    <ng-crud-form-field [choices]="choices[field.name]" [formGroup]="_formGroup" [config]="field"></ng-crud-form-field>
+                <!-- <h1>{{ config.name }}, {{ i }}</h1> -->
+                <ng-container *ngFor="let field of control.fields" >
+                    <ng-container *ngIf="permissionsService.checkPermission(field?.permissions, permissionTypeEnum.read)">
+                        <!-- <h1>{{ field.name }}</h1> -->
+                        <br /><br />
+                        <ng-crud-form-field [mode]="mode" [choices]="choices[field.name]" [formGroup]="_formGroup" [config]="field"></ng-crud-form-field>
+                    </ng-container>
                 </ng-container>
             </div>
         </div>

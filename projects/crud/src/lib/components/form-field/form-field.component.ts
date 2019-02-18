@@ -1,7 +1,9 @@
-import { Component, OnChanges, Input, SimpleChanges } from '@angular/core';
+import { Component, OnChanges, Input, SimpleChanges, OnInit } from '@angular/core';
 import { FormGroup, FormControlName } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Observable, config } from 'rxjs';
 import { Metadata, FieldConfig } from '../../models/metadata';
+import { PermissionType } from '../../models/permissions';
+import { PermissionsService } from '../../services/permissions.service';
 
 @Component({
   selector: 'ng-crud-form-field',
@@ -15,11 +17,13 @@ export class FormFieldComponent implements OnChanges {
   @Input() forcedSearchParams: any = [];
   @Input() config: FieldConfig;
   @Input() choices = [];
+  @Input() mode: string;
   type = 'text';
   filteredOptions: Observable<any[]>;
   foreign_model?: Metadata;
+  permissionTypeEnum = PermissionType;
 
-  constructor() {
+  constructor(public permissionsService: PermissionsService) {
   }
 
   ngOnChanges(changes: SimpleChanges) {

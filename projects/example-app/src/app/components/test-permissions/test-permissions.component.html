@@ -1,0 +1,15 @@
+<mat-form-field class="example-chip-list" (click)="$event.stopPropagation()"
+ style="min-width: 500px; padding: 12px 24px;">
+  <mat-chip-list #chipList>
+    <mat-chip *ngFor="let permission of permissions" [selectable]="selectable"
+              [removable]="removable" (removed)="remove(permission)">
+      {{permission}}
+      <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+    </mat-chip>
+    <input placeholder="New Permission..."
+            [matChipInputFor]="chipList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            [matChipInputAddOnBlur]="addOnBlur"
+            (matChipInputTokenEnd)="add($event)">
+  </mat-chip-list>
+</mat-form-field>

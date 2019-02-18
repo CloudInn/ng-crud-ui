@@ -5,3 +5,7 @@ body {
     margin: 0;
     padding: 0;
 }
+
+.mat-menu-panel {
+    max-width: 800px !important;
+}

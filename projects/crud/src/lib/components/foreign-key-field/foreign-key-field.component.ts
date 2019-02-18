@@ -19,6 +19,7 @@ export class ForeignKeyFieldComponent implements OnChanges {
   @Input() forcedSearchParams: any = [];
   @Input() config: FieldConfig;
   @Input() initialChoices: any[];
+  @Input() mode: string;
   controlConfig: ForeignKeyControlConfig = null;
   availableOptions: Observable<any[]>;
   _underlyingCtrl = new FormControl(null);
