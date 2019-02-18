@@ -13,7 +13,7 @@ import { PermissionsService } from '../../services/permissions.service';
   template: `<mat-form-field [formGroup]="formGroup">
       <mat-label>{{ config.label }}</mat-label>
       <textarea matInput matTextareaAutosize [formControlName]="config.name"
-      [readonly]="!permissionsService.checkPermission(config?.permissions, permissionTypeEnum.update)"
+[readonly]="!permissionsService.checkPermission(config?.permissions, mode === 'edit' ? permissionTypeEnum.update : permissionTypeEnum.read)"
       [rows]="controlConfig?.rowSpan || 1"></textarea>
     </mat-form-field>
   `
@@ -22,6 +22,7 @@ export class TextAreaFieldComponent implements OnInit {
 
   @Input() formGroup: FormGroup;
   @Input() config: FieldConfig;
+  @Input() mode: string;
   controlConfig: TextAreaControlConfig;
   permissionTypeEnum = PermissionType;
 

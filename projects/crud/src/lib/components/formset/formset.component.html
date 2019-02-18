@@ -14,7 +14,7 @@
                     <ng-container *ngIf="permissionsService.checkPermission(field?.permissions, permissionTypeEnum.read)">
                         <!-- <h1>{{ field.name }}</h1> -->
                         <br /><br />
-                        <ng-crud-form-field [choices]="choices[field.name]" [formGroup]="_formGroup" [config]="field"></ng-crud-form-field>
+                        <ng-crud-form-field [mode]="mode" [choices]="choices[field.name]" [formGroup]="_formGroup" [config]="field"></ng-crud-form-field>
                     </ng-container>
                 </ng-container>
             </div>

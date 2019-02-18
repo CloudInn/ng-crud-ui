@@ -10,7 +10,7 @@
                         <div class="fieldset">
                             <h4>{{ config.label }}</h4>
                             <ng-container *ngFor="let config2 of config.fields">
-                                <ng-crud-form-field [formGroup]="formGroup" [config]="config2"></ng-crud-form-field>
+                                <ng-crud-form-field [mode]="mode" [formGroup]="formGroup" [config]="config2"></ng-crud-form-field>
                             </ng-container>
                         </div>
                     </ng-container>
@@ -18,7 +18,7 @@
                         <ng-crud-formset [config]="config" [formGroup]="form"></ng-crud-formset>
                     </ng-container> -->
                     <ng-container *ngIf="config.type !== 'fieldset' && config.type !== 'formset'">
-                        <ng-crud-form-field [formGroup]="formGroup" [config]="config"></ng-crud-form-field>
+                        <ng-crud-form-field [mode]="mode" [formGroup]="formGroup" [config]="config"></ng-crud-form-field>
                     </ng-container>
                 </ng-container>
             </ng-container>
@@ -27,7 +27,7 @@
         <div class="row" *ngFor="let config of formsets; let i=index">
             <ng-container *ngIf="permissionsService.checkPermission(config?.permissions, permissionTypeEnum.read)">
                 <mat-divider></mat-divider>
-                <ng-crud-formset [config]="config" [formGroup]="formGroup"></ng-crud-formset>
+                <ng-crud-formset [mode]="mode" [config]="config" [formGroup]="formGroup"></ng-crud-formset>
             </ng-container>
         </div>
     
