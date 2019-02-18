@@ -8,6 +8,8 @@ import { CrudModule } from 'crud';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HomeComponent } from './home/home.component';
+import { TestPermissionsComponent } from './components/test-permissions/test-permissions.component';
+import { MatChipsModule } from '@angular/material';
 
 const routes: Route[] = [
   {path: '', component: HomeComponent},
@@ -16,12 +18,14 @@ const routes: Route[] = [
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent
+    HomeComponent,
+    TestPermissionsComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    MatChipsModule,
     CrudModule,
     RouterModule.forRoot(routes),
   ],

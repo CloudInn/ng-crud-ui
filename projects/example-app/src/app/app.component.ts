@@ -66,7 +66,7 @@ export class AppComponent implements OnInit {
     // this.reg.registerScreen('todos/new', todoForm);
     this.reg.registerScreen('todos/:id', todoForm);
     this.permissionsService.setUserPermissions(['readTodo', 'readTodoItems',
-     'updateTodoItemss', 'updateTodo', 'readTitle', 'readContent', 'readComplete']);
+     'updateTodoItems', 'updateTodo', 'readTitle', 'readContent', 'readComplete']);
   }
 
 }
