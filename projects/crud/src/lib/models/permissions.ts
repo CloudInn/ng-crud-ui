@@ -1,11 +1,8 @@
 export interface Permission {
-    name: string;
-    permission: {
-        create: string;
-        read: string;
-        update: string;
-        delete: string;
-    };
+    create?: string;
+    read?: string;
+    update?: string;
+    delete?: string;
 }
 
 export interface Permissions {

@@ -22,14 +22,10 @@ export class FormFieldComponent implements OnChanges {
   foreign_model?: Metadata;
   permissionTypeEnum = PermissionType;
 
-  constructor(private permissionsService: PermissionsService) {
+  constructor(public permissionsService: PermissionsService) {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-  }
-
-  checkPermission(name: string, type: PermissionType): boolean {
-    return this.permissionsService.checkPermission(name, type);
   }
 
 }

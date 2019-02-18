@@ -13,7 +13,7 @@ import { PermissionsService } from '../../services/permissions.service';
   template: `<mat-form-field [formGroup]="formGroup">
       <mat-label>{{ config.label }}</mat-label>
       <textarea matInput matTextareaAutosize [formControlName]="config.name"
-      [readonly]="!checkPermission(config?.name, permissionTypeEnum.update)"
+      [readonly]="!permissionsService.checkPermission(config?.permissions, permissionTypeEnum.update)"
       [rows]="controlConfig?.rowSpan || 1"></textarea>
     </mat-form-field>
   `
@@ -25,16 +25,12 @@ export class TextAreaFieldComponent implements OnInit {
   controlConfig: TextAreaControlConfig;
   permissionTypeEnum = PermissionType;
 
-  constructor(private permissionsService: PermissionsService) {
+  constructor(public permissionsService: PermissionsService) {
 
   }
 
   ngOnInit() {
       this.controlConfig = this.config.control as TextAreaControlConfig;
-  }
-
-  checkPermission(name: string, type: PermissionType): boolean {
-    return this.permissionsService.checkPermission(name, type);
   }
 
 }

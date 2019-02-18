@@ -1,4 +1,5 @@
 import { ViewConfig } from './views';
+import { Permission } from './permissions';
 
 export interface ControlConfig {
     type?: string;
@@ -52,6 +53,7 @@ export class FieldConfig {
     choices?: any[];
     // if foreignKey
     resolveValueFrom?: string;
+    permissions?: Permission;
 }
 
 export interface Metadata {
@@ -59,6 +61,7 @@ export interface Metadata {
     label: string;
     api: string;
     model: any;
+    permissions?: Permission;
     fields: FieldConfig[];
     listingFields: string[];
     externalNameField: string;

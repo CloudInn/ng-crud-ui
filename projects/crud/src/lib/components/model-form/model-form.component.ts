@@ -33,7 +33,7 @@ export class ModelFormComponent implements OnInit {
     constructor(
         private api: ApiService,
         private formService: FormService,
-        private permissionsService: PermissionsService,
+        public permissionsService: PermissionsService,
     ) {
 
     }
@@ -94,10 +94,6 @@ export class ModelFormComponent implements OnInit {
         } else {
             this.submit.emit(this.formGroup.value);
         }
-    }
-
-    checkPermission(name: string, type: PermissionType): boolean {
-        return this.permissionsService.checkPermission(name, type);
     }
 
 }

@@ -1,7 +1,7 @@
 <div [ngSwitch]="config.type" class="form-field-wrapper" [formGroup]="formGroup">
 
     <div *ngSwitchCase="'boolean'">
-        <mat-slide-toggle matInput [disabled]="!checkPermission(config?.name, permissionTypeEnum.update)"
+        <mat-slide-toggle matInput [disabled]="!permissionsService.checkPermission(config?.permissions, permissionTypeEnum.update)"
         [formControlName]="config.name">{{ config.label }}</mat-slide-toggle>
     </div>
 
@@ -27,7 +27,7 @@
     <!-- this fallsback from number and text -->
     <mat-form-field *ngSwitchDefault>
         <mat-label>{{ config.label }}</mat-label>
-        <input  matInput [readonly]="!checkPermission(config?.name, permissionTypeEnum.update)" [formControlName]="config.name"
+        <input  matInput [readonly]="!permissionsService.checkPermission(config?.permissions, permissionTypeEnum.update)" [formControlName]="config.name"
                 [type]="config.control ? config.control.type : 'text'" />
     </mat-form-field>
 

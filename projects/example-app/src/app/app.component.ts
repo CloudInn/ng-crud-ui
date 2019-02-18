@@ -1,4 +1,3 @@
-import { TodoPermissions } from './permissions/todo.permissions';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SidenavService } from './sidenav.service';
@@ -68,7 +67,6 @@ export class AppComponent implements OnInit {
     this.reg.registerScreen('todos/:id', todoForm);
     this.permissionsService.setUserPermissions(['readTodo', 'readTodoItems',
      'updateTodoItemss', 'updateTodo', 'readTitle', 'readContent', 'readComplete']);
-    this.permissionsService.setPermissionsConfig(new TodoPermissions());
   }
 
 }

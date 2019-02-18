@@ -23,7 +23,7 @@ export class FormsetComponent implements OnChanges {
 
   constructor(
     private formService: FormService,
-    private permissionsService: PermissionsService,
+    public permissionsService: PermissionsService,
     ) {
   }
 
@@ -43,7 +43,4 @@ export class FormsetComponent implements OnChanges {
     return index;
   }
 
-  checkPermission(name: string, type: PermissionType): boolean {
-    return this.permissionsService.checkPermission(name, type);
-  }
 }

@@ -14,7 +14,7 @@ import { PermissionType } from '../../models/permissions';
     <mat-form-field [formGroup]="formGroup">
         <mat-label>{{ config.label }}</mat-label>
         <mat-select [formControlName]="config.name"
-        [disabled]="!checkPermission(config?.name, permissionTypeEnum.update)">
+        [disabled]="!permissionsService.checkPermission(config?.permissions, permissionTypeEnum.update)">
             <mat-option></mat-option>
             <mat-option *ngFor="let c of controlConfig?.choices" [value]="c['value']">
                 {{ c["label"] }}
@@ -30,14 +30,9 @@ export class SelectFieldComponent implements OnInit  {
   controlConfig: SelectControlConfig;
   permissionTypeEnum = PermissionType;
 
-  constructor(private permissionsService: PermissionsService) { }
+  constructor(public permissionsService: PermissionsService) { }
 
   ngOnInit() {
       this.controlConfig = this.config.control as SelectControlConfig;
   }
-
-  checkPermission(name: string, type: PermissionType): boolean {
-    return this.permissionsService.checkPermission(name, type);
-  }
-
 }

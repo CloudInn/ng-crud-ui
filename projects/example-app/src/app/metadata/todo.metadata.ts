@@ -10,20 +10,33 @@ export class TodoMetadata implements Metadata {
   externalNameField = 'title';
   externalValueField = 'id';
   listingActions = ['delete'];
+  permissions: {
+    create: 'createTodo',
+    read: 'readTodo',
+    update: 'updateTodo',
+    delete: 'deleteTodo',
+  };
   fields: FieldConfig[] = [
     {
       name: 'id',
       label: 'Id',
       type: 'number',
       isSearchable: true,
-      isEditable: false
+      isEditable: false,
+      permissions: {},
     },
     {
       name: 'title',
       label: 'Title',
       type: 'text',
       isSearchable: true,
-      isEditable: true
+      isEditable: true,
+      permissions: {
+        create: 'createTitle',
+        read: 'readTitle',
+        update: 'updateTitle',
+        delete: 'deleteTitle',
+      },
     },
     {
       name: 'todoItems',
@@ -44,14 +57,26 @@ export class TodoMetadata implements Metadata {
             label: 'Content',
             type: 'text',
             isSearchable: true,
-            isEditable: true
+            isEditable: true,
+            permissions: {
+              create: 'createContent',
+              read: 'readContent',
+              update: 'updateContent',
+              delete: 'deleteContent',
+            },
           },
           {
             name: 'complete',
             label: 'Complete',
             type: 'boolean',
             isSearchable: true,
-            isEditable: true
+            isEditable: true,
+            permissions: {
+              create: 'createComplete',
+              read: 'readComplete',
+              update: 'updateComplete',
+              delete: 'deleteComplete',
+          },
           }
         ]
       }
