@@ -27,7 +27,6 @@ export class ModelFormComponent implements OnInit {
     actions: {};
     submitButtonText = 'Search';
     _visibleControls: FieldConfig[] = [];
-    permissionType: PermissionType;
     permissionTypeEnum = PermissionType;
 
     constructor(
@@ -49,12 +48,10 @@ export class ModelFormComponent implements OnInit {
         if (this.id === 'new') {
             this.mode = 'create';
             this.submitButtonText = 'Create';
-            this.permissionType = PermissionType.create;
             this.is_ready = true;
         } else if (this.id != null) {
             this.mode = 'edit';
             this.submitButtonText = 'Update';
-            this.permissionType = PermissionType.update;
             this.actions = this.viewConfig.actions;
             this.api.fetch(this.viewConfig.metadata.api + '/' + this.id).subscribe(data => {
                 this.controlsConfig.forEach(c => {

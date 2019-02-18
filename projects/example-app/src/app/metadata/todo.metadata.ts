@@ -10,7 +10,7 @@ export class TodoMetadata implements Metadata {
   externalNameField = 'title';
   externalValueField = 'id';
   listingActions = ['delete'];
-  permissions: {
+  permissions = {
     create: 'createTodo',
     read: 'readTodo',
     update: 'updateTodo',
@@ -42,6 +42,12 @@ export class TodoMetadata implements Metadata {
       name: 'todoItems',
       label: 'TODO Items',
       type: 'formset',
+      permissions: {
+        create: 'createTodoItems',
+        read: 'readTodoItems',
+        update: 'updateTodoItems',
+        delete: 'deleteTodoItems',
+      },
       control: {
         fields: [
           {

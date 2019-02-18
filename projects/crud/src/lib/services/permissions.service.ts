@@ -9,9 +9,12 @@ export class PermissionsService {
 
     constructor() {}
 
-
     setUserPermissions(permissions: string[]): void {
         this.userPermissions = permissions;
+    }
+
+    getUserPermissions(): string[] {
+        return this.userPermissions;
     }
 
     checkPermission(permissions: Permission, type: PermissionType): boolean {

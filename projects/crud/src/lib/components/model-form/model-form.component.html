@@ -31,7 +31,7 @@
             </ng-container>
         </div>
     
-        <ng-container *ngIf="permissionsService.checkPermission(viewConfig?.metadata?.permissions, permissionType)">
+        <ng-container *ngIf="permissionsService.checkPermission(viewConfig?.metadata?.permissions, mode === 'edit' ? permissionTypeEnum.update : permissionTypeEnum.read)">
             <div class="row">
                 <button mat-raised-button color="primary" class="submit-button" (click)="_onSubmit()">
                     {{ submitButtonText }}
