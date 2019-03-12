@@ -20,7 +20,7 @@
     </mat-form-field>
     
     <ng-container *ngSwitchCase="'foreignKey'">
-        <ng-crud-foreign-key-field [config]="config" [formGroup]="formGroup"></ng-crud-foreign-key-field>
+        <ng-crud-foreign-key-field [initialChoices]="choices" [config]="config" [formGroup]="formGroup"></ng-crud-foreign-key-field>
     </ng-container>
 
     <!-- this fallsback from number and text -->

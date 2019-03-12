@@ -26,6 +26,7 @@ export class SidenavService {
       {title: 'Rooms', url: '/pms/rooms', icon: 'hotel'},
       {title: 'Formsets', type: 'subheading'},
       {title: 'Todo List', url: '/todos', icon: 'supervised_user_circle'},
+      {title: 'Hotels', url: '/hotels', icon: 'supervised_user_circle'},
     ];
     this.items.next(items);
   }

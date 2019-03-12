@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ApiService } from '../../services/api.service';
 import { FieldConfig, ForeignKeyControlConfig } from '../../models/metadata';
 import { ListingDialogComponent } from '../../containers/listing-dialog/listing-dialog.component';
+import { ListingView } from '../../models/views';
 
 @Component({
   selector: 'ng-crud-foreign-key-field',
@@ -49,6 +50,16 @@ export class ForeignKeyFieldComponent implements OnChanges {
         this.fetchById(ctrl.value);
       } else {
         this.fetch();
+      }
+    } else {
+      this.availableOptions = of(this.initialChoices);
+      if (ctrl.value) {
+        for (let item of this.initialChoices) {
+          if (item[this.controlConfig.metadata.externalValueField] == ctrl.value) {
+            this._underlyingCtrl.setValue(item);
+            break;
+          }
+        }
       }
     }
 
@@ -105,7 +116,9 @@ export class ForeignKeyFieldComponent implements OnChanges {
       width: '90%',
       height: '90%',
       data: {
-        viewConfig: this.controlConfig.viewConfig,
+        // viewConfig: this.controlConfig.viewConfig || new FormView(this.controlConfig.metadata),
+        // viewConfig: this.controlConfig.viewConfig || new ListingView(this.controlConfig.metadata),
+        viewConfig: new ListingView(this.controlConfig.metadata),
       }
     });
     ref.afterClosed().subscribe(result => {

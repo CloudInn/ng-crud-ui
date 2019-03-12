@@ -7,6 +7,7 @@ import { TerminalMetadata } from './metadata/terminal.metadata';
 import { DepartmentMetadata } from './metadata/department.metadata';
 import { RoomMetadata } from './metadata/room.metadata';
 import { StoreMetadata } from './metadata/store.metadata';
+import { HotelMetadata } from './metadata/hotel.metadata';
 import { RoomForm } from './forms/room.edit.form';
 import { TodoMetadata } from './metadata/todo.metadata';
 import { StoreListView } from './views/store.list.view';
@@ -64,6 +65,13 @@ export class AppComponent implements OnInit {
     const todoForm = new FormView(new TodoMetadata());
     // this.reg.registerScreen('todos/new', todoForm);
     this.reg.registerScreen('todos/:id', todoForm);
+
+    // hotels
+    const hotelListing = new ListingView(new HotelMetadata());
+    hotelListing.pagination.enabled = false;
+    this.reg.registerScreen('hotels', hotelListing);
+    const hotelFormset = new FormView(new HotelMetadata());
+    this.reg.registerScreen('hotels/:id', hotelFormset);
   }
 
 }
