@@ -28,7 +28,7 @@ export class ForeignKeyFieldComponent implements OnChanges {
   }
 
   ngOnChanges() {
-    if (!this.formGroup || !this.controlConfig) {
+    if (!this.formGroup) {
       return;
     }
     this.controlConfig = this.config.control as ForeignKeyControlConfig;
