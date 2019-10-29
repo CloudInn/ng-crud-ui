@@ -11,6 +11,7 @@ import { RoomForm } from './forms/room.edit.form';
 import { TodoMetadata } from './metadata/todo.metadata';
 import { StoreListView } from './views/store.list.view';
 import { ScreenWrapperComponent } from 'crud';
+import { ProfileMetadata } from './metadata/profile.metadata';
 
 @Component({
   selector: 'app-root',
@@ -23,13 +24,13 @@ export class AppComponent implements OnInit {
     public sidenav: SidenavService,
     private reg: Registry,
     private router: Router,
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.registerViews();
     // push them to the router configuration
     Object.keys(this.reg.screens).forEach(s => {
-      this.router.config.push({path: s, component: ScreenWrapperComponent});
+      this.router.config.push({ path: s, component: ScreenWrapperComponent });
     });
   }
 
@@ -41,6 +42,17 @@ export class AppComponent implements OnInit {
     const terminalForm = new FormView(new TerminalMetadata());
     // this.reg.registerScreen('pos/terminals/new', terminalForm);
     this.reg.registerScreen('pos/terminals/:id', terminalForm);
+
+
+    const profileListing = new ListingView(new ProfileMetadata());
+    profileListing.pagination.enabled = false;
+    // terminalListing.search.view = new TerminalSearchForm(new TerminalMetadata());
+    this.reg.registerScreen('profiles', profileListing);
+    const profileForm = new FormView(new ProfileMetadata());
+    // this.reg.registerScreen('pos/terminals/new', terminalForm);
+    this.reg.registerScreen('profiles/:id', profileForm);
+
+
     //
     this.reg.registerScreen('inventory/stores', new StoreListView());
     // this.reg.registerScreen('inventory/stores/new', new FormView(new StoreMetadata()));

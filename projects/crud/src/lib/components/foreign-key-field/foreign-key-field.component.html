@@ -7,7 +7,7 @@
 
     <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
         <mat-option *ngFor="let option of availableOptions | async" [value]="option">
-            {{ option[controlConfig.metadata.externalNameField] }}
+            {{ option[controlConfig.metadata.optionName] }}
         </mat-option>
     </mat-autocomplete>
 

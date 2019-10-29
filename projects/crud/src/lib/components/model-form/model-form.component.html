@@ -1,37 +1,38 @@
 <!-- <mat-progress-bar *ngIf="isLoading" mode="query"></mat-progress-bar> -->
 
 
-
-<ng-template [ngIf]="is_ready">
-    <!-- <div class="form-container"> -->
-    <div class="row" [formGroup]="formGroup">
-        <ng-container *ngFor="let config of _visibleControls">
-            <ng-container *ngIf="config.type === 'fieldset'">
-                <div class="fieldset">
-                    <h4>{{ config.label }}</h4>
-                    <ng-container *ngFor="let config2 of config.fields">
-                        <ng-crud-form-field [formGroup]="formGroup" [config]="config2"></ng-crud-form-field>
+<div class="container">
+        <ng-template [ngIf]="is_ready">
+                <!-- <div class="form-container"> -->
+                <div class="row" [formGroup]="formGroup">
+                    <ng-container *ngFor="let config of _visibleControls">
+                        <ng-container *ngIf="config.type === 'fieldset'">
+                            <div class="fieldset">
+                                <h4>{{ config.label }}</h4>
+                                <ng-container *ngFor="let config2 of config.fields">
+                                    <ng-crud-form-field [formGroup]="formGroup" [config]="config2"></ng-crud-form-field>
+                                </ng-container>
+                            </div>
+                        </ng-container>
+                        <!-- <ng-container *ngIf="config.control && config.control.type === 'formset'">
+                            <ng-crud-formset [config]="config" [formGroup]="form"></ng-crud-formset>
+                        </ng-container> -->
+                        <ng-container *ngIf="config.type !== 'fieldset' && config.type !== 'formset'">
+                            <ng-crud-form-field [formGroup]="formGroup" [config]="config"></ng-crud-form-field>
+                        </ng-container>
                     </ng-container>
                 </div>
-            </ng-container>
-            <!-- <ng-container *ngIf="config.control && config.control.type === 'formset'">
-                <ng-crud-formset [config]="config" [formGroup]="form"></ng-crud-formset>
-            </ng-container> -->
-            <ng-container *ngIf="config.type !== 'fieldset' && config.type !== 'formset'">
-                <ng-crud-form-field [formGroup]="formGroup" [config]="config"></ng-crud-form-field>
-            </ng-container>
-        </ng-container>
-    </div>
-
-
-    <div class="row" *ngFor="let config of formsets; let i=index">
-        <mat-divider></mat-divider>
-        <ng-crud-formset [config]="config" [formGroup]="formGroup"></ng-crud-formset>        
-    </div>
-
-    <div class="row">
-        <button mat-raised-button color="primary" class="submit-button" (click)="_onSubmit()">
-            {{ submitButtonText }}
-        </button>
-    </div>
-</ng-template>
+            
+            
+                <div class="row" *ngFor="let config of formsets; let i=index">
+                    <mat-divider></mat-divider>
+                    <ng-crud-formset [config]="config" [formGroup]="formGroup"></ng-crud-formset>        
+                </div>
+            
+                <div class="row">
+                    <button mat-raised-button color="primary" class="submit-button" (click)="_onSubmit()">
+                        {{ submitButtonText }}
+                    </button>
+                </div>
+            </ng-template>
+</div>

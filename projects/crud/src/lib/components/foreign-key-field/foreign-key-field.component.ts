@@ -1,6 +1,6 @@
 import { Component, OnChanges, Input } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { Observable ,  of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -34,6 +34,7 @@ export class ForeignKeyFieldComponent implements OnChanges {
     this.controlConfig = this.config.control as ForeignKeyControlConfig;
     const ctrl = this.formGroup.get(this.config.name) as FormControl;
     this._underlyingCtrl.valueChanges.subscribe(value => {
+      console.log("value>>>>",value)
       if ((typeof value) === 'string') {
         this._filter(value).subscribe(res => {
           this.availableOptions = of(res);
@@ -73,16 +74,18 @@ export class ForeignKeyFieldComponent implements OnChanges {
   }
 
   displayFn(option) {
-    if (option == null ) {
+    console.log(option)
+    if (option == null) {
       return;
     }
-    return option[this.controlConfig.metadata.externalNameField];
+    return option[this.controlConfig.metadata.optionName];
   }
 
   _filter(value: string): Observable<any[]> {
+    console.log("this.controlConfig.metadata.externalNameField",this.controlConfig.metadata.externalNameField)
     const filterValue = value ? value : '';
     const params = {};
-    params[this.controlConfig.metadata.externalNameField] = filterValue;
+    params[this.controlConfig.metadata.externalNameField] = filterValue.toLowerCase();
     return this.api.fetch(`${this.controlConfig.metadata.api}`, params).pipe(
       map(res => {
         return res;
@@ -109,7 +112,7 @@ export class ForeignKeyFieldComponent implements OnChanges {
       }
     });
     ref.afterClosed().subscribe(result => {
-      if (result.value) {
+      if (result && result.value) {
         this.availableOptions = of(result.dataSource);
         this._underlyingCtrl.setValue(result.value);
       }
