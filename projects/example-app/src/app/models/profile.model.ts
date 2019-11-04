@@ -7,6 +7,5 @@ export class Profile {
     email: string;
     telephone:string;
     mobile:string;
-    id_number:string;
-    passport_number:string;
+    id:string;
 }

@@ -7,9 +7,9 @@ import { CountryListView } from '../views/country.list.view';
 export class ProfileMetadata implements Metadata {
     name = 'profile';
     label = 'Profile';
-    api = '/api/terminals';
+    api = '/api/core/individualprofile/v3/';
     model = Profile;
-    listingFields = ['name', 'country', 'city', 'nationality', 'email', 'telephone', 'mobile', 'id_number', 'passport_number'];
+    listingFields = ['name', 'country', 'city', 'nationality', 'email', 'telephone', 'mobile', 'id'];
     externalNameField = 'description';
     externalValueField = 'id';
     formsets = [];
@@ -79,15 +79,7 @@ export class ProfileMetadata implements Metadata {
             isEditable: true,
         },
         {
-            name: 'passport_number',
-            label: 'Passport Number',
-            type: 'text',
-            validators: [Validators.pattern(/^(?=.*[0-9])[- +()0-9]+$/)],
-            isEditable: true,
-            isSearchable: true,
-        },
-        {
-            name: 'id_number',
+            name: 'id',
             label: 'ID Number',
             type: 'text',
             validators: [Validators.pattern(/^(?=.*[0-9])[- +()0-9]+$/)],
