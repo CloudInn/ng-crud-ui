@@ -76,13 +76,13 @@ export class ForeignKeyFieldComponent implements OnChanges {
     if (option == null ) {
       return;
     }
-    return option[this.controlConfig.metadata.externalNameField];
+    return option[this.controlConfig.metadata.optionName];
   }
 
   _filter(value: string): Observable<any[]> {
     const filterValue = value ? value : '';
     const params = {};
-    params[this.controlConfig.metadata.externalNameField] = filterValue;
+    params[this.controlConfig.metadata.externalNameField] = filterValue.toLowerCase();
     return this.api.fetch(`${this.controlConfig.metadata.api}`, params).pipe(
       map(res => {
         return res;
@@ -109,7 +109,7 @@ export class ForeignKeyFieldComponent implements OnChanges {
       }
     });
     ref.afterClosed().subscribe(result => {
-      if (result.value) {
+      if (result && result.value) {
         this.availableOptions = of(result.dataSource);
         this._underlyingCtrl.setValue(result.value);
       }

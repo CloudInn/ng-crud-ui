@@ -57,6 +57,7 @@ export class FieldConfig {
 export interface Metadata {
     name: string;
     label: string;
+    optionName?: string;
     api: string;
     model: any;
     fields: FieldConfig[];
