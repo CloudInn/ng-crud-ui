@@ -34,10 +34,10 @@ export class ListingComponent implements OnInit {
         private resolver: ComponentFactoryResolver) { }
 
     ngOnInit() {
-        this.populateDataTable();
         if (this.viewConfig.pagination.enabled) {
             this.searchParams['page'] = 1;
         }
+        this.populateDataTable();
         if (this.viewConfig.search.enabled) {
             const factory = this.resolver.resolveComponentFactory(this.viewConfig.search.view.component);
             const component = this.container.createComponent(factory);
@@ -82,7 +82,10 @@ export class ListingComponent implements OnInit {
         this.resultsCount = 0;
         this.dataSource.data = [];
         // this.displayColumns.push('actions');
-        this.searchParams = { page: 1 };
+     //   this.searchParams = { page: 1 };
+        this.viewConfig.metadata.listingFields.forEach((filed, i) => {
+            this.searchParams[i] = filed;
+        })
         this.fetch();
     }
 

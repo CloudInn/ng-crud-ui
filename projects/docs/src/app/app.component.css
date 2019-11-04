@@ -33,6 +33,14 @@
     color: #333 !important;
 }
 
+.mat-drawer-content{
+    position: relative;
+    z-index: 1;
+    display: block;
+    /* height: 100%; */
+    overflow: auto;
+
+}
 .mat-icon {
     color: #666;
     font-size: 14px;

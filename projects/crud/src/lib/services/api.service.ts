@@ -13,11 +13,15 @@ export class ApiService {
         let opts = new HttpParams();
         Object.keys(params).forEach(p => {
             if (params[p]) {
-                opts = opts.set(p, params[p]);
+                if (!isNaN(Number(p))) {
+                    opts = opts.append('include[]', params[p]);
+                } else {
+                    opts = opts.append(p, params[p]);
+                }
             }
         });
 
-        return this.http.get(api, {params: opts});
+        return this.http.get(api, { params: opts });
     }
 
     public put(api: string, body, params = {}): Observable<any> {
@@ -28,7 +32,7 @@ export class ApiService {
             }
         });
 
-        return this.http.put(api, body, {params: opts});
+        return this.http.put(api, body, { params: opts });
     }
 
     public post(api: string, body, params = {}): Observable<any> {
@@ -39,7 +43,7 @@ export class ApiService {
             }
         });
 
-        return this.http.post(api, body, {params: opts});
+        return this.http.post(api, body, { params: opts });
     }
 
 }

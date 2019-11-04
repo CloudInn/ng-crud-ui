@@ -85,6 +85,7 @@ export class ModelFormComponent implements OnInit {
                 console.log(res);
             });
         } else {
+            console.log(this.formGroup.value)
             this.submit.emit(this.formGroup.value);
         }
     }
