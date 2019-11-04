@@ -1,5 +1,7 @@
-import { Component, OnInit, Input, Output, EventEmitter,
-    ComponentFactoryResolver, ViewChild, ViewContainerRef } from '@angular/core';
+import {
+    Component, OnInit, Input, Output, EventEmitter,
+    ComponentFactoryResolver, ViewChild, ViewContainerRef
+} from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 
 import { ApiService } from '../../services/api.service';
@@ -18,7 +20,7 @@ export class ListingComponent implements OnInit {
     is_actions_set = false;
     @Input() forcedSearchParams: any;
     dataSource = new MatTableDataSource();
-    searchParams: {page?: number} = {
+    searchParams: { page?: number } = {
     };
     columns = [];
     displayColumns: string[] = [];
@@ -88,7 +90,9 @@ export class ListingComponent implements OnInit {
         this.api.fetch(this.viewConfig.metadata.api, this.searchParams).subscribe(res => {
             let newItems = [];
             if (this.viewConfig.pagination.enabled) {
-                newItems = this.dataSource.data.concat(res.data);
+                if (res.results) {
+                    newItems = this.dataSource.data.concat(res.results[this.viewConfig.search.search_key]);
+                }
             } else {
                 newItems = res;
             }
