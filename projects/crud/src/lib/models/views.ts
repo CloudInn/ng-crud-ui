@@ -13,7 +13,8 @@ export interface ViewConfig {
 export interface ListViewer extends ViewConfig {
     search: {
         enabled: boolean,
-        view: FormViewer
+        view: FormViewer,
+        search_key?: string
     };
     pagination: {
         enabled: boolean,
@@ -24,7 +25,7 @@ export interface ListViewer extends ViewConfig {
 export interface FormViewer extends ViewConfig {
     layout: string; // horizontal or vertical
     controls: FieldConfig[];
-    actions: {[key: string]: any};
+    actions: { [key: string]: any };
 }
 
 export class FormView implements FormViewer {
@@ -49,6 +50,7 @@ export class ListingView implements ListViewer {
     search = {
         enabled: true,
         view: new FormView(this.metadata),
+        search_key: ''
     };
     pagination = {
         enabled: true,
