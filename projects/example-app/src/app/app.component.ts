@@ -45,7 +45,8 @@ export class AppComponent implements OnInit {
 
 
     const profileListing = new ListingView(new ProfileMetadata());
-    profileListing.pagination.enabled = false;
+    profileListing.pagination.enabled = true;
+    profileListing.search.search_key='individual_profiles';
     // terminalListing.search.view = new TerminalSearchForm(new TerminalMetadata());
     this.reg.registerScreen('profiles', profileListing);
     const profileForm = new FormView(new ProfileMetadata());

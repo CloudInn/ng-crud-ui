@@ -60,12 +60,7 @@ export class ProfileSearchForm extends FormView {
             type: 'text'
         },
         {
-            name: 'passport_number',
-            label: 'Passport Number',
-            type: 'text'
-        },
-        {
-            name: 'id_number',
+            name: 'id',
             label: 'ID Number',
             type: 'text'
         }
