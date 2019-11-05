@@ -40,12 +40,12 @@ export class FieldConfig {
     name: string;
     label: string;
     type?: 'text' | 'number' | 'boolean' | 'textArea' | 'select' |
-    'date' | 'datetime' | 'foreignKey' | 'formset' | 'fieldset' = 'text';
-    isEditable ? = true;
-    isSearchable ? = true;
-    isHidden ? = false;
+        'date' | 'datetime' | 'foreignKey' | 'formset' | 'fieldset' = 'text';
+    isEditable?= true;
+    isSearchable?= true;
+    isHidden?= false;
     control?: ControlConfig | ForeignKeyControlConfig | TextAreaControlConfig |
-    SelectControlConfig | AutoCompleteControlConfig | FormSetControlConfig | FieldSetControlConfig;
+        SelectControlConfig | AutoCompleteControlConfig | FormSetControlConfig | FieldSetControlConfig;
     validators?: any[];
     foreignModelPath?: string;
     valueType?: string;
@@ -56,7 +56,10 @@ export class FieldConfig {
 
 export interface Metadata {
     name: string;
-    optionName?:string;
+    optionName?: string;
+    queryParams?: string[];
+    filter?: boolean;
+    includeParams?: boolean;
     label: string;
     api: string;
     model: any;
@@ -64,5 +67,5 @@ export interface Metadata {
     listingFields: string[];
     externalNameField: string;
     externalValueField: string;
-    formActions: {[key: string]: any};
+    formActions: { [key: string]: any };
 }

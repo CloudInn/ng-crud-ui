@@ -9,19 +9,8 @@ export class ApiService {
 
     constructor(private http: HttpClient) { }
 
-    public fetch(api: string, params = {}): Observable<any> {
-        let opts = new HttpParams();
-        Object.keys(params).forEach(p => {
-            if (params[p]) {
-                if (!isNaN(Number(p))) {
-                    opts = opts.append('include[]', params[p]);
-                } else {
-                    opts = opts.append(p, params[p]);
-                }
-            }
-        });
-
-        return this.http.get(api, { params: opts });
+    public fetch(api: string, params?: HttpParams): Observable<any> {
+        return this.http.get(api, { params: params });
     }
 
     public put(api: string, body, params = {}): Observable<any> {

@@ -6,6 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 
 import { ApiService } from '../../services/api.service';
 import { ListViewer } from '../../models/views';
+import { HttpParams } from '@angular/common/http';
 
 @Component({
     selector: 'ng-crud-listing',
@@ -20,12 +21,12 @@ export class ListingComponent implements OnInit {
     is_actions_set = false;
     @Input() forcedSearchParams: any;
     dataSource = new MatTableDataSource();
-    searchParams: { page?: number } = {
-    };
+    searchParams = new HttpParams();
     columns = [];
     displayColumns: string[] = [];
     resultsCount = 0;
     isLoading = true;
+    pages:number;
     @Output() picked = new EventEmitter();
     @ViewChild('searchComponent', { read: ViewContainerRef }) searchComponent: ViewContainerRef;
 
@@ -35,8 +36,9 @@ export class ListingComponent implements OnInit {
 
     ngOnInit() {
         if (this.viewConfig.pagination.enabled) {
-            this.searchParams['page'] = 1;
+            this.searchParams = this.searchParams.append('page', String(1));
         }
+        this.pages=Number(this.searchParams.get('page'));
         this.populateDataTable();
         if (this.viewConfig.search.enabled) {
             const factory = this.resolver.resolveComponentFactory(this.viewConfig.search.view.component);
@@ -82,10 +84,13 @@ export class ListingComponent implements OnInit {
         this.resultsCount = 0;
         this.dataSource.data = [];
         // this.displayColumns.push('actions');
-     //   this.searchParams = { page: 1 };
-        this.viewConfig.metadata.listingFields.forEach((filed, i) => {
-            this.searchParams[i] = filed;
-        })
+        //   this.searchParams = { page: 1 };
+        if (this.viewConfig.metadata.includeParams) {
+            this.viewConfig.metadata.queryParams.forEach((field) => {
+                this.searchParams = this.searchParams.append('include[]', field);
+            });
+        }
+
         this.fetch();
     }
 
@@ -122,9 +127,18 @@ export class ListingComponent implements OnInit {
         this.isLoading = true;
         this.dataSource.data = [];
         this.resultsCount = 0;
-        this.searchParams = searchParams;
-        if (this.viewConfig.pagination.enabled) {
-            this.searchParams['page'] = 1;
+        if (this.viewConfig.metadata.filter) {
+            Object.keys(searchParams).forEach(p => {
+                if (searchParams[p] !== null) {
+                    this.searchParams = this.searchParams.append(`filter{${p}}`, searchParams[p]);
+                }
+            });
+        } else {
+            Object.keys(searchParams).forEach(p => {
+                if (searchParams[p] !== null) {
+                    this.searchParams = this.searchParams.append(p, searchParams[p]);
+                }
+            });
         }
         this.fetch();
     }

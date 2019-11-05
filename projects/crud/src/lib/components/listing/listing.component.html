@@ -75,6 +75,6 @@
 
 <mat-paginator #paginator *ngIf="viewConfig.pagination.enabled"
     [length]="resultsCount"
-    [pageIndex]="searchParams.page - 1"
+    [pageIndex]="pages - 1"
     [pageSize]="20">
 </mat-paginator>
