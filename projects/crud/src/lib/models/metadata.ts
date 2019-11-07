@@ -1,4 +1,5 @@
 import { ViewConfig } from './views';
+import { Subject } from 'rxjs';
 
 export interface ControlConfig {
     type?: string;
@@ -60,6 +61,7 @@ export interface Metadata {
     queryParams?: string[];
     filter?: boolean;
     includeParams?: boolean;
+    rows?: Subject<any>;
     label: string;
     api: string;
     model: any;

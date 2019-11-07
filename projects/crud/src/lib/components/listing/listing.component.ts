@@ -19,7 +19,7 @@ export class ListingComponent implements OnInit {
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
     @Input() viewConfig: ListViewer;
-    @Input() mode = 'normal'; // other modes: 'pick'
+    mode;
     is_actions_set = false;
     @Input() forcedSearchParams: any;
     dataSource = new MatTableDataSource();
@@ -41,6 +41,7 @@ export class ListingComponent implements OnInit {
             this.searchParams = this.searchParams.set('page', String(1));
         }
         this.pages = Number(this.searchParams.get('page'));
+        this.mode = this.viewConfig.search.mode ? this.viewConfig.search.mode : 'normal';
         this.populateDataTable();
         if (this.viewConfig.search.enabled) {
             const factory = this.resolver.resolveComponentFactory(this.viewConfig.search.view.component);
@@ -52,6 +53,9 @@ export class ListingComponent implements OnInit {
             component.instance.mode = 'search';
             this.searchComponent.insert(component.hostView);
         }
+        this.picked.subscribe(res => {
+            this.viewConfig.metadata.rows.next(res.value)
+        });
     }
 
     private prepareColumns() {
