@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ApiService } from '../../services/api.service';
 import { FieldConfig, ForeignKeyControlConfig } from '../../models/metadata';
 import { ListingDialogComponent } from '../../containers/listing-dialog/listing-dialog.component';
+import { HttpParams } from '@angular/common/http';
 
 @Component({
   selector: 'ng-crud-foreign-key-field',
@@ -34,7 +35,7 @@ export class ForeignKeyFieldComponent implements OnChanges {
     this.controlConfig = this.config.control as ForeignKeyControlConfig;
     const ctrl = this.formGroup.get(this.config.name) as FormControl;
     this._underlyingCtrl.valueChanges.subscribe(value => {
-      console.log("value>>>>",value)
+      console.log("value>>>>", value)
       if ((typeof value) === 'string') {
         this._filter(value).subscribe(res => {
           this.availableOptions = of(res);
@@ -82,10 +83,9 @@ export class ForeignKeyFieldComponent implements OnChanges {
   }
 
   _filter(value: string): Observable<any[]> {
-    console.log("this.controlConfig.metadata.externalNameField",this.controlConfig.metadata.externalNameField)
     const filterValue = value ? value : '';
-    const params = {};
-    params[this.controlConfig.metadata.externalNameField] = filterValue.toLowerCase();
+    let params = new HttpParams();
+    params = params.append(this.controlConfig.metadata.externalNameField, filterValue.toLowerCase());
     return this.api.fetch(`${this.controlConfig.metadata.api}`, params).pipe(
       map(res => {
         return res;

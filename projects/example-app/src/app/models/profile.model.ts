@@ -5,7 +5,7 @@ export class Profile {
     city: string;
     nationality: string;
     email: string;
-    telephone:string;
-    mobile:string;
-    id:string;
+    telephone: string;
+    mobile: string;
+    id: string;
 }

@@ -6,6 +6,8 @@ import { MatTableDataSource } from '@angular/material/table';
 
 import { ApiService } from '../../services/api.service';
 import { ListViewer } from '../../models/views';
+import { HttpParams } from '@angular/common/http';
+import { MatPaginator, PageEvent } from '@angular/material';
 
 @Component({
     selector: 'ng-crud-listing',
@@ -14,19 +16,19 @@ import { ListViewer } from '../../models/views';
     exportAs: 'ngcrudui-listing'
 })
 export class ListingComponent implements OnInit {
+    @ViewChild(MatPaginator) paginator: MatPaginator;
 
     @Input() viewConfig: ListViewer;
-    @Input() mode = 'normal'; // other modes: 'pick'
+    mode;
     is_actions_set = false;
     @Input() forcedSearchParams: any;
     dataSource = new MatTableDataSource();
-    searchParams: { page?: number } = {
-    };
+    searchParams = new HttpParams();
     columns = [];
     displayColumns: string[] = [];
     resultsCount = 0;
     isLoading = true;
-    @Output() picked = new EventEmitter();
+    pages: number;
     @ViewChild('searchComponent', { read: ViewContainerRef }) searchComponent: ViewContainerRef;
 
     constructor(private api: ApiService,
@@ -35,8 +37,10 @@ export class ListingComponent implements OnInit {
 
     ngOnInit() {
         if (this.viewConfig.pagination.enabled) {
-            this.searchParams['page'] = 1;
+            this.searchParams = this.searchParams.set('page', String(1));
         }
+        this.pages = Number(this.searchParams.get('page'));
+        this.mode = this.viewConfig.search.mode ? this.viewConfig.search.mode : 'normal';
         this.populateDataTable();
         if (this.viewConfig.search.enabled) {
             const factory = this.resolver.resolveComponentFactory(this.viewConfig.search.view.component);
@@ -75,17 +79,19 @@ export class ListingComponent implements OnInit {
     }
 
     private populateDataTable() {
-        // this.model = this.reg.getModel(this.moduleName, this.appName, this.modelName);
-        // this.model = this.viewConfig.metadata;
         this.prepareColumns();
         this.displayColumns = this.columns.map(c => c.columnDef);
         this.resultsCount = 0;
         this.dataSource.data = [];
-        // this.displayColumns.push('actions');
-     //   this.searchParams = { page: 1 };
-        this.viewConfig.metadata.listingFields.forEach((filed, i) => {
-            this.searchParams[i] = filed;
-        })
+        this.populateParams();
+    }
+
+    populateParams() {
+        if (this.viewConfig.metadata.includeParams) {
+            this.viewConfig.metadata.queryParams.forEach((field) => {
+                this.searchParams = this.searchParams.append('include[]', field);
+            });
+        }
         this.fetch();
     }
 
@@ -94,12 +100,13 @@ export class ListingComponent implements OnInit {
             let newItems = [];
             if (this.viewConfig.pagination.enabled) {
                 if (res.results) {
-                    newItems = this.dataSource.data.concat(res.results[this.viewConfig.search.search_key]);
+                    newItems = res.results[this.viewConfig.search.search_key];
+                    this.resultsCount = res.count;
                 }
             } else {
                 newItems = res;
+                this.resultsCount = newItems.length;
             }
-            this.resultsCount = newItems.length;
             this.dataSource.data = newItems;
             this.isLoading = false;
         }, err => {
@@ -107,24 +114,28 @@ export class ListingComponent implements OnInit {
         });
     }
 
-    // getLink(id): string[] {
-    //     return ['/'];
-    //     // return ['/', this.moduleName, this.appName, this.modelName, id];
-    // }
-
-    // cellClicked(columnName: string, row: any) {
-    //     if (columnName === this.viewConfig.metadata.externalNameField) {
-    //         this.router.navigate(this.getLink(row.id));
-    //     }
-    // }
+    onChange(ev: PageEvent) {
+        this.searchParams = new HttpParams();
+        this.searchParams = this.searchParams.set('page', String(ev.pageIndex + 1));
+        this.populateParams();
+    }
 
     searchClicked(searchParams) {
         this.isLoading = true;
         this.dataSource.data = [];
         this.resultsCount = 0;
-        this.searchParams = searchParams;
-        if (this.viewConfig.pagination.enabled) {
-            this.searchParams['page'] = 1;
+        if (this.viewConfig.metadata.filter) {
+            Object.keys(searchParams).forEach(p => {
+                if (searchParams[p] !== null) {
+                    this.searchParams = this.searchParams.append(`filter{${p}}`, searchParams[p]);
+                }
+            });
+        } else {
+            Object.keys(searchParams).forEach(p => {
+                if (searchParams[p] !== null) {
+                    this.searchParams = this.searchParams.append(p, searchParams[p]);
+                }
+            });
         }
         this.fetch();
     }
@@ -138,7 +149,7 @@ export class ListingComponent implements OnInit {
     }
 
     _picked(value) {
-        this.picked.next({
+        this.viewConfig.metadata.rows.next({
             'value': value,
             'dataSource': this.dataSource.data,
         });

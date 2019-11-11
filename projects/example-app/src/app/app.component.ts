@@ -23,7 +23,7 @@ export class AppComponent implements OnInit {
   constructor(
     public sidenav: SidenavService,
     private reg: Registry,
-    private router: Router,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -46,14 +46,17 @@ export class AppComponent implements OnInit {
 
     const profileListing = new ListingView(new ProfileMetadata());
     profileListing.pagination.enabled = true;
-    profileListing.search.search_key='individual_profiles'
+    profileListing.search.search_key='individual_profiles';
+    profileListing.search.mode = 'pick';
     // terminalListing.search.view = new TerminalSearchForm(new TerminalMetadata());
     this.reg.registerScreen('profiles', profileListing);
     const profileForm = new FormView(new ProfileMetadata());
     // this.reg.registerScreen('pos/terminals/new', terminalForm);
     this.reg.registerScreen('profiles/:id', profileForm);
 
-
+    profileListing.metadata.rows.subscribe(res => {
+      console.log(">>>>>>>>>>>", res)
+    });
     //
     this.reg.registerScreen('inventory/stores', new StoreListView());
     // this.reg.registerScreen('inventory/stores/new', new FormView(new StoreMetadata()));

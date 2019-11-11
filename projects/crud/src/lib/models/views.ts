@@ -14,7 +14,8 @@ export interface ListViewer extends ViewConfig {
     search: {
         enabled: boolean,
         view: FormViewer,
-        search_key?: string
+        search_key?: string,
+        mode?: string
     };
     pagination: {
         enabled: boolean,
@@ -50,7 +51,8 @@ export class ListingView implements ListViewer {
     search = {
         enabled: true,
         view: new FormView(this.metadata),
-        search_key: ''
+        search_key: '',
+        mode: 'normal'
     };
     pagination = {
         enabled: true,

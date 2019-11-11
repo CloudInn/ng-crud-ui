@@ -1,4 +1,7 @@
-import { Component, OnInit, ComponentFactoryResolver, Type, ComponentRef, ViewContainerRef, ViewChild } from '@angular/core';
+import {
+  Component, OnInit, ComponentFactoryResolver, Type, ComponentRef,
+  ViewContainerRef, ViewChild, Inject, Optional
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 
@@ -7,6 +10,7 @@ import { ListingComponent } from '../../components/listing/listing.component';
 import { ModelFormComponent } from '../../components/model-form/model-form.component';
 import { FormsetComponent } from '../../components/formset/formset.component';
 import { ViewConfig } from '../../models/views';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 const Components = {
   listing: ListingComponent,
@@ -20,44 +24,49 @@ const Components = {
 })
 export class ScreenWrapperComponent implements OnInit {
 
-    screen: ViewConfig;
-    component: Type<any>;
-    componentRef: ComponentRef<any>;
-    searchComponentRef: ComponentRef<any>;
-    @ViewChild('dynamicComponentContainer', { read: ViewContainerRef }) dynamicComponentContainer: ViewContainerRef;
+  screen: ViewConfig;
+  component: Type<any>;
+  componentRef: ComponentRef<any>;
+  searchComponentRef: ComponentRef<any>;
+  @ViewChild('dynamicComponentContainer', { read: ViewContainerRef }) dynamicComponentContainer: ViewContainerRef;
 
-    constructor(
-      private reg: Registry,
-      private route: ActivatedRoute,
-      private container: ViewContainerRef,
-      private resolver: ComponentFactoryResolver,
-      private title: Title,
-    ) {}
+  constructor(
+    @Optional() @Inject(MAT_DIALOG_DATA) public data: any,
+    @Optional() public dialogRef: MatDialogRef<ScreenWrapperComponent>,
+    private reg: Registry,
+    private route: ActivatedRoute,
+    private container: ViewContainerRef,
+    private resolver: ComponentFactoryResolver,
+    private title: Title,
+  ) { }
 
-    ngOnInit() {
-      // keep listening for route params changes, in case of
-      // the model name changed, e.g: another model clicked from
-      // the nav menu
-      this.route.url.subscribe(urls => {
-        const p = [];
-        urls.forEach(url => {
-          p.push(url.path);
-        });
-        const path = p.join('/');
-        this.screen = this.reg.screens[this.route.routeConfig.path];
-
-        if (!this.screen) {
-          throw new Error('Screen not found in registry');
-        }
-        const factory = this.resolver.resolveComponentFactory<any>(this.screen.component);
-        const componentRef = this.container.createComponent(factory);
-        this.title.setTitle(this.screen.title);
-        componentRef.instance.viewConfig = this.screen;
-        Object.keys(this.route.snapshot.params).forEach(k => {
-          componentRef.instance[k] = this.route.snapshot.params[k];
-        });
-        this.dynamicComponentContainer.insert(componentRef.hostView);
+  ngOnInit() {
+    // keep listening for route params changes, in case of
+    // the model name changed, e.g: another model clicked from
+    // the nav menu
+    this.route.url.subscribe(urls => {
+      const p = [];
+      urls.forEach(url => {
+        p.push(url.path);
       });
-    }
+      const path = p.join('/');
+      if (this.route.routeConfig) {
+        this.screen = this.reg.screens[this.route.routeConfig.path];
+      } else if (this.data) {
+        this.screen = this.reg.screens[this.data.path];
+      }
+      if (!this.screen) {
+        throw new Error('Screen not found in registry');
+      }
+      const factory = this.resolver.resolveComponentFactory<any>(this.screen.component);
+      const componentRef = this.container.createComponent(factory);
+      this.title.setTitle(this.screen.title);
+      componentRef.instance.viewConfig = this.screen;
+      Object.keys(this.route.snapshot.params).forEach(k => {
+        componentRef.instance[k] = this.route.snapshot.params[k];
+      });
+      this.dynamicComponentContainer.insert(componentRef.hostView);
+    });
+  }
 
 }

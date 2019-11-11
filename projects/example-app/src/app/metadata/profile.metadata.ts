@@ -3,12 +3,17 @@ import { Metadata, FieldConfig } from 'crud';
 import { Profile } from '../models/profile.model';
 import { CountryMetadata } from './country.metadata';
 import { CountryListView } from '../views/country.list.view';
+import { Subject } from 'rxjs';
 
 export class ProfileMetadata implements Metadata {
     name = 'profile';
     label = 'Profile';
     api = '/api/core/individualprofile/v3/';
     model = Profile;
+    queryParams = ['name', 'country.name', 'city', 'nationality', 'email', 'telephone', 'mobile', 'id'];
+    includeParams = true;
+    filter = true;
+    rows = new Subject();
     listingFields = ['name', 'country', 'city', 'nationality', 'email', 'telephone', 'mobile', 'id'];
     externalNameField = 'description';
     externalValueField = 'id';
@@ -21,7 +26,7 @@ export class ProfileMetadata implements Metadata {
             isEditable: true,
         },
         {
-            name: 'country_id',
+            name: 'country',
             label: 'Country ID',
             type: 'number',
             isHidden: true,
@@ -30,7 +35,7 @@ export class ProfileMetadata implements Metadata {
             name: 'country',
             label: 'Country',
             type: 'foreignKey',
-            resolveValueFrom: 'country_id',
+            resolveValueFrom: 'country',
             control: {
                 metadata: new CountryMetadata(),
                 viewConfig: new CountryListView(),
@@ -49,7 +54,7 @@ export class ProfileMetadata implements Metadata {
             name: 'nationality',
             label: 'Nationality',
             type: 'foreignKey',
-            resolveValueFrom: 'country_id',
+            resolveValueFrom: 'country',
             control: {
                 metadata: new CountryMetadata(),
                 viewConfig: new CountryListView(),
@@ -94,4 +99,5 @@ export class ProfileMetadata implements Metadata {
         //     });
         // }
     };
+    constructor(){}
 }
