@@ -29,7 +29,6 @@ export class ListingComponent implements OnInit {
     resultsCount = 0;
     isLoading = true;
     pages: number;
-    @Output() picked = new EventEmitter();
     @ViewChild('searchComponent', { read: ViewContainerRef }) searchComponent: ViewContainerRef;
 
     constructor(private api: ApiService,
@@ -53,9 +52,6 @@ export class ListingComponent implements OnInit {
             component.instance.mode = 'search';
             this.searchComponent.insert(component.hostView);
         }
-        this.picked.subscribe(res => {
-            this.viewConfig.metadata.rows.next(res.value)
-        });
     }
 
     private prepareColumns() {
@@ -153,7 +149,7 @@ export class ListingComponent implements OnInit {
     }
 
     _picked(value) {
-        this.picked.next({
+        this.viewConfig.metadata.rows.next({
             'value': value,
             'dataSource': this.dataSource.data,
         });

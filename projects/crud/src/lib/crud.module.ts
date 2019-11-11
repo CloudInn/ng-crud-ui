@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MomentModule } from 'ngx-moment';
@@ -28,6 +28,7 @@ import {
   MatTabsModule,
   MatExpansionModule,
   MatAutocompleteModule,
+  MatDialogModule,
 } from '@angular/material';
 
 
@@ -42,6 +43,8 @@ import { SelectFieldComponent } from './components/select-field/select-field.com
 
 import { ScreenWrapperComponent } from './containers/screen-wrapper/screen-wrapper.component';
 import { ListingDialogComponent } from './containers/listing-dialog/listing-dialog.component';
+import { CookieInterceptor } from './cookie.interceptor';
+import { CookieModule } from 'ngx-cookie';
 
 @NgModule({
   imports: [
@@ -51,7 +54,7 @@ import { ListingDialogComponent } from './containers/listing-dialog/listing-dial
     HttpClientModule,
     MomentModule,
     RouterModule,
-    //
+    CookieModule.forChild(),
     MatToolbarModule,
     MatSidenavModule,
     MatListModule,
@@ -65,6 +68,7 @@ import { ListingDialogComponent } from './containers/listing-dialog/listing-dial
     MatFormFieldModule,
     MatInputModule,
     MatCheckboxModule,
+    MatDialogModule,
     MatSlideToggleModule,
     MatGridListModule,
     MatSnackBarModule,
@@ -88,6 +92,7 @@ import { ListingDialogComponent } from './containers/listing-dialog/listing-dial
     SelectFieldComponent,
   ],
   providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: CookieInterceptor, multi: true},
   ],
   exports: [
     HttpClientModule,

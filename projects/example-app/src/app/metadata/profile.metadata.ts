@@ -3,15 +3,17 @@ import { Metadata, FieldConfig } from 'crud';
 import { Profile } from '../models/profile.model';
 import { CountryMetadata } from './country.metadata';
 import { CountryListView } from '../views/country.list.view';
+import { Subject } from 'rxjs';
 
 export class ProfileMetadata implements Metadata {
     name = 'profile';
     label = 'Profile';
     api = '/api/core/individualprofile/v3/';
     model = Profile;
-    queryParams = ['name', 'country', 'city', 'nationality', 'email', 'telephone', 'mobile', 'id'];
+    queryParams = ['name', 'country.name', 'city', 'nationality', 'email', 'telephone', 'mobile', 'id'];
     includeParams = true;
     filter = true;
+    rows = new Subject();
     listingFields = ['name', 'country', 'city', 'nationality', 'email', 'telephone', 'mobile', 'id'];
     externalNameField = 'description';
     externalValueField = 'id';
@@ -97,4 +99,5 @@ export class ProfileMetadata implements Metadata {
         //     });
         // }
     };
+    constructor(){}
 }
