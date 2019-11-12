@@ -33,9 +33,8 @@ export class ForeignKeyFieldComponent implements OnChanges {
       return;
     }
     this.controlConfig = this.config.control as ForeignKeyControlConfig;
-    const ctrl = this.formGroup.get(this.config.name) as FormControl;
+    const ctrl = this.formGroup.get([this.config.name]) as FormControl;
     this._underlyingCtrl.valueChanges.subscribe(value => {
-      console.log("value>>>>", value)
       if ((typeof value) === 'string') {
         this._filter(value).subscribe(res => {
           this.availableOptions = of(res);
@@ -94,9 +93,9 @@ export class ForeignKeyFieldComponent implements OnChanges {
   }
 
   _setControlValue(value: any) {
-    const ctrl = this.formGroup.get(this.config.name);
+    const ctrl = this.formGroup.get([this.config.name]);
     if (this.config.resolveValueFrom) {
-      const resolvedControl = this.formGroup.get(this.config.resolveValueFrom);
+      const resolvedControl = this.formGroup.get([this.config.resolveValueFrom]);
       resolvedControl.setValue(value);
     }
 
