@@ -154,5 +154,7 @@ export class ListingComponent implements OnInit {
             'dataSource': this.dataSource.data,
         });
     }
-
+    cancel() {
+        this.viewConfig.metadata.rows.next(undefined);
+    }
 }
