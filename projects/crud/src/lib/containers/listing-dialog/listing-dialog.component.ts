@@ -26,8 +26,8 @@ export class ListingDialogComponent implements OnInit {
       const factory = this.resolver.resolveComponentFactory<any>(viewConfig.component);
       const component = this.container.createComponent(factory);
       component.instance.viewConfig = viewConfig;
-      component.instance.mode = 'pick';
-      component.instance.picked.subscribe(value => {
+      component.instance.viewConfig.search.mode = 'pick';
+      component.instance.viewConfig.metadata.rows.subscribe(value => {
         this.picked(value);
       });
       this.listingView.insert(component.hostView);

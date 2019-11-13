@@ -29,9 +29,12 @@
                     <ng-crud-formset [config]="config" [formGroup]="formGroup"></ng-crud-formset>        
                 </div>
             
-                <div class="row">
+                <div class="row actions">
                     <button mat-raised-button color="primary" class="submit-button" (click)="_onSubmit()">
                         {{ submitButtonText }}
+                    </button>
+                    <button  mat-raised-button class="submit-button" (click)="_onReset()">
+                       Reset
                     </button>
                 </div>
             </ng-template>
