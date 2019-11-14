@@ -90,8 +90,8 @@ export class ModelFormComponent implements OnInit {
     }
     _onReset() {
         this.formGroup.reset();
-        console.log(this.formGroup.value)
-        this.submit.emit({reset:true});
+        console.log(this.formGroup.value);
+        this.submit.emit({ reset: true });
     }
 
 }

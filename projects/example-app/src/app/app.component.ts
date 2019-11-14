@@ -11,7 +11,7 @@ import { RoomForm } from './forms/room.edit.form';
 import { TodoMetadata } from './metadata/todo.metadata';
 import { StoreListView } from './views/store.list.view';
 import { ScreenWrapperComponent } from 'crud';
-import { ProfileMetadata } from './metadata/profile.metadata';
+
 
 @Component({
   selector: 'app-root',
@@ -42,21 +42,6 @@ export class AppComponent implements OnInit {
     const terminalForm = new FormView(new TerminalMetadata());
     // this.reg.registerScreen('pos/terminals/new', terminalForm);
     this.reg.registerScreen('pos/terminals/:id', terminalForm);
-
-
-    const profileListing = new ListingView(new ProfileMetadata());
-    profileListing.pagination.enabled = true;
-    profileListing.search.search_key='individual_profiles';
-    profileListing.search.mode = 'pick';
-    // terminalListing.search.view = new TerminalSearchForm(new TerminalMetadata());
-    this.reg.registerScreen('profiles', profileListing);
-    const profileForm = new FormView(new ProfileMetadata());
-    // this.reg.registerScreen('pos/terminals/new', terminalForm);
-    this.reg.registerScreen('profiles/:id', profileForm);
-
-    profileListing.metadata.rows.subscribe(res => {
-      console.log(">>>>>>>>>>>", res)
-    });
     //
     this.reg.registerScreen('inventory/stores', new StoreListView());
     // this.reg.registerScreen('inventory/stores/new', new FormView(new StoreMetadata()));
