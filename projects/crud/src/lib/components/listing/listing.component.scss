@@ -2,3 +2,18 @@
     color: blue;
     cursor: pointer;
 }
+.cancel_icon {
+    float:right;
+    cursor:pointer;
+    position: relative;
+}
+.mat-dialog-title{
+    margin: 0 0 20px;
+    display: block;
+    border-bottom: 1px solid #eee;
+    background-color: #FAFAFA;
+    border-radius: 6px;
+}
+mat-header-cell{
+    background-color:#EEEEEE;
+}

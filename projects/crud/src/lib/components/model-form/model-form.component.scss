@@ -1,11 +1,15 @@
 .row {
     display: flex;
     flex: 1 1 auto;
-    // justify-content: space-between;
+    justify-content:flex-start;
     flex-flow: row wrap;
 }
 
 .submit-button {
     align-self: flex-end;
     margin-bottom: 45px;
+    margin-right: 10px;
+}
+.actions{
+    justify-content: flex-end !important;
 }

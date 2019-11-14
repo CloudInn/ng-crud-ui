@@ -39,6 +39,7 @@ export class ListingComponent implements OnInit {
         if (this.viewConfig.pagination.enabled) {
             this.searchParams = this.searchParams.set('page', String(1));
         }
+        console.log(this.searchParams)
         this.pages = Number(this.searchParams.get('page'));
         this.mode = this.viewConfig.search.mode ? this.viewConfig.search.mode : 'normal';
         this.populateDataTable();
@@ -47,7 +48,14 @@ export class ListingComponent implements OnInit {
             const component = this.container.createComponent(factory);
             component.instance.viewConfig = this.viewConfig.search.view;
             component.instance.submit.subscribe(ev => {
-                this.searchClicked(ev);
+                if (ev.reset) {
+                    this.searchParams = new HttpParams();
+                    this.searchParams = this.searchParams.set('page', String(1));
+                    this.populateParams();
+                } else {
+                    this.searchClicked(ev);
+                }
+
             });
             component.instance.mode = 'search';
             this.searchComponent.insert(component.hostView);
@@ -154,5 +162,7 @@ export class ListingComponent implements OnInit {
             'dataSource': this.dataSource.data,
         });
     }
-
+    cancel() {
+        this.viewConfig.metadata.rows.next(undefined);
+    }
 }

@@ -12,7 +12,8 @@ import { HttpParams } from '@angular/common/http';
 @Component({
   selector: 'ng-crud-foreign-key-field',
   exportAs: 'ngcrudui-foreign-key',
-  templateUrl: './foreign-key-field.component.html'
+  templateUrl: './foreign-key-field.component.html',
+  styles:['.input_icon{color: rgba(165, 151, 151, 0.87);height: 16px !important;cursor: pointer;margin-left: -20px;}']
 })
 export class ForeignKeyFieldComponent implements OnChanges {
 
