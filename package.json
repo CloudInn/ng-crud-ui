@@ -1,6 +1,6 @@
 {
   "name": "ng-crud-ui",
-  "version": "1.1.0",
+  "version": "0.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --proxy-config proxy_conf.json",
@@ -23,18 +23,12 @@
     "@angular/platform-browser": "^7.2.2",
     "@angular/platform-browser-dynamic": "^7.2.2",
     "@angular/router": "^7.2.2",
-    "@nguniversal/express-engine": "^8.1.1",
     "core-js": "^2.6.3",
     "moment": "^2.24.0",
-    "ngx-cookie": "^4.1.2",
     "ngx-markdown": "^7.1.3",
     "ngx-moment": "^3.3.0",
     "rxjs": "^6.4.0",
     "zone.js": "^0.8.29"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/CloudInn/ng-crud-ui"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.12.3",

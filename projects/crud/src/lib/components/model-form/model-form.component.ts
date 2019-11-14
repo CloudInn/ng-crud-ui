@@ -7,10 +7,10 @@ import { FieldConfig, FormSetControlConfig } from '../../models/metadata';
 import { FormViewer } from '../../models/views';
 
 @Component({
-  selector: 'ng-crud-model-form',
-  templateUrl: './model-form.component.html',
-  styleUrls: ['./model-form.component.scss'],
-  exportAs: 'ngcrudui-model-form'
+    selector: 'ng-crud-model-form',
+    templateUrl: './model-form.component.html',
+    styleUrls: ['./model-form.component.scss'],
+    exportAs: 'ngcrudui-model-form'
 })
 export class ModelFormComponent implements OnInit {
 
@@ -76,7 +76,7 @@ export class ModelFormComponent implements OnInit {
     }
 
     _onSubmit() {
-        if ( this.mode === 'create') {
+        if (this.mode === 'create') {
             this.api.post(this.viewConfig.metadata.api, this.formGroup.value).subscribe(res => {
                 console.log(res);
             });
@@ -85,12 +85,13 @@ export class ModelFormComponent implements OnInit {
                 console.log(res);
             });
         } else {
-            console.log(this.formGroup.value)
             this.submit.emit(this.formGroup.value);
         }
     }
-    _onReset(){
+    _onReset() {
         this.formGroup.reset();
+        console.log(this.formGroup.value)
+        this.submit.emit({reset:true});
     }
 
 }
