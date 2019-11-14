@@ -1,6 +1,6 @@
-import { Component, OnChanges, Input, SimpleChanges } from '@angular/core';
+import { Component, OnChanges, Input, SimpleChanges, OnInit } from '@angular/core';
 import { FormGroup, FormControlName } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { Metadata, FieldConfig } from '../../models/metadata';
 
 @Component({
@@ -9,12 +9,13 @@ import { Metadata, FieldConfig } from '../../models/metadata';
   exportAs: 'ngcrudui-form-field',
   styles: ['.form-field-wrapper{margin-right:  24px}']
 })
-export class FormFieldComponent implements OnChanges {
+export class FormFieldComponent implements OnChanges, OnInit {
 
   @Input() formGroup: FormGroup;
   @Input() forcedSearchParams: any = [];
   @Input() config: FieldConfig;
   @Input() choices = [];
+  @Input() reset: Subject<any>;
   type = 'text';
   filteredOptions: Observable<any[]>;
   foreign_model?: Metadata;
@@ -25,4 +26,6 @@ export class FormFieldComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges) {
   }
 
+  ngOnInit() {
+  }
 }

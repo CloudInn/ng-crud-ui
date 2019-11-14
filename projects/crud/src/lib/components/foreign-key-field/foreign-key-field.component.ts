@@ -1,6 +1,6 @@
 import { Component, OnChanges, Input } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -13,7 +13,7 @@ import { HttpParams } from '@angular/common/http';
   selector: 'ng-crud-foreign-key-field',
   exportAs: 'ngcrudui-foreign-key',
   templateUrl: './foreign-key-field.component.html',
-  styles:['.input_icon{color: rgba(165, 151, 151, 0.87);height: 16px !important;cursor: pointer;margin-left: -20px;}']
+  styles: ['.input_icon{color: rgba(165, 151, 151, 0.87);height: 16px !important;cursor: pointer;margin-left: -20px;}']
 })
 export class ForeignKeyFieldComponent implements OnChanges {
 
@@ -21,6 +21,7 @@ export class ForeignKeyFieldComponent implements OnChanges {
   @Input() forcedSearchParams: any = [];
   @Input() config: FieldConfig;
   @Input() initialChoices: any[];
+  @Input() reset: Subject<any>;
   controlConfig: ForeignKeyControlConfig = null;
   availableOptions: Observable<any[]>;
   _underlyingCtrl = new FormControl(null);
@@ -33,6 +34,11 @@ export class ForeignKeyFieldComponent implements OnChanges {
     if (!this.formGroup) {
       return;
     }
+    this.reset.subscribe(res => {
+      if (res) {
+        this.removeSelection();
+      }
+    });
     this.controlConfig = this.config.control as ForeignKeyControlConfig;
     const ctrl = this.formGroup.get([this.config.name]) as FormControl;
     this._underlyingCtrl.valueChanges.subscribe(value => {
