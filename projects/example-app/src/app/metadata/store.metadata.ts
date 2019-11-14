@@ -1,5 +1,6 @@
 import { Store } from '../models/store.model';
 import { Metadata, FieldConfig } from 'crud';
+import { Subject } from 'rxjs';
 
 export class StoreMetadata implements Metadata {
     name = 'store';
@@ -8,7 +9,9 @@ export class StoreMetadata implements Metadata {
     model = Store;
     listingFields = ['id', 'code', 'description'];
     externalNameField = 'description';
+    rows = new Subject();
     externalValueField = 'id';
+    optionName = 'description';
     formsets = [];
     fields: FieldConfig[] = [
         {

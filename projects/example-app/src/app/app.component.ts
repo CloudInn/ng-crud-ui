@@ -42,6 +42,8 @@ export class AppComponent implements OnInit {
     // this.reg.registerScreen('pos/terminals/new', terminalForm);
     this.reg.registerScreen('pos/terminals/:id', terminalForm);
     //
+    const storeListing = new ListingView(new StoreMetadata());
+    storeListing.search.mode = 'pick';
     this.reg.registerScreen('inventory/stores', new StoreListView());
     // this.reg.registerScreen('inventory/stores/new', new FormView(new StoreMetadata()));
     this.reg.registerScreen('inventory/stores/:id', new FormView(new StoreMetadata()));
