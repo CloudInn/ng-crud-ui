@@ -28,13 +28,11 @@
 
 <!-- <ng-template [ngIf]="viewConfig.search.enabled"> -->
     <mat-expansion-panel>
-        <mat-expansion-panel-header>
+        <mat-expansion-panel-header [collapsedHeight]="'40px'" [expandedHeight]="'40px'">
             <mat-panel-title>
                 <mat-icon>search</mat-icon>
-            </mat-panel-title>
-            <mat-panel-description>
-                Search and filter restults
-            </mat-panel-description>                
+                <mat-label>Search and filter restults</mat-label>
+            </mat-panel-title>             
         </mat-expansion-panel-header>
 
         <div #searchComponent></div>

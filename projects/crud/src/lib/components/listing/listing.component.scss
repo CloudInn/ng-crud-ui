@@ -10,10 +10,23 @@
 .mat-dialog-title{
     margin: 0 0 20px;
     display: block;
-    border-bottom: 1px solid #eee;
-    background-color: #FAFAFA;
     border-radius: 6px;
 }
 mat-header-cell{
     background-color:#EEEEEE;
+}
+mat-expansion-panel{
+    margin:10px 20px !important;
+    background-color: #298CDE;
+}
+mat-panel-title{
+    font-size: 17px;
+    color:#fff
+}
+::ng-deep .mat-expansion-indicator::after ,.mat-expansion-indicator::before{
+    color: #fff !important
+}
+::ng-deep .mat-expansion-panel-body{
+    background-color: #fff;
+    padding-top: 10px !important
 }

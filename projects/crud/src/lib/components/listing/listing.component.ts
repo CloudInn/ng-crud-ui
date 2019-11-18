@@ -135,7 +135,7 @@ export class ListingComponent implements OnInit {
         if (this.viewConfig.metadata.filter) {
             Object.keys(searchParams).forEach(p => {
                 if (searchParams[p] !== null) {
-                    this.searchParams = this.searchParams.append(`filter{${p}}`, searchParams[p]);
+                    this.searchParams = this.searchParams.set(`filter{${p}}`, searchParams[p]);
                 }
             });
         } else {

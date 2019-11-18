@@ -35,7 +35,7 @@ export class ForeignKeyFieldComponent implements OnChanges {
       return;
     }
     this.reset.subscribe(res => {
-      if (res) {
+      if (res.reset) {
         this.removeSelection();
       }
     });
