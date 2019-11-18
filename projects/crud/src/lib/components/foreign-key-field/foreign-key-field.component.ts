@@ -81,7 +81,6 @@ export class ForeignKeyFieldComponent implements OnChanges {
   }
 
   displayFn(option) {
-    console.log(option)
     if (option == null) {
       return;
     }

@@ -78,11 +78,9 @@ export class ModelFormComponent implements OnInit {
     _onSubmit() {
         if (this.mode === 'create') {
             this.api.post(this.viewConfig.metadata.api, this.formGroup.value).subscribe(res => {
-                console.log(res);
             });
         } else if (this.mode === 'edit') {
             this.api.put(`${this.viewConfig.metadata.api}/${this.id}/`, this.formGroup.value).subscribe(res => {
-                console.log(res);
             });
         } else {
             this.submit.emit(this.formGroup.value);
@@ -90,7 +88,6 @@ export class ModelFormComponent implements OnInit {
     }
     _onReset() {
         this.formGroup.reset();
-        console.log(this.formGroup.value);
         this.submit.emit({ reset: true });
     }
 

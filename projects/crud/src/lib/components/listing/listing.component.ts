@@ -39,7 +39,6 @@ export class ListingComponent implements OnInit {
         if (this.viewConfig.pagination.enabled) {
             this.searchParams = this.searchParams.set('page', String(1));
         }
-        console.log(this.searchParams)
         this.pages = Number(this.searchParams.get('page'));
         this.mode = this.viewConfig.search.mode ? this.viewConfig.search.mode : 'normal';
         this.populateDataTable();

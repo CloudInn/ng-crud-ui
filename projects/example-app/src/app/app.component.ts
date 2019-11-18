@@ -11,6 +11,7 @@ import { RoomForm } from './forms/room.edit.form';
 import { TodoMetadata } from './metadata/todo.metadata';
 import { StoreListView } from './views/store.list.view';
 import { ScreenWrapperComponent } from 'crud';
+import { ProfileMetadata } from './metadata/profile.metadata';
 
 
 @Component({
@@ -47,6 +48,20 @@ export class AppComponent implements OnInit {
     // this.reg.registerScreen('inventory/stores/new', new FormView(new StoreMetadata()));
     this.reg.registerScreen('inventory/stores/:id', new FormView(new StoreMetadata()));
     //
+    const profileListing = new ListingView(new ProfileMetadata());
+    profileListing.pagination.enabled = true;
+    profileListing.search.mode = 'pick';
+    profileListing.search.search_key = 'individual_profiles';
+    this.reg.registerScreen('profiles', profileListing);
+    const profileForm = new FormView(new ProfileMetadata());
+    this.reg.registerScreen('profiles/:id', profileForm);
+    // push them to the router configuration
+    Object.keys(this.reg.screens).forEach(s => {
+      this.router.config.push({ path: s, component: ScreenWrapperComponent });
+    });
+    profileListing.metadata.rows.subscribe(res => {
+      console.log(res);
+    });
     const departmentListing = new ListingView(new DepartmentMetadata());
     departmentListing.pagination.enabled = false;
     this.reg.registerScreen('income/departments', departmentListing);
