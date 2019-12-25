@@ -37,6 +37,8 @@ export class AppComponent implements OnInit {
   registerViews() {
     const terminalListing = new ListingView(new TerminalMetadata());
     terminalListing.pagination.enabled = false;
+    terminalListing.search.enabled = false;
+    terminalListing.dialog_mode = false;
     // terminalListing.search.view = new TerminalSearchForm(new TerminalMetadata());
     this.reg.registerScreen('pos/terminals', terminalListing);
     const terminalForm = new FormView(new TerminalMetadata());

@@ -17,6 +17,7 @@ export interface ListViewer extends ViewConfig {
         search_key?: string,
         mode?: string
     };
+    dialog_mode?: boolean;
     pagination: {
         enabled: boolean,
         pageSize?: number,
@@ -54,6 +55,7 @@ export class ListingView implements ListViewer {
         search_key: '',
         mode: 'normal'
     };
+    dialog_mode = false;
     pagination = {
         enabled: true,
         pageSize: 20,
