@@ -35,4 +35,7 @@ export class ApiService {
         return this.http.post(api, body, { params: opts });
     }
 
+    public delete(api: string, id) {
+        return this.http.delete(`${api}/${id}/`);
+    }
 }

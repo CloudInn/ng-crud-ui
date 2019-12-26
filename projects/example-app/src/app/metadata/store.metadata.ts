@@ -12,6 +12,7 @@ export class StoreMetadata implements Metadata {
     rows = new Subject();
     externalValueField = 'id';
     optionName = 'description';
+    applyFunctions = true;
     formsets = [];
     fields: FieldConfig[] = [
         {

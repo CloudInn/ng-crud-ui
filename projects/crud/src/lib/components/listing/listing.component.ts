@@ -39,7 +39,7 @@ export class ListingComponent implements OnInit {
         if (this.viewConfig.pagination.enabled) {
             this.searchParams = this.searchParams.set('page', String(1));
         }
-        console.log(this.searchParams)
+        console.log(this.searchParams);
         this.pages = Number(this.searchParams.get('page'));
         this.mode = this.viewConfig.search.mode ? this.viewConfig.search.mode : 'normal';
         this.populateDataTable();
@@ -81,6 +81,25 @@ export class ListingComponent implements OnInit {
             }
             this.columns.push(col);
         });
+        if (this.viewConfig.metadata.applyFunctions) {
+            this.columns.push({
+                'columnDef': 'edit',
+                'header': '',
+                'Def': 'functions',
+                'cell': (element: Element) => {
+                    return '';
+                }
+            },
+                {
+                    'columnDef': 'delete',
+                    'header': '',
+                    'Def': 'functions',
+                    'cell': (element: Element) => {
+                        return '';
+                    }
+                }
+            );
+        }
         if (this.mode !== 'pick') {
             this.columns.push({ 'columnDef': 'actions', 'header': '' });
         }
@@ -157,12 +176,22 @@ export class ListingComponent implements OnInit {
     }
 
     _picked(value) {
-        this.viewConfig.metadata.rows.next({
-            'value': value,
-            'dataSource': this.dataSource.data,
-        });
+        if (this.viewConfig.metadata.rows) {
+            this.viewConfig.metadata.rows.next({
+                'value': value,
+                'dataSource': this.dataSource.data,
+            });
+        }
     }
     cancel() {
         this.viewConfig.metadata.rows.next(undefined);
+    }
+    deleteRow(id) {
+        const messg = confirm(`Are you sure you want to delete the ${this.viewConfig.title}`);
+        if (messg) {
+            this.api.delete(this.viewConfig.metadata.api, id).subscribe(res => {
+               this.fetch();
+            });
+        }
     }
 }

@@ -1,24 +1,15 @@
 {
-  "terminals": [
-    {
-      "number": 1,
-      "description": "Terminal 1",
-      "rcrs_number": "1234",
-      "store_id": 1,
-      "store": 2,
-      "id": 1
-    }
-  ],
+  "terminals": [],
   "stores": [
     {
       "id": 1,
       "code": 1,
-      "description": "Pizzaeria"
+      "description": "Pizza"
     },
     {
-      "id": 2,
-      "code": 2,
-      "description": "Risa"
+      "id": 3,
+      "code": 3,
+      "description": "Pasta"
     }
   ],
   "departments": [

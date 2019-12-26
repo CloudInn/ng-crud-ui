@@ -14,10 +14,13 @@
 </mat-toolbar> -->
 
 <div class="row" *ngIf="mode !== 'pick'">
-    <a mat-button routerLink="new" color="primary"><mat-icon>add</mat-icon> Create</a>    
+    <a mat-button routerLink="new" color="primary">
+        <mat-icon>add</mat-icon> Create
+    </a>
     <span class="fill-remaining-space"></span>
-    <button mat-button color="warn" [matMenuTriggerFor]="menu">Bulk Actions <mat-icon>arrow_drop_down</mat-icon></button>    
-    <mat-menu #menu="matMenu" >
+    <button mat-button color="warn" [matMenuTriggerFor]="menu">Bulk Actions <mat-icon>arrow_drop_down</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
         <button mat-menu-item>Delete</button>
     </mat-menu>
 </div>
@@ -27,17 +30,17 @@
 </h2>
 
 <!-- <ng-template [ngIf]="viewConfig.search.enabled"> -->
-    <mat-expansion-panel *ngIf="viewConfig.search.enabled">
-        <mat-expansion-panel-header [collapsedHeight]="'40px'" [expandedHeight]="'40px'">
-            <mat-panel-title>
-                <mat-icon>search</mat-icon>
-                <mat-label>Search and filter restults</mat-label>
-            </mat-panel-title>             
-        </mat-expansion-panel-header>
+<mat-expansion-panel *ngIf="viewConfig.search.enabled">
+    <mat-expansion-panel-header [collapsedHeight]="'40px'" [expandedHeight]="'40px'">
+        <mat-panel-title>
+            <mat-icon>search</mat-icon>
+            <mat-label>Search and filter restults</mat-label>
+        </mat-panel-title>
+    </mat-expansion-panel-header>
 
-        <div #searchComponent></div>
+    <div #searchComponent></div>
 
-    </mat-expansion-panel>
+</mat-expansion-panel>
 <!-- </ng-template> -->
 
 <mat-progress-bar *ngIf="isLoading" mode="query"></mat-progress-bar>
@@ -45,20 +48,43 @@
 <mat-table [dataSource]="dataSource">
     <ng-container *ngFor="let column of columns" [matColumnDef]="column.columnDef">
         <ng-template [ngIf]="column.columnDef === 'checked'">
-            <mat-header-cell *matHeaderCellDef (click)="onCheckAll()"><mat-checkbox></mat-checkbox></mat-header-cell>
-            <mat-cell *matCellDef="let row"> <mat-checkbox></mat-checkbox> </mat-cell>
+            <mat-header-cell *matHeaderCellDef (click)="onCheckAll()">
+                <mat-checkbox></mat-checkbox>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let row">
+                <mat-checkbox></mat-checkbox>
+            </mat-cell>
         </ng-template>
-        <ng-template [ngIf]="column.columnDef !== 'checked' && column.columnDef !== 'actions'">
+        <ng-template [ngIf]="column.columnDef !== 'checked' &&
+         column.columnDef !== 'actions' &&
+          column.Def !== 'functions'">
             <mat-header-cell *matHeaderCellDef>{{ column.header }}</mat-header-cell>
             <mat-cell *matCellDef="let row">
                 <!-- <a *ngIf="column.clickable; else normal" [routerLink]="getLink(row.id)">{{ column.cell(row) }}</a>
                 <ng-template #normal>{{ column.cell(row) }}</ng-template>     -->
-                <a class="clickable" [routerLink]="row?.id" *ngIf="(mode !== 'pick' && column.columnDef === viewConfig.metadata.externalNameField); else normalCell">
+                <a class="clickable" [routerLink]="row?.id"
+                    *ngIf="(mode !== 'pick' && column.columnDef === viewConfig.metadata.externalNameField); else normalCell">
                     {{ column.cell(row) }}
                 </a>
                 <ng-template #normalCell>
                     {{ column.cell(row) }}
                 </ng-template>
+            </mat-cell>
+        </ng-template>
+        <ng-template [ngIf]="column.columnDef === 'edit'">
+            <mat-header-cell *matHeaderCellDef>{{ column.header }}</mat-header-cell>
+            <mat-cell *matCellDef="let row">
+                <a class="clickable" [routerLink]="row?.id">
+                    <mat-icon>edit</mat-icon>
+                </a>
+            </mat-cell>
+        </ng-template>
+        <ng-template [ngIf]="column.columnDef === 'delete'">
+            <mat-header-cell *matHeaderCellDef>{{ column.header }}</mat-header-cell>
+            <mat-cell *matCellDef="let row">
+                <a class="clickable" (click)="deleteRow(row?.id)">
+                    <mat-icon>delete</mat-icon>
+                </a>
             </mat-cell>
         </ng-template>
         <ng-template [ngIf]="column.columnDef === 'actions'">
@@ -68,15 +94,12 @@
                     {{ action }}
                 </button> -->
             </mat-cell>
-            </ng-template>
+        </ng-template>
     </ng-container>
-
     <mat-header-row *matHeaderRowDef="displayColumns"></mat-header-row>
-    <mat-row  *matRowDef="let row; columns: displayColumns;" [ngClass]="{'clickable': mode === 'pick'}" (click)="_picked(row)"></mat-row>
+    <mat-row *matRowDef="let row; columns: displayColumns;" [ngClass]="{'clickable': mode === 'pick'}"
+        (click)="_picked(row)"></mat-row>
 </mat-table>
-<mat-paginator #paginator *ngIf="viewConfig.pagination.enabled"
-    [length]="resultsCount"
-    [pageIndex]="pages-1"
-    [pageSize]="20"
-    (page)="onChange($event)">
+<mat-paginator #paginator *ngIf="viewConfig.pagination.enabled" [length]="resultsCount" [pageIndex]="pages-1"
+    [pageSize]="20" (page)="onChange($event)">
 </mat-paginator>

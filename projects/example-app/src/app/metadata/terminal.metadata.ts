@@ -14,6 +14,7 @@ export class TerminalMetadata implements Metadata {
     externalNameField = 'description';
     externalValueField = 'id';
     formsets = [];
+    applyFunctions = true;
     fields: FieldConfig[] = [
         {
             name: 'id',

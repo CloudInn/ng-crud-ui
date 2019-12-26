@@ -42,9 +42,9 @@ export class FieldConfig {
     label: string;
     type?: 'text' | 'number' | 'boolean' | 'textArea' | 'select' |
         'date' | 'datetime' | 'foreignKey' | 'formset' | 'fieldset' = 'text';
-    isEditable?= true;
-    isSearchable?= true;
-    isHidden?= false;
+    isEditable ?= true;
+    isSearchable ?= true;
+    isHidden ?= false;
     control?: ControlConfig | ForeignKeyControlConfig | TextAreaControlConfig |
         SelectControlConfig | AutoCompleteControlConfig | FormSetControlConfig | FieldSetControlConfig;
     validators?: any[];
@@ -61,6 +61,7 @@ export interface Metadata {
     queryParams?: string[];
     filter?: boolean;
     includeParams?: boolean;
+    applyFunctions?: boolean;
     rows?: Subject<any>;
     label: string;
     api: string;
