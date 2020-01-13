@@ -53,6 +53,8 @@ export class FieldConfig {
     choices?: any[];
     // if foreignKey
     resolveValueFrom?: string;
+    displayFrom?: string[]; // value displayed if field value is an object
+    listFrom?: string; // if filed is an array of objects
 }
 
 export interface Metadata {

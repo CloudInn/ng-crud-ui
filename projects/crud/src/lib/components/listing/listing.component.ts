@@ -39,7 +39,6 @@ export class ListingComponent implements OnInit {
         if (this.viewConfig.pagination.enabled) {
             this.searchParams = this.searchParams.set('page', String(1));
         }
-        console.log(this.searchParams);
         this.pages = Number(this.searchParams.get('page'));
         this.mode = this.viewConfig.search.mode ? this.viewConfig.search.mode : 'normal';
         this.populateDataTable();
@@ -74,7 +73,21 @@ export class ListingComponent implements OnInit {
             col['columnDef'] = f.name;
             col['header'] = f.label;
             col['cell'] = (element: Element) => {
-                return element ? `${element[f.name]}` : '';
+                let finalArray;
+                if (f.listFrom && Array.isArray(element[f.name])) {
+                    finalArray = element[field].map((obj) => {
+                        return obj[f.listFrom];
+                    });
+                }
+                if (f.displayFrom && element[field] !== null) {
+                    let value = element[f.name][f.displayFrom[0]];
+                    for (let i = 1; i < f.displayFrom.length; i++) {
+                        value = value[f.displayFrom[i]];
+                    }
+                    return value;
+                } else {
+                    return finalArray ? finalArray : element ? `${element[f.name]}` : '';
+                }
             };
             if (this.viewConfig.metadata.externalNameField === field) {
                 col['clickable'] = true;
@@ -127,7 +140,12 @@ export class ListingComponent implements OnInit {
             let newItems = [];
             if (this.viewConfig.pagination.enabled) {
                 if (res.results) {
-                    newItems = res.results[this.viewConfig.search.search_key];
+                    const keys = this.viewConfig.search.search_key;
+                    let value = res.results[keys[0]];
+                    for (let i = 1; i < keys.length; i++) {
+                        value = value[keys[i]];
+                    }
+                    newItems = value;
                     this.resultsCount = res.count;
                 }
             } else {
@@ -190,7 +208,7 @@ export class ListingComponent implements OnInit {
         const messg = confirm(`Are you sure you want to delete the ${this.viewConfig.title}`);
         if (messg) {
             this.api.delete(this.viewConfig.metadata.api, id).subscribe(res => {
-               this.fetch();
+                this.fetch();
             });
         }
     }

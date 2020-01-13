@@ -1,10 +1,22 @@
 {
-  "terminals": [],
+  "terminals": [
+    {
+      "number": 1,
+      "description": "Terminal 1",
+      "rcrs_number": "1234",
+      "store_id": 1,
+      "store": 2,
+      "id": 1
+    }
+  ],
   "stores": [
     {
       "id": 1,
       "code": 1,
-      "description": "Pizza"
+      "description": [
+       { "name":"Pizza","id":""},
+       { "name":"Rice","id":""}
+      ]
     },
     {
       "id": 3,

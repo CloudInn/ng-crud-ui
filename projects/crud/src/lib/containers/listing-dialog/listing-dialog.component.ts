@@ -9,32 +9,36 @@ import { Metadata } from '../../models/metadata';
 })
 export class ListingDialogComponent implements OnInit {
 
-    metadata: Metadata;
-    @ViewChild('listingView', {read: ViewContainerRef}) listingView: ViewContainerRef;
+  metadata: Metadata;
+  @ViewChild('listingView', { read: ViewContainerRef }) listingView: ViewContainerRef;
 
-    constructor(
-      private ref: MatDialogRef<ListingDialogComponent>,
-      private container: ViewContainerRef,
-      private resolver: ComponentFactoryResolver,
-      @Inject(MAT_DIALOG_DATA) public data: any,
-    ) {}
+  constructor(
+    private ref: MatDialogRef<ListingDialogComponent>,
+    private container: ViewContainerRef,
+    private resolver: ComponentFactoryResolver,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+  ) { }
 
-    ngOnInit() {
-      const viewConfig = this.data['viewConfig'];
-      this.metadata = this.data['metadata'];
-      // const viewConfig = new ListingView(this.metadata);
-      const factory = this.resolver.resolveComponentFactory<any>(viewConfig.component);
-      const component = this.container.createComponent(factory);
-      component.instance.viewConfig = viewConfig;
-      component.instance.viewConfig.search.mode = 'pick';
-      component.instance.viewConfig.metadata.rows.subscribe(value => {
+  ngOnInit() {
+    const viewConfig = this.data['viewConfig'];
+    this.metadata = this.data['metadata'];
+    // const viewConfig = new ListingView(this.metadata);
+    const factory = this.resolver.resolveComponentFactory<any>(viewConfig.component);
+    const component = this.container.createComponent(factory);
+    component.instance.viewConfig = viewConfig;
+    component.instance.viewConfig.search.mode = 'pick';
+    component.instance.viewConfig.metadata.rows.subscribe(value => {
+      if (value === undefined) {
+        this.ref.close(value);
+      } else {
         this.picked(value);
-      });
-      this.listingView.insert(component.hostView);
-    }
+      }
+    });
+    this.listingView.insert(component.hostView);
+  }
 
-    picked(value) {
-      this.ref.close(value);
-    }
+  picked(value) {
+    this.ref.close(value);
+  }
 
 }

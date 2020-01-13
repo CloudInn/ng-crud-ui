@@ -14,7 +14,7 @@ export interface ListViewer extends ViewConfig {
     search: {
         enabled: boolean,
         view: FormViewer,
-        search_key?: string,
+        search_key?: string[],
         mode?: string
     };
     dialog_mode?: boolean;
@@ -50,9 +50,9 @@ export class ListingView implements ListViewer {
     breadcrumbs = [];
     component = ListingComponent;
     search = {
-        enabled: true,
+        enabled: false,
         view: new FormView(this.metadata),
-        search_key: '',
+        search_key: [],
         mode: 'normal'
     };
     dialog_mode = false;

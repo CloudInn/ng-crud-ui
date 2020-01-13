@@ -6,8 +6,9 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 The projects is splitted in two proejcts, one for the demo/examples project and one for the library itself,
 the library itself is under projects/crud. You have to build the library first then run the development server
-to check the demo app. using `ng build crud` to build the library. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-to publish your package to npm. change version of your package in package.json file in projects/crud , run npm run build , cd dist/crud then run npm publish.
+to check the demo app. using `
+` to build the library. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+to publish your package to npm. change version of your package in package.json file in projects/crud , run ng build crud , cd dist/crud then run npm publish.
 
 ## Documentation
 

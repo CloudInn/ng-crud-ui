@@ -32,7 +32,7 @@ so let's take alook on an example for defining a ForeignKey Field:
     resolveValueFrom: 'store_id',
     control: {
         metadata: new StoreMetadata(),
-        viewConfig: new StoreListView(),
+        viewConfig: new (),
     }
 }
 ```
