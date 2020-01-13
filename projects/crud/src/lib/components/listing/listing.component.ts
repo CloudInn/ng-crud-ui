@@ -1,6 +1,6 @@
 import {
     Component, OnInit, Input, Output, EventEmitter,
-    ComponentFactoryResolver, ViewChild, ViewContainerRef
+    ComponentFactoryResolver, ViewChild, ViewContainerRef, AfterContentChecked, AfterViewInit
 } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 
@@ -15,7 +15,7 @@ import { MatPaginator, PageEvent } from '@angular/material';
     styleUrls: ['./listing.component.scss'],
     exportAs: 'ngcrudui-listing'
 })
-export class ListingComponent implements OnInit {
+export class ListingComponent implements OnInit, AfterViewInit {
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
     @Input() viewConfig: ListViewer;
@@ -42,25 +42,26 @@ export class ListingComponent implements OnInit {
         this.pages = Number(this.searchParams.get('page'));
         this.mode = this.viewConfig.search.mode ? this.viewConfig.search.mode : 'normal';
         this.populateDataTable();
+    }
+    ngAfterViewInit() {
         if (this.viewConfig.search.enabled) {
-            const factory = this.resolver.resolveComponentFactory(this.viewConfig.search.view.component);
-            const component = this.container.createComponent(factory);
-            component.instance.viewConfig = this.viewConfig.search.view;
-            component.instance.submit.subscribe(ev => {
-                if (ev.reset) {
-                    this.searchParams = new HttpParams();
-                    this.searchParams = this.searchParams.set('page', String(1));
-                    this.populateParams();
-                } else {
-                    this.searchClicked(ev);
-                }
+        const factory = this.resolver.resolveComponentFactory(this.viewConfig.search.view.component);
+        const component = this.container.createComponent(factory);
+        component.instance.viewConfig = this.viewConfig.search.view;
+        component.instance.submit.subscribe(ev => {
+            if (ev.reset) {
+                this.searchParams = new HttpParams();
+                this.searchParams = this.searchParams.set('page', String(1));
+                this.populateParams();
+            } else {
+                this.searchClicked(ev);
+            }
 
-            });
-            component.instance.mode = 'search';
+        });
+        component.instance.mode = 'search';
             this.searchComponent.insert(component.hostView);
         }
     }
-
     private prepareColumns() {
         if (this.mode !== 'pick') {
             // this.columns = [{ 'columnDef': 'checked', 'header': '' }];
@@ -141,11 +142,18 @@ export class ListingComponent implements OnInit {
             if (this.viewConfig.pagination.enabled) {
                 if (res.results) {
                     const keys = this.viewConfig.search.search_key;
-                    let value = res.results[keys[0]];
+                    let value = res.results[keys[0]]; // search_key is an array of keys
                     for (let i = 1; i < keys.length; i++) {
                         value = value[keys[i]];
                     }
                     newItems = value;
+                    if (this.viewConfig.metadata.resultKey) { //  res.results[search_key] is an array of actual results
+                        const newValues = [];
+                        value.forEach(val => {
+                            newValues.push(...val[this.viewConfig.metadata.resultKey]);
+                        });
+                        newItems = newValues;
+                    }
                     this.resultsCount = res.count;
                 }
             } else {
@@ -172,7 +180,9 @@ export class ListingComponent implements OnInit {
         if (this.viewConfig.metadata.filter) {
             Object.keys(searchParams).forEach(p => {
                 if (searchParams[p] !== null) {
-                    this.searchParams = this.searchParams.set(`filter{${p}}`, searchParams[p]);
+                    this.searchParams = this.viewConfig.metadata.resultKey ?
+                        this.searchParams.set(`filter{${this.viewConfig.metadata.resultKey}.${p}}`, searchParams[p]) :
+                        this.searchParams.set(`filter{${p}}`, searchParams[p]);
                 }
             });
         } else {
