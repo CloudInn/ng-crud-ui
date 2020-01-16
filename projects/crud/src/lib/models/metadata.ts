@@ -42,15 +42,17 @@ export class FieldConfig {
     label: string;
     type?: 'text' | 'number' | 'boolean' | 'textArea' | 'select' |
         'date' | 'datetime' | 'foreignKey' | 'formset' | 'fieldset' = 'text';
-    isEditable ?= true;
-    isSearchable ?= true;
-    isHidden ?= false;
+    isEditable?: boolean = true;
+    isSearchable?: boolean = true;
+    isHidden?: boolean = false;
     control?: ControlConfig | ForeignKeyControlConfig | TextAreaControlConfig |
         SelectControlConfig | AutoCompleteControlConfig | FormSetControlConfig | FieldSetControlConfig;
     validators?: any[];
     foreignModelPath?: string;
     valueType?: string;
     choices?: any[];
+    defaultValue?: any = '';
+    iContains?: boolean;
     // if foreignKey
     resolveValueFrom?: string;
     displayFrom?: string[]; // value displayed if field value is an object
@@ -72,5 +74,7 @@ export interface Metadata {
     listingFields: string[];
     externalNameField: string;
     externalValueField: string;
+    filter_key?: string[];
+    default_filters?: any[];
     formActions: { [key: string]: any };
 }

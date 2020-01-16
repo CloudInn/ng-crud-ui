@@ -44,7 +44,16 @@ export class ForeignKeyFieldComponent implements OnChanges {
     this._underlyingCtrl.valueChanges.subscribe(value => {
       if ((typeof value) === 'string') {
         this._filter(value).subscribe(res => {
-          this.availableOptions = of(res);
+          if (res.results) {
+            const keys = this.controlConfig.metadata.filter_key;
+            let value = res.results[keys[0]]; // search_key is an array of keys
+            for (let i = 1; i < keys.length; i++) {
+              value = value[keys[i]];
+            }
+            this.availableOptions = of(value);
+          } else {
+            this.availableOptions = of(res);
+          }
         });
       } else if (value != null) {
         this._setControlValue(value[this.controlConfig.metadata.externalValueField]);
@@ -88,10 +97,14 @@ export class ForeignKeyFieldComponent implements OnChanges {
     return option[this.controlConfig.metadata.optionName];
   }
 
-  _filter(value: string): Observable<any[]> {
+  _filter(value: string): Observable<any> {
     const filterValue = value ? value : '';
     let params = new HttpParams();
-    params = params.append(this.controlConfig.metadata.externalNameField, filterValue.toLowerCase());
+    if (this.controlConfig.metadata.filter) {
+      params = params.append(`filter{${this.controlConfig.metadata.externalNameField}}`, filterValue.toLowerCase());
+    } else {
+      params = params.append(this.controlConfig.metadata.externalNameField, filterValue.toLowerCase());
+    }
     return this.api.fetch(`${this.controlConfig.metadata.api}`, params).pipe(
       map(res => {
         return res;

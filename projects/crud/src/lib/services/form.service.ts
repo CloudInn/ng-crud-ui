@@ -7,7 +7,7 @@ import { FieldConfig, FormSetControlConfig, FieldSetControlConfig } from '../mod
 })
 export class FormService {
 
-  constructor() {}
+  constructor() { }
 
   create(config: FieldConfig[]): FormGroup {
     const ctrls = {};
@@ -23,7 +23,11 @@ export class FormService {
         ctrls[c.name] = new FormArray([group]);
         return;
       }
+
       ctrls[c.name] = new FormControl(null, c.validators);
+      if (!c.isEditable) {
+        ctrls[c.name].disable();
+      }
     });
     const fg = new FormGroup(ctrls);
     return fg;

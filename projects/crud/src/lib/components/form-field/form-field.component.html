@@ -14,20 +14,25 @@
 
     <mat-form-field *ngSwitchCase="'date'">
         <mat-label>{{ config.label }}</mat-label>
-        <input  matInput [formControlName]="config.name"  [matDatepicker]="myDatepicker" />
+        <input matInput [formControlName]="config.name" [matDatepicker]="myDatepicker" />
+        <mat-error *ngIf="f[config.name].hasError('required') && (f[config.name].dirty || f[config.name].touched)">this
+            field is required</mat-error>
         <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
         <mat-datepicker #myDatepicker></mat-datepicker>
     </mat-form-field>
-    
+
     <ng-container *ngSwitchCase="'foreignKey'">
-        <ng-crud-foreign-key-field [reset]="reset" [config]="config" [formGroup]="formGroup"></ng-crud-foreign-key-field>
+        <ng-crud-foreign-key-field [reset]="reset" [config]="config" [formGroup]="formGroup">
+        </ng-crud-foreign-key-field>
     </ng-container>
 
     <!-- this fallsback from number and text -->
     <mat-form-field *ngSwitchDefault>
         <mat-label>{{ config.label }}</mat-label>
-        <input  matInput [formControlName]="config.name"
-                [type]="config.control ? config.control.type : 'text'" />
+        <input matInput [formControlName]="config.name" [value]="config?.defaultValue"
+            [type]="config.control ? config.control.type : 'text'" />
+        <mat-error *ngIf="f[config.name].hasError('required') && (f[config.name].dirty || f[config.name].touched)">this
+            field is required</mat-error>
     </mat-form-field>
 
 </div>

@@ -3,13 +3,15 @@
         <mat-label>{{ config.label }}</mat-label>
         <button mat-icon-button matPrefix (click)="removeSelection()"
             *ngIf="formGroup.get([config.resolveValueFrom]).value!==null">
-            <mat-icon [color]="'warn'">delete</mat-icon>
+            <mat-icon [color]="'warn'">close</mat-icon>
         </button>
         <mat-icon class="input_icon" style="color: rgba(165, 151, 151, 0.87);
         cursor: pointer;
         position: absolute;
-        right: 0px;" (click)="openListingDialog($event)">search</mat-icon>
+        right: 0px;" *ngIf="config?.isSearchable" (click)="openListingDialog($event)">search</mat-icon>
         <input type="text" matInput [formControl]="_underlyingCtrl" [matAutocomplete]="auto">
+        <mat-error *ngIf="_underlyingCtrl.hasError('required') && (_underlyingCtrl.dirty || _underlyingCtrl.touched)">
+            this field is required</mat-error>
     </mat-form-field>
 
     <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">

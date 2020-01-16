@@ -30,17 +30,17 @@
 </h2>
 
 <ng-template [ngIf]="viewConfig.search.enabled">
-<mat-expansion-panel>
-    <mat-expansion-panel-header [collapsedHeight]="'40px'" [expandedHeight]="'40px'">
-        <mat-panel-title>
-            <mat-icon>search</mat-icon>
-            <mat-label>Search and filter results</mat-label>
-        </mat-panel-title>
-    </mat-expansion-panel-header>
+    <mat-expansion-panel [expanded]="true">
+        <mat-expansion-panel-header [collapsedHeight]="'40px'" [expandedHeight]="'40px'">
+            <mat-panel-title>
+                <mat-icon>search</mat-icon>
+                <mat-label>Search</mat-label>
+            </mat-panel-title>
+        </mat-expansion-panel-header>
 
-    <div #searchComponent></div>
+        <div #searchComponent></div>
 
-</mat-expansion-panel>
+    </mat-expansion-panel>
 </ng-template>
 
 <mat-progress-bar *ngIf="isLoading" mode="query"></mat-progress-bar>
@@ -64,10 +64,10 @@
                 <ng-template #normal>{{ column.cell(row) }}</ng-template>     -->
                 <a class="clickable" [routerLink]="row?.id"
                     *ngIf="(mode !== 'pick' && column.columnDef === viewConfig.metadata.externalNameField); else normalCell">
-                    {{ column.cell(row) }}
+                    {{ column.cell(row)}}
                 </a>
                 <ng-template #normalCell>
-                    {{ column.cell(row) }}
+                    {{ column.cell(row)}}
                 </ng-template>
             </mat-cell>
         </ng-template>

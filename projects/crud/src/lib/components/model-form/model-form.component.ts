@@ -85,12 +85,22 @@ export class ModelFormComponent implements OnInit {
                 console.log(res);
             });
         } else {
-            this.submit.emit(this.formGroup.value);
+            this.viewConfig.controls.map(ctrl => {
+                if (ctrl.type === 'date') {
+                    if (this.formGroup.get(ctrl.name).value !== null) {
+                        let val = new Date(this.formGroup.get(ctrl.name).value).toISOString();
+                        this.formGroup.get(ctrl.name).setValue(
+                            val.slice(0, val.indexOf('T')));
+                    }
+                }
+            });
+            const contains_ctrl = this.viewConfig.controls.filter(ctrl => ctrl.iContains);
+            this.submit.emit({ ...this.formGroup.value, iContains: contains_ctrl });
+
         }
     }
     _onReset() {
         this.formGroup.reset();
-        console.log(this.formGroup.value);
         this.submit.emit({ reset: true });
     }
 

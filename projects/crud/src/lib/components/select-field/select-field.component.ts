@@ -16,20 +16,24 @@ import { FieldConfig, SelectControlConfig } from '../../models/metadata';
             <mat-option *ngFor="let c of controlConfig?.choices" [value]="c['value']">
                 {{ c["label"] }}
             </mat-option>
+            <mat-error *ngIf="f[config.name].hasError('required') && (f[config.name].dirty || f[config.name].touched)">this
+            field is required</mat-error>
         </mat-select>
     </mat-form-field>
   `
 })
-export class SelectFieldComponent implements OnInit  {
+export class SelectFieldComponent implements OnInit {
 
   @Input() formGroup: FormGroup;
   @Input() config: FieldConfig;
   controlConfig: SelectControlConfig;
 
+  get f() { return this.formGroup.controls; }
+
   constructor() { }
 
   ngOnInit() {
-      this.controlConfig = this.config.control as SelectControlConfig;
+    this.controlConfig = this.config.control as SelectControlConfig;
   }
 
 

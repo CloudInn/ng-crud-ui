@@ -45,20 +45,20 @@ export class ListingComponent implements OnInit, AfterViewInit {
     }
     ngAfterViewInit() {
         if (this.viewConfig.search.enabled) {
-        const factory = this.resolver.resolveComponentFactory(this.viewConfig.search.view.component);
-        const component = this.container.createComponent(factory);
-        component.instance.viewConfig = this.viewConfig.search.view;
-        component.instance.submit.subscribe(ev => {
-            if (ev.reset) {
-                this.searchParams = new HttpParams();
-                this.searchParams = this.searchParams.set('page', String(1));
-                this.populateParams();
-            } else {
-                this.searchClicked(ev);
-            }
+            const factory = this.resolver.resolveComponentFactory(this.viewConfig.search.view.component);
+            const component = this.container.createComponent(factory);
+            component.instance.viewConfig = this.viewConfig.search.view;
+            component.instance.submit.subscribe(ev => {
+                if (ev.reset) {
+                    this.searchParams = new HttpParams();
+                    this.searchParams = this.searchParams.set('page', String(1));
+                    this.populateParams(this.viewConfig.metadata.default_filters);
+                } else {
+                    this.searchClicked(ev);
+                }
 
-        });
-        component.instance.mode = 'search';
+            });
+            component.instance.mode = 'search';
             this.searchComponent.insert(component.hostView);
         }
     }
@@ -74,6 +74,9 @@ export class ListingComponent implements OnInit, AfterViewInit {
             col['columnDef'] = f.name;
             col['header'] = f.label;
             col['cell'] = (element: Element) => {
+                if (element[field] === null || element[field] === undefined) {
+                    element[field] = '';
+                }
                 let finalArray;
                 if (f.listFrom && Array.isArray(element[f.name])) {
                     finalArray = element[field].map((obj) => {
@@ -124,13 +127,18 @@ export class ListingComponent implements OnInit, AfterViewInit {
         this.displayColumns = this.columns.map(c => c.columnDef);
         this.resultsCount = 0;
         this.dataSource.data = [];
-        this.populateParams();
+        this.populateParams(this.viewConfig.metadata.default_filters);
     }
 
-    populateParams() {
+    populateParams(defaultFilter) {
         if (this.viewConfig.metadata.includeParams) {
             this.viewConfig.metadata.queryParams.forEach((field) => {
                 this.searchParams = this.searchParams.append('include[]', field);
+            });
+        }
+        if (defaultFilter && defaultFilter.length > 0) {
+            defaultFilter.forEach(f => {
+                this.searchParams = this.searchParams.append(`filter{${f.filter}}`, f.value);
             });
         }
         this.fetch();
@@ -147,13 +155,6 @@ export class ListingComponent implements OnInit, AfterViewInit {
                         value = value[keys[i]];
                     }
                     newItems = value;
-                    if (this.viewConfig.metadata.resultKey) { //  res.results[search_key] is an array of actual results
-                        const newValues = [];
-                        value.forEach(val => {
-                            newValues.push(...val[this.viewConfig.metadata.resultKey]);
-                        });
-                        newItems = newValues;
-                    }
                     this.resultsCount = res.count;
                 }
             } else {
@@ -170,7 +171,7 @@ export class ListingComponent implements OnInit, AfterViewInit {
     onChange(ev: PageEvent) {
         this.searchParams = new HttpParams();
         this.searchParams = this.searchParams.set('page', String(ev.pageIndex + 1));
-        this.populateParams();
+        this.populateParams(this.viewConfig.metadata.default_filters);
     }
 
     searchClicked(searchParams) {
@@ -179,10 +180,17 @@ export class ListingComponent implements OnInit, AfterViewInit {
         this.resultsCount = 0;
         if (this.viewConfig.metadata.filter) {
             Object.keys(searchParams).forEach(p => {
-                if (searchParams[p] !== null) {
-                    this.searchParams = this.viewConfig.metadata.resultKey ?
-                        this.searchParams.set(`filter{${this.viewConfig.metadata.resultKey}.${p}}`, searchParams[p]) :
-                        this.searchParams.set(`filter{${p}}`, searchParams[p]);
+                if (searchParams[p] !== null && p !== 'iContains') {
+                    let containes = false;
+                    searchParams['iContains'].forEach(key => {
+                        if (key.name === p) {
+                            containes = true;
+                            this.searchParams = this.searchParams.set(`filter{${p}.icontains}`, searchParams[p]);
+                        }
+                    });
+                    if (!containes) {
+                        this.searchParams = this.searchParams.set(`filter{${p}}`, searchParams[p]);
+                    }
                 }
             });
         } else {
