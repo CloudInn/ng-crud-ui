@@ -73,6 +73,7 @@ export class ListingComponent implements OnInit, AfterViewInit {
             const col = {};
             col['columnDef'] = f.name;
             col['header'] = f.label;
+            col['type'] = f.type;
             col['cell'] = (element: Element) => {
                 if (element[field] === null || element[field] === undefined) {
                     element[field] = '';
@@ -90,7 +91,10 @@ export class ListingComponent implements OnInit, AfterViewInit {
                     }
                     return value;
                 } else {
-                    return finalArray ? finalArray : element ? `${element[f.name]}` : '';
+                    if (typeof element[f.name] === 'boolean' && element[f.name]) {
+                        element[f.name] = 'boolean';
+                    }
+                    return finalArray ? finalArray : element ? element[f.name] : '';
                 }
             };
             if (this.viewConfig.metadata.externalNameField === field) {
@@ -180,16 +184,28 @@ export class ListingComponent implements OnInit, AfterViewInit {
         this.resultsCount = 0;
         if (this.viewConfig.metadata.filter) {
             Object.keys(searchParams).forEach(p => {
-                if (searchParams[p] !== null && p !== 'iContains') {
+                if (searchParams[p] === null || searchParams[p] === 'All') {
+                    searchParams[p] = '';
+                }
+                if (p !== 'iContains') {
                     let containes = false;
                     searchParams['iContains'].forEach(key => {
                         if (key.name === p) {
                             containes = true;
-                            this.searchParams = this.searchParams.set(`filter{${p}.icontains}`, searchParams[p]);
+                            if (searchParams[p] !== '') {
+                                this.searchParams = this.searchParams.set(`filter{${p}.icontains}`, searchParams[p]);
+                            } else {
+                                this.searchParams = this.searchParams.delete(`filter{${p}.icontains}`);
+                            }
+
                         }
                     });
                     if (!containes) {
-                        this.searchParams = this.searchParams.set(`filter{${p}}`, searchParams[p]);
+                        if (searchParams[p] !== '') {
+                            this.searchParams = this.searchParams.set(`filter{${p}}`, searchParams[p]);
+                        } else {
+                            this.searchParams = this.searchParams.delete(`filter{${p}}`);
+                        }
                     }
                 }
             });

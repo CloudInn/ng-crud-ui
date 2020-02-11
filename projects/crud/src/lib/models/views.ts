@@ -60,7 +60,23 @@ export class ListingView implements ListViewer {
         enabled: true,
         pageSize: 20,
     };
-
-    constructor(public metadata: Metadata) { }
+    defaults = {};
+    constructor(public metadata: Metadata) {
+    }
+    setDefaults(values) {
+        Object.keys(values).forEach(key => {
+            this.search.view.controls.forEach(ctrl => {
+                if (key === ctrl.name) {
+                    ctrl.defaultValue = values[key];
+                }
+            });
+            if (this.metadata.default_filters) {
+                this.metadata.default_filters.push({
+                    filter: key,
+                    value: values[key]
+                });
+            }
+        });
+    }
 }
 

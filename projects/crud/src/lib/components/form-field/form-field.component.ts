@@ -29,5 +29,10 @@ export class FormFieldComponent implements OnChanges, OnInit {
   }
 
   ngOnInit() {
+    if (this.config.defaultValue) {
+      this.formGroup.patchValue({
+        [this.config.name]: this.config.defaultValue
+      });
+    }
   }
 }

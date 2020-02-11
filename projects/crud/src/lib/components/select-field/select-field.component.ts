@@ -12,7 +12,6 @@ import { FieldConfig, SelectControlConfig } from '../../models/metadata';
     <mat-form-field [formGroup]="formGroup">
         <mat-label>{{ config.label }}</mat-label>
         <mat-select [formControlName]="config.name">
-            <mat-option></mat-option>
             <mat-option *ngFor="let c of controlConfig?.choices" [value]="c['value']">
                 {{ c["label"] }}
             </mat-option>
@@ -34,7 +33,11 @@ export class SelectFieldComponent implements OnInit {
 
   ngOnInit() {
     this.controlConfig = this.config.control as SelectControlConfig;
+    if (this.controlConfig.choices) {
+      const all_option = this.controlConfig.choices.find(el => el.value === 'All');
+      if (all_option) {
+        this.formGroup.get(this.config.name).setValue(all_option.value);
+      }
+    }
   }
-
-
 }

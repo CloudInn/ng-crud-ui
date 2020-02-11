@@ -30,7 +30,7 @@
 </h2>
 
 <ng-template [ngIf]="viewConfig.search.enabled">
-    <mat-expansion-panel [expanded]="true">
+    <mat-expansion-panel [expanded]="true" class="crud-search">
         <mat-expansion-panel-header [collapsedHeight]="'40px'" [expandedHeight]="'40px'">
             <mat-panel-title>
                 <mat-icon>search</mat-icon>
@@ -67,7 +67,12 @@
                     {{ column.cell(row)}}
                 </a>
                 <ng-template #normalCell>
-                    {{ column.cell(row)}}
+                    <ng-container *ngIf="column.cell(row)!=='boolean'">
+                        {{ column.cell(row)?column.cell(row):''}}
+                    </ng-container>
+                    <ng-container *ngIf="column.cell(row)==='boolean'">
+                     <mat-icon class="checkmark_icon">checkmark</mat-icon>
+                    </ng-container>
                 </ng-template>
             </mat-cell>
         </ng-template>

@@ -1,10 +1,6 @@
 <div [formGroup]="formGroup">
     <mat-form-field>
         <mat-label>{{ config.label }}</mat-label>
-        <button mat-icon-button matPrefix (click)="removeSelection()"
-            *ngIf="formGroup.get([config.resolveValueFrom]).value!==null">
-            <mat-icon [color]="'warn'">close</mat-icon>
-        </button>
         <mat-icon class="input_icon" style="color: rgba(165, 151, 151, 0.87);
         cursor: pointer;
         position: absolute;
@@ -19,5 +15,8 @@
             {{ option[controlConfig.metadata.optionName] }}
         </mat-option>
     </mat-autocomplete>
-
+    <button mat-icon-button matPrefix (click)="removeSelection()" style="margin: -20px;"
+    *ngIf="formGroup.get([config.resolveValueFrom]).value!==null">
+    <mat-icon [color]="'warn'" style="font-size: inherit;">close</mat-icon>
+</button>
 </div>

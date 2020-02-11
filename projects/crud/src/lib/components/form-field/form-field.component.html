@@ -1,7 +1,7 @@
 <div [ngSwitch]="config.type" class="form-field-wrapper" [formGroup]="formGroup">
 
     <div *ngSwitchCase="'boolean'">
-        <mat-slide-toggle matInput [formControlName]="config.name">{{ config.label }}</mat-slide-toggle>
+        <mat-checkbox matInput [formControlName]="config.name">{{ config.label }}</mat-checkbox>
     </div>
 
     <ng-container *ngSwitchCase="'textArea'">

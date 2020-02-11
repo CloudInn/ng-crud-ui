@@ -13,10 +13,7 @@
     {
       "id": 1,
       "code": 1,
-      "description": [
-       { "name":"Pizza","id":""},
-       { "name":"Rice","id":""}
-      ]
+      "description": "Pizza"
     },
     {
       "id": 3,

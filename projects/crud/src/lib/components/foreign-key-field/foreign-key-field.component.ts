@@ -90,11 +90,19 @@ export class ForeignKeyFieldComponent implements OnChanges {
   }
 
   displayFn(option) {
-    console.log(option)
     if (option == null) {
       return;
     }
-    return option[this.controlConfig.metadata.optionName];
+    if (this.controlConfig.metadata.filter_key) {
+      const keys = this.controlConfig.metadata.filter_key;
+      let value = option[this.controlConfig.metadata.optionName][keys[0]]; // search_key is an array of keys
+      for (let i = 1; i < keys.length; i++) {
+        value = value[keys[i]];
+      }
+      return value;
+    } else {
+      return option[this.controlConfig.metadata.optionName];
+    }
   }
 
   _filter(value: string): Observable<any> {
