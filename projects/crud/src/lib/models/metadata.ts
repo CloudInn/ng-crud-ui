@@ -41,7 +41,7 @@ export class FieldConfig {
     name: string;
     label: string;
     type?: 'text' | 'number' | 'boolean' | 'textArea' | 'select' |
-        'date' | 'datetime' | 'foreignKey' | 'formset' | 'fieldset' = 'text';
+        'date' | 'datetime' | 'foreignKey' | 'formset' | 'fieldset' | 'foreignKey_multiple' = 'text';
     isEditable?: boolean = true;
     isSearchable?: boolean = true;
     isHidden?: boolean = false;

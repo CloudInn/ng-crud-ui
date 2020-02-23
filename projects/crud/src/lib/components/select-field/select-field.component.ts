@@ -9,7 +9,7 @@ import { FieldConfig, SelectControlConfig } from '../../models/metadata';
   exportAs: 'ngcrudui-select-field',
   styles: ['.form-field-wrapper{margin-right:  24px}'],
   template: `
-    <mat-form-field [formGroup]="formGroup">
+    <mat-form-field [formGroup]="formGroup" style="width: 90%;">
         <mat-label>{{ config.label }}</mat-label>
         <mat-select [formControlName]="config.name">
             <mat-option *ngFor="let c of controlConfig?.choices" [value]="c['value']">
@@ -35,7 +35,7 @@ export class SelectFieldComponent implements OnInit {
     this.controlConfig = this.config.control as SelectControlConfig;
     if (this.controlConfig.choices) {
       const all_option = this.controlConfig.choices.find(el => el.value === 'All');
-      if (all_option) {
+      if (all_option && this.formGroup.get(this.config.name) !== null) {
         this.formGroup.get(this.config.name).setValue(all_option.value);
       }
     }

@@ -11,6 +11,9 @@ export class TerminalMetadata implements Metadata {
     api = '/api/terminals';
     model = Terminal;
     listingFields = ['id', 'number', 'description', 'rcrs_number', 'last_invoice_id', 'is_locked', 'store'];
+    queryParams = ['id', 'number', 'description', 'rcrs_number', 'last_invoice_id', 'is_locked', 'store'];
+    includeParams = true;
+    filter = true;
     externalNameField = 'description';
     externalValueField = 'id';
     formsets = [];
@@ -51,25 +54,26 @@ export class TerminalMetadata implements Metadata {
         {
             name: 'last_invoice_id',
             label: 'Last Invoice',
-            type: 'text',
-            isEditable: false
+            type: 'boolean',
+            isEditable: true
         },
         {
             name: 'is_locked',
             label: 'Locked',
             type: 'boolean',
-            isEditable: false,
+            isEditable: true,
         },
         {
             name: 'store_id',
             label: 'Outlet ID',
-            type: 'number',
-            isHidden: true,
+            type: 'date',
+            isHidden: false,
+            isEditable: true,
         },
         {
             name: 'store',
             label: 'Outlet',
-            type: 'foreignKey',
+            type: 'foreignKey_multiple',
             resolveValueFrom: 'store_id',
             control: {
                 metadata: new StoreMetadata(),

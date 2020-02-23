@@ -1,0 +1,30 @@
+<mat-form-field class="example-chip-list" style="width: 90%;">
+  <mat-chip-list #chipList aria-label="Fruit selection">
+    <mat-chip
+      *ngFor="let result of selected_results"
+      [selectable]="selectable"
+      [removable]="removable"
+      (removed)="remove(result)">
+      {{result}}
+      <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+    </mat-chip>
+    <input
+    [placeholder]="config.label"
+      #fruitInput
+      [formControl]="_underlyingCtrl"
+      [matAutocomplete]="auto"
+      [matChipInputFor]="chipList"
+      [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+      (matChipInputTokenEnd)="add($event)">
+  </mat-chip-list>
+  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+    <mat-option *ngFor="let option of filtered | async" [value]="option">
+      {{option[controlConfig.metadata.optionName]}}
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>
+
+
+<!-- Copyright 2019 Google LLC. All Rights Reserved.
+    Use of this source code is governed by an MIT-style license that
+    can be found in the LICENSE file at http://angular.io/license -->

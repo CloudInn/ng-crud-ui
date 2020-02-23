@@ -13,3 +13,14 @@
 .actions{
     justify-content: flex-end !important;
 }
+.form-body{
+    padding-bottom: 75px;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 auto;
+}
+.FormCell{
+    width: 23%;
+    margin-right: 10px;
+    margin-bottom: 10px !important;
+}

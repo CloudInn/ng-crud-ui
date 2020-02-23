@@ -29,6 +29,7 @@ import {
   MatExpansionModule,
   MatAutocompleteModule,
   MatDialogModule,
+  MatChipsModule,
 } from '@angular/material';
 
 
@@ -45,6 +46,8 @@ import { ScreenWrapperComponent } from './containers/screen-wrapper/screen-wrapp
 import { ListingDialogComponent } from './containers/listing-dialog/listing-dialog.component';
 import { CookieInterceptor } from './cookie.interceptor';
 import { CookieModule } from 'ngx-cookie';
+import { ForeignKeyFiledMultipleComponent } from './components/foreign-key-filed-multiple/foreign-key-filed-multiple.component';
+import { ErrorHandlingComponent } from './components/error-handling/error-handling.component';
 
 @NgModule({
   imports: [
@@ -57,6 +60,7 @@ import { CookieModule } from 'ngx-cookie';
     CookieModule.forChild(),
     MatToolbarModule,
     MatSidenavModule,
+    MatChipsModule,
     MatListModule,
     MatIconModule,
     MatTableModule,
@@ -90,6 +94,8 @@ import { CookieModule } from 'ngx-cookie';
     ListingDialogComponent,
     TextAreaFieldComponent,
     SelectFieldComponent,
+    ForeignKeyFiledMultipleComponent,
+    ErrorHandlingComponent,
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: CookieInterceptor, multi: true},

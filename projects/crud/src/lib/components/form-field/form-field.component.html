@@ -1,7 +1,8 @@
 <div [ngSwitch]="config.type" class="form-field-wrapper" [formGroup]="formGroup">
 
-    <div *ngSwitchCase="'boolean'">
-        <mat-checkbox matInput [formControlName]="config.name">{{ config.label }}</mat-checkbox>
+    <div *ngSwitchCase="'boolean'" class="holdFormCell">
+        <mat-label>{{ config.label }}</mat-label>
+        <mat-checkbox matInput [formControlName]="config.name" color="primary"></mat-checkbox>
     </div>
 
     <ng-container *ngSwitchCase="'textArea'">
@@ -12,7 +13,7 @@
         <ng-crud-select-field [formGroup]="formGroup" [config]="config"></ng-crud-select-field>
     </ng-container>
 
-    <mat-form-field *ngSwitchCase="'date'">
+    <mat-form-field *ngSwitchCase="'date'" style="width: 90%;">
         <mat-label>{{ config.label }}</mat-label>
         <input matInput [formControlName]="config.name" [matDatepicker]="myDatepicker" />
         <mat-error *ngIf="f[config.name].hasError('required') && (f[config.name].dirty || f[config.name].touched)">this
@@ -26,8 +27,14 @@
         </ng-crud-foreign-key-field>
     </ng-container>
 
+    <ng-container *ngSwitchCase="'foreignKey_multiple'">
+        <ng-foreign-key-filed-multiple [reset]="reset" [config]="config" [formGroup]="formGroup">
+        </ng-foreign-key-filed-multiple>
+    </ng-container>
+
+
     <!-- this fallsback from number and text -->
-    <mat-form-field *ngSwitchDefault>
+    <mat-form-field *ngSwitchDefault style="width: 90%;">
         <mat-label>{{ config.label }}</mat-label>
         <input matInput [formControlName]="config.name" [value]="config?.defaultValue"
             [type]="config.control ? config.control.type : 'text'" />

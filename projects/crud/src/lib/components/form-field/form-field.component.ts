@@ -7,7 +7,7 @@ import { Metadata, FieldConfig } from '../../models/metadata';
   selector: 'ng-crud-form-field',
   templateUrl: './form-field.component.html',
   exportAs: 'ngcrudui-form-field',
-  styles: ['.form-field-wrapper{margin-right:  24px}']
+  styleUrls:['./form-field.component.css']
 })
 export class FormFieldComponent implements OnChanges, OnInit {
 

@@ -135,6 +135,7 @@ export class ListingComponent implements OnInit, AfterViewInit {
     }
 
     populateParams(defaultFilter) {
+        console.log(defaultFilter)
         if (this.viewConfig.metadata.includeParams) {
             this.viewConfig.metadata.queryParams.forEach((field) => {
                 this.searchParams = this.searchParams.append('include[]', field);
@@ -142,7 +143,12 @@ export class ListingComponent implements OnInit, AfterViewInit {
         }
         if (defaultFilter && defaultFilter.length > 0) {
             defaultFilter.forEach(f => {
-                this.searchParams = this.searchParams.append(`filter{${f.filter}}`, f.value);
+                if (f.value !== '' && f.value !== null) {
+                    if (f.value.id) {
+                        f.value = f.value.id;
+                    }
+                    this.searchParams = this.searchParams.append(`filter{${f.filter}}`, f.value);
+                }
             });
         }
         this.fetch();
@@ -211,7 +217,7 @@ export class ListingComponent implements OnInit, AfterViewInit {
             });
         } else {
             Object.keys(searchParams).forEach(p => {
-                if (searchParams[p] !== null) {
+                if (searchParams[p] !== null && p !== 'iContains') {
                     this.searchParams = this.searchParams.append(p, searchParams[p]);
                 }
             });

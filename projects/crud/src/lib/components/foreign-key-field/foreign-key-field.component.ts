@@ -63,12 +63,10 @@ export class ForeignKeyFieldComponent implements OnChanges {
     });
     if (!this.initialChoices) {
       if (ctrl.value) {
-        this.fetchById(ctrl.value);
       } else {
         this.fetch();
       }
     }
-
   }
 
   fetchById(id: number | string = null) {
@@ -78,7 +76,11 @@ export class ForeignKeyFieldComponent implements OnChanges {
     }
     this.api.fetch(url).subscribe(res => {
       this.availableOptions = of([res]);
-      this._underlyingCtrl.setValue(res);
+      if (this.config.defaultValue) {
+        this._underlyingCtrl.setValue(this.config.defaultValue);
+      } else {
+        this._underlyingCtrl.setValue(res);
+      }
     });
   }
 
@@ -109,7 +111,9 @@ export class ForeignKeyFieldComponent implements OnChanges {
     const filterValue = value ? value : '';
     let params = new HttpParams();
     if (this.controlConfig.metadata.filter) {
-      params = params.append(`filter{${this.controlConfig.metadata.externalNameField}}`, filterValue.toLowerCase());
+      if (value !== '') {
+        params = params.append(`filter{${this.controlConfig.metadata.externalNameField}}`, filterValue.toLowerCase());
+      }
     } else {
       params = params.append(this.controlConfig.metadata.externalNameField, filterValue.toLowerCase());
     }
@@ -136,7 +140,8 @@ export class ForeignKeyFieldComponent implements OnChanges {
       height: '90%',
       data: {
         viewConfig: this.controlConfig.viewConfig,
-      }
+      },
+      disableClose: false
     });
     ref.afterClosed().subscribe(result => {
       if (result && result.value) {
