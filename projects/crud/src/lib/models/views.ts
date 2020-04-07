@@ -26,6 +26,7 @@ export interface ListViewer extends ViewConfig {
 
 export interface FormViewer extends ViewConfig {
     layout: string; // horizontal or vertical
+    search_key?: string;
     controls: FieldConfig[];
     actions: { [key: string]: any };
 }

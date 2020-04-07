@@ -23,7 +23,7 @@
     </mat-form-field>
 
     <ng-container *ngSwitchCase="'foreignKey'">
-        <ng-crud-foreign-key-field [reset]="reset" [config]="config" [formGroup]="formGroup">
+        <ng-crud-foreign-key-field [reset]="reset" [config]="config" [formGroup]="formGroup" [initialChoices]="config?.defaultValue">
         </ng-crud-foreign-key-field>
     </ng-container>
 
@@ -36,7 +36,7 @@
     <!-- this fallsback from number and text -->
     <mat-form-field *ngSwitchDefault style="width: 90%;">
         <mat-label>{{ config.label }}</mat-label>
-        <input matInput [formControlName]="config.name" [value]="config?.defaultValue"
+        <input matInput [formControlName]="config.name"
             [type]="config.control ? config.control.type : 'text'" />
         <mat-error *ngIf="f[config.name].hasError('required') && (f[config.name].dirty || f[config.name].touched)">this
             field is required</mat-error>

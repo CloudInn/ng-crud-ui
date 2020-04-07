@@ -1,10 +1,11 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
 import { FormGroup, FormArray } from '@angular/forms';
 
 import { ApiService } from '../../services/api.service';
 import { FormService } from '../../services/form.service';
 import { FieldConfig, FormSetControlConfig } from '../../models/metadata';
 import { FormViewer } from '../../models/views';
+import { HttpParams } from '@angular/common/http';
 
 @Component({
     selector: 'ng-crud-model-form',
@@ -32,7 +33,6 @@ export class ModelFormComponent implements OnInit {
     ) {
 
     }
-
     ngOnInit() {
         this.controlsConfig = this.viewConfig.controls;
         this._visibleControls = this.controlsConfig.filter(c => c.isHidden !== true);
@@ -49,7 +49,8 @@ export class ModelFormComponent implements OnInit {
             this.mode = 'edit';
             this.submitButtonText = 'Update';
             this.actions = this.viewConfig.actions;
-            this.api.fetch(this.viewConfig.metadata.api + '/' + this.id).subscribe(data => {
+            const params = this.populateParams();
+            this.api.fetch(this.viewConfig.metadata.api + this.id, params).subscribe(data => {
                 this.controlsConfig.forEach(c => {
                     const ctrl = this.formGroup.get(c.name);
                     if (c.type === 'formset') {
@@ -62,17 +63,42 @@ export class ModelFormComponent implements OnInit {
                             formArray.setControl(i, fg);
                         }
                     }
-                    if (c.resolveValueFrom) {
+                    if (c.resolveValueFrom && ctrl !== null) {
                         ctrl.setValue(data[c.resolveValueFrom]);
                         return;
                     }
-                    ctrl.setValue(data[c.name]);
+                    if (ctrl !== null) {
+                        if (this.viewConfig.search_key) {
+                            const new_data = data[this.viewConfig.search_key];
+                            ctrl.setValue(new_data[c.name]);
+                            this.setDefaults(c.name, new_data[c.name]);
+                        } else {
+                            ctrl.setValue(data[c.name]);
+                        }
+                    }
                 });
                 this.is_ready = true;
             });
         } else {
             this.is_ready = true;
         }
+    }
+    setDefaults(name, value) {
+        this._visibleControls.forEach(ctrl => {
+            if (ctrl.name === name) {
+                ctrl.defaultValue = value;
+            }
+        });
+    }
+
+    populateParams() {
+        let searchParams = new HttpParams();
+        if (this.viewConfig.metadata.includeParams) {
+            this.viewConfig.metadata.queryParams.forEach((field) => {
+                searchParams = searchParams.append('include[]', field);
+            });
+        }
+        return searchParams;
     }
 
     _onSubmit() {

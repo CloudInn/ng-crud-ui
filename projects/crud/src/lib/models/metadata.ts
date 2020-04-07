@@ -37,6 +37,13 @@ export interface TextAreaControlConfig extends ControlConfig {
     rowSpan?: Number;
 }
 
+
+export interface TouchingFields {
+    field: string;
+    change_value: any;
+    field_value: any;
+}
+
 export class FieldConfig {
     name: string;
     label: string;
@@ -57,6 +64,7 @@ export class FieldConfig {
     resolveValueFrom?: string;
     displayFrom?: string[]; // value displayed if field value is an object
     listFrom?: string; // if filed is an array of objects
+    touching?: TouchingFields;
 }
 
 export interface Metadata {
@@ -77,4 +85,5 @@ export interface Metadata {
     filter_key?: string[];
     default_filters?: any[];
     formActions: { [key: string]: any };
+    bulkActions?: any[];
 }

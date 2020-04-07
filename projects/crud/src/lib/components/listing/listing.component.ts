@@ -6,8 +6,9 @@ import { MatTableDataSource } from '@angular/material/table';
 
 import { ApiService } from '../../services/api.service';
 import { ListViewer } from '../../models/views';
-import { HttpParams } from '@angular/common/http';
+import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { MatPaginator, PageEvent } from '@angular/material';
+import { SelectionModel } from '@angular/cdk/collections';
 
 @Component({
     selector: 'ng-crud-listing',
@@ -26,10 +27,12 @@ export class ListingComponent implements OnInit, AfterViewInit {
     searchParams = new HttpParams();
     columns = [];
     displayColumns: string[] = [];
+    selectedRows = [];
     resultsCount = 0;
     isLoading = true;
     pages: number;
     @ViewChild('searchComponent', { read: ViewContainerRef }) searchComponent: ViewContainerRef;
+    selection = new SelectionModel<any>(true, []);
 
     constructor(private api: ApiService,
         private container: ViewContainerRef,
@@ -64,7 +67,7 @@ export class ListingComponent implements OnInit, AfterViewInit {
     }
     private prepareColumns() {
         if (this.mode !== 'pick') {
-            // this.columns = [{ 'columnDef': 'checked', 'header': '' }];
+            this.columns = [{ 'columnDef': 'checked', 'header': '' }];
         } else {
             this.columns = [];
         }
@@ -135,7 +138,6 @@ export class ListingComponent implements OnInit, AfterViewInit {
     }
 
     populateParams(defaultFilter) {
-        console.log(defaultFilter)
         if (this.viewConfig.metadata.includeParams) {
             this.viewConfig.metadata.queryParams.forEach((field) => {
                 this.searchParams = this.searchParams.append('include[]', field);
@@ -225,12 +227,43 @@ export class ListingComponent implements OnInit, AfterViewInit {
         this.fetch();
     }
 
-    onChecked(row) {
-        row['is_checked'] = true;
+    isAllSelected() {
+        const numSelected = this.selection.selected.length;
+        const numRows = this.dataSource.data.length;
+        return numSelected === numRows;
     }
 
-    onCheckAll() {
+    /** Selects all rows if they are not all selected; otherwise clear selection. */
+    masterToggle() {
+        this.isAllSelected() ?
+            this.selection.clear() :
+            this.dataSource.data.forEach(row => this.selection.select(row));
+    }
 
+    /** The label for the checkbox on the passed row */
+    checkboxLabel(row?: any): string {
+        if (!row) {
+            return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
+        }
+        return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
+    }
+
+    onAction(action) {
+        if (action.type === 'dialog') {
+            this.viewConfig.metadata.rows.next({
+                rows: this.selection.selected,
+                action: action
+            });
+        } else {
+            this.api[action.type](this.viewConfig.metadata.api, this.selection.selected, true).subscribe(res => {
+                res.forEach(el => {
+                    if (el instanceof HttpErrorResponse) {
+                    } else {
+                        this.fetch();
+                    }
+                });
+            });
+        }
     }
 
     _picked(value) {

@@ -1,4 +1,4 @@
-import { Component, OnChanges, Input } from '@angular/core';
+import { Component, OnChanges, Input, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Observable, of, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -15,11 +15,12 @@ import { HttpParams } from '@angular/common/http';
   templateUrl: './foreign-key-field.component.html',
   styles: ['.input_icon{color: rgba(165, 151, 151, 0.87);height: 16px !important;cursor: pointer;margin-left: -20px;}']
 })
-export class ForeignKeyFieldComponent implements OnChanges {
+export class ForeignKeyFieldComponent implements OnChanges, OnInit {
 
   @Input() formGroup: FormGroup;
   @Input() forcedSearchParams: any = [];
   @Input() config: FieldConfig;
+  @Input() display_name: FieldConfig;
   @Input() initialChoices: any[];
   @Input() reset: Subject<any>;
   controlConfig: ForeignKeyControlConfig = null;
@@ -62,11 +63,14 @@ export class ForeignKeyFieldComponent implements OnChanges {
       }
     });
     if (!this.initialChoices) {
-      if (ctrl.value) {
-      } else {
+      if (!ctrl.value) {
         this.fetch();
       }
     }
+  }
+
+  ngOnInit() {
+    this._underlyingCtrl.setValue(this.initialChoices);
   }
 
   fetchById(id: number | string = null) {
@@ -92,19 +96,9 @@ export class ForeignKeyFieldComponent implements OnChanges {
   }
 
   displayFn(option) {
-    if (option == null) {
-      return;
-    }
-    if (this.controlConfig.metadata.filter_key) {
-      const keys = this.controlConfig.metadata.filter_key;
-      let value = option[this.controlConfig.metadata.optionName][keys[0]]; // search_key is an array of keys
-      for (let i = 1; i < keys.length; i++) {
-        value = value[keys[i]];
-      }
-      return value;
-    } else {
-      return option[this.controlConfig.metadata.optionName];
-    }
+    return option ? option.name ?
+      option.name : this.config.displayFrom ?
+        option[this.config.displayFrom[0]] : option.id : null;
   }
 
   _filter(value: string): Observable<any> {
@@ -112,10 +106,17 @@ export class ForeignKeyFieldComponent implements OnChanges {
     let params = new HttpParams();
     if (this.controlConfig.metadata.filter) {
       if (value !== '') {
-        params = params.append(`filter{${this.controlConfig.metadata.externalNameField}}`, filterValue.toLowerCase());
+        params = params.append(`filter{${this.controlConfig.metadata.externalNameField}.icontains}`, filterValue.toLowerCase());
       }
     } else {
       params = params.append(this.controlConfig.metadata.externalNameField, filterValue.toLowerCase());
+    }
+    if (this.controlConfig.metadata.includeParams) {
+      if (this.controlConfig.metadata.includeParams) {
+        this.controlConfig.metadata.queryParams.forEach((field) => {
+          params = params.append('include[]', field);
+        });
+      }
     }
     return this.api.fetch(`${this.controlConfig.metadata.api}`, params).pipe(
       map(res => {
