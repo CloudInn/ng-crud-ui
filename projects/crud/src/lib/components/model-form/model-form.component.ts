@@ -86,7 +86,15 @@ export class ModelFormComponent implements OnInit {
     setDefaults(name, value) {
         this._visibleControls.forEach(ctrl => {
             if (ctrl.name === name) {
-                ctrl.defaultValue = value;
+                let finalArray;
+                if (ctrl.listFrom && Array.isArray(value)) {
+                    finalArray = value.map((obj) => {
+                        return obj[ctrl.listFrom];
+                    });
+                    ctrl.defaultValue = finalArray[0];
+                } else {
+                    ctrl.defaultValue = value;
+                }
             }
         });
     }

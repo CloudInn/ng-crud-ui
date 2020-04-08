@@ -40,9 +40,9 @@ export class FormView implements FormViewer {
     actions = this.metadata.formActions;
 
     constructor(public metadata: Metadata) {
-        metadata.fields.filter(f => f.isEditable !== false).forEach(field => {
+        metadata.fields.filter(f => f.isHidden !== false).forEach(field => {
             this.controls.push(field as FieldConfig);
-        });
+       });
     }
 }
 
