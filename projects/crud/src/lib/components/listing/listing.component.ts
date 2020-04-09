@@ -72,38 +72,48 @@ export class ListingComponent implements OnInit, AfterViewInit {
             this.columns = [];
         }
         this.viewConfig.metadata.listingFields.map(field => {
-            const f = this.viewConfig.metadata.fields.filter(ff => ff.name === field)[0];
-            const col = {};
-            col['columnDef'] = f.name;
-            col['header'] = f.label;
-            col['type'] = f.type;
-            col['cell'] = (element: Element) => {
-                if (element[field] === null || element[field] === undefined) {
-                    element[field] = '';
-                }
-                let finalArray;
-                if (f.listFrom && Array.isArray(element[f.name])) {
-                    finalArray = element[field].map((obj) => {
-                        return obj[f.listFrom];
-                    });
-                }
-                if (f.displayFrom && element[field] !== null) {
-                    let value = element[f.name][f.displayFrom[0]];
-                    for (let i = 1; i < f.displayFrom.length; i++) {
-                        value = value[f.displayFrom[i]];
+            const meta_field = this.viewConfig.metadata.fields.filter(ff => ff.name === field);
+            meta_field.forEach(f => {
+                const col = {};
+                col['columnDef'] = this.generateCode(f.name);
+                col['header'] = f.label;
+                col['type'] = f.type;
+                col['cell'] = (element: Element) => {
+                    if (element[field] === null || element[field] === undefined) {
+                        element[field] = '';
                     }
-                    return value;
-                } else {
-                    if (typeof element[f.name] === 'boolean' && element[f.name]) {
-                        element[f.name] = 'boolean';
+                    let finalArray;
+                    if (f.listFrom && Array.isArray(element[f.name])) {
+                        finalArray = element[field].map((obj) => {
+                            if (f.displayFrom) {
+                                let value = obj[f.listFrom][f.displayFrom[0]];
+                                for (let i = 1; i < f.displayFrom.length; i++) {
+                                    value = value[f.displayFrom[i]];
+                                }
+                                return value;
+                            } else {
+                                return obj[f.listFrom];
+                            }
+                        });
+                    } else if (f.displayFrom && element[field] !== null) {
+                        let value = element[f.name][f.displayFrom[0]];
+                        for (let i = 1; i < f.displayFrom.length; i++) {
+                            value = value[f.displayFrom[i]];
+                        }
+                        return value;
+                    } else {
+                        if (typeof element[f.name] === 'boolean' && element[f.name]) {
+                            element[f.name] = 'boolean';
+                        }
                     }
                     return finalArray ? finalArray : element ? element[f.name] : '';
+                };
+                if (this.viewConfig.metadata.externalNameField === field) {
+                    col['clickable'] = true;
                 }
-            };
-            if (this.viewConfig.metadata.externalNameField === field) {
-                col['clickable'] = true;
-            }
-            this.columns.push(col);
+                this.columns.push(col);
+            });
+
         });
         if (this.viewConfig.metadata.applyFunctions) {
             this.columns.push({
@@ -129,6 +139,10 @@ export class ListingComponent implements OnInit, AfterViewInit {
         }
     }
 
+
+    private generateCode(column_name) {
+        return `${column_name + '_' + Math.random()}`;
+    }
     private populateDataTable() {
         this.prepareColumns();
         this.displayColumns = this.columns.map(c => c.columnDef);
