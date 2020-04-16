@@ -84,7 +84,7 @@
                 <!-- <a *ngIf="column.clickable; else normal" [routerLink]="getLink(row.id)">{{ column.cell(row) }}</a>
                 <ng-template #normal>{{ column.cell(row) }}</ng-template>     -->
                 <a class="clickable" [routerLink]="row?.id"
-                    *ngIf="(mode !== 'pick' && column.columnDef === viewConfig.metadata.externalNameField); else normalCell">
+                    *ngIf="(mode !== 'pick' && column.clickable); else normalCell">
                     {{ column.cell(row)}}
                 </a>
                 <ng-template #normalCell>

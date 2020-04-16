@@ -82,11 +82,14 @@ export class ListingComponent implements OnInit, AfterViewInit {
                     if (element[field] === null || element[field] === undefined) {
                         element[field] = '';
                     }
+                    if (f.isClickable) {
+                        col['clickable'] = true;
+                    }
                     let finalArray;
                     if (f.listFrom && Array.isArray(element[f.name])) {
                         finalArray = element[field].map((obj) => {
                             if (f.displayFrom) {
-                                let value = obj[f.listFrom][f.displayFrom[0]];
+                                let value = obj[f.listFrom] !== null ? obj[f.listFrom][f.displayFrom[0]] : obj[f.listFrom];
                                 for (let i = 1; i < f.displayFrom.length; i++) {
                                     value = value[f.displayFrom[i]];
                                 }
@@ -108,9 +111,6 @@ export class ListingComponent implements OnInit, AfterViewInit {
                     }
                     return finalArray ? finalArray : element ? element[f.name] : '';
                 };
-                if (this.viewConfig.metadata.externalNameField === field) {
-                    col['clickable'] = true;
-                }
                 this.columns.push(col);
             });
 

@@ -122,11 +122,11 @@ export class ModelFormComponent implements OnInit {
             this.viewConfig.controls.map(ctrl => {
                 if (ctrl.type === 'date') {
                     const today_time = new Date().getHours();
-                    if (this.formGroup.get(ctrl.name).value !== null) {
-                        const date = new Date(this.formGroup.get(ctrl.name).value);
+                    if (this.formGroup.get([ctrl.name]).value !== null) {
+                        const date = new Date(this.formGroup.get([ctrl.name]).value);
                         date.setHours(today_time);
                         const date_string = date.toISOString();
-                        this.formGroup.get(ctrl.name).setValue(
+                        this.formGroup.get([ctrl.name]).setValue(
                             date_string.slice(0, date_string.indexOf('T')));
                     }
                 }

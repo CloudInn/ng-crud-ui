@@ -60,6 +60,7 @@ export class FieldConfig {
     choices?: any[];
     defaultValue?: any = '';
     iContains?: boolean;
+    isClickable?:boolean;
     // if foreignKey
     resolveValueFrom?: string;
     displayFrom?: string[]; // value displayed if field value is an object

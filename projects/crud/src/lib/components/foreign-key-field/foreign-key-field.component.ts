@@ -127,11 +127,10 @@ export class ForeignKeyFieldComponent implements OnChanges, OnInit {
 
   _setControlValue(value: any) {
     const ctrl = this.formGroup.get([this.config.name]);
-    if (this.config.resolveValueFrom) {
+    if (this.config.resolveValueFrom && value !== null) {
       const resolvedControl = this.formGroup.get([this.config.resolveValueFrom]);
       resolvedControl.setValue(value);
     }
-
     ctrl.setValue(value);
   }
 
