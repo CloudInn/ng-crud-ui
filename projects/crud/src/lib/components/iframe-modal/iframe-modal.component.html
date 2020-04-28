@@ -1,0 +1,11 @@
+<h2 mat-dialog-title style="padding:10px;" [ngClass]="{'separated':title !== ''}">
+    <span *ngIf="title?.length!=0"> {{title}}</span>
+    <mat-icon class="cancel_icon"
+     [ngClass]="data.color=='grey'? 'grey':'red'"
+     (click)="closeDialog()">cancel
+    </mat-icon>
+</h2>
+<br />
+<mat-dialog-content>
+    <iframe [src]="src" frameborder="0"></iframe>
+</mat-dialog-content>

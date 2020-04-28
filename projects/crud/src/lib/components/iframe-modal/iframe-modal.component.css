@@ -1,0 +1,32 @@
+iframe {
+  height: 85%;
+  width: 100%;
+}
+ .close {
+   float: right;
+ }
+ .mat-dialog-title {
+  margin-top: -25px !important;
+}
+h2{
+  font-size:20px !important
+}
+.separated{
+  border-bottom: 1px solid #E0E0E0;
+}
+.mat-dialog-content{
+  display: contents !important;
+}
+mat-icon{
+ float:right;
+ cursor:pointer;
+}
+
+.red {
+  color: red;
+}
+
+.grey {
+  color: #606060;
+  font-size: 30px;
+}

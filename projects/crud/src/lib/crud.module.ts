@@ -48,6 +48,7 @@ import { CookieInterceptor } from './cookie.interceptor';
 import { CookieModule } from 'ngx-cookie';
 import { ForeignKeyFiledMultipleComponent } from './components/foreign-key-filed-multiple/foreign-key-filed-multiple.component';
 import { ErrorHandlingComponent } from './components/error-handling/error-handling.component';
+import { IframeModalComponent } from './components/iframe-modal/iframe-modal.component';
 
 @NgModule({
   imports: [
@@ -96,6 +97,7 @@ import { ErrorHandlingComponent } from './components/error-handling/error-handli
     SelectFieldComponent,
     ForeignKeyFiledMultipleComponent,
     ErrorHandlingComponent,
+    IframeModalComponent
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: CookieInterceptor, multi: true},
@@ -139,6 +141,7 @@ import { ErrorHandlingComponent } from './components/error-handling/error-handli
     ModelFormComponent,
     ListingDialogComponent,
     ScreenWrapperComponent,
+    IframeModalComponent
   ]
 })
 export class CrudModule { }

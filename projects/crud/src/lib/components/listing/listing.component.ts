@@ -7,8 +7,9 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ApiService } from '../../services/api.service';
 import { ListViewer } from '../../models/views';
 import { HttpParams, HttpErrorResponse } from '@angular/common/http';
-import { MatPaginator, PageEvent } from '@angular/material';
+import { MatPaginator, PageEvent, MatDialog } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
+import { IframeModalComponent } from '../iframe-modal/iframe-modal.component';
 
 @Component({
     selector: 'ng-crud-listing',
@@ -36,6 +37,7 @@ export class ListingComponent implements OnInit, AfterViewInit {
 
     constructor(private api: ApiService,
         private container: ViewContainerRef,
+        private dialog: MatDialog,
         private resolver: ComponentFactoryResolver) { }
 
     ngOnInit() {
@@ -168,6 +170,18 @@ export class ListingComponent implements OnInit, AfterViewInit {
             });
         }
         this.fetch();
+    }
+
+    changeView(view) {
+        this.dialog.open(IframeModalComponent, {
+            height: '95vh',
+            width: '100vw',
+            data: {
+                'src': `${view}`,
+                'title': 'Import Guest Profiles',
+                'color': 'grey'
+            }
+        });
     }
 
     fetch() {

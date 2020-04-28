@@ -87,4 +87,5 @@ export interface Metadata {
     default_filters?: any[];
     formActions: { [key: string]: any };
     bulkActions?: any[];
+    externalViews?:any[];
 }
