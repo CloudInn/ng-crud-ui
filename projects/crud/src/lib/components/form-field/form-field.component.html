@@ -16,14 +16,15 @@
     <mat-form-field *ngSwitchCase="'date'" style="width: 90%;">
         <mat-label>{{ config.label }}</mat-label>
         <input matInput [formControlName]="config.name" [matDatepicker]="myDatepicker" />
-        <mat-error *ngIf="f[config.name].hasError('required') && (f[config.name].dirty || f[config.name].touched)">this
-            field is required</mat-error>
+        <mat-error *ngIf="f[config.name].hasError('required') && (f[config.name].dirty || f[config.name].touched)">
+            this field is required</mat-error>
         <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
         <mat-datepicker #myDatepicker></mat-datepicker>
     </mat-form-field>
 
     <ng-container *ngSwitchCase="'foreignKey'">
-        <ng-crud-foreign-key-field [reset]="reset" [config]="config" [formGroup]="formGroup" [initialChoices]="config?.defaultValue">
+        <ng-crud-foreign-key-field [reset]="reset" [config]="config" [formGroup]="formGroup"
+            [initialChoices]="config?.defaultValue">
         </ng-crud-foreign-key-field>
     </ng-container>
 
@@ -32,14 +33,28 @@
         </ng-foreign-key-filed-multiple>
     </ng-container>
 
+    <ng-container *ngSwitchCase="'file'">
+        <ng-crud-file-upload [config]="config" [formGroup]="formGroup">
+        </ng-crud-file-upload>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="'datetime'">
+        <ng-date-time-picker [config]="config" [formGroup]="formGroup"></ng-date-time-picker>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="'time'">
+        <ng-time-picker [config]="config" [formGroup]="formGroup"></ng-time-picker>
+    </ng-container>
 
     <!-- this fallsback from number and text -->
     <mat-form-field *ngSwitchDefault style="width: 90%;">
         <mat-label>{{ config.label }}</mat-label>
-        <input matInput [formControlName]="config.name"
-            [type]="config.control ? config.control.type : 'text'" />
-        <mat-error *ngIf="f[config.name].hasError('required') && (f[config.name].dirty || f[config.name].touched)">this
-            field is required</mat-error>
+        <input matInput [formControlName]="config.name" [type]="config.control ? config.control.type : 'text'" />
+        <mat-error *ngIf="f[config.name].hasError('required') && (f[config.name].dirty || f[config.name].touched)">
+            this field is required</mat-error>
+        <mat-error *ngIf="f[config.name].hasError('maxlength') && (f[config.name].dirty || f[config.name].touched)">
+            max length is {{config?.maxlength}} characters</mat-error>
+        <mat-error *ngIf="f[config.name].hasError('pattern') && (f[config.name].dirty || f[config.name].touched)">
+          pattern for this field is invalid  </mat-error>
     </mat-form-field>
-
 </div>

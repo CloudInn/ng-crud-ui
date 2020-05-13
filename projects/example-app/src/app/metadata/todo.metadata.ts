@@ -4,17 +4,17 @@ import { Metadata, FieldConfig } from 'crud';
 export class TodoMetadata implements Metadata {
   name = 'Todo';
   label = 'Todo';
-  api = '/api/todos';
+  api = '/api/todos/';
   model = Todo;
   listingFields = ['id', 'title'];
-  externalNameField = 'title';
-  externalValueField = 'id';
+  searchParam = 'title';
   listingActions = ['delete'];
   fields: FieldConfig[] = [
     {
       name: 'id',
       label: 'Id',
       type: 'number',
+      isClickable: true,
       isSearchable: true,
       isEditable: false
     },

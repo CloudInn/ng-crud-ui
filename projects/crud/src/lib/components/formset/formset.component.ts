@@ -1,4 +1,4 @@
-import { Component, OnChanges, Input, SimpleChanges } from '@angular/core';
+import { Component, OnChanges, Input, SimpleChanges, SimpleChange } from '@angular/core';
 import { FormGroup, FormArray } from '@angular/forms';
 
 import { FormService } from '../../services/form.service';
@@ -22,8 +22,8 @@ export class FormsetComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.config.firstChange) {
-      this.control = this.config.control as FormSetControlConfig;
+    this.control = this.config.control as FormSetControlConfig;
+    if (this.formGroup.get(this.config.name) !== null) {
       this.formArray = this.formGroup.get(this.config.name) as FormArray;
     }
   }

@@ -7,8 +7,7 @@ export class RoomMetadata implements Metadata {
     api = '/api/rooms';
     model = Room;
     listingFields = ['id', 'number', 'type', 'description'];
-    externalNameField = 'type';
-    externalValueField = 'id';
+    searchParam = 'type';
     fields: FieldConfig[] = [
         {
             name: 'id',

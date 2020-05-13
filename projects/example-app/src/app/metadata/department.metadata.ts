@@ -7,8 +7,7 @@ export class DepartmentMetadata implements Metadata {
     api = '/api/departments';
     model = Department;
     listingFields = ['id', 'code', 'name', 'payment_type'];
-    externalNameField = 'name';
-    externalValueField = 'id';
+    searchParam = 'name';
     fields: FieldConfig[] = [
         {
             name: 'id',

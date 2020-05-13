@@ -4,21 +4,30 @@
 <div class="crud-form-body">
     <ng-template [ngIf]="is_ready">
         <!-- <div class="form-container"> -->
-        <div class="row" [formGroup]="formGroup">
+        <div fxflexfill fxlayoutgap="10px grid"
+            style="cursor: pointer;height: 100%;min-height: 100%;min-width: 100%;width: 100%;flex-flow: row wrap;box-sizing: border-box;display: flex;margin: 0px -10px -10px 0px;"
+            class="row full" [formGroup]="formGroup">
             <ng-container *ngFor="let config of _visibleControls">
                 <ng-container *ngIf="config.type === 'fieldset'">
-                    <div class="fieldset">
-                        <h4>{{ config.label }}</h4>
-                        <ng-container *ngFor="let config2 of config.fields">
-                            <ng-crud-form-field class="FormCell" [reset]="submit" [formGroup]="formGroup" [config]="config2"></ng-crud-form-field>
-                        </ng-container>
+                    <div [style.max-width.%]="config.cssWidth" [style.flex.%]="config.cssWidth" style="margin:10px">
+                        <mat-accordion>
+                            <mat-expansion-panel class="expansion_panel" [expanded]="true">
+                                <mat-expansion-panel-header [collapsedHeight]="'40px'" [expandedHeight]="'40px'">
+                                    <mat-panel-title class="panel_title">
+                                        <mat-label>{{ config.label }}</mat-label>
+                                    </mat-panel-title>
+                                </mat-expansion-panel-header>
+                                <ng-container *ngFor="let config2 of config.control.fields">
+                                    <ng-crud-form-field class="FormCell" [reset]="submit" [formGroup]="formGroup"
+                                        [config]="config2"></ng-crud-form-field>
+                                </ng-container>
+                            </mat-expansion-panel>
+                        </mat-accordion>
                     </div>
                 </ng-container>
-                <!-- <ng-container *ngIf="config.control && config.control.type === 'formset'">
-                            <ng-crud-formset [config]="config" [formGroup]="form"></ng-crud-formset>
-                        </ng-container> -->
                 <ng-container *ngIf="config.type !== 'fieldset' && config.type !== 'formset'">
-                    <ng-crud-form-field class="FormCell" [reset]="submit" [formGroup]="formGroup" [config]="config"></ng-crud-form-field>
+                    <ng-crud-form-field class="FormCell" [reset]="submit" [formGroup]="formGroup" [config]="config">
+                    </ng-crud-form-field>
                 </ng-container>
             </ng-container>
         </div>
@@ -30,12 +39,25 @@
         </div>
 
         <div class="row actions">
-            <button mat-raised-button class="submit-button" (click)="_onReset()">
-                Reset
-            </button>
-            <button mat-raised-button color="primary" class="submit-button" (click)="_onSubmit()">
-                {{ submitButtonText }}
-            </button>
+            <ng-container *ngIf="mode==='edit' || mode==='create';else search">
+                <button mat-raised-button color="primary" class="submit-button" (click)="saveAndEdit()">
+                    Save and Edit
+                </button>
+                <button mat-raised-button class="submit-button saveAndAdd" (click)="saveAndAdd()">
+                    Save and Add
+                </button>
+                <button mat-raised-button class="submit-button save" (click)="save()">
+                    Save
+                </button>
+            </ng-container>
+            <ng-template #search>
+                <button mat-raised-button class="submit-button" color="primary" (click)="_onReset()">
+                    Reset
+                </button>
+                <button mat-raised-button class="submit-button" (click)="_onSubmit()">
+                    Search
+                </button>
+            </ng-template>
         </div>
     </ng-template>
 </div>

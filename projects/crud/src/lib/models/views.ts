@@ -17,6 +17,7 @@ export interface ListViewer extends ViewConfig {
         search_key?: string[],
         mode?: string
     };
+    external_create_link?: string;
     dialog_mode?: boolean;
     pagination: {
         enabled: boolean,
@@ -40,10 +41,19 @@ export class FormView implements FormViewer {
     actions = this.metadata.formActions;
 
     constructor(public metadata: Metadata) {
-        metadata.fields.filter(f => f.isHidden !== false).forEach(field => {
+        metadata.fields.filter(f => f.isHidden !== true).forEach(field => {
             this.controls.push(field as FieldConfig);
-       });
+        });
     }
+}
+export interface ViewSettingsObj {
+    isDialog: boolean;
+    search_settings: {
+        enabled: boolean,
+        search_key: string[],
+        mode: string
+    };
+    create_external_link?: string;
 }
 
 export class ListingView implements ListViewer {
@@ -53,16 +63,19 @@ export class ListingView implements ListViewer {
     search = {
         enabled: false,
         view: new FormView(this.metadata),
-        search_key: [],
-        mode: 'normal'
+        search_key: this.viewSettings.search_settings.search_key,
+        mode: this.viewSettings.search_settings.mode
     };
-    dialog_mode = false;
+    external_create_link = this.viewSettings.create_external_link;
+    dialog_mode = this.viewSettings.isDialog;
     pagination = {
         enabled: true,
         pageSize: 20,
     };
     defaults = {};
-    constructor(public metadata: Metadata) {
+    constructor(
+        public metadata: Metadata,
+        public viewSettings: ViewSettingsObj) {
     }
     setDefaults(values) {
         Object.keys(values).forEach(key => {

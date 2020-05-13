@@ -45,11 +45,13 @@ export class ForeignKeyFiledMultipleComponent implements OnInit, OnChanges {
     if (!this.formGroup) {
       return;
     }
-    this.reset.subscribe(res => {
-      if (res.reset) {
-        this.removeSelection();
-      }
-    });
+    if (this.reset) {
+      this.reset.subscribe(res => {
+        if (res.reset) {
+          this.removeSelection();
+        }
+      });
+    }
     this.controlConfig = this.config.control as ForeignKeyControlConfig;
     const ctrl = this.formGroup.get([this.config.name]) as FormControl;
     this._underlyingCtrl.valueChanges.subscribe(value => {
@@ -96,7 +98,7 @@ export class ForeignKeyFiledMultipleComponent implements OnInit, OnChanges {
   _filter(value: string): Observable<any> {
     let params = new HttpParams();
     if (this.controlConfig.metadata.filter && value !== '') {
-      params = params.append(`filter{${this.controlConfig.metadata.externalNameField}}`, value.toLowerCase());
+      params = params.append(`filter{${this.controlConfig.metadata.searchParam}}`, value.toLowerCase());
     }
     return this.api.fetch(`${this.controlConfig.metadata.api}`, params).pipe(
       map(res => {
@@ -107,11 +109,6 @@ export class ForeignKeyFiledMultipleComponent implements OnInit, OnChanges {
 
   _setControlValue(value: any) {
     const ctrl = this.formGroup.get([this.config.name]);
-    if (this.config.resolveValueFrom) {
-      const resolvedControl = this.formGroup.get([this.config.resolveValueFrom]);
-      resolvedControl.setValue(value);
-    }
-
     ctrl.setValue(value);
   }
 

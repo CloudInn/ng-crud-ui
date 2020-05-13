@@ -8,10 +8,8 @@
     </div>
     <ng-container [formGroup]="formGroup">
         <div [formArrayName]="config.name">
-            <div class="row" *ngFor="let _formGroup of formArray.controls; index as i; trackBy: trackByFn">
-                <!-- <p>{{ config.name }}, {{ i }}</p> -->
+            <div class="row" *ngFor="let _formGroup of formArray?.controls; index as i; trackBy: trackByFn">
                 <ng-container  *ngFor="let field of control.fields" >
-                    <!-- <h3>{{ field.name }}</h3> -->
                     <br /><br />
                     <ng-crud-form-field [choices]="choices[field.name]" [formGroup]="_formGroup" [config]="field"></ng-crud-form-field>
                 </ng-container>

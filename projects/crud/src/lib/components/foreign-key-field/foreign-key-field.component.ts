@@ -26,6 +26,7 @@ export class ForeignKeyFieldComponent implements OnChanges, OnInit {
   controlConfig: ForeignKeyControlConfig = null;
   availableOptions: Observable<any[]>;
   _underlyingCtrl = new FormControl(null);
+  hasValue=false;
 
   constructor(private api: ApiService, private dialog: MatDialog) {
     this.displayFn = this.displayFn.bind(this);
@@ -35,13 +36,19 @@ export class ForeignKeyFieldComponent implements OnChanges, OnInit {
     if (!this.formGroup) {
       return;
     }
-    this.reset.subscribe(res => {
-      if (res.reset) {
-        this.removeSelection();
-      }
-    });
+    if (this.reset) {
+      this.reset.subscribe(res => {
+        if (res.reset) {
+          this.removeSelection();
+        }
+      });
+    }
     this.controlConfig = this.config.control as ForeignKeyControlConfig;
     const ctrl = this.formGroup.get([this.config.name]) as FormControl;
+    if (ctrl.value !== null) {
+      this._setControlValue(ctrl.value);
+      this._underlyingCtrl.setValue(ctrl.value);
+    }
     this._underlyingCtrl.valueChanges.subscribe(value => {
       if ((typeof value) === 'string') {
         this._filter(value).subscribe(res => {
@@ -57,7 +64,7 @@ export class ForeignKeyFieldComponent implements OnChanges, OnInit {
           }
         });
       } else if (value != null) {
-        this._setControlValue(value[this.controlConfig.metadata.externalValueField]);
+        this._setControlValue(value[this.config.resolveValueFrom]);
       } else {
         this._setControlValue(null);
       }
@@ -70,7 +77,6 @@ export class ForeignKeyFieldComponent implements OnChanges, OnInit {
   }
 
   ngOnInit() {
-    this._underlyingCtrl.setValue(this.initialChoices);
   }
 
   fetchById(id: number | string = null) {
@@ -90,8 +96,13 @@ export class ForeignKeyFieldComponent implements OnChanges, OnInit {
 
   fetch() {
     const url = `${this.controlConfig.metadata.api}`;
+    const keys = this.controlConfig.metadata.filter_key;
     this.api.fetch(url).subscribe(res => {
-      this.availableOptions = of(res);
+      if (keys) {
+        this.availableOptions = of(res.results[keys[0]]);
+      } else {
+        this.availableOptions = of(res);
+      }
     });
   }
 
@@ -106,10 +117,10 @@ export class ForeignKeyFieldComponent implements OnChanges, OnInit {
     let params = new HttpParams();
     if (this.controlConfig.metadata.filter) {
       if (value !== '') {
-        params = params.append(`filter{${this.controlConfig.metadata.externalNameField}.icontains}`, filterValue.toLowerCase());
+        params = params.append(`filter{${this.controlConfig.metadata.searchParam}.icontains}`, filterValue.toLowerCase());
       }
     } else {
-      params = params.append(this.controlConfig.metadata.externalNameField, filterValue.toLowerCase());
+      params = params.append(this.controlConfig.metadata.searchParam, filterValue.toLowerCase());
     }
     if (this.controlConfig.metadata.includeParams) {
       if (this.controlConfig.metadata.includeParams) {
@@ -127,10 +138,6 @@ export class ForeignKeyFieldComponent implements OnChanges, OnInit {
 
   _setControlValue(value: any) {
     const ctrl = this.formGroup.get([this.config.name]);
-    if (this.config.resolveValueFrom && value !== null) {
-      const resolvedControl = this.formGroup.get([this.config.resolveValueFrom]);
-      resolvedControl.setValue(value);
-    }
     ctrl.setValue(value);
   }
 

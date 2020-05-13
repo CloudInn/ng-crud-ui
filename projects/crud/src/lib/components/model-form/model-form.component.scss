@@ -18,8 +18,37 @@
     flex-wrap: wrap;
     margin: 0 auto;
 }
+.full{
+    width: 100%;
+}
 .FormCell{
     width: 23%;
     margin-right: 10px;
     margin-bottom: 10px !important;
+}
+mat-header-cell{
+    background-color:#EEEEEE;
+}
+mat-expansion-panel{
+    background-color: #298CDE;
+    margin-bottom: 10px;
+}
+mat-panel-title{
+    font-size: 17px;
+    color:#fff
+}
+::ng-deep .mat-expansion-indicator::after ,.mat-expansion-indicator::before{
+    color: #fff !important
+}
+::ng-deep .mat-expansion-panel-body{
+    background-color: #fff;
+    padding-top: 10px !important
+}
+.save{
+    background-color: #82C572;
+    color: #fff;
+}
+.saveAndAdd{
+    background-color: #F1B661;
+    color: #fff;
 }

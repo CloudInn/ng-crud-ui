@@ -8,9 +8,8 @@ export class StoreMetadata implements Metadata {
     api = '/api/stores';
     model = Store;
     listingFields = ['id', 'code', 'description'];
-    externalNameField = 'description';
+    searchParam = 'description';
     rows = new Subject();
-    externalValueField = 'id';
     optionName = 'description';
     applyFunctions = true;
     formsets = [];

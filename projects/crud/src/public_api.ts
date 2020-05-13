@@ -5,7 +5,6 @@
 export * from './lib/models/metadata';
 export * from './lib/models/views';
 
-export * from './lib/components/auto-complete-field/auto-complete-field.component';
 export * from './lib/components/foreign-key-field/foreign-key-field.component';
 export * from './lib/components/foreign-key-filed-multiple/foreign-key-filed-multiple.component';
 export * from './lib/components/form-field/form-field.component';

@@ -15,8 +15,4 @@
             {{ option[controlConfig.metadata.optionName] }}
         </mat-option>
     </mat-autocomplete>
-    <button mat-icon-button matPrefix (click)="removeSelection()" style="margin: -20px;" *ngIf="formGroup.get([config.resolveValueFrom])!==null &&
-    formGroup.get([config.resolveValueFrom]).value!==null">
-        <mat-icon [color]="'warn'" style="font-size: inherit;">close</mat-icon>
-    </button>
 </div>

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MomentModule } from 'ngx-moment';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 
 import {
   MatToolbarModule,
@@ -37,7 +37,6 @@ import { ListingComponent } from './components/listing/listing.component';
 import { ModelFormComponent } from './components/model-form/model-form.component';
 import { FormFieldComponent } from './components/form-field/form-field.component';
 import { FormsetComponent } from './components/formset/formset.component';
-import { AutoCompleteFieldComponent } from './components/auto-complete-field/auto-complete-field.component';
 import { ForeignKeyFieldComponent } from './components/foreign-key-field/foreign-key-field.component';
 import { TextAreaFieldComponent } from './components/text-area-field/text-area-field.component';
 import { SelectFieldComponent } from './components/select-field/select-field.component';
@@ -49,6 +48,10 @@ import { CookieModule } from 'ngx-cookie';
 import { ForeignKeyFiledMultipleComponent } from './components/foreign-key-filed-multiple/foreign-key-filed-multiple.component';
 import { ErrorHandlingComponent } from './components/error-handling/error-handling.component';
 import { IframeModalComponent } from './components/iframe-modal/iframe-modal.component';
+import { FileUploadComponent } from './components/file-upload/file-upload.component';
+import { DateTimePickerComponent } from './components/date-time-picker/date-time-picker.component';
+import { TimePickerComponent } from './components/time-picker/time-picker.component';
+import { AmazingTimePickerModule } from 'amazing-time-picker';
 
 @NgModule({
   imports: [
@@ -56,8 +59,9 @@ import { IframeModalComponent } from './components/iframe-modal/iframe-modal.com
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    MomentModule,
     RouterModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule,
     CookieModule.forChild(),
     MatToolbarModule,
     MatSidenavModule,
@@ -82,29 +86,31 @@ import { IframeModalComponent } from './components/iframe-modal/iframe-modal.com
     MatSelectModule,
     MatTabsModule,
     MatExpansionModule,
+    AmazingTimePickerModule,
     MatAutocompleteModule,
   ],
   declarations: [
     FormFieldComponent,
-    AutoCompleteFieldComponent,
     ListingComponent,
     ModelFormComponent,
     ScreenWrapperComponent,
     FormsetComponent,
     ForeignKeyFieldComponent,
+    FileUploadComponent,
+    DateTimePickerComponent,
     ListingDialogComponent,
     TextAreaFieldComponent,
     SelectFieldComponent,
     ForeignKeyFiledMultipleComponent,
     ErrorHandlingComponent,
-    IframeModalComponent
+    IframeModalComponent,
+    TimePickerComponent
   ],
   providers: [
-    {provide: HTTP_INTERCEPTORS, useClass: CookieInterceptor, multi: true},
+    { provide: HTTP_INTERCEPTORS, useClass: CookieInterceptor, multi: true },
   ],
   exports: [
     HttpClientModule,
-    AutoCompleteFieldComponent,
     MatToolbarModule,
     MatSidenavModule,
     MatListModule,
@@ -133,6 +139,9 @@ import { IframeModalComponent } from './components/iframe-modal/iframe-modal.com
     ScreenWrapperComponent,
     FormsetComponent,
     ForeignKeyFieldComponent,
+    FileUploadComponent,
+    DateTimePickerComponent,
+    TimePickerComponent,
     TextAreaFieldComponent,
     SelectFieldComponent,
   ],

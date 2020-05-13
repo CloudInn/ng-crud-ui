@@ -35,7 +35,7 @@ export class AppComponent implements OnInit {
   }
 
   registerViews() {
-    const terminalListing = new ListingView(new TerminalMetadata());
+    const terminalListing = new ListingView(new TerminalMetadata(),false, { search: 'normal' });
     terminalListing.pagination.enabled = false;
     terminalListing.search.enabled = true;
     terminalListing.dialog_mode = false;
@@ -49,19 +49,19 @@ export class AppComponent implements OnInit {
     // this.reg.registerScreen('inventory/stores/new', new FormView(new StoreMetadata()));
     this.reg.registerScreen('inventory/stores/:id', new FormView(new StoreMetadata()));
     //
-    const departmentListing = new ListingView(new DepartmentMetadata());
+    const departmentListing = new ListingView(new DepartmentMetadata(), false, { search: 'normal' });
     departmentListing.pagination.enabled = false;
     this.reg.registerScreen('income/departments', departmentListing);
     this.reg.registerScreen('income/departments/:id', new FormView(new DepartmentMetadata()));
     // rooms
-    const roomListing = new ListingView(new RoomMetadata());
+    const roomListing = new ListingView(new RoomMetadata(), false, { search: 'normal' });
     roomListing.pagination.enabled = false;
     this.reg.registerScreen('pms/rooms', roomListing);
     // const roomForm = new FormView(new RoomFo());
     this.reg.registerScreen('pms/rooms/:id', new RoomForm(new RoomMetadata()));
 
     // todo
-    const todoListing = new ListingView(new TodoMetadata());
+    const todoListing = new ListingView(new TodoMetadata(), false, { search: 'normal' });
     todoListing.pagination.enabled = false;
     this.reg.registerScreen('todos', todoListing);
     const todoForm = new FormView(new TodoMetadata());

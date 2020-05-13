@@ -1,22 +1,14 @@
-<!-- <mat-toolbar>
-    <a routerLink="/" mat-icon-button class="mat-caption"><mat-icon>home</mat-icon></a>
-    <mat-icon>keyboard_arrow_right</mat-icon>
-    <a mat-button [routerLink]="'/'+moduleName+'/'+appName" class="mat-caption">{{ appName }}</a>
-    <mat-icon>keyboard_arrow_right</mat-icon>
-    <a mat-button class="mat-caption">{{ model.verbose_name }}s</a>
-    <span class="toolbar-fill-remaining-space"></span>
-    <a mat-button [routerLink]="'/'+moduleName+'/'+appName+'/'+modelName+'/new'" color="primary">Create</a>
-    &nbsp;
-    <button mat-button color="warn" [matMenuTriggerFor]="menu">Bulk Actions <mat-icon>arrow_drop_down</mat-icon></button>    
-    <mat-menu #menu="matMenu" >
-        <button mat-menu-item>Delete</button>
-    </mat-menu>
-</mat-toolbar> -->
-
 <div class="row" *ngIf="!viewConfig.dialog_mode">
-    <a mat-button routerLink="new" color="primary">
-        <mat-icon>add</mat-icon> Create
-    </a>
+    <ng-container *ngIf="viewConfig?.external_create_link;else normal">
+        <a mat-button [href]="viewConfig?.external_create_link + 'add/?frameless=1'" color="primary">
+            <mat-icon>add</mat-icon> Create
+        </a>
+    </ng-container>
+    <ng-template #normal>
+        <a mat-button routerLink="new" color="primary">
+            <mat-icon>add</mat-icon> Create
+        </a>
+    </ng-template>
     <span class="fill-remaining-space"></span>
     <button mat-button color="warn" [matMenuTriggerFor]="menu" *ngIf="selection.selected.length>0">Bulk Actions
         <mat-icon>arrow_drop_down</mat-icon>
@@ -31,7 +23,8 @@
     </ng-container>
     <mat-menu #menu="matMenu">
         <ng-container *ngFor="let action of viewConfig.metadata.bulkActions">
-            <button mat-menu-item (click)="onAction(action)" *ngIf="selection.selected.length==action.minLength">{{action.name}}</button>
+            <button mat-menu-item (click)="onAction(action)"
+                *ngIf="selection.selected.length==action.minLength">{{action.name}}</button>
         </ng-container>
     </mat-menu>
 </div>
@@ -59,13 +52,6 @@
 <mat-table [dataSource]="dataSource">
     <ng-container *ngFor="let column of columns" [matColumnDef]="column.columnDef">
         <ng-template [ngIf]="column.columnDef === 'checked'">
-            <!-- <mat-header-cell *matHeaderCellDef (click)="onCheckAll(columns)">
-                <mat-checkbox></mat-checkbox>
-            </mat-header-cell>
-            <mat-cell *matCellDef="let row">
-                <mat-checkbox (change)="selectRow(row,$event)" [checked]="column['checked']"></mat-checkbox>
-            </mat-cell> -->
-            <!-- Checkbox Column -->
             <ng-container matColumnDef="select">
                 <mat-header-cell *matHeaderCellDef>
                     <mat-checkbox (change)="$event ? masterToggle() : null"
@@ -79,20 +65,26 @@
                     </mat-checkbox>
                 </mat-cell>
             </ng-container>
-
-
         </ng-template>
+
         <ng-template [ngIf]="column.columnDef !== 'checked' &&
          column.columnDef !== 'actions' &&
           column.Def !== 'functions'">
             <mat-header-cell *matHeaderCellDef>{{ column.header }}</mat-header-cell>
             <mat-cell *matCellDef="let row">
-                <!-- <a *ngIf="column.clickable; else normal" [routerLink]="getLink(row.id)">{{ column.cell(row) }}</a>
-                <ng-template #normal>{{ column.cell(row) }}</ng-template>     -->
-                <a class="clickable" [routerLink]="row?.id"
+                <ng-container *ngIf="viewConfig?.external_create_link;else normal">
+                    <a class="clickable" [href]="viewConfig?.external_create_link + row?.id + '/?frameless=1'"
                     *ngIf="(mode !== 'pick' && column.clickable); else normalCell">
                     {{ column.cell(row)}}
                 </a>
+                </ng-container>
+                <ng-template #normal>
+                    <a class="clickable" [routerLink]="row?.id"
+                    *ngIf="(mode !== 'pick' && column.clickable); else normalCell">
+                    {{ column.cell(row)}}
+                </a>
+                </ng-template>
+
                 <ng-template #normalCell>
                     <ng-container *ngIf="column.cell(row)!=='boolean'">
                         {{ column.cell(row)?column.cell(row):''}}
@@ -122,9 +114,6 @@
         <ng-template [ngIf]="column.columnDef === 'actions'">
             <mat-header-cell *matHeaderCellDef>{{ column.header }}</mat-header-cell>
             <mat-cell *matCellDef="let row">
-                <!-- <button mat-button *ngFor="let action of viewConfig.metadata.listingActions">
-                    {{ action }}
-                </button> -->
             </mat-cell>
         </ng-template>
     </ng-container>

@@ -47,8 +47,9 @@ export interface TouchingFields {
 export class FieldConfig {
     name: string;
     label: string;
-    type?: 'text' | 'number' | 'boolean' | 'textArea' | 'select' |
-        'date' | 'datetime' | 'foreignKey' | 'formset' | 'fieldset' | 'foreignKey_multiple' = 'text';
+    type?: 'text' | 'number' | 'boolean' | 'textArea' | 'select' | 'file' |
+        'date' | 'datetime' | 'foreignKey' | 'formset' | 'datetime' | 'time' |
+        'fieldset' | 'foreignKey_multiple' = 'text';
     isEditable?: boolean = true;
     isSearchable?: boolean = true;
     isHidden?: boolean = false;
@@ -60,12 +61,13 @@ export class FieldConfig {
     choices?: any[];
     defaultValue?: any = '';
     iContains?: boolean;
-    isClickable?:boolean;
-    // if foreignKey
+    isClickable?: boolean;
     resolveValueFrom?: string;
     displayFrom?: string[]; // value displayed if field value is an object
     listFrom?: string; // if filed is an array of objects
     touching?: TouchingFields;
+    cssWidth?: string;
+    maxlength?: string;
 }
 
 export interface Metadata {
@@ -81,11 +83,10 @@ export interface Metadata {
     model: any;
     fields: FieldConfig[];
     listingFields: string[];
-    externalNameField: string;
-    externalValueField: string;
+    searchParam?: string;
     filter_key?: string[];
     default_filters?: any[];
     formActions: { [key: string]: any };
     bulkActions?: any[];
-    externalViews?:any[];
+    externalViews?: any[];
 }

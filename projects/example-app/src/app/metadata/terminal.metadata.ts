@@ -14,8 +14,7 @@ export class TerminalMetadata implements Metadata {
     queryParams = ['id', 'number', 'description', 'rcrs_number', 'last_invoice_id', 'is_locked', 'store'];
     includeParams = true;
     filter = true;
-    externalNameField = 'description';
-    externalValueField = 'id';
+    searchParam = 'description';
     formsets = [];
     applyFunctions = true;
     fields: FieldConfig[] = [
@@ -74,7 +73,6 @@ export class TerminalMetadata implements Metadata {
             name: 'store',
             label: 'Outlet',
             type: 'foreignKey_multiple',
-            resolveValueFrom: 'store_id',
             control: {
                 metadata: new StoreMetadata(),
                 viewConfig: new StoreListView(),

@@ -1,11 +1,12 @@
-import { Component, OnInit, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
-import { FormGroup, FormArray } from '@angular/forms';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { FormGroup, ValidationErrors } from '@angular/forms';
 
 import { ApiService } from '../../services/api.service';
 import { FormService } from '../../services/form.service';
-import { FieldConfig, FormSetControlConfig } from '../../models/metadata';
+import { FieldConfig } from '../../models/metadata';
 import { FormViewer } from '../../models/views';
 import { HttpParams } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'ng-crud-model-form',
@@ -17,7 +18,7 @@ export class ModelFormComponent implements OnInit {
 
     @Input() viewConfig: FormViewer;
     @Input() mode = 'search';
-    @Input() id?: number | 'new' = null;
+    @Input() id = null;
     @Output() submit = new EventEmitter<any>();
     formGroup: FormGroup = new FormGroup({});
     formsets: FieldConfig[] = [];
@@ -30,6 +31,7 @@ export class ModelFormComponent implements OnInit {
     constructor(
         private api: ApiService,
         private formService: FormService,
+        private router: Router
     ) {
 
     }
@@ -40,63 +42,24 @@ export class ModelFormComponent implements OnInit {
         // Separate the formset fields to their object, so that they can be rendered
         // beneath the main controls.
         this.formsets = this.viewConfig.controls.filter(field => field.type === 'formset');
-
+        this.is_ready = true;
         if (this.id === 'new') {
             this.mode = 'create';
             this.submitButtonText = 'Create';
-            this.is_ready = true;
-        } else if (this.id != null) {
+            this.formGroup = this.formService.create(this.controlsConfig);
+        } else if (this.id !== null) {
             this.mode = 'edit';
             this.submitButtonText = 'Update';
             this.actions = this.viewConfig.actions;
             const params = this.populateParams();
             this.api.fetch(this.viewConfig.metadata.api + this.id, params).subscribe(data => {
-                this.controlsConfig.forEach(c => {
-                    const ctrl = this.formGroup.get(c.name);
-                    if (c.type === 'formset') {
-                        // set values of the formset rows
-                        const controlConfig = c.control as FormSetControlConfig;
-                        const formArray = ctrl as FormArray;
-                        for (let i = 0; i < data[c.name].length; i++) {
-                            const fg = this.formService.create(controlConfig.fields);
-                            fg.setValue(data[c.name][i]);
-                            formArray.setControl(i, fg);
-                        }
-                    }
-                    if (c.resolveValueFrom && ctrl !== null) {
-                        ctrl.setValue(data[c.resolveValueFrom]);
-                        return;
-                    }
-                    if (ctrl !== null) {
-                        if (this.viewConfig.search_key) {
-                            const new_data = data[this.viewConfig.search_key];
-                            ctrl.setValue(new_data[c.name]);
-                            this.setDefaults(c.name, new_data[c.name]);
-                        } else {
-                            ctrl.setValue(data[c.name]);
-                        }
-                    }
-                });
-                this.is_ready = true;
-            });
-        } else {
-            this.is_ready = true;
-        }
-    }
-    setDefaults(name, value) {
-        this._visibleControls.forEach(ctrl => {
-            if (ctrl.name === name) {
-                let finalArray;
-                if (ctrl.listFrom && Array.isArray(value)) {
-                    finalArray = value.map((obj) => {
-                        return obj[ctrl.listFrom];
-                    });
-                    ctrl.defaultValue = finalArray[0];
-                } else {
-                    ctrl.defaultValue = value;
+                let data_modified = data;
+                if (this.viewConfig.search_key) {
+                    data_modified = data[this.viewConfig.search_key];
                 }
-            }
-        });
+                this.formGroup = this.formService.update(this.controlsConfig, data_modified);
+            });
+        }
     }
 
     populateParams() {
@@ -109,32 +72,72 @@ export class ModelFormComponent implements OnInit {
         return searchParams;
     }
 
+    getFormErrors() {
+        Object.keys(this.formGroup.controls).forEach(key => {
+            const controlErrors: ValidationErrors = this.formGroup.get(key).errors;
+            if (controlErrors != null) {
+                Object.keys(controlErrors).forEach(keyError => {
+                    this.formGroup.get(key).markAsTouched();
+                });
+            }
+        });
+    }
+    saveAndEdit() {
+        this.is_ready = false;
+        this._onSubmit().subscribe(res => {
+            let id;
+            if (this.viewConfig.search_key) {
+                id = res[this.viewConfig.search_key].id;
+            }
+            const url = this.router.url;
+            this.router.navigate([`${url.substr(0, url.indexOf(this.id))}/${id}`]);
+            this.is_ready = true;
+        });
+    }
+    saveAndAdd() {
+        this.is_ready = false;
+        this._onSubmit().subscribe(res => {
+            this.is_ready = true;
+            this.formGroup = this.formService.create(this.controlsConfig);
+            const url = this.router.url;
+            this.router.navigate([`${url.substr(0, url.indexOf(this.id))}/new`]);
+        });
+    }
+    save() {
+        this.is_ready = false;
+        this._onSubmit().subscribe(res => {
+            this.is_ready = true;
+            const url = this.router.url;
+            this.router.navigate([url.substr(0, url.indexOf(this.id))]);
+        });
+    }
     _onSubmit() {
-        if (this.mode === 'create') {
-            this.api.post(this.viewConfig.metadata.api, this.formGroup.value).subscribe(res => {
-                console.log(res);
-            });
-        } else if (this.mode === 'edit') {
-            this.api.put(`${this.viewConfig.metadata.api}/${this.id}/`, this.formGroup.value).subscribe(res => {
-                console.log(res);
-            });
-        } else {
-            this.viewConfig.controls.map(ctrl => {
-                if (ctrl.type === 'date') {
-                    const today_time = new Date().getHours();
-                    if (this.formGroup.get([ctrl.name]).value !== null) {
-                        const date = new Date(this.formGroup.get([ctrl.name]).value);
-                        date.setHours(today_time);
-                        const date_string = date.toISOString();
-                        this.formGroup.get([ctrl.name]).setValue(
-                            date_string.slice(0, date_string.indexOf('T')));
+        if (this.formGroup.valid) {
+            if (this.mode === 'create') {
+                return this.api.post(this.viewConfig.metadata.api, this.formGroup.value);
+            } else if (this.mode === 'edit') {
+                return this.api.put(`${this.viewConfig.metadata.api}/${this.id}/`, this.formGroup.value);
+            } else {
+                this.viewConfig.controls.map(ctrl => {
+                    if (ctrl.type === 'date') {
+                        const today_time = new Date().getHours();
+                        if (this.formGroup.get([ctrl.name]).value !== null) {
+                            const date = new Date(this.formGroup.get([ctrl.name]).value);
+                            date.setHours(today_time);
+                            const date_string = date.toISOString();
+                            this.formGroup.get([ctrl.name]).setValue(
+                                date_string.slice(0, date_string.indexOf('T')));
+                        }
                     }
-                }
-            });
-            const contains_ctrl = this.viewConfig.controls.filter(ctrl => ctrl.iContains);
-            this.submit.emit({ ...this.formGroup.value, iContains: contains_ctrl });
+                });
+                const contains_ctrl = this.viewConfig.controls.filter(ctrl => ctrl.iContains);
+                this.submit.emit({ ...this.formGroup.value, iContains: contains_ctrl });
 
+            }
+        } else {
+            this.getFormErrors();
         }
+
     }
     _onReset() {
         this.formGroup.reset();
