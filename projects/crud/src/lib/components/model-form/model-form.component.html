@@ -40,13 +40,13 @@
 
         <div class="row actions">
             <ng-container *ngIf="mode==='edit' || mode==='create';else search">
-                <button mat-raised-button color="primary" class="submit-button" (click)="saveAndEdit()">
+                <button mat-raised-button color="primary" class="submit-button" (click)="_onSubmit('saveAndEdit')">
                     Save and Edit
                 </button>
-                <button mat-raised-button class="submit-button saveAndAdd" (click)="saveAndAdd()">
+                <button mat-raised-button class="submit-button saveAndAdd" (click)="_onSubmit('saveAndAdd')">
                     Save and Add
                 </button>
-                <button mat-raised-button class="submit-button save" (click)="save()">
+                <button mat-raised-button class="submit-button save" (click)="_onSubmit('save')">
                     Save
                 </button>
             </ng-container>

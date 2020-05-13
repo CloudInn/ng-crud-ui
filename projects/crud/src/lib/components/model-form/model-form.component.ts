@@ -82,9 +82,8 @@ export class ModelFormComponent implements OnInit {
             }
         });
     }
-    saveAndEdit() {
+    saveAndEdit(res) {
         this.is_ready = false;
-        this._onSubmit().subscribe(res => {
             let id;
             if (this.viewConfig.search_key) {
                 id = res[this.viewConfig.search_key].id;
@@ -92,31 +91,30 @@ export class ModelFormComponent implements OnInit {
             const url = this.router.url;
             this.router.navigate([`${url.substr(0, url.indexOf(this.id))}/${id}`]);
             this.is_ready = true;
-        });
     }
     saveAndAdd() {
         this.is_ready = false;
-        this._onSubmit().subscribe(res => {
             this.is_ready = true;
             this.formGroup = this.formService.create(this.controlsConfig);
             const url = this.router.url;
             this.router.navigate([`${url.substr(0, url.indexOf(this.id))}/new`]);
-        });
     }
     save() {
         this.is_ready = false;
-        this._onSubmit().subscribe(res => {
             this.is_ready = true;
             const url = this.router.url;
             this.router.navigate([url.substr(0, url.indexOf(this.id))]);
-        });
     }
-    _onSubmit() {
+    _onSubmit(action_type?) {
         if (this.formGroup.valid) {
             if (this.mode === 'create') {
-                return this.api.post(this.viewConfig.metadata.api, this.formGroup.value);
+                this.api.post(this.viewConfig.metadata.api, this.formGroup.value).subscribe(res => {
+                    this.performAction(action_type, res);
+                });
             } else if (this.mode === 'edit') {
-                return this.api.put(`${this.viewConfig.metadata.api}/${this.id}/`, this.formGroup.value);
+                this.api.put(`${this.viewConfig.metadata.api}/${this.id}/`, this.formGroup.value).subscribe(res => {
+                    this.performAction(action_type, res);
+                });
             } else {
                 this.viewConfig.controls.map(ctrl => {
                     if (ctrl.type === 'date') {
@@ -132,12 +130,22 @@ export class ModelFormComponent implements OnInit {
                 });
                 const contains_ctrl = this.viewConfig.controls.filter(ctrl => ctrl.iContains);
                 this.submit.emit({ ...this.formGroup.value, iContains: contains_ctrl });
-
             }
         } else {
             this.getFormErrors();
         }
-
+    }
+    performAction(type, res) {
+        switch (type) {
+            case 'saveAndEdit':
+                this.saveAndEdit(res);
+                break;
+            case 'saveAndAdd':
+                this.saveAndAdd();
+                break;
+            case 'save':
+                this.save();
+        }
     }
     _onReset() {
         this.formGroup.reset();
