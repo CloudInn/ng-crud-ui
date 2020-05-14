@@ -17,7 +17,10 @@ export interface ListViewer extends ViewConfig {
         search_key?: string[],
         mode?: string
     };
-    external_create_link?: string;
+    external_link?: {
+        link: string,
+        params: string[]
+    };
     dialog_mode?: boolean;
     pagination: {
         enabled: boolean,
@@ -53,7 +56,10 @@ export interface ViewSettingsObj {
         search_key: string[],
         mode: string
     };
-    create_external_link?: string;
+    external_link?: {
+        link: string,
+        params: string[]
+    };
 }
 
 export class ListingView implements ListViewer {
@@ -66,7 +72,9 @@ export class ListingView implements ListViewer {
         search_key: this.viewSettings.search_settings.search_key,
         mode: this.viewSettings.search_settings.mode
     };
-    external_create_link = this.viewSettings.create_external_link;
+    external_link = {
+      ...this.viewSettings.external_link
+    };
     dialog_mode = this.viewSettings.isDialog;
     pagination = {
         enabled: true,
