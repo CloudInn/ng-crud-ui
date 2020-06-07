@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
 import { FormGroup, ValidationErrors } from '@angular/forms';
 
 import { ApiService } from '../../services/api.service';
@@ -7,6 +7,8 @@ import { FieldConfig } from '../../models/metadata';
 import { FormViewer } from '../../models/views';
 import { HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { MatSnackBar, MatDialog } from '@angular/material';
+import { IframeModalComponent } from '../../components/iframe-modal/iframe-modal.component';
 
 @Component({
     selector: 'ng-crud-model-form',
@@ -31,6 +33,8 @@ export class ModelFormComponent implements OnInit {
     constructor(
         private api: ApiService,
         private formService: FormService,
+        private _snackBar: MatSnackBar,
+        private dialog: MatDialog,
         private router: Router
     ) {
 
@@ -54,8 +58,8 @@ export class ModelFormComponent implements OnInit {
             const params = this.populateParams();
             this.api.fetch(this.viewConfig.metadata.api + this.id, params).subscribe(data => {
                 let data_modified = data;
-                if (this.viewConfig.search_key) {
-                    data_modified = data[this.viewConfig.search_key];
+                if (this.viewConfig.metadata.search_key) {
+                    data_modified = data[this.viewConfig.metadata.search_key];
                 }
                 this.formGroup = this.formService.update(this.controlsConfig, data_modified);
             });
@@ -82,38 +86,66 @@ export class ModelFormComponent implements OnInit {
             }
         });
     }
+    onAction(link) {
+        console.log(link);
+        switch (link.action) {
+            case 'iframe':
+                this.openIframe(link);
+                break;
+            case 'request':
+                this.api.post(link.api, {});
+                break;
+        }
+    }
+    openIframe(link) {
+        this.dialog.open(IframeModalComponent, {
+            height: '95vh',
+            width: '100vw',
+            data: {
+                'src': `${link.api}/${this.id}/${link.params}`,
+                'title': link.name,
+                'color': 'grey'
+            }
+        });
+    }
     saveAndEdit(res) {
         this.is_ready = false;
-            let id;
-            if (this.viewConfig.search_key) {
-                id = res[this.viewConfig.search_key].id;
-            }
-            const url = this.router.url;
-            this.router.navigate([`${url.substr(0, url.indexOf(this.id))}/${id}`]);
+        let id;
+        if (this.viewConfig.metadata.search_key) {
+            id = res[this.viewConfig.metadata.search_key].id;
+        }
+        const url = this.router.url;
+        this.router.navigate([`${url.substr(0, url.indexOf(this.id))}/${id}`]);
+        if (this.mode === 'edit') {
             this.is_ready = true;
+        }
     }
     saveAndAdd() {
         this.is_ready = false;
-            this.is_ready = true;
-            this.formGroup = this.formService.create(this.controlsConfig);
-            const url = this.router.url;
-            this.router.navigate([`${url.substr(0, url.indexOf(this.id))}/new`]);
+        this.formGroup = this.formService.create(this.controlsConfig);
+        const url = this.router.url;
+        this.router.navigate([`${url.substr(0, url.indexOf(this.id))}/new`]);
     }
     save() {
         this.is_ready = false;
-            this.is_ready = true;
-            const url = this.router.url;
-            this.router.navigate([url.substr(0, url.indexOf(this.id))]);
+        const url = this.router.url;
+        this.router.navigate([url.substr(0, url.indexOf(this.id))]);
     }
     _onSubmit(action_type?) {
         if (this.formGroup.valid) {
             if (this.mode === 'create') {
                 this.api.post(this.viewConfig.metadata.api, this.formGroup.value).subscribe(res => {
                     this.performAction(action_type, res);
+                    this.openSnackBar('Your data is created successfully', 'success');
+                }, (error) => {
+                    this.openSnackBar('Please review your reservation data and try again!', 'error');
                 });
             } else if (this.mode === 'edit') {
                 this.api.put(`${this.viewConfig.metadata.api}/${this.id}/`, this.formGroup.value).subscribe(res => {
                     this.performAction(action_type, res);
+                    this.openSnackBar('Your data is updated successfully', 'success');
+                }, (error) => {
+                    this.openSnackBar('Please review your reservation data and try again!', 'error');
                 });
             } else {
                 this.viewConfig.controls.map(ctrl => {
@@ -150,6 +182,13 @@ export class ModelFormComponent implements OnInit {
     _onReset() {
         this.formGroup.reset();
         this.submit.emit({ reset: true });
+    }
+
+    openSnackBar(message: string, type: string) {
+        this._snackBar.open(message, '', {
+            duration: 2000,
+            panelClass: type === 'success' ? ['success-bar'] : ['others-bar']
+        });
     }
 
 }

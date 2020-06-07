@@ -44,29 +44,31 @@ export class ScreenWrapperComponent implements OnInit {
     // keep listening for route params changes, in case of
     // the model name changed, e.g: another model clicked from
     // the nav menu
-    this.route.url.subscribe(urls => {
-      const p = [];
-      urls.forEach(url => {
-        p.push(url.path);
+    setTimeout(() => {
+      this.route.url.subscribe(urls => {
+        const p = [];
+        urls.forEach(url => {
+          p.push(url.path);
+        });
+        const path = p.join('/');
+        if (this.route.routeConfig) {
+          this.screen = this.reg.screens[this.route.routeConfig.path];
+        } else if (this.data) {
+          this.screen = this.reg.screens[this.data.path];
+        }
+        if (!this.screen) {
+          throw new Error('Screen not found in registry');
+        }
+        const factory = this.resolver.resolveComponentFactory<any>(this.screen.component);
+        const componentRef = this.container.createComponent(factory);
+        this.title.setTitle(this.screen.title);
+        componentRef.instance.viewConfig = this.screen;
+        Object.keys(this.route.snapshot.params).forEach(k => {
+          componentRef.instance[k] = this.route.snapshot.params[k];
+        });
+        this.dynamicComponentContainer.insert(componentRef.hostView);
       });
-      const path = p.join('/');
-      if (this.route.routeConfig) {
-        this.screen = this.reg.screens[this.route.routeConfig.path];
-      } else if (this.data) {
-        this.screen = this.reg.screens[this.data.path];
-      }
-      if (!this.screen) {
-        throw new Error('Screen not found in registry');
-      }
-      const factory = this.resolver.resolveComponentFactory<any>(this.screen.component);
-      const componentRef = this.container.createComponent(factory);
-      this.title.setTitle(this.screen.title);
-      componentRef.instance.viewConfig = this.screen;
-      Object.keys(this.route.snapshot.params).forEach(k => {
-        componentRef.instance[k] = this.route.snapshot.params[k];
-      });
-      this.dynamicComponentContainer.insert(componentRef.hostView);
-    });
+    }, 0);
   }
 
 }

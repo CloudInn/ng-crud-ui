@@ -1,4 +1,4 @@
-import { Type } from '@angular/core';
+import { Type, Optional } from '@angular/core';
 import { ListingComponent } from '../components/listing/listing.component';
 import { ModelFormComponent } from '../components/model-form/model-form.component';
 import { Metadata, FieldConfig } from './metadata';
@@ -27,12 +27,13 @@ export interface ListViewer extends ViewConfig {
         pageSize?: number,
     };
 }
-
+export interface FormActions {
+    [key: string]: any;
+}
 export interface FormViewer extends ViewConfig {
     layout: string; // horizontal or vertical
-    search_key?: string;
     controls: FieldConfig[];
-    actions: { [key: string]: any };
+    actions: FormActions[];
 }
 
 export class FormView implements FormViewer {
@@ -42,7 +43,7 @@ export class FormView implements FormViewer {
     layout = 'vertical';
     controls: FieldConfig[] = [];
     actions = this.metadata.formActions;
-
+    search_key = this.metadata.search_key;
     constructor(public metadata: Metadata) {
         metadata.fields.filter(f => f.isHidden !== true).forEach(field => {
             this.controls.push(field as FieldConfig);
@@ -73,7 +74,7 @@ export class ListingView implements ListViewer {
         mode: this.viewSettings.search_settings.mode
     };
     external_link = {
-      ...this.viewSettings.external_link
+        ...this.viewSettings.external_link
     };
     dialog_mode = this.viewSettings.isDialog;
     pagination = {

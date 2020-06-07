@@ -1,9 +1,12 @@
-<!-- <mat-progress-bar *ngIf="isLoading" mode="query"></mat-progress-bar> -->
-
-
 <div class="crud-form-body">
     <ng-template [ngIf]="is_ready">
-        <!-- <div class="form-container"> -->
+        <div class="header_btn_container" *ngIf="viewConfig?.metadata?.formActions">
+            <span class="header_btns">
+                <button mat-button class="header_btn" *ngFor="let link of viewConfig?.metadata?.formActions" (click)="onAction(link)">
+                     {{link.name}}
+                </button>
+            </span>
+        </div>
         <div fxflexfill fxlayoutgap="10px grid"
             style="cursor: pointer;height: 100%;min-height: 100%;min-width: 100%;width: 100%;flex-flow: row wrap;box-sizing: border-box;display: flex;margin: 0px -10px -10px 0px;"
             class="row full" [formGroup]="formGroup">

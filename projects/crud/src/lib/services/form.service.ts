@@ -14,7 +14,7 @@ export class FormService {
     config.forEach(c => {
       if (c.type === 'fieldset') {
         const controlConfig = c.control as FieldSetControlConfig;
-        controlConfig.fields = controlConfig.fields.filter(field => !field.isHidden);
+        controlConfig.fields = controlConfig.fields.filter(field => field.isHidden !== true);
         controlConfig.fields.forEach(innerC => {
           ctrls[innerC.name] = new FormControl(null, c.validators);
           innerC.defaultValue = null;
@@ -22,7 +22,7 @@ export class FormService {
         return;
       } else if (c.type === 'formset') {
         const controlConfig = c.control as FormSetControlConfig;
-        controlConfig.fields = controlConfig.fields.filter(field => !field.isHidden);
+        controlConfig.fields = controlConfig.fields.filter(field => field.isHidden !== true);
         const group = this.create(controlConfig.fields);
         ctrls[c.name] = new FormArray([group]);
         return;

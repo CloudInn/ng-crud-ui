@@ -52,3 +52,20 @@ mat-panel-title{
     background-color: #F1B661;
     color: #fff;
 }
+::ng-deep snack-bar-container .success-bar{
+    background-color:#1e9765 ;
+}
+::ng-deep snack-bar-container .others-bar{
+    background-color: #000;
+}
+.header_btn_container{
+    display: flex;
+    flex-wrap: wrap;
+    flex: auto;
+}
+.header_btn_container span{
+    margin-right: 15px;
+    margin-left: auto;
+    order: 2;
+    color: #337ab7;
+}

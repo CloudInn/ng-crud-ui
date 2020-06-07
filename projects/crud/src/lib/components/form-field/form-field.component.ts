@@ -45,7 +45,7 @@ export class FormFieldComponent implements OnChanges, OnInit {
         }
       });
       if (!this.config.isEditable) {
-        this.formGroup.get(this.config.name).disable();
+    //  this.formGroup.controls[this.config.name].disable();
       }
     }
   }

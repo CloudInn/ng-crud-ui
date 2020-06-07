@@ -1,4 +1,4 @@
-import { ViewConfig } from './views';
+import { ViewConfig, FormActions } from './views';
 import { Subject } from 'rxjs';
 
 export interface ControlConfig {
@@ -56,8 +56,6 @@ export class FieldConfig {
     control?: ControlConfig | ForeignKeyControlConfig | TextAreaControlConfig |
         SelectControlConfig | AutoCompleteControlConfig | FormSetControlConfig | FieldSetControlConfig;
     validators?: any[];
-    foreignModelPath?: string;
-    valueType?: string;
     choices?: any[];
     defaultValue?: any = '';
     iContains?: boolean;
@@ -76,6 +74,7 @@ export interface Metadata {
     queryParams?: string[];
     filter?: boolean;
     includeParams?: boolean;
+    search_key?: string;
     applyFunctions?: boolean;
     rows?: Subject<any>;
     label: string;
@@ -86,7 +85,7 @@ export interface Metadata {
     searchParam?: string;
     filter_key?: string[];
     default_filters?: any[];
-    formActions: { [key: string]: any };
+    formActions: FormActions[];
     bulkActions?: any[];
     externalViews?: any[];
 }
