@@ -1,18 +1,21 @@
-<div *ngIf="control" style="margin: 10px;">
+<div *ngIf="control">
     <div class="row">
-        <h4> {{ config.label }}</h4>
         <span class="spacer"></span>
-        <button mat-icon-button (click)="addForm()">
-            <mat-icon>add_circle</mat-icon>
+        <button mat-raised-button (click)="addForm()" class="add_btn">
+            <mat-icon>add</mat-icon> Add
         </button>
     </div>
     <ng-container [formGroup]="formGroup">
         <div [formArrayName]="config.name">
             <div class="row" *ngFor="let _formGroup of formArray?.controls; index as i; trackBy: trackByFn">
-                <ng-container  *ngFor="let field of control.fields" >
+                <ng-container *ngFor="let field of control.fields">
                     <br /><br />
-                    <ng-crud-form-field [choices]="choices[field.name]" [formGroup]="_formGroup" [config]="field"></ng-crud-form-field>
+                    <ng-crud-form-field [choices]="choices[field.name]" [formGroup]="_formGroup" [config]="field">
+                    </ng-crud-form-field>
                 </ng-container>
+                <div style="margin-top: 40px;text-decoration: underline;">
+                    <a mat-button color="warn" *ngIf="i>=1" (click)="delete(i)">Delete</a>
+                </div>
             </div>
         </div>
     </ng-container>

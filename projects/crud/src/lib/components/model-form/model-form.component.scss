@@ -7,24 +7,36 @@
 
 .submit-button {
     align-self: flex-end;
-    margin-bottom: 45px;
-    margin-right: 10px;
+    margin-right: 40px;
+    width: 12%;
+    background-color: #2A8FC1;
+    color: #fff;
+}
+.reset_btn{
+    padding: 0;
+    margin: 0;
+    width: 95%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    text-decoration: underline;
+    cursor: pointer;
+
 }
 .actions{
     justify-content: flex-end !important;
+    margin: 24px 0;
 }
 .crud-form-body{
     display: flex;
     flex-wrap: wrap;
-    margin: 0 auto;
 }
 .full{
     width: 100%;
 }
 .FormCell{
-    width: 23%;
-    margin-right: 10px;
-    margin-bottom: 10px !important;
+    width: 24%;
+    margin-bottom: 24px !important;
 }
 mat-header-cell{
     background-color:#EEEEEE;
@@ -45,11 +57,15 @@ mat-panel-title{
     padding-top: 10px !important
 }
 .save{
-    background-color: #82C572;
+    background-color: #5AB856;
     color: #fff;
 }
 .saveAndAdd{
-    background-color: #F1B661;
+    background-color: #F6AF2F;
+    color: #fff;
+}
+.saveAndEdit{
+    background-color: #2C90C0;
     color: #fff;
 }
 ::ng-deep snack-bar-container .success-bar{
@@ -68,4 +84,17 @@ mat-panel-title{
     margin-left: auto;
     order: 2;
     color: #337ab7;
+}
+@media (min-width: 1400px) and (max-width : 1600px){
+    .crud-form-body{
+        margin: 14px 40px;
+    }
+}
+@media only screen and (max-width: 600px){
+    .field-wrapper{
+        margin: 4px;
+        max-width: 100% !important;
+        /* width: 100%; */
+        flex: 1 1 100% !important;
+    }
 }

@@ -15,10 +15,10 @@
     padding-left: 12px;
     color: rgba(0, 0, 0, 0.3);
     text-transform: uppercase;
-    font-family: 'Roboto';
+    font-family: 'Roboto',sans-serif;
     letter-spacing: -1px !important;
     margin-bottom: 0px;
-    font-size: 12px;
+    font-size: 16px;
 }
 
 .mat-sidenav-content {

@@ -54,7 +54,7 @@ export interface ViewSettingsObj {
     isDialog: boolean;
     search_settings: {
         enabled: boolean,
-        search_key: string[],
+        search_key?: string[],
         mode: string
     };
     external_link?: {

@@ -1,6 +1,6 @@
 import {
     Component, OnInit, Input, Output, EventEmitter,
-    ComponentFactoryResolver, ViewChild, ViewContainerRef, AfterContentChecked, AfterViewInit
+    ComponentFactoryResolver, ViewChild, ViewContainerRef, AfterContentChecked, AfterViewInit, ElementRef
 } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 
@@ -19,9 +19,11 @@ import { IframeModalComponent } from '../iframe-modal/iframe-modal.component';
 })
 export class ListingComponent implements OnInit, AfterViewInit {
     @ViewChild(MatPaginator) paginator: MatPaginator;
+    @ViewChild('iframe') iframe: ElementRef;
 
     @Input() viewConfig: ListViewer;
     mode;
+    iframeOpened = false;
     is_actions_set = false;
     @Input() forcedSearchParams: any;
     dataSource = new MatTableDataSource();
@@ -68,11 +70,7 @@ export class ListingComponent implements OnInit, AfterViewInit {
         }
     }
     private prepareColumns() {
-        if (this.mode !== 'pick') {
-            this.columns = [{ 'columnDef': 'checked', 'header': '' }];
-        } else {
-            this.columns = [];
-        }
+        this.columns = [];
         this.viewConfig.metadata.listingFields.map(field => {
             const meta_field = this.viewConfig.metadata.fields.filter(ff => ff.name === field);
             meta_field.forEach(f => {
@@ -138,6 +136,7 @@ export class ListingComponent implements OnInit, AfterViewInit {
         }
         if (this.mode !== 'pick') {
             this.columns.push({ 'columnDef': 'actions', 'header': '' });
+            this.columns.push({ 'columnDef': 'checked', 'header': '' });
         }
     }
 
@@ -170,6 +169,27 @@ export class ListingComponent implements OnInit, AfterViewInit {
             });
         }
         this.fetch();
+    }
+
+    redirect(id?) {
+        // this.dialog.open(IframeModalComponent, {
+        //     height: '95vh',
+        //     width: '100vw',
+        //     data: {
+        //         'src': `${this.viewConfig.external_link.link} + 'add/?' + ${this.viewConfig.external_link.params.join('&')}`,
+        //         'title': 'Add new',
+        //         'color': 'grey'
+        //     }
+        // });
+
+        this.iframeOpened = true;
+        if (id) {
+            this.iframe.nativeElement.setAttribute('src',
+            `${this.viewConfig.external_link.link}` + `${id}/?` + `${this.viewConfig.external_link.params.join('&')}`);
+        } else {
+            this.iframe.nativeElement.setAttribute('src',
+                `${this.viewConfig.external_link.link}` + 'add/?' + `${this.viewConfig.external_link.params.join('&')}`);
+        }
     }
 
     changeView(view) {

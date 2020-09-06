@@ -15,3 +15,9 @@ mat-tab-nav-bar,
 .tabs-bar a {
   color: #fff;
 }
+.crud_container{
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto',sans-serif;
+  font-size: 16px;
+}

@@ -1,10 +1,9 @@
-<div [ngSwitch]="config.type" class="form-field-wrapper" [formGroup]="formGroup">
+<ng-container [ngSwitch]="config.type" [formGroup]="formGroup">
 
-    <div *ngSwitchCase="'boolean'" class="holdFormCell">
-        <mat-label>{{ config.label }}</mat-label>
-        <mat-checkbox matInput [formControlName]="config.name" color="primary"></mat-checkbox>
-    </div>
-
+    <ng-container *ngSwitchCase="'boolean'">
+        <mat-checkbox matInput [formControlName]="config.name" color="primary">{{ config.label }}</mat-checkbox>
+    </ng-container> 
+       
     <ng-container *ngSwitchCase="'textArea'">
         <ng-crud-text-area-field [formGroup]="formGroup" [config]="config"></ng-crud-text-area-field>
     </ng-container>
@@ -60,4 +59,4 @@
                 pattern for this field is invalid </mat-error>
         </mat-form-field>
     </ng-container>
-</div>
+</ng-container>

@@ -1,6 +1,7 @@
 .clickable {
-    color: blue;
+    color: #369FC8;
     cursor: pointer;
+    text-decoration: none;
 }
 .cancel_icon {
     float:right;
@@ -14,11 +15,30 @@
 .crud-search{
     border:1px solid #D3D6DD;
 }
+.bulk_container{
+    display: flex;
+    flex-direction: row-reverse;
+    background-color: #fff;
+    position: sticky;
+    top: 0px;
+    width: 96%;
+    z-index: 1000;
+}
+.bulk_btn{
+     background-color: #2A8FC1;
+     color: #fff;
+}
+.crud-new-btn{
+    background-color: #5BB859;
+    margin-top: 24px;
+}
 .checkmark_icon{
     color:#5bb75b;
 }
-.views-button{
+.crud-views-button{
     float: right;
+    background-color: #5BB859;
+    margin-top: 24px;
 }
 .separated{
     border-bottom: 1px solid #929292;
@@ -40,4 +60,21 @@ mat-panel-title{
 ::ng-deep .mat-expansion-panel-body{
     background-color: #fff;
     padding-top: 10px !important
+}
+
+@media (min-width: 992px) and (max-width : 1600px){
+    .crud-search{
+        margin: 8px 50px;
+    }
+    .crud-table , .crud-paginator{
+        margin: 24px 50px;
+        font-family: 'Roboto',sans-serif;
+        font-size: 16;
+    }
+    .crud-views-button{
+        margin-right: 50px;   
+    }
+    .crud-new-btn{
+        margin-left: 50px;
+    }
 }

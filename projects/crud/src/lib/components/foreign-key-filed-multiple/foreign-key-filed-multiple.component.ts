@@ -54,11 +54,15 @@ export class ForeignKeyFiledMultipleComponent implements OnInit, OnChanges {
     }
     this.controlConfig = this.config.control as ForeignKeyControlConfig;
     const ctrl = this.formGroup.get([this.config.name]) as FormControl;
+    if (ctrl.value !== null) {
+      this._setControlValue(ctrl.value);
+      this._underlyingCtrl.setValue(ctrl.value);
+    }
     this._underlyingCtrl.valueChanges.subscribe(value => {
       if ((typeof value) === 'string') {
         this._filter(value).subscribe(res => {
           if (res.results) {
-            const keys = this.controlConfig.metadata.filter_key;
+            const keys = this.controlConfig.metadata.search_key;
             let value = res.results[keys[0]]; // search_key is an array of keys
             for (let i = 1; i < keys.length; i++) {
               value = value[keys[i]];
@@ -78,7 +82,7 @@ export class ForeignKeyFiledMultipleComponent implements OnInit, OnChanges {
     const url = `${this.controlConfig.metadata.api}`;
     this.api.fetch(url).subscribe(res => {
       if (res.results) {
-        const keys = this.controlConfig.metadata.filter_key;
+        const keys = this.controlConfig.metadata.search_key;
         let value = res.results[keys[0]]; // search_key is an array of keys
         for (let i = 1; i < keys.length; i++) {
           value = value[keys[i]];
@@ -109,7 +113,13 @@ export class ForeignKeyFiledMultipleComponent implements OnInit, OnChanges {
 
   _setControlValue(value: any) {
     const ctrl = this.formGroup.get([this.config.name]);
-    ctrl.setValue(value);
+    const values = [];
+    if (value !== null && value !== '') {
+      value.forEach(val => {
+        values.push(val[this.config.resolveValueFrom]);
+      });
+      ctrl.setValue(values);
+    }
   }
 
   add(event: MatChipInputEvent): void {
@@ -136,7 +146,7 @@ export class ForeignKeyFiledMultipleComponent implements OnInit, OnChanges {
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
-    this.selected_results.push(event.option.viewValue);
+    this.selected_results.push(event.option.value);
     this.fruitInput.nativeElement.value = '';
     this._setControlValue(this.selected_results);
   }

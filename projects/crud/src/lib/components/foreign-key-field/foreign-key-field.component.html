@@ -1,4 +1,4 @@
-<div [formGroup]="formGroup">
+<ng-container [formGroup]="formGroup">
     <mat-form-field style="width: 90%;">
         <mat-label>{{ config.label }}</mat-label>
         <mat-icon class="input_icon" style="color: rgba(165, 151, 151, 0.87);
@@ -15,4 +15,4 @@
             {{ option[controlConfig.metadata.optionName] }}
         </mat-option>
     </mat-autocomplete>
-</div>
+</ng-container>

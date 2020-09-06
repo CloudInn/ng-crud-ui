@@ -33,6 +33,11 @@ export class FormsetComponent implements OnChanges {
     this.formArray.push(formGroup);
   }
 
+delete(index){
+  console.log(index);
+  this.formArray.removeAt(index)
+}
+
   trackByFn(index) {
     return index;
   }

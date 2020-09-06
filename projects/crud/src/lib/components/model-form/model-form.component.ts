@@ -29,6 +29,7 @@ export class ModelFormComponent implements OnInit {
     actions: {};
     submitButtonText = 'Search';
     _visibleControls: FieldConfig[] = [];
+    disabled = false;
 
     constructor(
         private api: ApiService,
@@ -93,7 +94,19 @@ export class ModelFormComponent implements OnInit {
                 this.openIframe(link);
                 break;
             case 'request':
-                this.api.post(link.api, {});
+                this.api.post(link.api + this.id + '/' + link.params, link.body).subscribe(res => {
+                    this._snackBar.open(res['message'], '', {
+                        duration: 2000,
+                        panelClass: 'success'
+                    });
+                    const url = this.router.url;
+                    this.router.navigate([url.substr(0, url.indexOf(this.id))]);
+                }, err => {
+                    this._snackBar.open(err.error.error, '', {
+                        duration: 2000,
+                        panelClass: 'others-bar'
+                    });
+                });
                 break;
         }
     }
@@ -102,7 +115,7 @@ export class ModelFormComponent implements OnInit {
             height: '95vh',
             width: '100vw',
             data: {
-                'src': `${link.api}/${this.id}/${link.params}`,
+                'src': `${link.api}${this.id}/${link.params}`,
                 'title': link.name,
                 'color': 'grey'
             }
@@ -122,6 +135,9 @@ export class ModelFormComponent implements OnInit {
     }
     saveAndAdd() {
         this.is_ready = false;
+        if (this.mode === 'create') {
+            this.is_ready = true;
+        }
         this.formGroup = this.formService.create(this.controlsConfig);
         const url = this.router.url;
         this.router.navigate([`${url.substr(0, url.indexOf(this.id))}/new`]);
@@ -133,19 +149,24 @@ export class ModelFormComponent implements OnInit {
     }
     _onSubmit(action_type?) {
         if (this.formGroup.valid) {
+            this.disabled = true;
             if (this.mode === 'create') {
                 this.api.post(this.viewConfig.metadata.api, this.formGroup.value).subscribe(res => {
                     this.performAction(action_type, res);
-                    this.openSnackBar('Your data is created successfully', 'success');
+                    this.disabled = false;
+                    this.openSnackBar(`Your ${this.viewConfig.metadata.label} is created successfully`, 'success');
                 }, (error) => {
-                    this.openSnackBar('Please review your reservation data and try again!', 'error');
+                    this.disabled = false;
+                    this.openSnackBar('Please review your data and try again!', 'error');
                 });
             } else if (this.mode === 'edit') {
-                this.api.put(`${this.viewConfig.metadata.api}/${this.id}/`, this.formGroup.value).subscribe(res => {
+                this.api.put(`${this.viewConfig.metadata.api}${this.id}/`, this.formGroup.value).subscribe(res => {
                     this.performAction(action_type, res);
-                    this.openSnackBar('Your data is updated successfully', 'success');
+                    this.disabled = false;
+                    this.openSnackBar(`Your ${this.viewConfig.metadata.label} is updated successfully`, 'success');
                 }, (error) => {
-                    this.openSnackBar('Please review your reservation data and try again!', 'error');
+                    this.disabled = false;
+                    this.openSnackBar('Please review your data and try again!', 'error');
                 });
             } else {
                 this.viewConfig.controls.map(ctrl => {

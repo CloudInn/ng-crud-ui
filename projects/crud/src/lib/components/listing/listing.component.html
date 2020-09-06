@@ -1,126 +1,135 @@
-<div class="row" *ngIf="!viewConfig.dialog_mode">
-    <ng-container *ngIf="viewConfig?.external_link?.link;else normal">
-        <a mat-button [href]="viewConfig?.external_link.link + 'add/?' + viewConfig?.external_link?.params.join('&')" color="primary">
-            <mat-icon>add</mat-icon> Create
-        </a>
-    </ng-container>
-    <ng-template #normal>
-        <a mat-button routerLink="new" color="primary">
-            <mat-icon>add</mat-icon> Create
-        </a>
-    </ng-template>
-    <span class="fill-remaining-space"></span>
-    <button mat-button color="warn" [matMenuTriggerFor]="menu" *ngIf="selection.selected.length>0">Bulk Actions
-        <mat-icon>arrow_drop_down</mat-icon>
-    </button>
-    <span class="fill-remaining-space"></span>
-    <ng-container *ngIf="viewConfig?.metadata?.externalViews">
-        <button class="views-button" mat-button color="primary" *ngFor="let view of viewConfig?.metadata?.externalViews"
-            (click)="changeView(view.link)">
-            <mat-icon>{{view.icon}}</mat-icon>
-            {{view.name}}
-        </button>
-    </ng-container>
-    <mat-menu #menu="matMenu">
-        <ng-container *ngFor="let action of viewConfig.metadata.bulkActions">
-            <button mat-menu-item (click)="onAction(action)"
-                *ngIf="selection.selected.length==action.minLength">{{action.name}}</button>
+<ng-container *ngIf="!iframeOpened">
+    <div class="row" *ngIf="!viewConfig.dialog_mode">
+        <ng-container *ngIf="viewConfig?.external_link?.link;else normal">
+            <a class="crud-new-btn" mat-raised-button (click)="redirect()" color="primary">
+                <mat-icon>add</mat-icon> Add New
+            </a>
         </ng-container>
-    </mat-menu>
-</div>
-<h2 mat-dialog-title style="padding:10px;" class="separated" *ngIf="viewConfig.dialog_mode">
-    <span> {{viewConfig.title}}</span>
-    <mat-icon class="cancel_icon" (click)="cancel()">cancel</mat-icon>
-</h2>
+        <ng-template #normal>
+            <a class="crud-new-btn" mat-raised-button routerLink="new" color="primary">
+                <mat-icon>add</mat-icon> Create
+            </a>
+        </ng-template>
+        <span class="fill-remaining-space"></span>
+        <span class="fill-remaining-space"></span>
+        <ng-container *ngIf="viewConfig?.metadata?.externalViews">
+            <button class="crud-views-button" mat-raised-button color="primary"
+                *ngFor="let view of viewConfig?.metadata?.externalViews" (click)="changeView(view.link)">
+                <mat-icon>{{view.icon}}</mat-icon>
+                {{view.name}}
+            </button>
+        </ng-container>
+    </div>
+    <h2 mat-dialog-title style="padding:10px;" class="separated" *ngIf="viewConfig.dialog_mode">
+        <span> {{viewConfig.title}}</span>
+        <mat-icon class="cancel_icon" (click)="cancel()">cancel</mat-icon>
+    </h2>
 
-<ng-template [ngIf]="viewConfig.search.enabled">
-    <mat-expansion-panel [expanded]="true" class="crud-search">
-        <mat-expansion-panel-header [collapsedHeight]="'40px'" [expandedHeight]="'40px'">
-            <mat-panel-title>
-                <mat-icon>search</mat-icon>
-                <mat-label>Search</mat-label>
-            </mat-panel-title>
-        </mat-expansion-panel-header>
+    <ng-template [ngIf]="viewConfig.search.enabled">
+        <mat-expansion-panel [expanded]="true" class="crud-search">
+            <mat-expansion-panel-header [collapsedHeight]="'40px'" [expandedHeight]="'40px'">
+                <mat-panel-title>
+                    <mat-icon>search</mat-icon>
+                    <mat-label>Search</mat-label>
+                </mat-panel-title>
+            </mat-expansion-panel-header>
 
-        <div #searchComponent></div>
-        <ng-error-handling></ng-error-handling>
-    </mat-expansion-panel>
-</ng-template>
+            <div #searchComponent></div>
+            <ng-error-handling></ng-error-handling>
+        </mat-expansion-panel>
+    </ng-template>
 
-<mat-progress-bar *ngIf="isLoading" mode="query"></mat-progress-bar>
-
-<mat-table [dataSource]="dataSource">
-    <ng-container *ngFor="let column of columns" [matColumnDef]="column.columnDef">
-        <ng-template [ngIf]="column.columnDef === 'checked'">
-            <ng-container matColumnDef="select">
-                <mat-header-cell *matHeaderCellDef>
-                    <mat-checkbox (change)="$event ? masterToggle() : null"
-                        [checked]="selection.hasValue() && isAllSelected()"
-                        [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
-                    </mat-checkbox>
-                </mat-header-cell>
-                <mat-cell *matCellDef="let row">
-                    <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
-                        [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
-                    </mat-checkbox>
-                </mat-cell>
+    <mat-progress-bar *ngIf="isLoading" mode="query"></mat-progress-bar>
+    <div class="bulk_container">
+        <button mat-raised-button class="bulk_btn" [matMenuTriggerFor]="menu" *ngIf="selection.selected.length>0 &&
+            viewConfig.metadata.bulkActions?.length>0">Bulk Actions
+            <mat-icon>arrow_drop_down</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+            <ng-container *ngFor="let action of viewConfig.metadata.bulkActions">
+                <button mat-menu-item (click)="onAction(action)"
+                    *ngIf="selection.selected.length>=action.minLength">{{action.name}}</button>
             </ng-container>
-        </ng-template>
-
-        <ng-template [ngIf]="column.columnDef !== 'checked' &&
-         column.columnDef !== 'actions' &&
-          column.Def !== 'functions'">
-            <mat-header-cell *matHeaderCellDef>{{ column.header }}</mat-header-cell>
-            <mat-cell *matCellDef="let row">
-                <ng-container *ngIf="viewConfig?.external_link?.link;else normal">
-                    <a class="clickable" [href]="viewConfig?.external_link.link + row?.id + '/?' + viewConfig?.external_link?.params.join('&')"
-                    *ngIf="(mode !== 'pick' && column.clickable); else normalCell">
-                    {{ column.cell(row)}}
-                </a>
+        </mat-menu>
+    </div>
+    <mat-table [dataSource]="dataSource" class="crud-table">
+        <ng-container *ngFor="let column of columns" [matColumnDef]="column.columnDef">
+            <ng-template [ngIf]="column.columnDef === 'checked'">
+                <ng-container matColumnDef="select">
+                    <mat-header-cell *matHeaderCellDef>
+                        <mat-checkbox *ngIf="viewConfig.metadata.bulkActions?.length>0" (change)="$event ? masterToggle() : null"
+                            [checked]="selection.hasValue() && isAllSelected()"
+                            [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
+                        </mat-checkbox>
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let row">
+                        <mat-checkbox *ngIf="viewConfig.metadata.bulkActions?.length>0" (click)="$event.stopPropagation()"
+                            (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)"
+                            [aria-label]="checkboxLabel(row)">
+                        </mat-checkbox>
+                    </mat-cell>
                 </ng-container>
-                <ng-template #normal>
-                    <a class="clickable" [routerLink]="row?.id"
-                    *ngIf="(mode !== 'pick' && column.clickable); else normalCell">
-                    {{ column.cell(row)}}
-                </a>
-                </ng-template>
+            </ng-template>
 
-                <ng-template #normalCell>
-                    <ng-container *ngIf="column.cell(row)!=='boolean'">
-                        {{ column.cell(row)?column.cell(row):''}}
+            <ng-template [ngIf]="column.columnDef !== 'checked' &&
+             column.columnDef !== 'actions' &&
+              column.Def !== 'functions'">
+                <mat-header-cell *matHeaderCellDef>{{ column.header }}</mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                    <ng-container *ngIf="viewConfig?.external_link?.link;else normal">
+                        <a class="clickable" (click)="redirect(row?.id)"
+                            *ngIf="(mode !== 'pick' && column.clickable); else normalCell">
+                            {{ column.cell(row)}}
+                        </a>
                     </ng-container>
-                    <ng-container *ngIf="column.cell(row)==='boolean'">
-                        <mat-icon class="checkmark_icon">checkmark</mat-icon>
-                    </ng-container>
-                </ng-template>
-            </mat-cell>
-        </ng-template>
-        <ng-template [ngIf]="column.columnDef === 'edit'">
-            <mat-header-cell *matHeaderCellDef>{{ column.header }}</mat-header-cell>
-            <mat-cell *matCellDef="let row">
-                <a class="clickable" [routerLink]="row?.id">
-                    <mat-icon>edit</mat-icon>
-                </a>
-            </mat-cell>
-        </ng-template>
-        <ng-template [ngIf]="column.columnDef === 'delete'">
-            <mat-header-cell *matHeaderCellDef>{{ column.header }}</mat-header-cell>
-            <mat-cell *matCellDef="let row">
-                <a class="clickable" (click)="deleteRow(row?.id)">
-                    <mat-icon>delete</mat-icon>
-                </a>
-            </mat-cell>
-        </ng-template>
-        <ng-template [ngIf]="column.columnDef === 'actions'">
-            <mat-header-cell *matHeaderCellDef>{{ column.header }}</mat-header-cell>
-            <mat-cell *matCellDef="let row">
-            </mat-cell>
-        </ng-template>
-    </ng-container>
-    <mat-header-row *matHeaderRowDef="displayColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayColumns;" [ngClass]="{'clickable': mode === 'pick'}"
-        (click)="_picked(row)"></mat-row>
-</mat-table>
-<mat-paginator #paginator *ngIf="viewConfig.pagination.enabled" [length]="resultsCount" [pageIndex]="pages-1"
-    [pageSize]="20" (page)="onChange($event)">
-</mat-paginator>
+                    <ng-template #normal>
+                        <a class="clickable" [routerLink]="row?.id"
+                            *ngIf="(mode !== 'pick' && column.clickable); else normalCell">
+                            {{ column.cell(row)}}
+                        </a>
+                    </ng-template>
+
+                    <ng-template #normalCell>
+                        <ng-container *ngIf="column.cell(row)!=='boolean'">
+                            {{ column.cell(row)?column.cell(row):''}}
+                        </ng-container>
+                        <ng-container *ngIf="column.cell(row)==='boolean'">
+                            <mat-icon class="checkmark_icon">checkmark</mat-icon>
+                        </ng-container>
+                    </ng-template>
+                </mat-cell>
+            </ng-template>
+            <ng-template [ngIf]="column.columnDef === 'edit'">
+                <mat-header-cell *matHeaderCellDef>{{ column.header }}</mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                    <a class="clickable" [routerLink]="row?.id">
+                        <mat-icon>edit</mat-icon>
+                    </a>
+                </mat-cell>
+            </ng-template>
+            <ng-template [ngIf]="column.columnDef === 'delete'">
+                <mat-header-cell *matHeaderCellDef>{{ column.header }}</mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                    <a class="clickable" (click)="deleteRow(row?.id)">
+                        <mat-icon>delete</mat-icon>
+                    </a>
+                </mat-cell>
+            </ng-template>
+            <ng-template [ngIf]="column.columnDef === 'actions'">
+                <mat-header-cell *matHeaderCellDef>{{ column.header }}</mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                </mat-cell>
+            </ng-template>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="displayColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayColumns;" [ngClass]="{'clickable': mode === 'pick'}"
+            (click)="_picked(row)"></mat-row>
+    </mat-table>
+    <mat-paginator class="crud-paginator" #paginator *ngIf="viewConfig.pagination.enabled" [length]="resultsCount"
+        [pageIndex]="pages-1" [pageSize]="20" (page)="onChange($event)">
+    </mat-paginator>
+</ng-container>
+<body style="margin:0px;padding:0px;overflow:hidden">
+    <iframe [hidden]="!iframeOpened"  #iframe frameborder="0" style="overflow:hidden;overflow-x:hidden;overflow-y:hidden;height:100%;width:100%;position:absolute;top:0px;left:0px;right:0px;bottom:0px" height="100%" width="100%"></iframe>
+</body>
+
