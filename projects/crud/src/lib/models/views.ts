@@ -68,7 +68,7 @@ export class ListingView implements ListViewer {
     breadcrumbs = [];
     component = ListingComponent;
     search = {
-        enabled: false,
+        enabled: this.viewSettings.search_settings.enabled,
         view: new FormView(this.metadata),
         search_key: this.viewSettings.search_settings.search_key,
         mode: this.viewSettings.search_settings.mode

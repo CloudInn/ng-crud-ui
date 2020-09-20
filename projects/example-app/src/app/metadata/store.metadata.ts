@@ -40,5 +40,5 @@ export class StoreMetadata implements Metadata {
             }
         }
     ];
-    formActions = {};
+    formActions = [];
 }

@@ -40,9 +40,10 @@ export class AppComponent implements OnInit {
       search_settings: {
         enabled: true,
         search_key: [],
-        mode: 'normal'
+        mode: 'normal',
       }
     });
+    terminalListing.pagination.enabled = false;
     // terminalListing.search.view = new TerminalSearchForm(new TerminalMetadata());
     this.reg.registerScreen('pos/terminals', terminalListing);
     const terminalForm = new FormView(new TerminalMetadata());

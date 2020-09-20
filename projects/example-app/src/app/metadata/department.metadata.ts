@@ -35,5 +35,5 @@ export class DepartmentMetadata implements Metadata {
         }
     ];
     formsets = [];
-    formActions = {};
+    formActions = [];
 }

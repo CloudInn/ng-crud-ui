@@ -18,7 +18,6 @@ export class SidenavService {
       {title: 'Home', url: '/', icon: 'home'},
       {title: 'POS', type: 'subheading'},
       {title: 'Terminals', url: '/pos/terminals', icon: 'restaurant'},
-      {title: 'Profiles', url: '/profiles', icon: 'user'},
       {title: 'Inventory', type: 'subheading'},
       {title: 'Stores', url: '/inventory/stores', icon: 'shopping_cart'},
       {title: 'Income', type: 'subheading'},

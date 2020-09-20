@@ -36,5 +36,5 @@ export class RoomMetadata implements Metadata {
         }
     ];
     formsets = [];
-    formActions = {};
+    formActions = [];
 }

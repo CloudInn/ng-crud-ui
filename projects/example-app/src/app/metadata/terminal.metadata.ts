@@ -8,21 +8,30 @@ import { StoreListView } from '../views/store.list.view';
 export class TerminalMetadata implements Metadata {
     name = 'terminal';
     label = 'Terminal';
-    api = '/api/terminals';
+    api = '/api/terminals/';
     model = Terminal;
     listingFields = ['id', 'number', 'description', 'rcrs_number', 'last_invoice_id', 'is_locked', 'store'];
     queryParams = ['id', 'number', 'description', 'rcrs_number', 'last_invoice_id', 'is_locked', 'store'];
-    includeParams = true;
-    filter = true;
-    searchParam = 'description';
+    includeParams = false;
+    filter = false;
     formsets = [];
-    applyFunctions = true;
+    applyFunctions = false;
+    bulkActions = [{
+        name: 'Merge Profiles',
+        type: 'dialog',
+        api: '/api/core/individualprofile/v3/merge/',
+        api_type: 'post',
+        body: { main_profile: '', id: [] },
+        content: 'Please choose a primary profile',
+        minLength: 2
+    }];
     fields: FieldConfig[] = [
         {
             name: 'id',
             label: 'ID',
             type: 'number',
             isEditable: false,
+            isClickable: true
         },
         {
             name: 'number',
@@ -43,9 +52,6 @@ export class TerminalMetadata implements Metadata {
             label: 'RCRS',
             type: 'text',
             validators: [
-                Validators.required,
-                Validators.maxLength(11),
-                Validators.minLength(11),
             ],
             isEditable: true,
             isSearchable: true,
@@ -81,11 +87,11 @@ export class TerminalMetadata implements Metadata {
             isSearchable: true,
         }
     ];
-    formActions = {
+    formActions = [{
         unlock: (http: HttpClient, id: number) => {
             return http.get(`/api/pos/terminal/${id}/unlock/`).subscribe(res => {
                 return res;
             });
         }
-    };
+    }];
 }

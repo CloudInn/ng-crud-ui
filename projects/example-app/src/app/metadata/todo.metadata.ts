@@ -58,5 +58,5 @@ export class TodoMetadata implements Metadata {
     }
   ];
 
-  formActions = {};
+  formActions = [];
 }
