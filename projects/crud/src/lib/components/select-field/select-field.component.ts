@@ -8,11 +8,11 @@ import { config } from 'rxjs';
 @Component({
   selector: 'ng-crud-select-field',
   exportAs: 'ngcrudui-select-field',
-  styles: ['.form-field-wrapper{margin-right:  24px}'],
+  styleUrls: ['./select-field.component.scss'],
   template: `
-    <mat-form-field [formGroup]="formGroup" style="width: 90%;">
+    <mat-form-field [formGroup]="formGroup" >
         <mat-label>{{ config.label }}</mat-label>
-        <mat-select [formControlName]="config.name">
+        <mat-select panelClass="SelectClass" disableOptionCentering='true' [formControlName]="config.name">
             <mat-option *ngFor="let c of controlConfig?.choices" [value]="c['id']">
                 {{ c["description"] }}
             </mat-option>

@@ -1,11 +1,11 @@
 <ng-container [formGroup]="formGroup">
-    <mat-form-field style="width: 90%;">
+    <mat-form-field>
         <mat-label>{{ config.label }}</mat-label>
-        <mat-icon class="input_icon" style="color: rgba(165, 151, 151, 0.87);
+        <mat-icon class="input_icon" style="color: #1490C0;
         cursor: pointer;
         position: absolute;
         right: 0px;" *ngIf="config?.isSearchable" (click)="openListingDialog($event)">search</mat-icon>
-        <input type="text" matInput  [required]="_underlyingCtrl.hasError('required')" [formControl]="_underlyingCtrl" [matAutocomplete]="auto">
+        <input type="text" matInput [required]="_underlyingCtrl.hasError('required')" [formControl]="_underlyingCtrl" [matAutocomplete]="auto">
         <mat-error *ngIf="_underlyingCtrl.hasError('required') && (_underlyingCtrl.dirty || _underlyingCtrl.touched)">
             this field is required</mat-error>
     </mat-form-field>

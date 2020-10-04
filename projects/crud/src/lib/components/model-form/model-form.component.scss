@@ -1,7 +1,7 @@
 .row {
     display: flex;
     flex: 1 1 auto;
-    justify-content:flex-start;
+    justify-content: flex-start;
     flex-flow: row wrap;
 }
 
@@ -12,7 +12,8 @@
     background-color: #2A8FC1;
     color: #fff;
 }
-.reset_btn{
+
+.reset_btn {
     padding: 0;
     margin: 0;
     width: 95%;
@@ -21,77 +22,145 @@
     align-items: flex-end;
     text-decoration: underline;
     cursor: pointer;
+}
 
-}
-.actions{
+.actions {
     justify-content: flex-end !important;
-    margin: 24px 0;
+    margin: 24px 0 0;
 }
-.crud-form-body{
+
+.crud-form-body {
     display: flex;
     flex-wrap: wrap;
 }
-.full{
+
+.full {
     width: 100%;
 }
-.FormCell{
+
+.FormCell {
     width: 24%;
     margin-bottom: 24px !important;
 }
-mat-header-cell{
-    background-color:#EEEEEE;
+
+mat-header-cell {
+    background-color: #EEEEEE;
 }
-mat-expansion-panel{
+
+mat-expansion-panel {
     background-color: #298CDE;
     margin-bottom: 10px;
 }
-mat-panel-title{
+
+mat-panel-title {
     font-size: 17px;
-    color:#fff
+    color: #fff
 }
-::ng-deep .mat-expansion-indicator::after ,.mat-expansion-indicator::before{
+
+::ng-deep .mat-expansion-indicator::after,
+.mat-expansion-indicator::before {
     color: #fff !important
 }
-::ng-deep .mat-expansion-panel-body{
+
+::ng-deep .mat-expansion-panel-body {
     background-color: #fff;
     padding-top: 10px !important
 }
-.save{
-    background-color: #5AB856;
-    color: #fff;
+
+// checkBox
+::ng-deep {
+    .mat-checkbox-checked.mat-accent .mat-checkbox-background,
+    .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background,
+    .mat-checkbox-checked.mat-primary .mat-checkbox-background {
+        background-color: #1490C0!important;
+    }
+    .mat-form-field {
+        width: 95%;
+    }
+    .mat-expansion-panel-body {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+    .mat-checkbox-checked.mat-accent .mat-checkbox-ripple .mat-ripple-element {
+        opacity: 0.03 !important;
+        background-color: #1490C0!important;
+    }
+    .mat-checkbox .mat-checkbox-frame {
+        background-color: #CECECE !important;
+        border: none;
+    }
+    .mat-form-field.mat-focused .mat-form-field-label {
+        color: #1490C0 !important;
+    }
+    .mat-focused .mat-form-field-underline .mat-form-field-ripple {
+        background-color: #1490C0 !important;
+    }
+    .mat-checkbox-layout:hover,
+    .mat-checkbox:hover {
+        .mat-checkbox .mat-checkbox-frame {
+            border: 1px solid #1490c0 !important;
+        }
+        .mat-checkbox-frame {
+            background-color: transparent !important;
+            border: 1px solid #1490c0 !important;
+        }
+    }
+    .mat-select-panel-wrap {
+        position: relative;
+        top: 500px;
+    }
+    .mat-select-panel-wrap .mat-select-panel {
+        min-width: calc(100% + 12px) !important;
+        transform: translateX(4px) !important
+    }
 }
-.saveAndAdd{
+
+.save {
+    background-color: #5AB857;
+    color: #fff;
+    margin-right: 0;
+}
+
+.saveAndAdd {
     background-color: #F6AF2F;
     color: #fff;
 }
-.saveAndEdit{
-    background-color: #2C90C0;
+
+.saveAndEdit {
+    background-color: #1490C0;
     color: #fff;
 }
-::ng-deep snack-bar-container .success-bar{
-    background-color:#1e9765 ;
+
+::ng-deep snack-bar-container .success-bar {
+    background-color: #1e9765;
 }
-::ng-deep snack-bar-container .others-bar{
+
+::ng-deep snack-bar-container .others-bar {
     background-color: #000;
 }
-.header_btn_container{
+
+.header_btn_container {
     display: flex;
     flex-wrap: wrap;
     flex: auto;
 }
-.header_btn_container span{
+
+.header_btn_container span {
     margin-right: 15px;
     margin-left: auto;
     order: 2;
     color: #337ab7;
 }
-@media (min-width: 1400px) and (max-width : 1600px){
-    .crud-form-body{
+
+@media (min-width: 1400px) and (max-width: 1600px) {
+    .crud-form-body {
         margin: 14px 40px;
     }
 }
-@media only screen and (max-width: 600px){
-    .field-wrapper{
+
+@media only screen and (max-width: 600px) {
+    .field-wrapper {
         margin: 4px;
         max-width: 100% !important;
         /* width: 100%; */

@@ -4,13 +4,22 @@
 
 .row {
     display: flex;
-    flex: 1 1 auto;
+    justify-content: space-between;
+}
+
+.row~.delete_btn {
+    text-align: end;
+    a {
+        text-decoration: underline;
+        color: red;
+    }
 }
 
 .spacer {
     flex: 1 1 auto;
 }
-.add_btn{
+
+.add_btn {
     background-color: #5BB859;
     color: #fff;
 }

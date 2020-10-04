@@ -1,9 +1,9 @@
 <ng-container [ngSwitch]="config.type" [formGroup]="formGroup">
 
     <ng-container *ngSwitchCase="'boolean'">
-        <mat-checkbox matInput [formControlName]="config.name" color="primary">{{ config.label }}</mat-checkbox>
-    </ng-container> 
-       
+        <mat-checkbox matInput class="crud_checkbox" [formControlName]="config.name" color="primary">{{ config.label }}</mat-checkbox>
+    </ng-container>
+
     <ng-container *ngSwitchCase="'textArea'">
         <ng-crud-text-area-field [formGroup]="formGroup" [config]="config"></ng-crud-text-area-field>
     </ng-container>
@@ -12,7 +12,7 @@
         <ng-crud-select-field [formGroup]="formGroup" [config]="config"></ng-crud-select-field>
     </ng-container>
 
-    <mat-form-field *ngSwitchCase="'date'" style="width: 90%;">
+    <mat-form-field *ngSwitchCase="'date'">
         <mat-label>{{ config.label }}</mat-label>
         <input matInput [formControlName]="config.name" [matDatepicker]="myDatepicker" />
         <mat-error *ngIf="f[config.name].hasError('required') && (f[config.name].dirty || f[config.name].touched)">
@@ -22,8 +22,7 @@
     </mat-form-field>
 
     <ng-container *ngSwitchCase="'foreignKey'">
-        <ng-crud-foreign-key-field [reset]="reset" [config]="config" [formGroup]="formGroup"
-            [initialChoices]="config?.defaultValue">
+        <ng-crud-foreign-key-field [reset]="reset" [config]="config" [formGroup]="formGroup" [initialChoices]="config?.defaultValue">
         </ng-crud-foreign-key-field>
     </ng-container>
 
@@ -47,10 +46,9 @@
 
     <!-- this fallsback from number and text -->
     <ng-container *ngIf="config.isEditable">
-        <mat-form-field *ngSwitchDefault style="width: 90%;">
+        <mat-form-field *ngSwitchDefault>
             <mat-label>{{ config.label }}</mat-label>
-            <input matInput [formControlName]="config.name" [required]="f[config.name].hasError('required')"
-                [type]="config.control ? config.control.type : 'text'" />
+            <input matInput [formControlName]="config.name" [required]="f[config.name].hasError('required')" [type]="config.control ? config.control.type : 'text'" />
             <mat-error *ngIf="f[config.name].hasError('required') && (f[config.name].dirty || f[config.name].touched)">
                 this field is required</mat-error>
             <mat-error *ngIf="f[config.name].hasError('maxlength') && (f[config.name].dirty || f[config.name].touched)">

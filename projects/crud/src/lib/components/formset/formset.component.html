@@ -7,16 +7,19 @@
     </div>
     <ng-container [formGroup]="formGroup">
         <div [formArrayName]="config.name">
-            <div class="row" *ngFor="let _formGroup of formArray?.controls; index as i; trackBy: trackByFn">
-                <ng-container *ngFor="let field of control.fields">
-                    <br /><br />
-                    <ng-crud-form-field [choices]="choices[field.name]" [formGroup]="_formGroup" [config]="field">
-                    </ng-crud-form-field>
-                </ng-container>
-                <div style="margin-top: 40px;text-decoration: underline;">
-                    <a mat-button color="warn" *ngIf="i>=1" (click)="delete(i)">Delete</a>
+            <ng-container *ngFor="let _formGroup of formArray?.controls; index as i; trackBy: trackByFn">
+                <div class="row">
+                    <ng-container *ngFor="let field of control.fields">
+                        <ng-container *ngIf="field.isEditable">
+                            <ng-crud-form-field [choices]="choices[field.name]" [formGroup]="_formGroup" [config]="field">
+                            </ng-crud-form-field>
+                        </ng-container>
+                    </ng-container>
                 </div>
-            </div>
+                <div *ngIf="i>=1" class="delete_btn">
+                    <a color="warn" (click)="delete(i)">Delete</a>
+                </div>
+            </ng-container>
         </div>
     </ng-container>
 </div>

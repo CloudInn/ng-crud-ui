@@ -30,7 +30,7 @@ export class DepartmentMetadata implements Metadata {
             label: 'Payment Type',
             type: 'select',
             control: {
-                choices: [{label: 'Debit', value: 'debit'}, {label: 'Credit', value: 'credit'}]
+                choices: [{label: 'test', description: 'test'},{label: 'Debit', description: 'debit'}, {label: 'Credit', description: 'credit'}]
             }
         }
     ];
