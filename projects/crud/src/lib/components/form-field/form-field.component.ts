@@ -54,8 +54,15 @@ export class FormFieldComponent implements OnChanges, OnInit {
         [this.config.name]: this.config.defaultValue
       });
     }
-    if (this.formGroup.get(this.config.name) !== null && this.mode === 'edit') {
-      this.formGroup.get(this.config.name).setValidators(this.config.validators);
+    if (this.formGroup.get(this.config.name) !== null) {
+      if (this.mode === 'edit' || this.mode === 'create') {
+        this.formGroup.get(this.config.name).setValidators(this.config.validators);
+      } else {
+        this.formGroup.get(this.config.name).clearValidators();
+      }
+
+      this.formGroup.updateValueAndValidity();
+
     }
   }
 }
