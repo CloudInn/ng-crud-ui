@@ -8,7 +8,7 @@ import { FieldConfig, TextAreaControlConfig } from '../../models/metadata';
   selector: 'ng-crud-text-area-field',
   exportAs: 'ngcrudui-text-area-field',
   styles: ['.form-field-wrapper{margin-right:  24px}'],
-  template: `<mat-form-field [formGroup]="formGroup" style="width: 90%;">
+  template: `<mat-form-field [formGroup]="formGroup" >
       <mat-label>{{ config.label }}</mat-label>
       <textarea matInput matTextareaAutosize [formControlName]="config.name"
       [rows]="controlConfig?.rowSpan || 1"></textarea>

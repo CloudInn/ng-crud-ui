@@ -7,7 +7,7 @@ import { Metadata, FieldConfig } from '../../models/metadata';
   selector: 'ng-crud-form-field',
   templateUrl: './form-field.component.html',
   exportAs: 'ngcrudui-form-field',
-  styleUrls: ['./form-field.component.css']
+  styleUrls: ['./form-field.component.scss']
 })
 export class FormFieldComponent implements OnChanges, OnInit {
 
@@ -44,9 +44,6 @@ export class FormFieldComponent implements OnChanges, OnInit {
           }
         }
       });
-      if (!this.config.isEditable) {
-    //  this.formGroup.controls[this.config.name].disable();
-      }
     }
   }
 
