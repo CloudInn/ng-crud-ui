@@ -16,9 +16,9 @@ import { config } from 'rxjs';
             <mat-option *ngFor="let c of controlConfig?.choices" [value]="c['id']">
                 {{ c["description"] }}
             </mat-option>
-            <mat-error *ngIf="f[config.name].hasError('required') && (f[config.name].dirty || f[config.name].touched)">this
-            field is required</mat-error>
         </mat-select>
+        <mat-error *ngIf="f[config.name].hasError('required') && (f[config.name].dirty || f[config.name].touched)">this
+            field is required</mat-error>
     </mat-form-field>
   `
 })

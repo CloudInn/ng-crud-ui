@@ -10,20 +10,10 @@ import { ErrorHanlderService } from './error-hanlder.service';
 })
 export class ApiService {
 
-    constructor(private http: HttpClient, private errorService: ErrorHanlderService) { }
+    constructor(private http: HttpClient) { }
 
     public fetch(api: string, params?: HttpParams): Observable<any> {
-        return this.http.get(api, { params: params }).pipe(tap(
-            res => {
-                this.errorService.setError(null);
-            }
-        ),
-            catchError(
-                err => {
-                    this.errorService.setError(err);
-                    throw (err);
-                }
-            ));
+        return this.http.get(api, { params: params });
     }
 
     public put(api: string, body, params = {}): Observable<any> {

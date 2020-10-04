@@ -12,6 +12,7 @@ import { Metadata, FieldConfig } from '../../models/metadata';
 export class FormFieldComponent implements OnChanges, OnInit {
 
   @Input() formGroup: FormGroup;
+  @Input() mode: string;
   @Input() forcedSearchParams: any = [];
   @Input() config: FieldConfig;
   @Input() choices = [];
@@ -53,7 +54,7 @@ export class FormFieldComponent implements OnChanges, OnInit {
         [this.config.name]: this.config.defaultValue
       });
     }
-    if (this.formGroup.get(this.config.name) !== null) {
+    if (this.formGroup.get(this.config.name) !== null && this.mode === 'edit') {
       this.formGroup.get(this.config.name).setValidators(this.config.validators);
     }
   }

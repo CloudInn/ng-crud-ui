@@ -106,14 +106,6 @@ mat-panel-title {
             border: 1px solid #1490c0 !important;
         }
     }
-    .mat-select-panel-wrap {
-        position: relative;
-        top: 500px;
-    }
-    .mat-select-panel-wrap .mat-select-panel {
-        min-width: calc(100% + 12px) !important;
-        transform: translateX(4px) !important
-    }
 }
 
 .save {

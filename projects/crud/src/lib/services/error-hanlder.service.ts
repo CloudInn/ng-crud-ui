@@ -12,7 +12,7 @@ export class ErrorHanlderService {
 
   setError(error) {
     if (error === null) {
-      this.errorSubject.next({});
+     this.errorSubject.next({});
     } else {
       switch (error.status) {
         case 400:
@@ -29,8 +29,10 @@ export class ErrorHanlderService {
     switch (type) {
       case 'bad request':
         this.errorSubject.next({ error: error.error, type: 'bad request' });
+        break;
       case 'forbidden':
         this.errorSubject.next({ error: error.error.detail, type: 'forbidden' });
+        break;
     }
 
   }

@@ -1,5 +1,6 @@
 <div class="crud-form-body">
     <ng-template [ngIf]="is_ready">
+        <ng-error-handling></ng-error-handling>
         <div class="header_btn_container" *ngIf="viewConfig?.metadata?.formActions && mode==='edit'">
             <span class="header_btns">
                 <button mat-button class="header_btn" *ngFor="let link of viewConfig?.metadata?.formActions"
@@ -26,7 +27,7 @@
                                     </mat-panel-title>
                                 </mat-expansion-panel-header>
                                 <ng-container *ngFor="let config2 of config.control.fields">
-                                    <div style="width:47%;display:inline-block; box-sizing: border-box;">
+                                    <div *ngIf="config.isEditable" style="width:47%;display:inline-block; box-sizing: border-box;">
                                         <ng-crud-form-field class="FormCell" [reset]="submit" [formGroup]="formGroup" [config]="config2"></ng-crud-form-field>
                                     </div>
                                 </ng-container>
@@ -34,8 +35,8 @@
                         </mat-accordion>
                     </div>
                 </ng-container>
-                <ng-container *ngIf="config.type !== 'fieldset' && config.type !== 'formset'">
-                    <ng-crud-form-field class="FormCell" [reset]="submit" [formGroup]="formGroup" [config]="config">
+                <ng-container *ngIf="config.type !== 'fieldset' && config.type !== 'formset' && config.isEditable">
+                    <ng-crud-form-field class="FormCell" [mode]="mode" [reset]="submit" [formGroup]="formGroup" [config]="config">
                     </ng-crud-form-field>
                 </ng-container>
                 <ng-container *ngIf="config.type === 'formset'">

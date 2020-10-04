@@ -45,16 +45,14 @@
     </ng-container>
 
     <!-- this fallsback from number and text -->
-    <ng-container *ngIf="config.isEditable">
-        <mat-form-field *ngSwitchDefault>
-            <mat-label>{{ config.label }}</mat-label>
-            <input matInput [formControlName]="config.name" [required]="f[config.name].hasError('required')" [type]="config.control ? config.control.type : 'text'" />
-            <mat-error *ngIf="f[config.name].hasError('required') && (f[config.name].dirty || f[config.name].touched)">
-                this field is required</mat-error>
-            <mat-error *ngIf="f[config.name].hasError('maxlength') && (f[config.name].dirty || f[config.name].touched)">
-                max length is {{config?.maxlength}} characters</mat-error>
-            <mat-error *ngIf="f[config.name].hasError('pattern') && (f[config.name].dirty || f[config.name].touched)">
-                pattern for this field is invalid </mat-error>
-        </mat-form-field>
-    </ng-container>
+    <mat-form-field *ngSwitchDefault>
+        <mat-label>{{ config.label }}</mat-label>
+        <input matInput [formControlName]="config.name" [required]="f[config.name].hasError('required') && mode==='edit'" [type]="config.control ? config.control.type : 'text'" />
+        <mat-error *ngIf="f[config.name].hasError('required') && (f[config.name].dirty || f[config.name].touched)">
+            this field is required</mat-error>
+        <mat-error *ngIf="f[config.name].hasError('maxlength') && (f[config.name].dirty || f[config.name].touched)">
+            max length is {{config?.maxlength}} characters</mat-error>
+        <mat-error *ngIf="f[config.name].hasError('pattern') && (f[config.name].dirty || f[config.name].touched)">
+            pattern for this field is invalid </mat-error>
+    </mat-form-field>
 </ng-container>

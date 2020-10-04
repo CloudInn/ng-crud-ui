@@ -1,22 +1,3 @@
-.form-field-wrapper{
-    margin-right:  24px
-}
-
-// .selectClass .cdk-overlay-container{left: 30vw;}
-// .SelectClass .cdk-overlay-pane {
-//     top:147.133px !important;
-//     transform:none !important;
-//     background-color: red !important;
-// }
-// .selectClass .mat-select-panel {left: 0}
-
-.mat-select-panel-wrap{
-    position: relative;
-    top: 26px;
-}
-
-.mat-select-panel-wrap .mat-select-panel{
-    min-width: calc(100% + 12px) !important;
-    transform: translateX(4px) !important;
-    background-color:red !important;
+.form-field-wrapper {
+    margin-right: 24px
 }
