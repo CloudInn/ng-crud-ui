@@ -62,25 +62,12 @@ mat-panel-title {
     color: #fff !important
 }
 
-::ng-deep .mat-expansion-panel-body {
-    background-color: #fff;
-    padding-top: 10px !important
-}
-
-// checkBox
 ::ng-deep {
+    // checkBox
     .mat-checkbox-checked.mat-accent .mat-checkbox-background,
     .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background,
     .mat-checkbox-checked.mat-primary .mat-checkbox-background {
         background-color: #1490C0!important;
-    }
-    .mat-form-field {
-        width: 95%;
-    }
-    .mat-expansion-panel-body {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
     }
     .mat-checkbox-checked.mat-accent .mat-checkbox-ripple .mat-ripple-element {
         opacity: 0.03 !important;
@@ -105,6 +92,16 @@ mat-panel-title {
             background-color: transparent !important;
             border: 1px solid #1490c0 !important;
         }
+    } // checkbox ended
+    .mat-form-field {
+        width: 95%;
+    }
+    .mat-expansion-panel-body {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        background-color: #fff;
+        padding-top: 10px !important
     }
 }
 
