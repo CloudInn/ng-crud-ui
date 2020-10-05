@@ -1,6 +1,4 @@
 import { FormView, FieldConfig } from 'crud';
-import { StoreListView } from '../views/store.list.view';
-import { StoreMetadata } from '../metadata/store.metadata';
 
 export class TerminalSearchForm extends FormView {
     title = 'Search Teminals';
@@ -94,16 +92,6 @@ export class TerminalSearchForm extends FormView {
                 multiple: false
             }
         },
-        {
-            name: 'store',
-            label: 'Outlet',
-            type: 'foreignKey',
-            isSearchable:true,
-            control: {
-                metadata: new StoreMetadata(),
-                viewConfig: new StoreListView(),
-            }
-        }
     ];
 
 }

@@ -85,17 +85,6 @@ export class TerminalMetadata implements Metadata {
             isEditable: true,
         },
         {
-            name: 'store',
-            label: 'Outlet',
-            type: 'foreignKey',
-            control: {
-                metadata: new StoreMetadata(),
-                viewConfig: new StoreListView(),
-            },
-            isEditable: true,
-            isSearchable: true,
-        },
-        {
             name: 'basic',
             label: 'Basic',
             type: 'fieldset',

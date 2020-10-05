@@ -30,6 +30,7 @@ export class StoreMetadata implements Metadata {
             name: 'description',
             label: 'Description',
             type: 'text',
+            isEditable: true,
         },
         {
             name: 'show_paymaster',
@@ -37,7 +38,8 @@ export class StoreMetadata implements Metadata {
             type: 'boolean',
             control: {
                 type: 'switch'
-            }
+            },
+            isEditable: true,
         }
     ];
     formActions = [];

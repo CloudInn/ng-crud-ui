@@ -11,6 +11,7 @@ import { RoomForm } from './forms/room.edit.form';
 import { TodoMetadata } from './metadata/todo.metadata';
 import { StoreListView } from './views/store.list.view';
 import { ScreenWrapperComponent } from 'crud';
+import { StoreSearchForm } from './forms/store.search.form';
 
 
 @Component({
@@ -50,9 +51,16 @@ export class AppComponent implements OnInit {
     // this.reg.registerScreen('pos/terminals/new', terminalForm);
     this.reg.registerScreen('pos/terminals/:id', terminalForm);
     //
-    this.reg.registerScreen('inventory/stores', new StoreListView());
+    const viewSettings = {
+      isDialog: false,
+      search_settings: {
+        enabled: false,
+        mode: 'normal'
+      }
+    };
+    this.reg.registerScreen('inventory/stores', new StoreListView(new StoreMetadata(), viewSettings));
     // this.reg.registerScreen('inventory/stores/new', new FormView(new StoreMetadata()));
-    this.reg.registerScreen('inventory/stores/:id', new FormView(new StoreMetadata()));
+    this.reg.registerScreen('inventory/stores/:id', new StoreSearchForm(new StoreMetadata()));
     //
     const departmentListing = new ListingView(new DepartmentMetadata(), {
       isDialog: false,

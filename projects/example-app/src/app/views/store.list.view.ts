@@ -1,18 +1,22 @@
-import { ListingComponent } from 'crud';
+import { ListingComponent, ListingView, FormView } from 'crud';
 import { ListViewer } from 'crud';
 import { StoreMetadata } from '../metadata/store.metadata';
 import { StoreSearchForm } from '../forms/store.search.form';
 
-export class StoreListView implements ListViewer {
-    title = 'Stores';
-    breadcrumbs = [{label: 'Home', path: '/'}];
+export class StoreListView extends ListingView {
+    title = 'stores';
+    breadcrumbs = [{ label: 'Home', path: '/' }];
     component = ListingComponent;
-    metadata = new StoreMetadata();
+    metadata = this.metadata;
+    dialog_mode = this.viewSettings.isDialog;
     pagination = {
-        enabled: false
+        enabled: true,
+        pageSize: 20
     };
     search = {
         enabled: true,
-        view: new StoreSearchForm(this.metadata)
+        view: new FormView(this.metadata),
+        search_key: this.viewSettings.search_settings.search_key,
+        mode: this.viewSettings.search_settings.mode
     };
 }
