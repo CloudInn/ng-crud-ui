@@ -27,6 +27,18 @@ export class StoreMetadata implements Metadata {
             isEditable: true,
         },
         {
+            name: 'code',
+            label: 'Code',
+            type: 'number',
+            isEditable: true,
+        },
+        {
+            name: 'code',
+            label: 'Code',
+            type: 'number',
+            isEditable: true,
+        },
+        {
             name: 'description',
             label: 'Description',
             type: 'text',

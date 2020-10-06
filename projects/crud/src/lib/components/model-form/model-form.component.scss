@@ -7,7 +7,6 @@
 
 .submit-button {
     align-self: flex-end;
-    margin-right: 40px;
     width: 12%;
     background-color: #2A8FC1;
     color: #fff;
@@ -16,7 +15,7 @@
 .reset_btn {
     padding: 0;
     margin: 0;
-    width: 95%;
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
@@ -40,7 +39,6 @@
 
 .FormCell {
     width: 24%;
-    margin-bottom: 24px !important;
 }
 
 mat-header-cell {
@@ -94,7 +92,9 @@ mat-panel-title {
         }
     } // checkbox ended
     .mat-form-field {
-        width: 95%;
+        width: 100%;
+        border-right: .5rem solid transparent;
+        box-sizing: border-box;
     }
     .mat-expansion-panel-body {
         display: flex;
@@ -114,11 +114,13 @@ mat-panel-title {
 .saveAndAdd {
     background-color: #F6AF2F;
     color: #fff;
+    margin-right: 25px;
 }
 
 .saveAndEdit {
     background-color: #1490C0;
     color: #fff;
+    margin-right: 25px;
 }
 
 ::ng-deep snack-bar-container .success-bar {
@@ -141,11 +143,9 @@ mat-panel-title {
     order: 2;
     color: #337ab7;
 }
-
-@media (min-width: 1400px) and (max-width: 1600px) {
-    .crud-form-body {
-        margin: 14px 40px;
-    }
+.formset_container
+{
+    width: 100%;
 }
 
 @media only screen and (max-width: 600px) {

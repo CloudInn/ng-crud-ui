@@ -47,6 +47,20 @@ export class TodoMetadata implements Metadata {
             isEditable: true
           },
           {
+            name: 'content',
+            label: 'Content',
+            type: 'text',
+            isSearchable: true,
+            isEditable: true
+          },
+          {
+            name: 'content',
+            label: 'Content',
+            type: 'text',
+            isSearchable: true,
+            isEditable: true
+          },
+          {
             name: 'complete',
             label: 'Complete',
             type: 'boolean',
