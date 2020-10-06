@@ -1,7 +1,9 @@
 <ng-container [ngSwitch]="config.type" [formGroup]="formGroup">
 
     <ng-container *ngSwitchCase="'boolean'">
-        <mat-checkbox matInput class="crud_checkbox" [formControlName]="config.name" color="primary">{{ config.label }}</mat-checkbox>
+        <div class="checkbox-container">
+            <mat-checkbox matInput class="crud_checkbox" [formControlName]="config.name" color="primary">{{ config.label }}</mat-checkbox>
+        </div>
     </ng-container>
 
     <ng-container *ngSwitchCase="'textArea'">

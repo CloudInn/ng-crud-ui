@@ -4,3 +4,14 @@
     flex-direction: column;
     width: 100%;
 }
+.checkbox-container
+{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+::ng-deep.mat-checkbox-layout
+{
+    padding:.4375em 0;
+}

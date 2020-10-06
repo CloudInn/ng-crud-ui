@@ -48,7 +48,9 @@
                                 </mat-panel-title>
                             </mat-expansion-panel-header>
                             <ng-container *ngFor="let config of formsets; let i=index">
-                                <ng-crud-formset [config]="config" [formGroup]="formGroup"></ng-crud-formset>
+                                <div class="formset_container">
+                                    <ng-crud-formset  [config]="config" [formGroup]="formGroup"></ng-crud-formset>
+                                </div>
                             </ng-container>
                         </mat-expansion-panel>
                     </mat-accordion>
