@@ -145,6 +145,11 @@ export class TerminalMetadata implements Metadata {
             }
         },
     ];
+    externalViews = [{
+        name: 'Import Guest Profile',
+        link: '/core/individualprofile/import/?frameless=1',
+        icon: 'perm_identity'
+    }];
     formActions = [{
         unlock: (http: HttpClient, id: number) => {
             return http.get(`/api/pos/terminal/${id}/unlock/`).subscribe(res => {
