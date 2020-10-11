@@ -230,7 +230,7 @@ export class ListingComponent implements OnInit, AfterViewInit {
 
     onChange(ev: PageEvent) {
         if (this.searchParams.toString().includes('filter')) {
-            this.searchParams = this.searchParams.append('page', String(ev.pageIndex + 1));
+            this.searchParams = this.searchParams.delete('page');
         } else {
             this.searchParams = new HttpParams();
             this.searchParams = this.searchParams.set('page', String(ev.pageIndex + 1));
