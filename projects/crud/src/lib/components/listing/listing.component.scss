@@ -18,7 +18,11 @@
 }
 ::ng-deep {
     .crud-search .mat-expansion-panel-body{display: block;}
-    .crud-search .mat-expansion-panel-body .FormCell{margin-right: .5rem;}
+    .crud-search .mat-expansion-panel-body .FormCell{
+        padding: 0 .5rem;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+    }
 }
 .bulk_container{
     display: flex;

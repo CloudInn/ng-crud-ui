@@ -45,6 +45,12 @@ export class StoreMetadata implements Metadata {
             isEditable: true,
         },
         {
+            name: 'description',
+            label: 'Description',
+            type: 'text',
+            isEditable: true,
+        },
+        {
             name: 'show_paymaster',
             label: 'Show Paymaster',
             type: 'boolean',
