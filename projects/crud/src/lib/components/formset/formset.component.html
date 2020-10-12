@@ -16,7 +16,7 @@
                         </ng-container>
                     </ng-container>
                 </div>
-                <div *ngIf="i<1" class="delete_btn" style="visibility: hidden;">
+                <div *ngIf="i==0" class="delete_btn" style="visibility: hidden;">
                     <a color="warn" (click)="delete(i)">Delete</a>
                 </div>
                 <div *ngIf="i>=1" class="delete_btn">
