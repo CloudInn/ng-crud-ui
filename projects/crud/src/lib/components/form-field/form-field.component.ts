@@ -44,6 +44,7 @@ export class FormFieldComponent implements OnChanges, OnInit {
               date_string.slice(0, date_string.indexOf('T')));
           }
         }
+        this.checkValidity();
       });
     }
   }
@@ -54,15 +55,17 @@ export class FormFieldComponent implements OnChanges, OnInit {
         [this.config.name]: this.config.defaultValue
       });
     }
+    this.checkValidity();
+  }
+  checkValidity() {
     if (this.formGroup.get(this.config.name) !== null) {
       if (this.mode === 'edit' || this.mode === 'create') {
         this.formGroup.get(this.config.name).setValidators(this.config.validators);
       } else {
         this.formGroup.get(this.config.name).clearValidators();
       }
-
       this.formGroup.updateValueAndValidity();
-
     }
   }
+
 }

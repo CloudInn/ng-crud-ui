@@ -92,12 +92,12 @@ mat-panel-title {
             border: 1px solid #1490c0 !important;
         }
     } // checkbox ended
-    .mat-form-field {
+    .crud_expansion_panel .mat-form-field {
         width: 100%;
         border-right: .5rem solid transparent;
         box-sizing: border-box;
     }
-    .mat-expansion-panel-body {
+    .crud_expansion_panel .mat-expansion-panel-body {
         display: flex;
         flex-wrap: wrap;
         justify-content: space-between;
@@ -144,8 +144,8 @@ mat-panel-title {
     order: 2;
     color: #337ab7;
 }
-.formset_container
-{
+
+.formset_container {
     width: 100%;
 }
 

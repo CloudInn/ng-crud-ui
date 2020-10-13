@@ -11,7 +11,7 @@
                 <div class="row">
                     <ng-container *ngFor="let field of control.fields">
                         <ng-container *ngIf="field.isEditable">
-                            <ng-crud-form-field [choices]="choices[field.name]" [formGroup]="_formGroup" [config]="field">
+                            <ng-crud-form-field [choices]="choices[field.name]" [mode]="mode" [formGroup]="_formGroup" [config]="field">
                             </ng-crud-form-field>
                         </ng-container>
                     </ng-container>

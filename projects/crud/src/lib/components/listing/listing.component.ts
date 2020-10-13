@@ -63,7 +63,7 @@ export class ListingComponent implements OnInit, AfterViewInit {
                 } else {
                     this.searchClicked(ev);
                 }
-
+                this.paginator.pageIndex = 0;
             });
             component.instance.mode = 'search';
             this.searchComponent.insert(component.hostView);
@@ -172,20 +172,10 @@ export class ListingComponent implements OnInit, AfterViewInit {
     }
 
     redirect(id?) {
-        // this.dialog.open(IframeModalComponent, {
-        //     height: '95vh',
-        //     width: '100vw',
-        //     data: {
-        //         'src': `${this.viewConfig.external_link.link} + 'add/?' + ${this.viewConfig.external_link.params.join('&')}`,
-        //         'title': 'Add new',
-        //         'color': 'grey'
-        //     }
-        // });
-
         this.iframeOpened = true;
         if (id) {
             this.iframe.nativeElement.setAttribute('src',
-            `${this.viewConfig.external_link.link}` + `${id}/?` + `${this.viewConfig.external_link.params.join('&')}`);
+                `${this.viewConfig.external_link.link}` + `${id}/?` + `${this.viewConfig.external_link.params.join('&')}`);
         } else {
             this.iframe.nativeElement.setAttribute('src',
                 `${this.viewConfig.external_link.link}` + 'add/?' + `${this.viewConfig.external_link.params.join('&')}`);
@@ -231,6 +221,7 @@ export class ListingComponent implements OnInit, AfterViewInit {
     onChange(ev: PageEvent) {
         if (this.searchParams.toString().includes('filter')) {
             this.searchParams = this.searchParams.delete('page');
+            this.searchParams = this.searchParams.append('page', String(ev.pageIndex + 1));
         } else {
             this.searchParams = new HttpParams();
             this.searchParams = this.searchParams.set('page', String(ev.pageIndex + 1));
@@ -243,6 +234,7 @@ export class ListingComponent implements OnInit, AfterViewInit {
         this.isLoading = true;
         this.dataSource.data = [];
         this.resultsCount = 0;
+        this.searchParams = this.searchParams.delete('page');
         if (this.viewConfig.metadata.filter) {
             Object.keys(searchParams).forEach(p => {
                 if (searchParams[p] === null || searchParams[p] === 'All') {

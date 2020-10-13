@@ -20,7 +20,7 @@
                 <ng-container *ngIf="config.type === 'fieldset'">
                     <div class="field-wrapper" [style.max-width.%]="config.cssWidth" [style.flex.%]="config.cssWidth" style="margin: 4px;">
                         <mat-accordion>
-                            <mat-expansion-panel class="expansion_panel" [expanded]="true">
+                            <mat-expansion-panel class="crud_expansion_panel" [expanded]="true">
                                 <mat-expansion-panel-header [collapsedHeight]="'40px'" [expandedHeight]="'40px'">
                                     <mat-panel-title class="panel_title">
                                         <mat-label>{{ config.label }}</mat-label>
@@ -28,7 +28,7 @@
                                 </mat-expansion-panel-header>
                                 <ng-container *ngFor="let config2 of config.control.fields">
                                     <div *ngIf="config2.isEditable" style="width:47%;display:inline-block; box-sizing: border-box;">
-                                        <ng-crud-form-field class="FormCell" [reset]="submit" [formGroup]="formGroup" [config]="config2"></ng-crud-form-field>
+                                        <ng-crud-form-field class="FormCell" [reset]="submit" [formGroup]="formGroup" [mode]="mode" [config]="config2"></ng-crud-form-field>
                                     </div>
                                 </ng-container>
                             </mat-expansion-panel>
@@ -41,7 +41,7 @@
                 </ng-container>
                 <ng-container *ngIf="config.type === 'formset'">
                     <mat-accordion style="width: 100%; margin: 10px;">
-                        <mat-expansion-panel class="expansion_panel" [expanded]="true">
+                        <mat-expansion-panel class="crud_expansion_panel" [expanded]="true">
                             <mat-expansion-panel-header [collapsedHeight]="'40px'" [expandedHeight]="'40px'">
                                 <mat-panel-title class="panel_title">
                                     <mat-label>{{config.label}}</mat-label>
@@ -49,7 +49,7 @@
                             </mat-expansion-panel-header>
                             <ng-container *ngFor="let config of formsets; let i=index">
                                 <div class="formset_container">
-                                    <ng-crud-formset [config]="config" [formGroup]="formGroup"></ng-crud-formset>
+                                    <ng-crud-formset [config]="config" [mode]="mode" [formGroup]="formGroup"></ng-crud-formset>
                                 </div>
                             </ng-container>
                         </mat-expansion-panel>

@@ -14,6 +14,7 @@ export class FormsetComponent implements OnChanges {
 
   @Input() formGroup: FormGroup;
   @Input() config: FieldConfig;
+  @Input() mode;
   control: FormSetControlConfig;
   formArray: FormArray = new FormArray([]);
   choices = {};
