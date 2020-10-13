@@ -26,12 +26,13 @@
     .crud-search .mat-form-field
     {
         border-right: 0;
+        width: 100%;
     }
 }
 .bulk_container{
     display: flex;
     flex-direction: row-reverse;
-    background-color: #fff;
+    background-color: #fafafa;
     position: sticky;
     top: 0px;
     margin: 8px 50px;
@@ -115,8 +116,14 @@ mat-panel-title{
         margin-left: 50px;
     }
 }
-@media (min-width : 1600px){
+@media (min-width : 1601px){
     .bulk_container{
         margin: 8px 0;
+    }
+}
+@media (max-width : 991px){
+    .bulk_container
+    {
+        margin: 0;
     }
 }
