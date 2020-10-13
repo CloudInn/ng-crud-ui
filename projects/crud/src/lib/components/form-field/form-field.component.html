@@ -19,7 +19,7 @@
         <input matInput [formControlName]="config.name" [matDatepicker]="myDatepicker" />
         <mat-error *ngIf="f[config.name].hasError('required') && (f[config.name].dirty || f[config.name].touched)">
             this field is required</mat-error>
-        <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
+        <mat-datepicker-toggle matSuffix [for]="myDatepicker" style="color: #1490C0"></mat-datepicker-toggle>
         <mat-datepicker #myDatepicker></mat-datepicker>
     </mat-form-field>
 
