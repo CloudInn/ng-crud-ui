@@ -36,8 +36,10 @@
                     </div>
                 </ng-container>
                 <ng-container *ngIf="config.type !== 'fieldset' && config.type !== 'formset' && config.isEditable">
-                    <ng-crud-form-field class="FormCell" [mode]="mode" [reset]="submit" [formGroup]="formGroup" [config]="config">
-                    </ng-crud-form-field>
+                    <div [ngClass]="{'my-class': mode !== 'search'}">
+                        <ng-crud-form-field class="FormCell" [mode]="mode" [reset]="submit" [formGroup]="formGroup" [config]="config">
+                        </ng-crud-form-field>
+                    </div>
                 </ng-container>
                 <ng-container *ngIf="config.type === 'formset'">
                     <mat-accordion style="width: 100%; margin: 10px;">
