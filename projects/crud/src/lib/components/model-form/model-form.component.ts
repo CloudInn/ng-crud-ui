@@ -79,11 +79,13 @@ export class ModelFormComponent implements OnInit {
 
     getFormErrors() {
         Object.keys(this.formGroup.controls).forEach(key => {
-            const controlErrors: ValidationErrors = this.formGroup.get(key).errors;
-            if (controlErrors != null) {
-                Object.keys(controlErrors).forEach(keyError => {
-                    this.formGroup.get(key).markAsTouched();
-                });
+            if (this.formGroup.get(key) !== null) {
+                const controlErrors: ValidationErrors = this.formGroup.get(key).errors;
+                if (controlErrors != null) {
+                    Object.keys(controlErrors).forEach(keyError => {
+                        this.formGroup.get(key).markAsTouched();
+                    });
+                }
             }
         });
     }

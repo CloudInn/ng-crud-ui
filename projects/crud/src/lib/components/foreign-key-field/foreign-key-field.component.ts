@@ -26,7 +26,7 @@ export class ForeignKeyFieldComponent implements OnChanges, OnInit {
   controlConfig: ForeignKeyControlConfig = null;
   availableOptions: Observable<any[]>;
   _underlyingCtrl = new FormControl(null);
-  hasValue=false;
+  hasValue = false;
 
   constructor(private api: ApiService, private dialog: MatDialog) {
     this.displayFn = this.displayFn.bind(this);
@@ -43,6 +43,7 @@ export class ForeignKeyFieldComponent implements OnChanges, OnInit {
         }
       });
     }
+
     this.controlConfig = this.config.control as ForeignKeyControlConfig;
     const ctrl = this.formGroup.get([this.config.name]) as FormControl;
     if (ctrl.value !== null) {
@@ -141,7 +142,8 @@ export class ForeignKeyFieldComponent implements OnChanges, OnInit {
     ctrl.setValue(value);
   }
 
-  openListingDialog(event) {
+  openListingDialog(event: Event) {
+    event.stopPropagation();
     const ref = this.dialog.open(ListingDialogComponent, {
       width: '90%',
       height: '90%',

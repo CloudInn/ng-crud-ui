@@ -41,19 +41,18 @@
     width: 25%;
 }
 
-::ng-deep{
-    .my-class
-    {
+::ng-deep {
+    .crud_edit_fields {
         width: 25%;
-    }
-    .my-class .mat-form-field
-    {
-        width: 100%;
-        padding: 0 10px;
-        box-sizing: border-box;
-        -webkit-box-sizing: border-box;
+        .mat-form-field {
+            width: 100%;
+            padding: 0 10px;
+            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+        }
     }
 }
+
 mat-header-cell {
     background-color: #CECECE;
     color: #231F20;
@@ -118,7 +117,6 @@ mat-panel-title {
         padding-top: 10px !important
     }
 }
-
 
 .save {
     background-color: #5AB857;
