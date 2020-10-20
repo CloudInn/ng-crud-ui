@@ -15,7 +15,7 @@
             </a>
         </div>
 
-        <div fxflexfill fxlayoutgap="10px grid" style="height: 100%;min-height: 100%;min-width: 100%;width: 100%;flex-flow: row wrap;box-sizing: border-box;display: flex;" class="row full" [formGroup]="formGroup">
+        <div fxflexfill fxlayoutgap="10px grid"  class="row full" [formGroup]="formGroup">
             <ng-container *ngFor="let config of _visibleControls">
                 <ng-container *ngIf="config.type === 'fieldset'">
                     <div class="field-wrapper" [style.max-width.%]="config.cssWidth" [style.flex.%]="config.cssWidth" style="margin: 4px;">

@@ -82,9 +82,16 @@ mat-panel-title{
     font-size: 17px;
     color:#fff
 }
-::ng-deep .mat-expansion-panel-body{
-    background-color: #fff;
-    padding-top: 10px !important
+::ng-deep .crud-search {
+    .mat-expansion-panel-body
+    {
+        background-color: #fff;
+        padding: 0;
+    }
+    .crud-form-body
+    {
+        padding: 10px 24px 16px;
+    }
 }
 ::ng-deep .mat-paginator-container{
     justify-content: center !important;
