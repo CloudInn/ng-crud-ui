@@ -18,7 +18,8 @@
           "configurations": {
             "production": {
               "project": "projects/crud/ng-package.prod.json"
-            }
+            ,              "tsConfig": "projects/crud/tsconfig.lib.prod.json"
+}
           }
         },
         "test": {
@@ -53,6 +54,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "aot": true,
             "outputPath": "dist/example-app",
             "index": "projects/example-app/src/index.html",
             "main": "projects/example-app/src/main.ts",
@@ -89,6 +91,10 @@
                   "type": "initial",
                   "maximumWarning": "2mb",
                   "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
                 }
               ]
             }
@@ -180,6 +186,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "aot": true,
             "outputPath": "dist/docs",
             "index": "projects/docs/src/index.html",
             "main": "projects/docs/src/main.ts",
@@ -222,6 +229,10 @@
                   "type": "initial",
                   "maximumWarning": "2mb",
                   "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
                 }
               ]
             }
