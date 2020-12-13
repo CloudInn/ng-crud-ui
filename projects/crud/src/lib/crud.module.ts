@@ -23,6 +23,7 @@ import { FileUploadComponent } from './components/file-upload/file-upload.compon
 import { DateTimePickerComponent } from './components/date-time-picker/date-time-picker.component';
 import { TimePickerComponent } from './components/time-picker/time-picker.component';
 import { AmazingTimePickerModule } from 'amazing-time-picker';
+import { MatAutocompleteModule, MatButtonModule, MatCardModule, MatCheckboxModule, MatChipsModule, MatDatepickerModule, MatDialogModule, MatExpansionModule, MatFormFieldModule, MatGridListModule, MatIconModule, MatInputModule, MatListModule, MatMenuModule, MatNativeDateModule, MatPaginatorModule, MatProgressBarModule, MatSelectModule, MatSidenavModule, MatSlideToggleModule, MatSnackBarModule, MatTableModule, MatTabsModule, MatToolbarModule } from '@angular/material';
 
 @NgModule({
   imports: [

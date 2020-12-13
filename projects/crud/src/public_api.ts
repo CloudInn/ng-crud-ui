@@ -13,6 +13,9 @@ export * from './lib/components/listing/listing.component';
 export * from './lib/components/model-form/model-form.component';
 export * from './lib/components/select-field/select-field.component';
 export * from './lib/components/text-area-field/text-area-field.component';
+export * from './lib/components/file-upload/file-upload.component';
+export * from './lib/components/date-time-picker/date-time-picker.component';
+export * from './lib/components/time-picker/time-picker.component';
 
 export * from './lib/containers/listing-dialog/listing-dialog.component';
 export * from './lib/containers/screen-wrapper/screen-wrapper.component';
