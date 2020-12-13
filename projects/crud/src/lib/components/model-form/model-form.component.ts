@@ -7,7 +7,8 @@ import { FieldConfig } from '../../models/metadata';
 import { FormViewer } from '../../models/views';
 import { HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { MatSnackBar, MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { IframeModalComponent } from '../../components/iframe-modal/iframe-modal.component';
 
 @Component({

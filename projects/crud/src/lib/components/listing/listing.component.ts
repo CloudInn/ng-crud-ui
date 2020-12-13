@@ -7,7 +7,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ApiService } from '../../services/api.service';
 import { ListViewer } from '../../models/views';
 import { HttpParams, HttpErrorResponse } from '@angular/common/http';
-import { MatPaginator, PageEvent, MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { SelectionModel } from '@angular/cdk/collections';
 import { IframeModalComponent } from '../iframe-modal/iframe-modal.component';
 

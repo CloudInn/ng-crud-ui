@@ -2,7 +2,8 @@ import { Component, OnInit, ElementRef, ViewChild, Input, OnChanges } from '@ang
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Observable, Subject, of } from 'rxjs';
-import { MatAutocomplete, MatChipInputEvent, MatAutocompleteSelectedEvent, MatDialog } from '@angular/material';
+import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatChipInputEvent } from '@angular/material/chips';
 import { startWith, map } from 'rxjs/operators';
 import { FieldConfig, ForeignKeyControlConfig } from '../../models/metadata';
 import { HttpParams } from '@angular/common/http';

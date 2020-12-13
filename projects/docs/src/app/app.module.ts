@@ -6,14 +6,12 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Route } from '@angular/router';
 import { MarkdownModule } from 'ngx-markdown';
 
-import {
-  MatToolbarModule,
-  MatSidenavModule,
-  MatListModule,
-  MatIconModule,
-  MatTableModule,
-  MatButtonModule,
-} from '@angular/material';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatTableModule } from '@angular/material/table';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 
 import { AppComponent } from './app.component';

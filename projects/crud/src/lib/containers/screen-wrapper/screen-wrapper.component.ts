@@ -10,7 +10,7 @@ import { ListingComponent } from '../../components/listing/listing.component';
 import { ModelFormComponent } from '../../components/model-form/model-form.component';
 import { FormsetComponent } from '../../components/formset/formset.component';
 import { ViewConfig } from '../../models/views';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 const Components = {
   listing: ListingComponent,
