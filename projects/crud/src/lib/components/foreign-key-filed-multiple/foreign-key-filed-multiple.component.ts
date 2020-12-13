@@ -23,8 +23,8 @@ export class ForeignKeyFiledMultipleComponent implements OnInit, OnChanges {
   selected_results: string[] = [];
   results: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry'];
 
-  @ViewChild('fruitInput') fruitInput: ElementRef<HTMLInputElement>;
-  @ViewChild('auto') matAutocomplete: MatAutocomplete;
+  @ViewChild('fruitInput',{static:false}) fruitInput: ElementRef<HTMLInputElement>;
+  @ViewChild('auto',{static:false}) matAutocomplete: MatAutocomplete;
 
   @Input() formGroup: FormGroup;
   @Input() config: FieldConfig;

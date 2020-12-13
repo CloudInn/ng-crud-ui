@@ -10,7 +10,7 @@ import { Metadata } from '../../models/metadata';
 export class ListingDialogComponent implements OnInit {
 
   metadata: Metadata;
-  @ViewChild('listingView', { read: ViewContainerRef }) listingView: ViewContainerRef;
+  @ViewChild('listingView', { read: ViewContainerRef,static:false }) listingView: ViewContainerRef;
 
   constructor(
     private ref: MatDialogRef<ListingDialogComponent>,

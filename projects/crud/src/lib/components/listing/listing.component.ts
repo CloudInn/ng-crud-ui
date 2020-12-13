@@ -18,8 +18,8 @@ import { IframeModalComponent } from '../iframe-modal/iframe-modal.component';
     exportAs: 'ngcrudui-listing'
 })
 export class ListingComponent implements OnInit, AfterViewInit {
-    @ViewChild(MatPaginator) paginator: MatPaginator;
-    @ViewChild('iframe') iframe: ElementRef;
+    @ViewChild(MatPaginator,{static:false}) paginator: MatPaginator;
+    @ViewChild('iframe',{static:false}) iframe: ElementRef;
 
     @Input() viewConfig: ListViewer;
     mode;
@@ -34,7 +34,7 @@ export class ListingComponent implements OnInit, AfterViewInit {
     resultsCount = 0;
     isLoading = true;
     pages: number;
-    @ViewChild('searchComponent', { read: ViewContainerRef }) searchComponent: ViewContainerRef;
+    @ViewChild('searchComponent', { read: ViewContainerRef,static:false }) searchComponent: ViewContainerRef;
     selection = new SelectionModel<any>(true, []);
 
     constructor(private api: ApiService,

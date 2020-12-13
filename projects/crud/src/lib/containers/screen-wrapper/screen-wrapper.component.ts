@@ -28,7 +28,7 @@ export class ScreenWrapperComponent implements OnInit {
   component: Type<any>;
   componentRef: ComponentRef<any>;
   searchComponentRef: ComponentRef<any>;
-  @ViewChild('dynamicComponentContainer', { read: ViewContainerRef }) dynamicComponentContainer: ViewContainerRef;
+  @ViewChild('dynamicComponentContainer', { read: ViewContainerRef,static:false }) dynamicComponentContainer: ViewContainerRef;
 
   constructor(
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any,

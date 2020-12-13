@@ -4,35 +4,6 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
-
-import {
-  MatToolbarModule,
-  MatSidenavModule,
-  MatListModule,
-  MatIconModule,
-  MatTableModule,
-  MatCardModule,
-  MatPaginatorModule,
-  MatButtonModule,
-  MatMenuModule,
-  MatProgressBarModule,
-  MatFormFieldModule,
-  MatInputModule,
-  MatCheckboxModule,
-  MatSlideToggleModule,
-  MatGridListModule,
-  MatSnackBarModule,
-  MatDatepickerModule,
-  MatNativeDateModule,
-  MatSelectModule,
-  MatTabsModule,
-  MatExpansionModule,
-  MatAutocompleteModule,
-  MatDialogModule,
-  MatChipsModule,
-} from '@angular/material';
-
-
 import { ListingComponent } from './components/listing/listing.component';
 import { ModelFormComponent } from './components/model-form/model-form.component';
 import { FormFieldComponent } from './components/form-field/form-field.component';
