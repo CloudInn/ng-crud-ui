@@ -43,7 +43,6 @@ export class ForeignKeyFieldComponent implements OnChanges, OnInit {
         }
       });
     }
-
     this.controlConfig = this.config.control as ForeignKeyControlConfig;
     const ctrl = this.formGroup.get([this.config.name]) as FormControl;
     if (ctrl.value !== null) {
@@ -64,10 +63,6 @@ export class ForeignKeyFieldComponent implements OnChanges, OnInit {
             this.availableOptions = of(res);
           }
         });
-      } else if (value != null) {
-        this._setControlValue(value[this.config.resolveValueFrom]);
-      } else {
-        this._setControlValue(null);
       }
     });
     if (!this.initialChoices) {
@@ -78,6 +73,15 @@ export class ForeignKeyFieldComponent implements OnChanges, OnInit {
   }
 
   ngOnInit() {
+  }
+
+  selectOption(value) {
+    if (value !== null) {
+      this._setControlValue(value[this.config.resolveValueFrom]);
+    } else {
+      this._setControlValue(null);
+    }
+
   }
 
   fetchById(id: number | string = null) {

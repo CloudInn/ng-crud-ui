@@ -5,12 +5,12 @@
         cursor: pointer;
         position: absolute;
         right: 0px;" *ngIf="config?.isSearchable" (click)="openListingDialog($event)">search</mat-icon>
-        <input type="text" matInput [required]="formGroup.controls[config.name].hasError('required')" [formControlName]="config.name" [matAutocomplete]="auto">
+        <input type="text" matInput [required]="formGroup.controls[config.name].hasError('required')" [formControl]="_underlyingCtrl" [matAutocomplete]="auto">
         <mat-error *ngIf="formGroup.controls[config.name].hasError('required') && (formGroup.controls[config.name].dirty || formGroup.controls[config.name].touched)">
             this field is required</mat-error>
     </mat-form-field>
 
-    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+    <mat-autocomplete (optionSelected)="selectOption($event.option.value)" #auto="matAutocomplete" [displayWith]="displayFn">
         <mat-option *ngFor="let option of availableOptions | async" [value]="option">
             {{ option[controlConfig.metadata.optionName] }}
         </mat-option>

@@ -83,11 +83,13 @@ export class ForeignKeyFiledMultipleComponent implements OnInit, OnChanges {
     this.api.fetch(url).subscribe(res => {
       if (res.results) {
         const keys = this.controlConfig.metadata.search_key;
-        let value = res.results[keys[0]]; // search_key is an array of keys
-        for (let i = 1; i < keys.length; i++) {
-          value = value[keys[i]];
+        if (keys) {
+          let value = res.results[keys[0]]; // search_key is an array of keys
+          for (let i = 1; i < keys.length; i++) {
+            value = value[keys[i]];
+          }
+          this.filtered = of(value);
         }
-        this.filtered = of(value);
       } else {
         this.filtered = of(res);
       }

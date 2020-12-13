@@ -84,6 +84,7 @@ export class ModelFormComponent implements OnInit {
                 if (controlErrors != null) {
                     Object.keys(controlErrors).forEach(keyError => {
                         this.formGroup.get(key).markAsTouched();
+                        this.formGroup.updateValueAndValidity();
                     });
                 }
             }
