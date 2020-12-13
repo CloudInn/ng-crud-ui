@@ -36,7 +36,7 @@ const routes: Route[] = [
     BrowserModule,
     CommonModule,
     NoopAnimationsModule,
-    RouterModule.forRoot(routes),
+    RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' }),
     HttpClientModule,
     MarkdownModule.forRoot({loader: HttpClientModule}),
     MatToolbarModule,
