@@ -17,9 +17,9 @@
           },
           "configurations": {
             "production": {
-              "project": "projects/crud/ng-package.prod.json"
-            ,              "tsConfig": "projects/crud/tsconfig.lib.prod.json"
-}
+              "project": "projects/crud/ng-package.prod.json",
+              "tsConfig": "projects/crud/tsconfig.lib.prod.json"
+            }
           }
         },
         "test": {
@@ -313,5 +313,8 @@
       }
     }
   },
-  "defaultProject": "example-app"
+  "defaultProject": "example-app",
+  "cli": {
+    "analytics": "b947cb7c-aed3-4050-a7d1-b7dea612e6af"
+  }
 }

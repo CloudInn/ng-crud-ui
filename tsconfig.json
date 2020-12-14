@@ -27,5 +27,8 @@
         "dist/crud/*"
       ]
     }
-  }
+  },
+  "angularCompilerOptions": {
+    "enableIvy": false
+  },
 }
