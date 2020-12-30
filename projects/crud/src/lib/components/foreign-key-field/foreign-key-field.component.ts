@@ -49,6 +49,12 @@ export class ForeignKeyFieldComponent implements OnChanges, OnInit {
       this._setControlValue(ctrl.value);
       this._underlyingCtrl.setValue(ctrl.value);
     }
+    this.formGroup.valueChanges.subscribe(() => {
+      if (this.formGroup.get(this.config.name).touched) {
+        this._underlyingCtrl.markAsTouched();
+      }
+    });
+    this._underlyingCtrl.setErrors(this.formGroup.get(this.config.name).errors);
     this._underlyingCtrl.valueChanges.subscribe(value => {
       if ((typeof value) === 'string') {
         this._filter(value).subscribe(res => {
@@ -78,6 +84,7 @@ export class ForeignKeyFieldComponent implements OnChanges, OnInit {
   selectOption(value) {
     if (value !== null) {
       this._setControlValue(value[this.config.resolveValueFrom]);
+      console.log(value[this.config.resolveValueFrom], value, this.config.resolveValueFrom)
     } else {
       this._setControlValue(null);
     }
@@ -102,7 +109,13 @@ export class ForeignKeyFieldComponent implements OnChanges, OnInit {
   fetch() {
     const url = `${this.controlConfig.metadata.api}`;
     const keys = this.controlConfig.metadata.filter_key;
-    this.api.fetch(url).subscribe(res => {
+    let params = new HttpParams();
+    if (this.controlConfig.metadata.includeParams) {
+      this.controlConfig.metadata.queryParams.forEach((field) => {
+        params = params.append('include[]', field);
+      });
+    }
+    this.api.fetch(url, params).subscribe(res => {
       if (keys) {
         this.availableOptions = of(res.results[keys[0]]);
       } else {
@@ -128,11 +141,9 @@ export class ForeignKeyFieldComponent implements OnChanges, OnInit {
       params = params.append(this.controlConfig.metadata.searchParam, filterValue.toLowerCase());
     }
     if (this.controlConfig.metadata.includeParams) {
-      if (this.controlConfig.metadata.includeParams) {
-        this.controlConfig.metadata.queryParams.forEach((field) => {
-          params = params.append('include[]', field);
-        });
-      }
+      this.controlConfig.metadata.queryParams.forEach((field) => {
+        params = params.append('include[]', field);
+      });
     }
     return this.api.fetch(`${this.controlConfig.metadata.api}`, params).pipe(
       map(res => {

@@ -56,6 +56,7 @@ export class FieldConfig {
     control?: ControlConfig | ForeignKeyControlConfig | TextAreaControlConfig |
         SelectControlConfig | AutoCompleteControlConfig | FormSetControlConfig | FieldSetControlConfig;
     validators?: any[];
+    hasErrorWhen?: { field_name: string, error: string};
     choices?: any[];
     defaultValue?: any = '';
     iContains?: boolean;

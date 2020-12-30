@@ -21,14 +21,15 @@ export class FormService {
         });
         return;
       } else if (c.type === 'formset') {
+        ctrls[c.name] = new FormArray([]);
         const controlConfig = c.control as FormSetControlConfig;
         controlConfig.fields = controlConfig.fields.filter(field => field.isHidden !== true);
         const group = this.create(controlConfig.fields);
-        ctrls[c.name] = new FormArray([group]);
+        ctrls[c.name].push(group);
         return;
       }
 
-      ctrls[c.name] = new FormControl(null, c.validators);
+      ctrls[c.name] = new FormControl((c.defaultValue && c.defaultValue !== null) ? c.defaultValue : null, c.validators);
     });
     const fg = new FormGroup(ctrls);
     return fg;
@@ -44,10 +45,11 @@ export class FormService {
         });
         return;
       } else if (c.type === 'formset') {
+        ctrls[c.name] = new FormArray([]);
         const controlConfig = c.control as FormSetControlConfig;
         data[c.name].forEach(ctrl => {
           const group = this.update(controlConfig.fields, ctrl);
-          ctrls[c.name] = new FormArray([group]);
+          ctrls[c.name].push(group);
         });
         return;
       }

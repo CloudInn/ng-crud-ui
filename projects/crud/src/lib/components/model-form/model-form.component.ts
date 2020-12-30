@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
-import { FormGroup, ValidationErrors } from '@angular/forms';
+import { FormArray, FormGroup, ValidationErrors } from '@angular/forms';
 
 import { ApiService } from '../../services/api.service';
 import { FormService } from '../../services/form.service';
@@ -85,11 +85,21 @@ export class ModelFormComponent implements OnInit {
                 if (controlErrors != null) {
                     Object.keys(controlErrors).forEach(keyError => {
                         this.formGroup.get(key).markAsTouched();
-                        this.formGroup.updateValueAndValidity();
                     });
                 }
             }
         });
+        const formSet = this.viewConfig.controls.find(el => el.type === 'formset');
+        const formArray = this.formGroup.get(formSet.name) as FormArray;
+        formArray.controls.forEach((fg: FormGroup) => {
+            Object.keys(fg.controls).forEach(k => {
+                const controlErrors = fg.get(k).errors;
+                if (controlErrors !== null) {
+                    fg.get(k).markAsTouched();
+                }
+            });
+        });
+        this.formGroup.updateValueAndValidity();
     }
     onAction(link) {
         console.log(link);
@@ -164,6 +174,17 @@ export class ModelFormComponent implements OnInit {
                     this.openSnackBar('Please review your data and try again!', 'error');
                 });
             } else if (this.mode === 'edit') {
+                this.controlsConfig.forEach(ctrl => {
+                    ctrl.control['fields'].forEach(el => {
+                        if (el.type === 'foreignKey') {
+                            if (this.formGroup.get(el.name) !== null && this.formGroup.get(el.name).value !== null) {
+                                this.formGroup.get(el.name).patchValue(this.formGroup.get(el.name).value[el.resolveValueFrom]);
+                                this.formGroup.updateValueAndValidity();
+                            }
+                        }
+                    });
+
+                });
                 this.api.put(`${this.viewConfig.metadata.api}${this.id}/`, this.formGroup.value).subscribe(res => {
                     this.performAction(action_type, res);
                     this.disabled = false;

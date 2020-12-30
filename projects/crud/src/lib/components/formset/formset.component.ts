@@ -27,6 +27,11 @@ export class FormsetComponent implements OnChanges {
     if (this.formGroup.get(this.config.name) !== null) {
       this.formArray = this.formGroup.get(this.config.name) as FormArray;
     }
+    const hidden_field = this.control.fields.find(f => !f.isEditable && !f.isHidden);
+    const group = this.formArray.controls[0] as FormGroup;
+    if (group) {
+      hidden_field.defaultValue = group.controls[hidden_field.name].value;
+    }
   }
 
   addForm() {
@@ -34,10 +39,9 @@ export class FormsetComponent implements OnChanges {
     this.formArray.push(formGroup);
   }
 
-delete(index){
-  console.log(index);
-  this.formArray.removeAt(index)
-}
+  delete(index) {
+    this.formArray.removeAt(index);
+  }
 
   trackByFn(index) {
     return index;
