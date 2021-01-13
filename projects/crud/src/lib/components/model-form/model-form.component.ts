@@ -44,7 +44,7 @@ export class ModelFormComponent implements OnInit {
     ngOnInit() {
         this.controlsConfig = this.viewConfig.controls;
         this._visibleControls = this.controlsConfig.filter(c => c.isHidden !== true);
-        this.formGroup = this.formService.create(this.controlsConfig);
+        this.formGroup = this.formService.create(this.controlsConfig, this.mode);
         // Separate the formset fields to their object, so that they can be rendered
         // beneath the main controls.
         this.formsets = this.viewConfig.controls.filter(field => field.type === 'formset');

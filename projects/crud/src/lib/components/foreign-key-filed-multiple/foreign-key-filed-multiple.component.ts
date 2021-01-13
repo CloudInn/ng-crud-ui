@@ -24,10 +24,11 @@ export class ForeignKeyFiledMultipleComponent implements OnInit, OnChanges {
   selected_results: string[] = [];
   results: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry'];
 
-  @ViewChild('fruitInput',{static:false}) fruitInput: ElementRef<HTMLInputElement>;
-  @ViewChild('auto',{static:false}) matAutocomplete: MatAutocomplete;
+  @ViewChild('fruitInput', { static: false }) fruitInput: ElementRef<HTMLInputElement>;
+  @ViewChild('auto', { static: false }) matAutocomplete: MatAutocomplete;
 
   @Input() formGroup: FormGroup;
+  @Input() mode: string;
   @Input() config: FieldConfig;
   @Input() reset: Subject<any>;
   controlConfig: ForeignKeyControlConfig = null;
@@ -54,7 +55,12 @@ export class ForeignKeyFiledMultipleComponent implements OnInit, OnChanges {
       });
     }
     this.controlConfig = this.config.control as ForeignKeyControlConfig;
-    const ctrl = this.formGroup.get([this.config.name]) as FormControl;
+    let ctrl;
+    if (this.mode === 'search' && this.config.keyOnSearch) {
+      ctrl = this.formGroup.get([this.config.keyOnSearch]) as FormControl;
+    } else {
+      ctrl = this.formGroup.get([this.config.name]) as FormControl;
+    }
     if (ctrl.value !== null) {
       this._setControlValue(ctrl.value);
       this._underlyingCtrl.setValue(ctrl.value);
@@ -115,13 +121,23 @@ export class ForeignKeyFiledMultipleComponent implements OnInit, OnChanges {
   }
 
   _setControlValue(value: any) {
-    const ctrl = this.formGroup.get([this.config.name]);
+    let ctrl;
+    if (this.mode === 'search' && this.config.keyOnSearch) {
+      ctrl = this.formGroup.get([this.config.keyOnSearch]);
+    } else {
+      ctrl = this.formGroup.get([this.config.name]);
+    }
     const values = [];
     if (value !== null && value !== '') {
       value.forEach(val => {
         values.push(val[this.config.resolveValueFrom]);
       });
-      ctrl.setValue(values);
+      if (this.config.keyOnSearch) {
+        const new_values = values.join('|');
+        ctrl.setValue(new_values);
+      } else {
+        ctrl.setValue(values);
+      }
     }
   }
 

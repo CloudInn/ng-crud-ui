@@ -9,7 +9,7 @@ export class FormService {
 
   constructor() { }
 
-  create(config: FieldConfig[]): FormGroup {
+  create(config: FieldConfig[], mode?: string): FormGroup {
     const ctrls = {};
     config.forEach(c => {
       if (c.type === 'fieldset') {
@@ -28,8 +28,11 @@ export class FormService {
         ctrls[c.name].push(group);
         return;
       }
-
-      ctrls[c.name] = new FormControl((c.defaultValue && c.defaultValue !== null) ? c.defaultValue : null, c.validators);
+      if (mode && mode === 'search' && c.keyOnSearch) {
+        ctrls[c.keyOnSearch] = new FormControl((c.defaultValue && c.defaultValue !== null) ? c.defaultValue : null, c.validators);
+      } else {
+        ctrls[c.name] = new FormControl((c.defaultValue && c.defaultValue !== null) ? c.defaultValue : null, c.validators);
+      }
     });
     const fg = new FormGroup(ctrls);
     return fg;

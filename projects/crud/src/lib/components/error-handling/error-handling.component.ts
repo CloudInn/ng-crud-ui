@@ -11,6 +11,7 @@ export class ErrorHandlingComponent implements OnDestroy {
 
   private errorSubscription: Subscription;
   strErrors = new Array();
+  errors = new Array();
   keys = new Array();
   hasErr = false;
 
@@ -19,9 +20,8 @@ export class ErrorHandlingComponent implements OnDestroy {
 
     this.errorSubscription = this.errorService.getError().subscribe(err => {
       if (err.error !== undefined) {
-        this.hasErr = true;
+        this.hasErr = err.hasErr;
         this.keys = [];
-        this.strErrors = [];
         switch (err.type) {
           case 'bad request':
             this.setError(err.error);
@@ -52,10 +52,17 @@ export class ErrorHandlingComponent implements OnDestroy {
   }
 
   declareError(key, error) {
+    this.strErrors = [];
+    this.errors = [];
     error.forEach(err => {
       // error is a string
       if (typeof (err) === 'string') {
-        this.strErrors.push(err);
+        if (key !== 'error' && key !== 'detail') {
+          this.errors.push({ key: key, value: err });
+        } else {
+          this.strErrors.push(err);
+        }
+
       } else {
         // error is a new object of related fields errors
         this.setError(error[0]);

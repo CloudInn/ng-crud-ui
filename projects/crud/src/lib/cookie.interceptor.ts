@@ -17,10 +17,13 @@ export class CookieInterceptor implements HttpInterceptor {
             });
         }
         return next.handle(req).pipe(
+            tap(res => {
+                this.errorService.setError(null);
+            }),
             catchError(
                 err => {
                     this.handleError(err);
-                    return throwError (err);
+                    return throwError(err);
                 }
             ));
     }

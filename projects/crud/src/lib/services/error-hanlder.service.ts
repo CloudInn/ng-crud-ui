@@ -12,7 +12,7 @@ export class ErrorHanlderService {
 
   setError(error) {
     if (error === null) {
-     this.errorSubject.next({});
+      this.errorSubject.next({ hasErr: false });
     } else {
       switch (error.status) {
         case 400:
@@ -28,10 +28,10 @@ export class ErrorHanlderService {
   defineErrorMessages(error, type) {
     switch (type) {
       case 'bad request':
-        this.errorSubject.next({ error: error.error, type: 'bad request' });
+        this.errorSubject.next({ error: error.error, type: 'bad request', hasErr: true });
         break;
       case 'forbidden':
-        this.errorSubject.next({ error: error.error.detail, type: 'forbidden' });
+        this.errorSubject.next({ error: error.error.detail, type: 'forbidden', hasErr: true });
         break;
     }
 

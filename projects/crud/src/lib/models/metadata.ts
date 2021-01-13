@@ -56,12 +56,13 @@ export class FieldConfig {
     control?: ControlConfig | ForeignKeyControlConfig | TextAreaControlConfig |
         SelectControlConfig | AutoCompleteControlConfig | FormSetControlConfig | FieldSetControlConfig;
     validators?: any[];
-    hasErrorWhen?: { field_name: string, error: string};
+    hasErrorWhen?: { field_name: string, error: string };
     choices?: any[];
     defaultValue?: any = '';
     iContains?: boolean;
     isClickable?: boolean;
     resolveValueFrom?: string;
+    keyOnSearch?: string;
     displayFrom?: string[]; // value displayed if field value is an object
     listFrom?: string; // if filed is an array of objects
     touching?: TouchingFields;
