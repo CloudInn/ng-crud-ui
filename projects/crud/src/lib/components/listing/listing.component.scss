@@ -3,33 +3,39 @@
     cursor: pointer;
     text-decoration: none;
 }
+
 .cancel_icon {
-    float:right;
-    cursor:pointer;
+    float: right;
+    cursor: pointer;
     position: relative;
 }
-.mat-dialog-title{
+
+.mat-dialog-title {
     margin: 0 0 20px;
     display: block;
 }
-.crud-search{
-    border:1px solid #D3D6DD;
+
+.crud-search {
+    border: 1px solid #D3D6DD;
     background-color: #1490C0;
 }
+
 ::ng-deep {
-    .crud-search .mat-expansion-panel-body{display: block;}
-    .crud-search .mat-expansion-panel-body .FormCell{
+    .crud-search .mat-expansion-panel-body {
+        display: block;
+    }
+    .crud-search .mat-expansion-panel-body .FormCell {
         padding: 0 10px;
         -webkit-box-sizing: border-box;
         box-sizing: border-box;
     }
-    .crud-search .mat-form-field
-    {
+    .crud-search .mat-form-field {
         border-right: 0;
         width: 100%;
     }
 }
-.bulk_container{
+
+.bulk_container {
     display: flex;
     flex-direction: row-reverse;
     background-color: #fafafa;
@@ -37,99 +43,147 @@
     margin: 8px 50px;
     z-index: 1000;
 }
-.bulk_btn{
-     background-color: #2A8FC1;
-     color: #fff;
+
+.bulk_btn {
+    background-color: #2A8FC1;
+    color: #fff;
 }
-.crud-new-btn{
-    background-color:  #5AB857;
+
+.crud-new-btn {
+    background-color: #5AB857;
     margin-top: 24px;
 }
-.crud-new-btn:hover
-{
-    background-color:  #84C273;
+
+.crud-new-btn:hover {
+    background-color: #84C273;
 }
-.crud-new-btn:focus
-{
+
+.crud-new-btn:focus {
     background-color: #4F8B3E;
 }
-.checkmark_icon{
-    color:#5bb75b;
+
+.checkmark_icon {
+    color: #5bb75b;
 }
-.crud-views-button{
+
+.crud-views-button {
     float: right;
     background-color: #5AB857;
     margin-top: 24px;
 }
-.crud-views-button:hover{
+
+.crud-views-button:hover {
     background-color: #84C273;
 }
-.crus-views-button:focus{
+
+.crus-views-button:focus {
     background-color: #4F8B3E;
 }
-.separated{
+
+.separated {
     border-bottom: 1px solid #929292;
-  }
-mat-header-cell{
-    background-color:#CECECE;
+}
+
+mat-header-cell {
+    background-color: #CECECE;
     color: #231F20;
 }
-mat-expansion-panel{
+
+mat-expansion-panel {
     background-color: #298CDE;
     margin-bottom: 10px;
 }
-mat-panel-title{
+
+mat-panel-title {
     font-size: 17px;
-    color:#fff
+    color: #fff
 }
+
 ::ng-deep .crud-search {
-    .mat-expansion-panel-body
-    {
+    .mat-expansion-panel-body {
         background-color: #fff;
         padding: 0;
     }
-    .crud-form-body
-    {
+    .crud-form-body {
         padding: 10px 24px 16px;
     }
 }
-::ng-deep .mat-paginator-container{
+
+::ng-deep .mat-paginator-container {
     justify-content: center !important;
 }
-.crud-table
-{
+
+.crud-table {
     margin-top: 8px;
 }
-@media (min-width: 992px) and (max-width : 1600px){
-    .crud-search{
+
+@media (min-width: 992px) and (max-width: 1600px) {
+    .crud-search {
         margin: 8px 50px;
     }
-     .crud-paginator{
+    .crud-paginator {
         margin: 24px 50px;
-        font-family: 'Roboto',sans-serif;
+        font-family: 'Roboto', sans-serif;
         font-size: 16;
     }
-    .crud-table
-    {
+    .crud-table {
         margin: 0px 50px;
-        font-family: 'Roboto',sans-serif;
+        font-family: 'Roboto', sans-serif;
         font-size: 16;
     }
-    .crud-views-button{
+    .crud-views-button {
         margin-right: 50px;
     }
-    .crud-new-btn{
+    .crud-new-btn {
         margin-left: 50px;
     }
 }
-@media (min-width : 1601px){
-    .bulk_container{
+
+@media (min-width: 1601px) {
+    .bulk_container {
         margin: 8px 0;
     }
 }
-@media (max-width : 991px){
-    .bulk_container
-    {
+
+@media (max-width: 991px) {
+    .bulk_container {
         margin: 0;
     }
+}
+
+.grid-spinner {
+    display: flex;
+    justify-content: center;
+    margin-top: calc(50vh - 100px);
+}
+
+.fo-spinner-main-container {
+    display: flex;
+    justify-content: center;
+}
+
+.fo-spinner-overlay {
+    position: fixed;
+    height: 100vh;
+    width: 100%;
+    z-index: 3;
+}
+
+.fo-spinner-container {
+    margin: auto;
+    height: 150px;
+    width: 150px;
+    background-color: white;
+    border-radius: 50%;
+    box-shadow: 0px 2px 1px -1px #001400, 0px 1px 1px 0px #c9c9d6, 0px 1px 3px 0px #00000c;
+    position: fixed;
+    top: calc(50% - 50px);
+    z-index: 5;
+}
+
+.fo-spinner {
+    width: 100px;
+    height: 100px;
+    margin: auto;
+    top: calc(50% - 50px);
 }

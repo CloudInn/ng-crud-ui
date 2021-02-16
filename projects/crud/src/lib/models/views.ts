@@ -22,7 +22,7 @@ export interface ListViewer extends ViewConfig {
         params: string[]
     };
     dialog_mode?: boolean;
-    pagination: {
+    pagination?: {
         enabled: boolean,
         pageSize?: number,
     };
@@ -61,6 +61,10 @@ export interface ViewSettingsObj {
         link: string,
         params: string[]
     };
+    pagination?: {
+        enabled: boolean,
+        pageSize: number,
+    };
 }
 
 export class ListingView implements ListViewer {
@@ -77,9 +81,9 @@ export class ListingView implements ListViewer {
         ...this.viewSettings.external_link
     };
     dialog_mode = this.viewSettings.isDialog;
-    pagination = {
-        enabled: true,
-        pageSize: 20,
+    pagination = this.viewSettings.pagination ? { ...this.viewSettings.pagination } : {
+        enabled: false,
+        pageSize: 0
     };
     defaults = {};
     constructor(

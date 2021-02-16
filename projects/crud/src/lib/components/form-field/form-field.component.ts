@@ -62,7 +62,7 @@ export class FormFieldComponent implements OnChanges, OnInit {
         this.formGroup.updateValueAndValidity();
       });
     }
-    this.checkValidity();
+//    this.checkValidity();
   }
   checkValidity() {
     if (this.formGroup.get(this.config.name) !== null) {

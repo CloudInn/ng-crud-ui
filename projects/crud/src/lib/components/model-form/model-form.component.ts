@@ -31,6 +31,7 @@ export class ModelFormComponent implements OnInit {
     submitButtonText = 'Search';
     _visibleControls: FieldConfig[] = [];
     disabled = false;
+    initialLoading = false;
 
     constructor(
         private api: ApiService,
@@ -55,11 +56,13 @@ export class ModelFormComponent implements OnInit {
             this.formGroup = this.formService.create(this.controlsConfig);
         } else if (this.id !== null) {
             this.mode = 'edit';
+            this.initialLoading = true;
             this.submitButtonText = 'Update';
             this.actions = this.viewConfig.actions;
             const params = this.populateParams();
             this.api.fetch(this.viewConfig.metadata.api + this.id, params).subscribe(data => {
                 let data_modified = data;
+                this.initialLoading = false;
                 if (this.viewConfig.metadata.search_key) {
                     data_modified = data[this.viewConfig.metadata.search_key];
                 }
@@ -102,7 +105,6 @@ export class ModelFormComponent implements OnInit {
         this.formGroup.updateValueAndValidity();
     }
     onAction(link) {
-        console.log(link);
         switch (link.action) {
             case 'iframe':
                 this.openIframe(link);
@@ -162,34 +164,40 @@ export class ModelFormComponent implements OnInit {
         this.router.navigate([url.substr(0, url.indexOf(this.id))]);
     }
     _onSubmit(action_type?) {
+        this.initialLoading = true;
         if (this.formGroup.valid) {
             this.disabled = true;
             if (this.mode === 'create') {
                 this.api.post(this.viewConfig.metadata.api, this.formGroup.value).subscribe(res => {
                     this.performAction(action_type, res);
                     this.disabled = false;
+                    this.initialLoading = false;
                     this.openSnackBar(`Your ${this.viewConfig.metadata.label} is created successfully`, 'success');
                 }, (error) => {
                     this.disabled = false;
+                    this.initialLoading = false;
                     this.openSnackBar('Please review your data and try again!', 'error');
                 });
             } else if (this.mode === 'edit') {
                 this.controlsConfig.forEach(ctrl => {
-                    ctrl.control['fields'].forEach(el => {
-                        if (el.type === 'foreignKey') {
-                            if (this.formGroup.get(el.name) !== null && this.formGroup.get(el.name).value !== null) {
-                                this.formGroup.get(el.name).patchValue(this.formGroup.get(el.name).value[el.resolveValueFrom]);
-                                this.formGroup.updateValueAndValidity();
+                    if (ctrl.type === 'foreignKey') {
+                        ctrl.control['metadata']['fields'].forEach(el => {
+                            if (el.type === 'foreignKey') {
+                                if (this.formGroup.get(el.name) !== null && this.formGroup.get(el.name).value !== null) {
+                                    this.formGroup.get(el.name).patchValue(this.formGroup.get(el.name).value[el.resolveValueFrom]);
+                                    this.formGroup.updateValueAndValidity();
+                                }
                             }
-                        }
-                    });
-
+                        });
+                    }
                 });
                 this.api.put(`${this.viewConfig.metadata.api}${this.id}/`, this.formGroup.value).subscribe(res => {
                     this.performAction(action_type, res);
                     this.disabled = false;
+                    this.initialLoading = false;
                     this.openSnackBar(`Your ${this.viewConfig.metadata.label} is updated successfully`, 'success');
                 }, (error) => {
+                    this.initialLoading = false;
                     this.disabled = false;
                     this.openSnackBar('Please review your data and try again!', 'error');
                 });

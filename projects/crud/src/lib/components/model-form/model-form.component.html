@@ -1,4 +1,13 @@
-<div class="crud-form-body">
+<div class="grid-spinner" *ngIf="initialLoading && mode==='edit'">
+    <mat-spinner></mat-spinner>
+</div>
+<div *ngIf="mode==='search'" class="reset_btn">
+    <a (click)="_onReset()">
+        Reset
+    </a>
+</div>
+
+<div class="crud-form-body" [ngStyle]="{'display': (initialLoading && mode==='edit')?'none':''}">
     <ng-template [ngIf]="is_ready">
         <ng-error-handling></ng-error-handling>
         <div class="header_btn_container" *ngIf="viewConfig?.metadata?.formActions && mode==='edit'">
@@ -9,25 +18,21 @@
                 </button>
             </span>
         </div>
-        <div *ngIf="mode==='search'" class="reset_btn">
-            <a (click)="_onReset()">
-                Reset
-            </a>
-        </div>
 
-        <div fxflexfill fxlayoutgap="10px grid"  class="row full" [formGroup]="formGroup">
+
+        <div fxflexfill fxlayoutgap="10px grid" class="row full" [formGroup]="formGroup">
             <ng-container *ngFor="let config of _visibleControls">
-                <ng-container *ngIf="config.type === 'fieldset'">
+                <ng-container *ngIf="config?.type === 'fieldset'">
                     <div class="field-wrapper" [style.max-width.%]="config.cssWidth" [style.flex.%]="config.cssWidth" style="margin: 4px;">
                         <mat-accordion>
                             <mat-expansion-panel class="crud_expansion_panel" [expanded]="true">
                                 <mat-expansion-panel-header [collapsedHeight]="'40px'" [expandedHeight]="'40px'">
                                     <mat-panel-title class="panel_title">
-                                        <mat-label>{{ config.label }}</mat-label>
+                                        <mat-label>{{ config?.label }}</mat-label>
                                     </mat-panel-title>
                                 </mat-expansion-panel-header>
-                                <ng-container *ngFor="let config2 of config.control.fields">
-                                    <div *ngIf="config2.isEditable" style="width:47%;display:inline-block; box-sizing: border-box;">
+                                <ng-container *ngFor="let config2 of config?.control?.fields">
+                                    <div *ngIf="config2?.isEditable" style="width:47%;display:inline-block; box-sizing: border-box;">
                                         <ng-crud-form-field class="FormCell" [reset]="submit" [formGroup]="formGroup" [mode]="mode" [config]="config2"></ng-crud-form-field>
                                     </div>
                                 </ng-container>
@@ -45,7 +50,7 @@
                         </ng-crud-form-field>
                     </ng-template>
                 </ng-container>
-                <ng-container *ngIf="config.type === 'formset'">
+                <ng-container *ngIf="config?.type === 'formset'">
                     <mat-accordion style="width: 100%; margin: 10px;">
                         <mat-expansion-panel class="crud_expansion_panel" [expanded]="true">
                             <mat-expansion-panel-header [collapsedHeight]="'40px'" [expandedHeight]="'40px'">
@@ -63,8 +68,6 @@
                 </ng-container>
             </ng-container>
         </div>
-
-
 
         <div class="row actions">
             <ng-container *ngIf="mode==='edit' || mode==='create';else search">

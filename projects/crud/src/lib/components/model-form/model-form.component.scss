@@ -48,6 +48,12 @@
     width: 25%;
 }
 
+.grid-spinner {
+    display: flex;
+    justify-content: center;
+    margin-top: calc(50vh - 100px);
+}
+
 ::ng-deep {
     .crud_edit_fields {
         width: 25%;
@@ -57,7 +63,7 @@
             box-sizing: border-box;
             -webkit-box-sizing: border-box;
         }
-        .checkbox-container{
+        .checkbox-container {
             padding: 0 10px;
         }
     }
@@ -124,10 +130,9 @@ mat-panel-title {
         flex-wrap: wrap;
         justify-content: space-between;
         background-color: #fff;
-        padding-top: 10px ;
+        padding-top: 10px;
     }
-    .crud-form-body
-    {
+    .crud-form-body {
         padding: 10px 24px 16px;
     }
 }

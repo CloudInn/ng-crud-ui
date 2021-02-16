@@ -19,8 +19,8 @@ import { IframeModalComponent } from '../iframe-modal/iframe-modal.component';
     exportAs: 'ngcrudui-listing'
 })
 export class ListingComponent implements OnInit, AfterViewInit {
-    @ViewChild(MatPaginator,{static:false}) paginator: MatPaginator;
-    @ViewChild('iframe',{static:false}) iframe: ElementRef;
+    @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
+    @ViewChild('iframe', { static: false }) iframe: ElementRef;
 
     @Input() viewConfig: ListViewer;
     mode;
@@ -33,9 +33,10 @@ export class ListingComponent implements OnInit, AfterViewInit {
     displayColumns: string[] = [];
     selectedRows = [];
     resultsCount = 0;
-    isLoading = true;
+    isLoading = false;
+    initialLoading = true;
     pages: number;
-    @ViewChild('searchComponent', { read: ViewContainerRef,static:false }) searchComponent: ViewContainerRef;
+    @ViewChild('searchComponent', { read: ViewContainerRef, static: false }) searchComponent: ViewContainerRef;
     selection = new SelectionModel<any>(true, []);
 
     constructor(private api: ApiService,
@@ -161,7 +162,7 @@ export class ListingComponent implements OnInit, AfterViewInit {
         }
         if (defaultFilter && defaultFilter.length > 0) {
             defaultFilter.forEach(f => {
-                if (f.value !== '' && f.value !== null) {
+                if (f.value && f.value !== '') {
                     if (f.value.id) {
                         f.value = f.value.id;
                     }
@@ -214,8 +215,10 @@ export class ListingComponent implements OnInit, AfterViewInit {
             }
             this.dataSource.data = newItems;
             this.isLoading = false;
+            this.initialLoading = false;
         }, err => {
             this.isLoading = false;
+            this.initialLoading = false;
         });
     }
 

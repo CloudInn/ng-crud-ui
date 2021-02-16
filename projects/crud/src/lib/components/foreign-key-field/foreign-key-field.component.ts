@@ -84,7 +84,6 @@ export class ForeignKeyFieldComponent implements OnChanges, OnInit {
   selectOption(value) {
     if (value !== null) {
       this._setControlValue(value[this.config.resolveValueFrom]);
-      console.log(value[this.config.resolveValueFrom], value, this.config.resolveValueFrom)
     } else {
       this._setControlValue(null);
     }
