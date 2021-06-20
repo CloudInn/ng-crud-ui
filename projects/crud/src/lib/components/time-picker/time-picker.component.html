@@ -1,4 +1,4 @@
 <mat-form-field [formGroup]="formGroup">
     <mat-label>{{config.label}}</mat-label>
-    <input matInput type="time" readonly (click)="openTimePicker('14:00:00')" [formControl]="selectedTime" />
+    <input matInput id="{{config?.name}}-field" type="time" readonly (click)="openTimePicker('14:00:00')" [formControl]="selectedTime" />
 </mat-form-field>

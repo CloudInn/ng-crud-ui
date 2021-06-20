@@ -2,7 +2,7 @@
 
     <ng-container *ngSwitchCase="'boolean'">
         <div class="checkbox-container">
-            <mat-checkbox matInput class="crud_checkbox" [formControlName]="config.name" color="primary">{{ config.label }}</mat-checkbox>
+            <mat-checkbox matInput class="crud_checkbox" id="{{config?.name}}-field" [formControlName]="config.name" color="primary">{{ config.label }}</mat-checkbox>
         </div>
     </ng-container>
 
@@ -16,7 +16,7 @@
 
     <mat-form-field *ngSwitchCase="'date'">
         <mat-label>{{ config?.label }}</mat-label>
-        <input matInput [formControlName]="config?.name" [matDatepicker]="myDatepicker" />
+        <input matInput [formControlName]="config?.name" id="{{config?.name}}-field" [matDatepicker]="myDatepicker" />
         <mat-error *ngIf="f[config.name].hasError('required') && (f[config.name].dirty || f[config.name].touched)">
             this field is required</mat-error>
         <mat-datepicker-toggle matSuffix [for]="myDatepicker" style="color: #1490C0"></mat-datepicker-toggle>
@@ -49,7 +49,7 @@
     <!-- this fallsback from number and text -->
     <mat-form-field *ngSwitchDefault>
         <mat-label>{{ config?.label }}</mat-label>
-        <input matInput [formControlName]="config?.name" [required]="f[config?.name].hasError('required')" [type]="config?.control ? config?.control.type : 'text'" />
+        <input matInput [formControlName]="config?.name" id="{{config?.name}}-field" [maxlength]="config?.maxlength" [required]="f[config?.name].hasError('required')" [type]="config?.control ? config?.control.type : 'text'" />
         <mat-error *ngIf="f[config.name].hasError('required') && (f[config.name].dirty || f[config.name].touched)">
             this field is required</mat-error>
         <mat-error *ngIf="f[config.name].hasError('maxlength') && (f[config.name].dirty || f[config.name].touched)">

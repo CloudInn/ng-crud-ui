@@ -163,10 +163,27 @@ export class ModelFormComponent implements OnInit {
         const url = this.router.url;
         this.router.navigate([url.substr(0, url.indexOf(this.id))]);
     }
+
+    isEmptyObject(obj) {
+        return Object.keys(obj).every(x => {
+            return obj[x] === '' || obj[x] == null;
+        });
+    }
+    removeEmptyFormsets() {
+        this.formsets.forEach(formset => {
+            const formsetName = formset.name;
+            this.formGroup.value[formsetName] = this.formGroup.value[formsetName].filter(item => {
+                return this.isEmptyObject(item) ? null : item;
+            });
+        });
+    }
+
     _onSubmit(action_type?) {
         this.initialLoading = true;
         if (this.formGroup.valid) {
             this.disabled = true;
+            this.removeEmptyFormsets();
+            console.log(this.mode)
             if (this.mode === 'create') {
                 this.api.post(this.viewConfig.metadata.api, this.formGroup.value).subscribe(res => {
                     this.performAction(action_type, res);

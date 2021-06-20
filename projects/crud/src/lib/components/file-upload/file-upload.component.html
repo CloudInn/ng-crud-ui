@@ -1,4 +1,4 @@
 <mat-form-field [formGroup]="formGroup">
     <mat-label class="fileContainer">{{ config.label }}</mat-label>
-    <input type="file" id="file" [formControlName]="config.name" />
+    <input type="file" id="{{config?.name}}-field" [formControlName]="config.name" />
 </mat-form-field>

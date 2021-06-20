@@ -10,7 +10,7 @@ import { FieldConfig, TextAreaControlConfig } from '../../models/metadata';
   styles: ['.form-field-wrapper{margin-right:  24px}'],
   template: `<mat-form-field [formGroup]="formGroup" >
       <mat-label>{{ config.label }}</mat-label>
-      <textarea matInput matTextareaAutosize [formControlName]="config.name"
+      <textarea id="{{config?.name}}-field" matInput matTextareaAutosize [formControlName]="config.name"
       [rows]="controlConfig?.rowSpan || 1"></textarea>
     </mat-form-field>
   `

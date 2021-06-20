@@ -44,7 +44,6 @@ export class FormFieldComponent implements OnChanges, OnInit {
               date_string.slice(0, date_string.indexOf('T')));
           }
         }
-        this.checkValidity();
       });
     }
   }
@@ -62,7 +61,6 @@ export class FormFieldComponent implements OnChanges, OnInit {
         this.formGroup.updateValueAndValidity();
       });
     }
-//    this.checkValidity();
   }
   checkValidity() {
     if (this.formGroup.get(this.config.name) !== null) {

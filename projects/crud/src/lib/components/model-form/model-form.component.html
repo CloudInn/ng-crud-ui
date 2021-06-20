@@ -71,13 +71,13 @@
 
         <div class="row actions">
             <ng-container *ngIf="mode==='edit' || mode==='create';else search">
-                <button mat-raised-button class="submit-button saveAndEdit" [disabled]="disabled" (click)="_onSubmit('saveAndEdit')">
+                <button mat-raised-button id="saveAndEdit-btn" class="submit-button saveAndEdit" [disabled]="disabled" (click)="_onSubmit('saveAndEdit')">
                     Save and Edit
                 </button>
-                <button mat-raised-button class="submit-button saveAndAdd" [disabled]="disabled" (click)="_onSubmit('saveAndAdd')">
+                <button mat-raised-button id="saveAndAdd-btn" class="submit-button saveAndAdd" [disabled]="disabled" (click)="_onSubmit('saveAndAdd')">
                     Save and Add
                 </button>
-                <button mat-raised-button class="submit-button save" [disabled]="disabled" (click)="_onSubmit('save')">
+                <button mat-raised-button id="save-btn" class="submit-button save" [disabled]="disabled" (click)="_onSubmit('save')">
                     Save
                 </button>
             </ng-container>

@@ -16,7 +16,7 @@ export class FormService {
         const controlConfig = c.control as FieldSetControlConfig;
         controlConfig.fields = controlConfig.fields.filter(field => field.isHidden !== true);
         controlConfig.fields.forEach(innerC => {
-          ctrls[innerC.name] = new FormControl(null, c.validators);
+          ctrls[innerC.name] = new FormControl(null, innerC.validators);
           innerC.defaultValue = null;
         });
         return;

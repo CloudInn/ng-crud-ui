@@ -9,6 +9,7 @@
       <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
     </mat-chip>
     <input
+    id="{{config?.name}}-field"
     [placeholder]="config.label"
       #fruitInput
       [formControl]="_underlyingCtrl"
