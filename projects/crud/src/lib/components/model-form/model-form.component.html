@@ -32,8 +32,8 @@
                                     </mat-panel-title>
                                 </mat-expansion-panel-header>
                                 <ng-container *ngFor="let config2 of config?.control?.fields">
-                                    <div *ngIf="config2?.isEditable" style="width:47%;display:inline-block; box-sizing: border-box;">
-                                        <ng-crud-form-field class="FormCell" [reset]="submit" [formGroup]="formGroup" [mode]="mode" [config]="config2"></ng-crud-form-field>
+                                    <div *ngIf="config2?.isEditable" style="width:47%;display:inline-block; box-sizing: border-box;" [style.width.%]="config2.cssWidth">
+                                        <ng-crud-form-field class="FormCell"  [style.flex.%]="config.cssWidth" [reset]="submit" [formGroup]="formGroup" [mode]="mode" [config]="config2"></ng-crud-form-field>
                                     </div>
                                 </ng-container>
                             </mat-expansion-panel>

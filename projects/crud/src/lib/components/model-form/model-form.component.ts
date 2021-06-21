@@ -183,7 +183,6 @@ export class ModelFormComponent implements OnInit {
         if (this.formGroup.valid) {
             this.disabled = true;
             this.removeEmptyFormsets();
-            console.log(this.mode)
             if (this.mode === 'create') {
                 this.api.post(this.viewConfig.metadata.api, this.formGroup.value).subscribe(res => {
                     this.performAction(action_type, res);
@@ -199,12 +198,11 @@ export class ModelFormComponent implements OnInit {
                 this.controlsConfig.forEach(ctrl => {
                     if (ctrl.type === 'foreignKey') {
                         ctrl.control['metadata']['fields'].forEach(el => {
-                            if (el.type === 'foreignKey') {
-                                if (this.formGroup.get(el.name) !== null && this.formGroup.get(el.name).value !== null) {
-                                    this.formGroup.get(el.name).patchValue(this.formGroup.get(el.name).value[el.resolveValueFrom]);
-                                    this.formGroup.updateValueAndValidity();
-                                }
-                            }
+                            this.updateForiegnKeyField(el);
+                        });
+                    } else {
+                        ctrl.control['fields'].forEach(el => {
+                            this.updateForiegnKeyField(el);
                         });
                     }
                 });
@@ -236,6 +234,15 @@ export class ModelFormComponent implements OnInit {
             }
         } else {
             this.getFormErrors();
+        }
+    }
+
+    updateForiegnKeyField(element) {
+        if (element.type === 'foreignKey') {
+            if (this.formGroup.get(element.name) !== null && this.formGroup.get(element.name).value !== null) {
+                this.formGroup.get(element.name).patchValue(this.formGroup.get(element.name).value[element.resolveValueFrom]);
+                this.formGroup.updateValueAndValidity();
+            }
         }
     }
     performAction(type, res) {
