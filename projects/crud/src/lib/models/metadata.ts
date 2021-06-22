@@ -68,6 +68,7 @@ export class FieldConfig {
     touching?: TouchingFields;
     cssWidth?: string;
     maxlength?: string;
+    equalsTo?: string;
 }
 
 export interface Metadata {

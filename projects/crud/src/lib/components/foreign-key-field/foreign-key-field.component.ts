@@ -44,36 +44,38 @@ export class ForeignKeyFieldComponent implements OnChanges, OnInit {
       });
     }
     this.controlConfig = this.config.control as ForeignKeyControlConfig;
-    const ctrl = this.formGroup.get([this.config.name]) as FormControl;
-    if (ctrl.value !== null) {
-      this._setControlValue(ctrl.value);
-      this._underlyingCtrl.setValue(ctrl.value);
-    }
-    this.formGroup.valueChanges.subscribe(() => {
-      if (this.formGroup.get(this.config.name).touched) {
-        this._underlyingCtrl.markAsTouched();
+    if (this.formGroup.get(this.config.name)) {
+      const ctrl = this.formGroup.get([this.config.name]) as FormControl;
+      if (ctrl.value !== null) {
+        this._setControlValue(ctrl.value);
+        this._underlyingCtrl.setValue(ctrl.value);
       }
-    });
-    this._underlyingCtrl.setErrors(this.formGroup.get(this.config.name).errors);
-    this._underlyingCtrl.valueChanges.subscribe(value => {
-      if ((typeof value) === 'string') {
-        this._filter(value).subscribe(res => {
-          if (res.results) {
-            const keys = this.controlConfig.metadata.filter_key;
-            let value = res.results[keys[0]]; // search_key is an array of keys
-            for (let i = 1; i < keys.length; i++) {
-              value = value[keys[i]];
+      this.formGroup.valueChanges.subscribe(() => {
+        if (this.formGroup.get(this.config.name).touched) {
+          this._underlyingCtrl.markAsTouched();
+        }
+      });
+      this._underlyingCtrl.setErrors(this.formGroup.get(this.config.name).errors);
+      this._underlyingCtrl.valueChanges.subscribe(value => {
+        if ((typeof value) === 'string') {
+          this._filter(value).subscribe(res => {
+            if (res.results) {
+              const keys = this.controlConfig.metadata.filter_key;
+              let value = res.results[keys[0]]; // search_key is an array of keys
+              for (let i = 1; i < keys.length; i++) {
+                value = value[keys[i]];
+              }
+              this.availableOptions = of(value);
+            } else {
+              this.availableOptions = of(res);
             }
-            this.availableOptions = of(value);
-          } else {
-            this.availableOptions = of(res);
-          }
-        });
-      }
-    });
-    if (!this.initialChoices) {
-      if (!ctrl.value) {
-        this.fetch();
+          });
+        }
+      });
+      if (!this.initialChoices) {
+        if (!ctrl.value) {
+          this.fetch();
+        }
       }
     }
   }

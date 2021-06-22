@@ -50,7 +50,7 @@ export class ModelFormComponent implements OnInit {
         // beneath the main controls.
         this.formsets = this.viewConfig.controls.filter(field => field.type === 'formset');
         this.is_ready = true;
-        if (this.id === 'new') {
+        if (this.id === 'add') {
             this.mode = 'create';
             this.submitButtonText = 'Create';
             this.formGroup = this.formService.create(this.controlsConfig);
@@ -93,16 +93,18 @@ export class ModelFormComponent implements OnInit {
             }
         });
         const formSet = this.viewConfig.controls.find(el => el.type === 'formset');
-        const formArray = this.formGroup.get(formSet.name) as FormArray;
-        formArray.controls.forEach((fg: FormGroup) => {
-            Object.keys(fg.controls).forEach(k => {
-                const controlErrors = fg.get(k).errors;
-                if (controlErrors !== null) {
-                    fg.get(k).markAsTouched();
-                }
+        if (formSet) {
+            const formArray = this.formGroup.get(formSet.name) as FormArray;
+            formArray.controls.forEach((fg: FormGroup) => {
+                Object.keys(fg.controls).forEach(k => {
+                    const controlErrors = fg.get(k).errors;
+                    if (controlErrors !== null) {
+                        fg.get(k).markAsTouched();
+                    }
+                });
             });
-        });
-        this.formGroup.updateValueAndValidity();
+            this.formGroup.updateValueAndValidity();
+        }
     }
     onAction(link) {
         switch (link.action) {
@@ -156,7 +158,7 @@ export class ModelFormComponent implements OnInit {
         }
         this.formGroup = this.formService.create(this.controlsConfig);
         const url = this.router.url;
-        this.router.navigate([`${url.substr(0, url.indexOf(this.id))}/new`]);
+        this.router.navigate([`${url.substr(0, url.indexOf(this.id))}/add`]);
     }
     save() {
         this.is_ready = false;
@@ -196,14 +198,12 @@ export class ModelFormComponent implements OnInit {
                 });
             } else if (this.mode === 'edit') {
                 this.controlsConfig.forEach(ctrl => {
-                    if (ctrl.type === 'foreignKey') {
-                        ctrl.control['metadata']['fields'].forEach(el => {
-                            this.updateForiegnKeyField(el);
+                    if (ctrl.type === 'fieldset') {
+                        ctrl.control['fields'].forEach(f => {
+                            this.checkForirgnKey(f);
                         });
                     } else {
-                        ctrl.control['fields'].forEach(el => {
-                            this.updateForiegnKeyField(el);
-                        });
+                        this.checkForirgnKey(ctrl);
                     }
                 });
                 this.api.put(`${this.viewConfig.metadata.api}${this.id}/`, this.formGroup.value).subscribe(res => {
@@ -233,16 +233,21 @@ export class ModelFormComponent implements OnInit {
                 this.submit.emit({ ...this.formGroup.value, iContains: contains_ctrl });
             }
         } else {
+            this.initialLoading = false;
             this.getFormErrors();
         }
     }
 
+    checkForirgnKey(ctrl) {
+        if (ctrl.type === 'foreignKey' || ctrl.type === 'foreignKey_multiple') {
+            this.updateForiegnKeyField(ctrl);
+        }
+    }
+
     updateForiegnKeyField(element) {
-        if (element.type === 'foreignKey') {
-            if (this.formGroup.get(element.name) !== null && this.formGroup.get(element.name).value !== null) {
-                this.formGroup.get(element.name).patchValue(this.formGroup.get(element.name).value[element.resolveValueFrom]);
-                this.formGroup.updateValueAndValidity();
-            }
+        if (this.formGroup.get(element.name) !== null && this.formGroup.get(element.name).value !== null) {
+            this.formGroup.get(element.name).patchValue(this.formGroup.get(element.name).value[element.resolveValueFrom]);
+            this.formGroup.updateValueAndValidity();
         }
     }
     performAction(type, res) {

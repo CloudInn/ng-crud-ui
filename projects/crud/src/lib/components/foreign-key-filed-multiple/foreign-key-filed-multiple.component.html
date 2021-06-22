@@ -5,7 +5,7 @@
       [selectable]="selectable"
       [removable]="removable"
       (removed)="remove(result)">
-      {{result[controlConfig.metadata.optionName]}}
+      {{result[config.listFrom]}}
       <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
     </mat-chip>
     <input
@@ -18,7 +18,7 @@
       [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
       (matChipInputTokenEnd)="add($event)">
   </mat-chip-list>
-  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+  <mat-autocomplete [displayWith]="displayFn" #auto="matAutocomplete" (optionSelected)="selected($event)">
     <mat-option *ngFor="let option of filtered | async" [value]="option">
       {{option[controlConfig.metadata.optionName]}}
     </mat-option>

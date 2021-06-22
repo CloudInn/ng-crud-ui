@@ -30,6 +30,9 @@ export class FormsetComponent implements OnChanges {
     const hidden_field = this.control.fields.find(f => !f.isEditable && !f.isHidden);
     const group = this.formArray.controls[0] as FormGroup;
     if (group) {
+      if (hidden_field.equalsTo) {
+        group.controls[hidden_field.name].patchValue(this.formGroup.get(hidden_field.equalsTo).value);
+      }
       hidden_field.defaultValue = group.controls[hidden_field.name].value;
     }
   }

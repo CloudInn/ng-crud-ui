@@ -34,7 +34,7 @@ export class ForeignKeyFiledMultipleComponent implements OnInit, OnChanges {
   controlConfig: ForeignKeyControlConfig = null;
   _underlyingCtrl = new FormControl(null);
 
-  constructor(private api: ApiService) { }
+  constructor(private api: ApiService) { this.displayFn = this.displayFn.bind(this); }
 
   ngOnInit() {
     this.filtered = this._underlyingCtrl.valueChanges.pipe(
@@ -55,34 +55,35 @@ export class ForeignKeyFiledMultipleComponent implements OnInit, OnChanges {
       });
     }
     this.controlConfig = this.config.control as ForeignKeyControlConfig;
-    let ctrl;
-    if (this.mode === 'search' && this.config.keyOnSearch) {
-      ctrl = this.formGroup.get([this.config.keyOnSearch]) as FormControl;
-    } else {
-      ctrl = this.formGroup.get([this.config.name]) as FormControl;
-    }
-    if (ctrl.value !== null) {
-      this._setControlValue(ctrl.value);
-      this._underlyingCtrl.setValue(ctrl.value);
-    }
-    this._underlyingCtrl.valueChanges.subscribe(value => {
-      if ((typeof value) === 'string') {
-        this._filter(value).subscribe(res => {
-          if (res.results) {
-            const keys = this.controlConfig.metadata.search_key;
-            let value = res.results[keys[0]]; // search_key is an array of keys
-            for (let i = 1; i < keys.length; i++) {
-              value = value[keys[i]];
-            }
-            this.filtered = of(value);
-          } else {
-            this.filtered = of(res);
-          }
-        });
+    if (this.formGroup.get(this.config.name)) {
+      let ctrl;
+      if (this.mode === 'search' && this.config.keyOnSearch) {
+        ctrl = this.formGroup.get([this.config.keyOnSearch]) as FormControl;
+      } else {
+        ctrl = this.formGroup.get([this.config.name]) as FormControl;
       }
-    });
+      if (ctrl.value !== null) {
+        this._setControlValue(ctrl.value);
+        this._underlyingCtrl.setValue(ctrl.value);
+      }
+      this._underlyingCtrl.valueChanges.subscribe(value => {
+        if ((typeof value) === 'string') {
+          this._filter(value).subscribe(res => {
+            if (res.results) {
+              const keys = this.controlConfig.metadata.search_key;
+              let value = res.results[keys[0]]; // search_key is an array of keys
+              for (let i = 1; i < keys.length; i++) {
+                value = value[keys[i]];
+              }
+              this.filtered = of(value);
+            } else {
+              this.filtered = of(res);
+            }
+          });
+        }
+      });
+    }
     this.fetch();
-    this._setControlValue(this.selected_results.length > 0 ? this.selected_results : null);
   }
 
   fetch() {
@@ -130,11 +131,15 @@ export class ForeignKeyFiledMultipleComponent implements OnInit, OnChanges {
     const values = [];
     if (value !== null && value !== '') {
       value.forEach(val => {
-        values.push(val[this.config.resolveValueFrom]);
+        values.push(val);
       });
-      if (this.config.keyOnSearch) {
-        const new_values = values.join('|');
-        ctrl.setValue(new_values);
+      this.selected_results = [...value];
+      if (this.mode === 'search' && this.config.keyOnSearch) {
+        const new_values = values.map(val => {
+          return val[this.config.resolveValueFrom];
+        });
+        const string_values = new_values.join('|');
+        ctrl.setValue(string_values);
       } else {
         ctrl.setValue(values);
       }
@@ -170,9 +175,15 @@ export class ForeignKeyFiledMultipleComponent implements OnInit, OnChanges {
     this._setControlValue(this.selected_results);
   }
 
+  displayFn(option) {
+    return option ? option.name ?
+      option.name : this.config.displayFrom ?
+        option[this.config.displayFrom[0]] : option.id : null;
+  }
   private _search(value: string): string[] {
-    const filterValue = value.toLowerCase();
-
-    return this.results.filter(elem => elem.toLowerCase().indexOf(filterValue) === 0);
+    if (value && typeof (value) === 'string') {
+      const filterValue = value.toLowerCase();
+      return this.results.filter(elem => elem.toLowerCase().indexOf(filterValue) === 0);
+    }
   }
 }
