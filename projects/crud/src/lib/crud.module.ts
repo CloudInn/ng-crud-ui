@@ -36,19 +36,20 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
-import {MatCardModule} from '@angular/material/card';
-import {MatMenuModule} from '@angular/material/menu';
-import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { MatCardModule } from '@angular/material/card';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import {MatInputModule} from '@angular/material/input';
-import {MatCheckboxModule} from '@angular/material/checkbox';
-import {MatGridListModule} from '@angular/material/grid-list';
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
-import {MatButtonToggleModule} from '@angular/material/button-toggle';
-import {MatDatepickerModule} from '@angular/material/datepicker';
-import {MatExpansionModule} from '@angular/material/expansion';
-import {MatTabsModule} from '@angular/material/tabs';
+import { MatInputModule } from '@angular/material/input';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatTabsModule } from '@angular/material/tabs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AttachmentsComponent } from './components/attachments/attachments.component';
 
 @NgModule({
   imports: [
@@ -103,7 +104,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ForeignKeyFiledMultipleComponent,
     ErrorHandlingComponent,
     IframeModalComponent,
-    TimePickerComponent
+    TimePickerComponent,
+    AttachmentsComponent
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: CookieInterceptor, multi: true },
@@ -143,13 +145,15 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     TimePickerComponent,
     TextAreaFieldComponent,
     SelectFieldComponent,
+    AttachmentsComponent
   ],
   entryComponents: [
     ListingComponent,
     ModelFormComponent,
     ListingDialogComponent,
     ScreenWrapperComponent,
-    IframeModalComponent
+    IframeModalComponent,
+    AttachmentsComponent
   ]
 })
 export class CrudModule { }

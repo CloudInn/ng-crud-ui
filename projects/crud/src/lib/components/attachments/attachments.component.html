@@ -1,0 +1,88 @@
+<div class="wrapper" fxLayoutWrap="10px">
+    <!-- <mat-accordion>
+      <mat-expansion-panel class="expansion_panel attachments-flight" [expanded]="true">
+        <mat-expansion-panel-header [collapsedHeight]="'40px'" [expandedHeight]="'40px'">
+          <mat-panel-title class="panel_title">
+            <mat-icon class="icon">attach_file</mat-icon>
+            <mat-label>Attachments</mat-label>
+          </mat-panel-title>
+        </mat-expansion-panel-header> -->
+
+    <ng-container [formGroup]="formGroup">
+        <div class="upload_container">
+            <!-- <textarea style="resize: none;width: 83%" formControlName="remarks" maxlength="500" rows="2" cols="5" readonly></textarea> -->
+            <ng-crud-file-upload [formControlName]="config?.name" #fileInput ></ng-crud-file-upload>
+        </div>
+        <mat-error *ngIf="formControls[config?.name].hasError('requiredFileType')">
+            The selected file type is not allowed
+        </mat-error>
+        <mat-error *ngIf="formControls[config?.name].hasError('fileExsist')">
+            A file with the same name is already attached
+        </mat-error>
+        <mat-error *ngIf="formControls[config?.name].hasError('requiredFileSize')">
+            The selected file size exceeds the allowed size
+        </mat-error>
+        <mat-error *ngIf="formControls[config?.name].hasError('requiredFileLength')">
+            Ensure this field has no more than 50 characters
+        </mat-error>
+        <mat-hint class="hint">
+            <pre>
+  Allowed file extensions: PDF,Doc,Docx, Xls ,Xlsx, JPEG, GIF, PNG, BMP.
+  Maximum file size: 2 MB.
+              </pre>
+        </mat-hint>
+    </ng-container>
+
+    <div class="table-container ">
+    </div>
+    <!-- <span class="mat-error ng-star-inserted" >
+          File already deleted
+        </span> -->
+    <table class="mat-elevation-z8 table attachment-table" *ngIf="attachments?.length > 0">
+        <thead class="thead">
+            <tr class="table_row">
+                <th>
+                    File Name
+                </th>
+                <th>
+                </th>
+                <th>
+                </th>
+            </tr>
+        </thead>
+
+        <tbody class="tableBody">
+            <!--TODO table for uploaded files-->
+            <!-- <tr *ngFor="let file of attachments; let i=index;" class="border_bottom">
+                <td class="file-name">
+                    {{file.name}}
+                </td>
+                <td>
+                    <button mat-icon-button (click)="deleteFile(file,i)">
+                  <mat-icon class="delete_icon">delete</mat-icon>
+                </button>
+                </td>
+                <td>
+                    <a [href]="file.file" download="file.name" target="_blank" rel="noopener noreferrer">
+                        <mat-icon class="download_icon">cloud_download</mat-icon>
+                    </a>
+                </td>
+            </tr> -->
+
+            <tr *ngFor="let file of attachments; let i=index;" class="border_bottom">
+                <td class="file-name">
+                    {{file.name}}.{{file.extension}}
+                </td>
+                <td>
+                    <button mat-icon-button (click)="deleteFile(file,i)">
+                  <mat-icon class="delete_icon">delete</mat-icon>
+                </button>
+                </td>
+            </tr>
+        </tbody>
+
+    </table>
+
+    <!-- </mat-expansion-panel>
+    </mat-accordion> -->
+</div>
