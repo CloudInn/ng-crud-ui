@@ -69,8 +69,13 @@ export class FieldConfig {
     cssWidth?: string;
     maxlength?: string;
     equalsTo?: string;
+    postSubmitHookActions?: PostSubmitAction[];
 }
 
+export interface PostSubmitAction {
+    apiUrl: string;
+    type: string;
+}
 export interface Metadata {
     name: string;
     optionName?: string;

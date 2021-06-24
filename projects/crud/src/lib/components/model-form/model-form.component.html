@@ -33,7 +33,7 @@
                                 </mat-expansion-panel-header>
                                 <ng-container *ngFor="let config2 of config?.control?.fields">
                                     <div *ngIf="config2?.isEditable" style="width:47%;display:inline-block; box-sizing: border-box;" [style.width.%]="config2.cssWidth">
-                                        <ng-crud-form-field class="FormCell"  [style.flex.%]="config.cssWidth" [reset]="submit" [formGroup]="formGroup" [mode]="mode" [config]="config2"></ng-crud-form-field>
+                                        <ng-crud-form-field class="FormCell"  [style.flex.%]="config.cssWidth" [reset]="submit" [formGroup]="formGroup" [mode]="mode" [config]="config2" (elementDeleted)="elementDeleted($event)"></ng-crud-form-field>
                                     </div>
                                 </ng-container>
                             </mat-expansion-panel>
@@ -42,11 +42,11 @@
                 </ng-container>
                 <ng-container *ngIf="config.type !== 'fieldset' && config.type !== 'formset' && config.isEditable">
                     <div *ngIf="mode==='edit' || mode==='create';else search" class="crud_edit_fields">
-                        <ng-crud-form-field class="FormCell" [mode]="mode" [reset]="submit" [formGroup]="formGroup" [config]="config">
+                        <ng-crud-form-field class="FormCell" [mode]="mode" [reset]="submit" [formGroup]="formGroup" [config]="config" (elementDeleted)="elementDeleted($event)">
                         </ng-crud-form-field>
                     </div>
                     <ng-template #search>
-                        <ng-crud-form-field class="FormCell" [mode]="mode" [reset]="submit" [formGroup]="formGroup" [config]="config">
+                        <ng-crud-form-field class="FormCell" [mode]="mode" [reset]="submit" [formGroup]="formGroup" [config]="config" (elementDeleted)="elementDeleted($event)">
                         </ng-crud-form-field>
                     </ng-template>
                 </ng-container>

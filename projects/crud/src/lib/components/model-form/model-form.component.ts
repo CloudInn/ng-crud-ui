@@ -3,7 +3,7 @@ import { FormArray, FormGroup, ValidationErrors } from '@angular/forms';
 
 import { ApiService } from '../../services/api.service';
 import { FormService } from '../../services/form.service';
-import { FieldConfig } from '../../models/metadata';
+import { FieldConfig, FieldSetControlConfig } from '../../models/metadata';
 import { FormViewer } from '../../models/views';
 import { HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -60,17 +60,19 @@ export class ModelFormComponent implements OnInit {
             this.submitButtonText = 'Update';
             this.actions = this.viewConfig.actions;
             const params = this.populateParams();
-            this.api.fetch(this.viewConfig.metadata.api + this.id, params).subscribe(data => {
-                let data_modified = data;
-                this.initialLoading = false;
-                if (this.viewConfig.metadata.search_key) {
-                    data_modified = data[this.viewConfig.metadata.search_key];
-                }
-                this.formGroup = this.formService.update(this.controlsConfig, data_modified);
-            });
+            this.editForm(params);
         }
     }
-
+    editForm(params) {
+        this.api.fetch(this.viewConfig.metadata.api + this.id, params).subscribe(data => {
+            let data_modified = data;
+            this.initialLoading = false;
+            if (this.viewConfig.metadata.search_key) {
+                data_modified = data[this.viewConfig.metadata.search_key];
+            }
+            this.formGroup = this.formService.update(this.controlsConfig, data_modified);
+        });
+    }
     populateParams() {
         let searchParams = new HttpParams();
         if (this.viewConfig.metadata.includeParams) {
@@ -190,6 +192,10 @@ export class ModelFormComponent implements OnInit {
                     this.performAction(action_type, res);
                     this.disabled = false;
                     this.initialLoading = false;
+                    const fieldWithPostSubmit = this.checkForPostSubmit();
+                    if (fieldWithPostSubmit) {
+                        this.applyPostSubmit(fieldWithPostSubmit, res[this.viewConfig.metadata.search_key].id);
+                    }
                     this.openSnackBar(`Your ${this.viewConfig.metadata.label} is created successfully`, 'success');
                 }, (error) => {
                     this.disabled = false;
@@ -208,6 +214,10 @@ export class ModelFormComponent implements OnInit {
                 });
                 this.api.put(`${this.viewConfig.metadata.api}${this.id}/`, this.formGroup.value).subscribe(res => {
                     this.performAction(action_type, res);
+                    const fieldWithPostSubmit = this.checkForPostSubmit();
+                    if (fieldWithPostSubmit) {
+                        this.applyPostSubmit(fieldWithPostSubmit, res[this.viewConfig.metadata.search_key].id);
+                    }
                     this.disabled = false;
                     this.initialLoading = false;
                     this.openSnackBar(`Your ${this.viewConfig.metadata.label} is updated successfully`, 'success');
@@ -242,6 +252,41 @@ export class ModelFormComponent implements OnInit {
         if (ctrl.type === 'foreignKey' || ctrl.type === 'foreignKey_multiple') {
             this.updateForiegnKeyField(ctrl);
         }
+    }
+    elementDeleted(event) {
+        this.applyPostSubmit(event.config, this.id, event.fileId);
+    }
+    applyPostSubmit(fieldWithPostSubmit: FieldConfig[], id: string, elemId?) {
+        if (fieldWithPostSubmit.length > 0) {
+            fieldWithPostSubmit.forEach(field => {
+                field.postSubmitHookActions.forEach(action => {
+                    if (action.type === 'POST') {
+                        this.api.post(`${this.viewConfig.metadata.api}${id}${action.apiUrl}`,
+                            this.formGroup.get(field.name).value, field.name).subscribe();
+                    } else if (action.type === 'DELETE') {
+                        this.api.delete(`${this.viewConfig.metadata.api}${id}${action.apiUrl}`, elemId).subscribe(res => {
+                            const params = this.populateParams();
+                            this.editForm(params);
+                        });
+                    }
+                });
+            });
+        }
+    }
+
+    checkForPostSubmit() {
+        let fields: FieldConfig[] = new Array();
+        this.controlsConfig.forEach(config => {
+            if (config.type === 'fieldset') {
+                const ctrl = config.control as FieldSetControlConfig;
+                fields = ctrl.fields.filter(f => f.postSubmitHookActions);
+            } else {
+                if (config.postSubmitHookActions) {
+                    fields.push(config);
+                }
+            }
+        });
+        return fields;
     }
 
     updateForiegnKeyField(element) {

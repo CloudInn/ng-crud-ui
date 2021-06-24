@@ -1,4 +1,4 @@
-import { Component, OnChanges, Input, SimpleChanges, OnInit } from '@angular/core';
+import { Component, OnChanges, Input, SimpleChanges, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControlName, FormControl } from '@angular/forms';
 import { Observable, Subject, config } from 'rxjs';
 import { Metadata, FieldConfig } from '../../models/metadata';
@@ -17,6 +17,7 @@ export class FormFieldComponent implements OnChanges, OnInit {
   @Input() config: FieldConfig;
   @Input() choices = [];
   @Input() reset: Subject<any>;
+  @Output() elementDeleted = new EventEmitter();
   type = 'text';
   filteredOptions: Observable<any[]>;
   foreign_model?: Metadata;
@@ -46,6 +47,10 @@ export class FormFieldComponent implements OnChanges, OnInit {
         }
       });
     }
+  }
+
+  deleteAttachment(event) {
+    this.elementDeleted.next({ ...event });
   }
 
   ngOnInit() {

@@ -34,7 +34,7 @@
     </ng-container>
 
     <ng-container *ngSwitchCase="'file'">
-        <ng-crud-attachments [config]="config" [formGroup]="formGroup">
+        <ng-crud-attachments [config]="config" [formGroup]="formGroup" (deleteAttachment)="deleteAttachment($event)">
         </ng-crud-attachments>
     </ng-container>
 

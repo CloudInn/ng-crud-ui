@@ -28,7 +28,7 @@
         <mat-hint class="hint">
             <pre>
   Allowed file extensions: PDF,Doc,Docx, Xls ,Xlsx, JPEG, GIF, PNG, BMP.
-  Maximum file size: 2 MB.
+  Maximum file size: 1 MB.
               </pre>
         </mat-hint>
     </ng-container>
@@ -38,7 +38,7 @@
     <!-- <span class="mat-error ng-star-inserted" >
           File already deleted
         </span> -->
-    <table class="mat-elevation-z8 table attachment-table" *ngIf="attachments?.length > 0">
+    <table class="mat-elevation-z8 table attachment-table" *ngIf="attachments?.length > 0 || uploadedAttachments.length>0">
         <thead class="thead">
             <tr class="table_row">
                 <th>
@@ -53,7 +53,7 @@
 
         <tbody class="tableBody">
             <!--TODO table for uploaded files-->
-            <!-- <tr *ngFor="let file of attachments; let i=index;" class="border_bottom">
+            <tr *ngFor="let file of uploadedAttachments; let i=index;" class="border_bottom">
                 <td class="file-name">
                     {{file.name}}
                 </td>
@@ -67,7 +67,7 @@
                         <mat-icon class="download_icon">cloud_download</mat-icon>
                     </a>
                 </td>
-            </tr> -->
+            </tr>
 
             <tr *ngFor="let file of attachments; let i=index;" class="border_bottom">
                 <td class="file-name">

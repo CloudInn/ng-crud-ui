@@ -1,4 +1,5 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
+import { AttachmentsService } from '../../services/attachments.service';
 import { FileUploadComponent } from '../file-upload/file-upload.component';
 
 @Component({
@@ -6,13 +7,15 @@ import { FileUploadComponent } from '../file-upload/file-upload.component';
   templateUrl: './attachments.component.html',
   styleUrls: ['./attachments.component.css']
 })
-export class AttachmentsComponent implements OnInit {
+export class AttachmentsComponent implements OnInit, OnChanges {
 
-  constructor() { }
+  constructor(private attacmentsService: AttachmentsService) { }
 
   @Input() formGroup;
   @Input() config;
+  @Output() deleteAttachment = new EventEmitter();
   attachments: Array<any> = [];
+  uploadedAttachments = new Array();
   attachments_delete = new Array();
   allowedTypes = ['PDF', 'Doc', 'Docx', 'Xls', 'Xlsx', 'JPEG', 'GIF', 'PNG', 'BMP'];
   @ViewChild('fileInput', { static: true }) fileInput: FileUploadComponent;
@@ -21,6 +24,13 @@ export class AttachmentsComponent implements OnInit {
 
   ngOnInit(): void {
     this.subscribeToFormChanges();
+  }
+
+  ngOnChanges() {
+    if (this.formGroup.get(this.config.name).value) {
+      this.uploadedAttachments = [...this.formGroup.get(this.config.name).value];
+      console.log(this.uploadedAttachments);
+    }
   }
 
 
@@ -63,10 +73,9 @@ export class AttachmentsComponent implements OnInit {
       extension: this.splitFile(file).extension,
       file: file
     });
-    // this.store.dispatch(new UpdateNewReservation({ toUploadFiles: this.attachments }));
     this.attachments_service_conatiner.push(file);
-    //  this.attacmentsService.attachmentsFormData = this.attachments_service_conatiner;
-    //  this.formGroup.reset();
+    this.attacmentsService.attachmentsFormData = this.attachments_service_conatiner;
+    this.formGroup.reset();
     this.fileInput.deleteFile();
   }
 
@@ -82,22 +91,7 @@ export class AttachmentsComponent implements OnInit {
 
   deleteFile(file, index) {
     if (typeof (file.file) === 'string') { // uploaded file
-      // this.store.dispatch(new UpdateNewReservation({ reservation_load: true }));
-      // this.attacmentsService.deleteAttachment(this.reservation.id, file.id).subscribe(res => {
-      //   this.store.dispatch(new GetNewReservation(this.reservation.id));
-      // }, err => {
-      //   this.store.dispatch(new UpdateNewReservation({
-      //     reservation_load: false,
-      //     alreadyDeleted: true
-      //   }));
-      //   this.snackBar.openFromComponent(SnackbarComponent, {
-      //     duration: 5000,
-      //     data: {
-      //       message: 'Please review your reservation data and try again!',
-      //       type: 'fail',
-      //     }, panelClass: ['snackbar-fail']
-      //   });
-      // });
+      this.deleteAttachment.next({ fileId: file.id, config: [this.config] });
     } else {
       this.attachments.splice(index, 1);
       const fileIndex = this.attachments_service_conatiner.findIndex(attachment =>
