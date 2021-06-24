@@ -44,7 +44,7 @@ export class FormService {
       if (c.type === 'fieldset') {
         (c.control as FieldSetControlConfig).fields.forEach(innerC => {
           innerC.defaultValue = data[innerC.name];
-          ctrls[innerC.name] = new FormControl(data[innerC.name]);
+          ctrls[innerC.name] = new FormControl(data[innerC.name], innerC.validators);
         });
         return;
       } else if (c.type === 'formset') {

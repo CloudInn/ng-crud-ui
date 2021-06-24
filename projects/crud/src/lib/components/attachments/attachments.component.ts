@@ -7,7 +7,7 @@ import { FileUploadComponent } from '../file-upload/file-upload.component';
   templateUrl: './attachments.component.html',
   styleUrls: ['./attachments.component.css']
 })
-export class AttachmentsComponent implements OnInit, OnChanges {
+export class AttachmentsComponent implements OnChanges {
 
   constructor(private attacmentsService: AttachmentsService) { }
 
@@ -22,14 +22,11 @@ export class AttachmentsComponent implements OnInit, OnChanges {
   attachments_service_conatiner = new Array();
   get formControls() { return this.formGroup.controls as any; }
 
-  ngOnInit(): void {
-    this.subscribeToFormChanges();
-  }
 
   ngOnChanges() {
+    this.subscribeToFormChanges();
     if (this.formGroup.get(this.config.name).value) {
-      this.uploadedAttachments = [...this.formGroup.get(this.config.name).value];
-      console.log(this.uploadedAttachments);
+      this.attachments = [...Array.from(new Set(this.formGroup.get(this.config.name).value))];
     }
   }
 
@@ -47,6 +44,7 @@ export class AttachmentsComponent implements OnInit, OnChanges {
   _handleReaderLoaded(file) {
     if (this.ifFileExsits(this.attachments, file)) {
       this.formGroup.get(this.config.name).setErrors({ fileExsist: true });
+      this.formGroup.updateValueAndValidity();
     } else {
       this.addFile(file);
     }
@@ -75,7 +73,7 @@ export class AttachmentsComponent implements OnInit, OnChanges {
     });
     this.attachments_service_conatiner.push(file);
     this.attacmentsService.attachmentsFormData = this.attachments_service_conatiner;
-    this.formGroup.reset();
+    this.formGroup.get(this.config.name).reset();
     this.fileInput.deleteFile();
   }
 
@@ -88,9 +86,12 @@ export class AttachmentsComponent implements OnInit, OnChanges {
     return { extension: extension, name: name };
   }
 
+  isUploaded(file) {
+    return typeof (file.file) === 'string';
+  }
 
   deleteFile(file, index) {
-    if (typeof (file.file) === 'string') { // uploaded file
+    if (this.isUploaded(file)) { // uploaded file
       this.deleteAttachment.next({ fileId: file.id, config: [this.config] });
     } else {
       this.attachments.splice(index, 1);

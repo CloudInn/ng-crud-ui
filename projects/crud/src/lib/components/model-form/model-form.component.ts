@@ -260,10 +260,13 @@ export class ModelFormComponent implements OnInit {
         if (fieldWithPostSubmit.length > 0) {
             fieldWithPostSubmit.forEach(field => {
                 field.postSubmitHookActions.forEach(action => {
-                    if (action.type === 'POST') {
+                    if (action.type === 'POST' && !elemId) {
                         this.api.post(`${this.viewConfig.metadata.api}${id}${action.apiUrl}`,
-                            this.formGroup.get(field.name).value, field.name).subscribe();
-                    } else if (action.type === 'DELETE') {
+                            this.formGroup.get(field.name).value, field.name).subscribe(res => {
+                                const params = this.populateParams();
+                                this.editForm(params);
+                            });
+                    } else if (action.type === 'DELETE' && elemId) {
                         this.api.delete(`${this.viewConfig.metadata.api}${id}${action.apiUrl}`, elemId).subscribe(res => {
                             const params = this.populateParams();
                             this.editForm(params);

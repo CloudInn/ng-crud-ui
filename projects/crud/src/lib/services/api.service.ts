@@ -29,7 +29,6 @@ export class ApiService {
     }
 
     public post(api: string, body, fieldName?, params = {}): Observable<any> {
-        console.log(fieldName)
         let opts = new HttpParams();
         Object.keys(params).forEach(p => {
             if (params[p]) {
@@ -38,7 +37,6 @@ export class ApiService {
         });
         if (fieldName && fieldName === 'attachments') {
             const attachments = this.attachmentsService.attachmentsFormData;
-            console.log(attachments);
             if (attachments !== undefined) {
               const responses = [];
               attachments.forEach(file => {
