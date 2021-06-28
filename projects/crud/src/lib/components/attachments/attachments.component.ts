@@ -27,6 +27,8 @@ export class AttachmentsComponent implements OnChanges {
     this.subscribeToFormChanges();
     if (this.formGroup.get(this.config.name).value) {
       this.attachments = [...Array.from(new Set(this.formGroup.get(this.config.name).value))];
+    } else {
+      this.attachments = [];
     }
   }
 
@@ -73,7 +75,6 @@ export class AttachmentsComponent implements OnChanges {
     });
     this.attachments_service_conatiner.push(file);
     this.attacmentsService.attachmentsFormData = this.attachments_service_conatiner;
-    this.formGroup.get(this.config.name).reset();
     this.fileInput.deleteFile();
   }
 
@@ -92,7 +93,7 @@ export class AttachmentsComponent implements OnChanges {
 
   deleteFile(file, index) {
     if (this.isUploaded(file)) { // uploaded file
-      this.deleteAttachment.next({ fileId: file.id, config: [this.config] });
+      this.deleteAttachment.next({ fileId: file.id, config: this.config });
     } else {
       this.attachments.splice(index, 1);
       const fileIndex = this.attachments_service_conatiner.findIndex(attachment =>

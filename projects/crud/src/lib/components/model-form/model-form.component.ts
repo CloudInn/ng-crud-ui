@@ -59,18 +59,21 @@ export class ModelFormComponent implements OnInit {
             this.initialLoading = true;
             this.submitButtonText = 'Update';
             this.actions = this.viewConfig.actions;
-            const params = this.populateParams();
-            this.editForm(params);
+            this.editForm(this.id, 'openPage');
         }
     }
-    editForm(params) {
-        this.api.fetch(this.viewConfig.metadata.api + this.id, params).subscribe(data => {
+    editForm(id, state?) {
+        const params = this.populateParams();
+        this.api.fetch(this.viewConfig.metadata.api + id, params).subscribe(data => {
             let data_modified = data;
             this.initialLoading = false;
             if (this.viewConfig.metadata.search_key) {
                 data_modified = data[this.viewConfig.metadata.search_key];
             }
             this.formGroup = this.formService.update(this.controlsConfig, data_modified);
+            if (!state) {
+                this.openSnackBar(`Your ${this.viewConfig.metadata.label} is created successfully`, 'success');
+            }
         });
     }
     populateParams() {
@@ -141,16 +144,15 @@ export class ModelFormComponent implements OnInit {
             }
         });
     }
-    saveAndEdit(res) {
+    saveAndEdit() {
         this.is_ready = false;
-        let id;
-        if (this.viewConfig.metadata.search_key) {
-            id = res[this.viewConfig.metadata.search_key].id;
-        }
         const url = this.router.url;
-        this.router.navigate([`${url.substr(0, url.indexOf(this.id))}/${id}`]);
         if (this.mode === 'edit') {
             this.is_ready = true;
+            this.editForm(this.id);
+        } else {
+            this.initialLoading = false;
+            this.router.navigate([`${url.substr(0, url.indexOf('add'))}/${this.id}`]);
         }
     }
     saveAndAdd() {
@@ -161,6 +163,7 @@ export class ModelFormComponent implements OnInit {
         this.formGroup = this.formService.create(this.controlsConfig);
         const url = this.router.url;
         this.router.navigate([`${url.substr(0, url.indexOf(this.id))}/add`]);
+        this.initialLoading = false;
     }
     save() {
         this.is_ready = false;
@@ -189,17 +192,11 @@ export class ModelFormComponent implements OnInit {
             this.removeEmptyFormsets();
             if (this.mode === 'create') {
                 this.api.post(this.viewConfig.metadata.api, this.formGroup.value).subscribe(res => {
-                    this.performAction(action_type, res);
                     this.disabled = false;
-                    this.initialLoading = false;
-                    const fieldWithPostSubmit = this.checkForPostSubmit();
-                    if (fieldWithPostSubmit) {
-                        this.applyPostSubmit(fieldWithPostSubmit, res[this.viewConfig.metadata.search_key].id);
-                    }
-                    this.openSnackBar(`Your ${this.viewConfig.metadata.label} is created successfully`, 'success');
+                    this.id = res[this.viewConfig.metadata.search_key].id;
+                    this.handlePostSubmit(action_type, res);
                 }, (error) => {
                     this.disabled = false;
-                    this.initialLoading = false;
                     this.openSnackBar('Please review your data and try again!', 'error');
                 });
             } else if (this.mode === 'edit') {
@@ -213,14 +210,8 @@ export class ModelFormComponent implements OnInit {
                     }
                 });
                 this.api.put(`${this.viewConfig.metadata.api}${this.id}/`, this.formGroup.value).subscribe(res => {
-                    this.performAction(action_type, res);
-                    const fieldWithPostSubmit = this.checkForPostSubmit();
-                    if (fieldWithPostSubmit) {
-                        this.applyPostSubmit(fieldWithPostSubmit, res[this.viewConfig.metadata.search_key].id);
-                    }
+                    this.handlePostSubmit(action_type, res);
                     this.disabled = false;
-                    this.initialLoading = false;
-                    this.openSnackBar(`Your ${this.viewConfig.metadata.label} is updated successfully`, 'success');
                 }, (error) => {
                     this.initialLoading = false;
                     this.disabled = false;
@@ -248,33 +239,52 @@ export class ModelFormComponent implements OnInit {
         }
     }
 
+    handlePostSubmit(action_type, res) {
+        const fieldWithPostSubmit = this.checkForPostSubmit();
+        if (fieldWithPostSubmit.length > 0) {
+            fieldWithPostSubmit.forEach(f => {
+                if (this.formGroup.get(f.name).value) {
+                    this.applyPostSubmit(
+                        f,
+                        res[this.viewConfig.metadata.search_key].id,
+                        { action_type: action_type });
+                } else {
+                    this.performAction(action_type);
+                }
+            });
+        } else {
+            this.performAction(action_type);
+        }
+    }
+
     checkForirgnKey(ctrl) {
         if (ctrl.type === 'foreignKey' || ctrl.type === 'foreignKey_multiple') {
             this.updateForiegnKeyField(ctrl);
         }
     }
     elementDeleted(event) {
-        this.applyPostSubmit(event.config, this.id, event.fileId);
+        this.applyPostSubmit(event.config, this.id, { elemId: event.fileId });
     }
-    applyPostSubmit(fieldWithPostSubmit: FieldConfig[], id: string, elemId?) {
-        if (fieldWithPostSubmit.length > 0) {
-            fieldWithPostSubmit.forEach(field => {
-                field.postSubmitHookActions.forEach(action => {
-                    if (action.type === 'POST' && !elemId) {
-                        this.api.post(`${this.viewConfig.metadata.api}${id}${action.apiUrl}`,
-                            this.formGroup.get(field.name).value, field.name).subscribe(res => {
-                                const params = this.populateParams();
-                                this.editForm(params);
-                            });
-                    } else if (action.type === 'DELETE' && elemId) {
-                        this.api.delete(`${this.viewConfig.metadata.api}${id}${action.apiUrl}`, elemId).subscribe(res => {
-                            const params = this.populateParams();
-                            this.editForm(params);
-                        });
-                    }
+    applyPostSubmit(field: FieldConfig, id: string, options?) {
+        field.postSubmitHookActions.forEach(action => {
+            if (action.type === 'POST' && !options.elemId) {
+                this.api.post(`${this.viewConfig.metadata.api}${id}${action.apiUrl}`,
+                    this.formGroup.get(field.name).value, field.name).subscribe(res => {
+                        this.editForm(id);
+                        if (options.action_type) {
+                            this.performAction(options.action_type);
+                        }
+                    }, err => {
+                        this.openSnackBar(`${err.error.non_field_errors[0]}`, 'error');
+                        this.editForm(id);
+                    });
+            } else if (action.type === 'DELETE' && options.elemId) {
+                this.initialLoading = true;
+                this.api.delete(`${this.viewConfig.metadata.api}${id}${action.apiUrl}`, options.elemId).subscribe(res => {
+                    this.editForm(id);
                 });
-            });
-        }
+            }
+        });
     }
 
     checkForPostSubmit() {
@@ -293,15 +303,16 @@ export class ModelFormComponent implements OnInit {
     }
 
     updateForiegnKeyField(element) {
-        if (this.formGroup.get(element.name) !== null && this.formGroup.get(element.name).value !== null) {
+        if (this.formGroup.get(element.name) !== null &&
+            this.formGroup.get(element.name).value !== null && typeof (this.formGroup.get(element.name).value) !== 'string') {
             this.formGroup.get(element.name).patchValue(this.formGroup.get(element.name).value[element.resolveValueFrom]);
             this.formGroup.updateValueAndValidity();
         }
     }
-    performAction(type, res) {
+    performAction(type) {
         switch (type) {
             case 'saveAndEdit':
-                this.saveAndEdit(res);
+                this.saveAndEdit();
                 break;
             case 'saveAndAdd':
                 this.saveAndAdd();
@@ -317,7 +328,7 @@ export class ModelFormComponent implements OnInit {
 
     openSnackBar(message: string, type: string) {
         this._snackBar.open(message, '', {
-            duration: 2000,
+            duration: 3000,
             panelClass: type === 'success' ? ['success-bar'] : ['others-bar']
         });
     }

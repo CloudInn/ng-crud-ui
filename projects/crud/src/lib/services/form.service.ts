@@ -43,8 +43,9 @@ export class FormService {
     config.forEach(c => {
       if (c.type === 'fieldset') {
         (c.control as FieldSetControlConfig).fields.forEach(innerC => {
-          innerC.defaultValue = data[innerC.name];
-          ctrls[innerC.name] = new FormControl(data[innerC.name], innerC.validators);
+          const emptyArrFieldSet = this.checkIfEmptyArray(data[innerC.name]);
+          innerC.defaultValue = emptyArrFieldSet ? null : data[innerC.name];
+          ctrls[innerC.name] = new FormControl(emptyArrFieldSet ? null : data[innerC.name], innerC.validators);
         });
         return;
       } else if (c.type === 'formset') {
@@ -56,9 +57,19 @@ export class FormService {
         });
         return;
       }
-      ctrls[c.name] = new FormControl(data[c.name], c.validators);
+      const emptyVar = this.checkIfEmptyArray(data[c.name]);
+      ctrls[c.name] = new FormControl(emptyVar ? null : data[c.name], c.validators);
     });
     const fg = new FormGroup(ctrls);
     return fg;
+  }
+  checkIfEmptyArray(val) {
+    let emptyVar = false;
+    if (Array.isArray(val)) {
+      if (val.length === 0) {
+        emptyVar = true;
+      }
+    }
+    return emptyVar;
   }
 }

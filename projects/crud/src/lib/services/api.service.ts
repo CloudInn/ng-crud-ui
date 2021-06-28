@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable, of, forkJoin } from 'rxjs';
-import { tap, catchError } from 'rxjs/operators';
-import { ErrorHanlderService } from './error-hanlder.service';
+import { Observable, of, forkJoin, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { AttachmentsService } from './attachments.service';
 
 
@@ -45,7 +44,7 @@ export class ApiService {
                 responses.push(this.http.post(
                   api,
                   formData, { withCredentials: true }).pipe(
-                    catchError(error => of(error))
+                    catchError(error => throwError(error))
                   ));
               });
               return forkJoin(responses);
