@@ -218,6 +218,7 @@ export class ModelFormComponent implements OnInit {
                     this.openSnackBar('Please review your data and try again!', 'error');
                 });
             } else {
+                this.initialLoading = false;
                 this.viewConfig.controls.map(ctrl => {
                     if (ctrl.type === 'date') {
                         const today_time = new Date().getHours();

@@ -1,11 +1,6 @@
 <div class="grid-spinner" *ngIf="initialLoading;else page">
     <mat-spinner></mat-spinner>
 </div>
-<div *ngIf="mode==='search'" class="reset_btn">
-    <a (click)="_onReset()">
-        Reset
-    </a>
-</div>
 
 <ng-template #page>
     <div class="crud-form-body" [ngStyle]="{'display': (initialLoading && mode==='edit')?'none':''}">
@@ -19,12 +14,13 @@
                     </button>
                 </span>
             </div>
-    
-    
+
+
             <div fxflexfill fxlayoutgap="10px grid" class="row full" [formGroup]="formGroup">
                 <ng-container *ngFor="let config of _visibleControls">
                     <ng-container *ngIf="config?.type === 'fieldset'">
-                        <div class="field-wrapper" [style.max-width.%]="config.cssWidth" [style.flex.%]="config.cssWidth" style="margin: 4px;">
+                        <div class="field-wrapper" [style.max-width.%]="config.cssWidth"
+                            [style.flex.%]="config.cssWidth" style="margin: 4px;">
                             <mat-accordion>
                                 <mat-expansion-panel class="crud_expansion_panel" [expanded]="true">
                                     <mat-expansion-panel-header [collapsedHeight]="'40px'" [expandedHeight]="'40px'">
@@ -33,8 +29,13 @@
                                         </mat-panel-title>
                                     </mat-expansion-panel-header>
                                     <ng-container *ngFor="let config2 of config?.control?.fields">
-                                        <div *ngIf="config2?.isEditable" style="width:47%;display:inline-block; box-sizing: border-box;" [style.width.%]="config2.cssWidth">
-                                            <ng-crud-form-field class="FormCell"  [style.flex.%]="config.cssWidth" [reset]="submit" [formGroup]="formGroup" [mode]="mode" [config]="config2" (elementDeleted)="elementDeleted($event)"></ng-crud-form-field>
+                                        <div *ngIf="config2?.isEditable"
+                                            style="width:47%;display:inline-block; box-sizing: border-box;"
+                                            [style.width.%]="config2.cssWidth">
+                                            <ng-crud-form-field class="FormCell" [style.flex.%]="config.cssWidth"
+                                                [reset]="submit" [formGroup]="formGroup" [mode]="mode"
+                                                [config]="config2" (elementDeleted)="elementDeleted($event)">
+                                            </ng-crud-form-field>
                                         </div>
                                     </ng-container>
                                 </mat-expansion-panel>
@@ -43,11 +44,13 @@
                     </ng-container>
                     <ng-container *ngIf="config.type !== 'fieldset' && config.type !== 'formset' && config.isEditable">
                         <div *ngIf="mode==='edit' || mode==='create';else search" class="crud_edit_fields">
-                            <ng-crud-form-field class="FormCell" [mode]="mode" [reset]="submit" [formGroup]="formGroup" [config]="config" (elementDeleted)="elementDeleted($event)">
+                            <ng-crud-form-field class="FormCell" [mode]="mode" [reset]="submit" [formGroup]="formGroup"
+                                [config]="config" (elementDeleted)="elementDeleted($event)">
                             </ng-crud-form-field>
                         </div>
                         <ng-template #search>
-                            <ng-crud-form-field class="FormCell" [mode]="mode" [reset]="submit" [formGroup]="formGroup" [config]="config" (elementDeleted)="elementDeleted($event)">
+                            <ng-crud-form-field class="FormCell" [mode]="mode" [reset]="submit" [formGroup]="formGroup"
+                                [config]="config" (elementDeleted)="elementDeleted($event)">
                             </ng-crud-form-field>
                         </ng-template>
                     </ng-container>
@@ -61,7 +64,8 @@
                                 </mat-expansion-panel-header>
                                 <ng-container *ngFor="let config of formsets; let i=index">
                                     <div class="formset_container">
-                                        <ng-crud-formset [config]="config" [mode]="mode" [formGroup]="formGroup"></ng-crud-formset>
+                                        <ng-crud-formset [config]="config" [mode]="mode" [formGroup]="formGroup">
+                                        </ng-crud-formset>
                                     </div>
                                 </ng-container>
                             </mat-expansion-panel>
@@ -69,26 +73,33 @@
                     </ng-container>
                 </ng-container>
             </div>
-    
+
             <div class="row actions">
                 <ng-container *ngIf="mode==='edit' || mode==='create';else search">
-                    <button mat-raised-button id="saveAndEdit-btn" class="submit-button saveAndEdit" [disabled]="disabled" (click)="_onSubmit('saveAndEdit')">
+                    <button mat-raised-button id="saveAndEdit-btn" class="submit-button saveAndEdit"
+                        [disabled]="disabled" (click)="_onSubmit('saveAndEdit')">
                         Save and Edit
                     </button>
-                    <button mat-raised-button id="saveAndAdd-btn" class="submit-button saveAndAdd" [disabled]="disabled" (click)="_onSubmit('saveAndAdd')">
+                    <button mat-raised-button id="saveAndAdd-btn" class="submit-button saveAndAdd" [disabled]="disabled"
+                        (click)="_onSubmit('saveAndAdd')">
                         Save and Add
                     </button>
-                    <button mat-raised-button id="save-btn" class="submit-button save" [disabled]="disabled" (click)="_onSubmit('save')">
+                    <button mat-raised-button id="save-btn" class="submit-button save" [disabled]="disabled"
+                        (click)="_onSubmit('save')">
                         Save
                     </button>
                 </ng-container>
                 <ng-template #search>
-                    <button mat-raised-button class="submit-button" (click)="_onSubmit()">
-                        Search
-                    </button>
+                    <div class="search-actions">
+                        <button mat-raised-button class="submit-button" (click)="_onSubmit()">
+                            Search
+                        </button>
+                        <a mat-button (click)="_onReset()" class="reset_btn">
+                            Reset
+                        </a>
+                    </div>
                 </ng-template>
             </div>
         </ng-template>
     </div>
 </ng-template>
-

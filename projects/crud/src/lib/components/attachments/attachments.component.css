@@ -8,6 +8,9 @@
     cursor: pointer;
     margin-left: 10px;
 }
+.delete_btn{
+    width: 15px;
+}
 .download_icon{
     cursor: pointer;
     margin-left: 10px; 
