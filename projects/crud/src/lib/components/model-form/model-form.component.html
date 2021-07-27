@@ -8,7 +8,7 @@
             <ng-error-handling></ng-error-handling>
             <div class="header_btn_container" *ngIf="viewConfig?.metadata?.formActions && mode==='edit'">
                 <span class="header_btns">
-                    <button mat-button class="header_btn" *ngFor="let link of viewConfig?.metadata?.formActions"
+                    <button mat-button class="header_btn" id="{{link.name}}-btn" *ngFor="let link of viewConfig?.metadata?.formActions"
                         (click)="onAction(link)">
                         {{link.name}}
                     </button>

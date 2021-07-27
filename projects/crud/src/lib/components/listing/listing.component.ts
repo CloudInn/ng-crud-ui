@@ -59,9 +59,10 @@ export class ListingComponent implements OnInit, AfterViewInit {
             component.instance.viewConfig = this.viewConfig.search.view;
             component.instance.submit.subscribe(ev => {
                 if (ev.reset) {
+                    this.isLoading=true;
                     this.searchParams = new HttpParams();
                     this.searchParams = this.searchParams.set('page', String(1));
-                    this.populateParams(this.viewConfig.metadata.default_filters);
+                    this.populateParams();
                 } else {
                     this.searchClicked(ev);
                 }
@@ -154,7 +155,7 @@ export class ListingComponent implements OnInit, AfterViewInit {
         this.populateParams(this.viewConfig.metadata.default_filters);
     }
 
-    populateParams(defaultFilter) {
+    populateParams(defaultFilter?) {
         if (this.viewConfig.metadata.includeParams) {
             this.viewConfig.metadata.queryParams.forEach((field) => {
                 this.searchParams = this.searchParams.append('include[]', field);

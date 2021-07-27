@@ -61,7 +61,6 @@ export class ScreenWrapperComponent implements OnInit {
         }
         const factory = this.resolver.resolveComponentFactory<any>(this.screen.component);
         const componentRef = this.container.createComponent(factory);
-        this.title.setTitle(this.screen.title);
         componentRef.instance.viewConfig = this.screen;
         Object.keys(this.route.snapshot.params).forEach(k => {
           componentRef.instance[k] = this.route.snapshot.params[k];
