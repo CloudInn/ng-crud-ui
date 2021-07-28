@@ -35,16 +35,6 @@ export class FormFieldComponent implements OnChanges, OnInit {
             this.formGroup.get(this.config.touching.field).setValue(this.config.touching.change_value);
           }
         }
-        if (this.config.type === 'date') {
-          const today_time = new Date().getHours();
-          if (this.formGroup.get([this.config.name]).value !== null) {
-            const date = new Date(this.formGroup.get([this.config.name]).value);
-            date.setHours(today_time);
-            const date_string = date.toISOString();
-            this.formGroup.get([this.config.name]).setValue(
-              date_string.slice(0, date_string.indexOf('T')));
-          }
-        }
       });
     }
   }

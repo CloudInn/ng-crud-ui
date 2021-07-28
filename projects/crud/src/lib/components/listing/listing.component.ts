@@ -59,7 +59,7 @@ export class ListingComponent implements OnInit, AfterViewInit {
             component.instance.viewConfig = this.viewConfig.search.view;
             component.instance.submit.subscribe(ev => {
                 if (ev.reset) {
-                    this.isLoading=true;
+                    this.isLoading = true;
                     this.searchParams = new HttpParams();
                     this.searchParams = this.searchParams.set('page', String(1));
                     this.populateParams();
@@ -195,6 +195,12 @@ export class ListingComponent implements OnInit, AfterViewInit {
                 'color': 'grey'
             }
         });
+    }
+
+    getColId(id: string): string {
+        if (id) {
+            return id.replace(/[&\/\\#,+()$~%.'":*?<>{}/ /]/g, '');
+        }
     }
 
     fetch() {

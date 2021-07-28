@@ -117,7 +117,7 @@ export class ModelFormComponent implements OnInit {
                 this.openIframe(link);
                 break;
             case 'request':
-                this.api.post(link.api + this.id + '/' + link.params, link.body).subscribe(res => {
+                this.api[link.type](link.api + this.id + '/' + link.params, link.body).subscribe(res => {
                     this._snackBar.open(res['message'], '', {
                         duration: 2000,
                         panelClass: 'success'
@@ -204,9 +204,11 @@ export class ModelFormComponent implements OnInit {
                     if (ctrl.type === 'fieldset') {
                         ctrl.control['fields'].forEach(f => {
                             this.checkForirgnKey(f);
+                            this.modifyDateFields(f);
                         });
                     } else {
                         this.checkForirgnKey(ctrl);
+                        this.modifyDateFields(ctrl);
                     }
                 });
                 this.api.put(`${this.viewConfig.metadata.api}${this.id}/`, this.formGroup.value).subscribe(res => {
@@ -219,24 +221,26 @@ export class ModelFormComponent implements OnInit {
                 });
             } else {
                 this.initialLoading = false;
-                this.viewConfig.controls.map(ctrl => {
-                    if (ctrl.type === 'date') {
-                        const today_time = new Date().getHours();
-                        if (this.formGroup.get([ctrl.name]).value !== null) {
-                            const date = new Date(this.formGroup.get([ctrl.name]).value);
-                            date.setHours(today_time);
-                            const date_string = date.toISOString();
-                            this.formGroup.get([ctrl.name]).setValue(
-                                date_string.slice(0, date_string.indexOf('T')));
-                        }
-                    }
-                });
                 const contains_ctrl = this.viewConfig.controls.filter(ctrl => ctrl.iContains);
                 this.submit.emit({ ...this.formGroup.value, iContains: contains_ctrl });
             }
         } else {
             this.initialLoading = false;
             this.getFormErrors();
+        }
+    }
+
+    modifyDateFields(ctrl) {
+        if (ctrl.type === 'date') {
+            const today_time = new Date().getHours();
+            if (this.formGroup.get([ctrl.name]).value !== null) {
+                const date = new Date(this.formGroup.get([ctrl.name]).value);
+                date.setHours(today_time);
+                const date_string = date.toISOString();
+                this.formGroup.get([ctrl.name]).patchValue(
+                    date_string.slice(0, date_string.indexOf('T')));
+                this.formGroup.updateValueAndValidity();
+            }
         }
     }
 

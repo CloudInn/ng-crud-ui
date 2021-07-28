@@ -36,18 +36,20 @@ export class ApiService {
         });
         if (fieldName && fieldName === 'attachments') {
             const attachments = this.attachmentsService.attachmentsFormData;
-            if (attachments !== undefined) {
-              const responses = [];
-              attachments.forEach(file => {
-                const formData: FormData = new FormData();
-                formData.append('file', file, file.name);
-                responses.push(this.http.post(
-                  api,
-                  formData, { withCredentials: true }).pipe(
-                    catchError(error => throwError(error))
-                  ));
-              });
-              return forkJoin(responses);
+            if (attachments && attachments.length > 0) {
+                const responses = [];
+                attachments.forEach(file => {
+                    const formData: FormData = new FormData();
+                    formData.append('file', file, file.name);
+                    responses.push(this.http.post(
+                        api,
+                        formData, { withCredentials: true }).pipe(
+                            catchError(error => throwError(error))
+                        ));
+                });
+                return forkJoin(responses);
+            } else {
+                return of(null)
             }
         } else {
             return this.http.post(api, body, { params: opts });
