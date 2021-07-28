@@ -337,5 +337,9 @@ export class ModelFormComponent implements OnInit {
             panelClass: type === 'success' ? ['success-bar'] : ['others-bar']
         });
     }
-
+    getStyles(link) {
+        if (link.style) {
+            return JSON.parse(link.style);
+        }
+    }
 }
