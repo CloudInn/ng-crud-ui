@@ -189,6 +189,7 @@ export class ModelFormComponent implements OnInit {
         this.initialLoading = true;
         if (this.formGroup.valid) {
             this.disabled = true;
+            this.changeFieldsBeforeSending();
             this.removeEmptyFormsets();
             if (this.mode === 'create') {
                 this.api.post(this.viewConfig.metadata.api, this.formGroup.value).subscribe(res => {
@@ -196,21 +197,11 @@ export class ModelFormComponent implements OnInit {
                     this.id = res[this.viewConfig.metadata.search_key].id;
                     this.handlePostSubmit(action_type, res);
                 }, (error) => {
+                    this.initialLoading = false;
                     this.disabled = false;
                     this.openSnackBar('Please review your data and try again!', 'error');
                 });
             } else if (this.mode === 'edit') {
-                this.controlsConfig.forEach(ctrl => {
-                    if (ctrl.type === 'fieldset') {
-                        ctrl.control['fields'].forEach(f => {
-                            this.checkForirgnKey(f);
-                            this.modifyDateFields(f);
-                        });
-                    } else {
-                        this.checkForirgnKey(ctrl);
-                        this.modifyDateFields(ctrl);
-                    }
-                });
                 this.api.put(`${this.viewConfig.metadata.api}${this.id}/`, this.formGroup.value).subscribe(res => {
                     this.handlePostSubmit(action_type, res);
                     this.disabled = false;
@@ -228,6 +219,20 @@ export class ModelFormComponent implements OnInit {
             this.initialLoading = false;
             this.getFormErrors();
         }
+    }
+
+    changeFieldsBeforeSending() {
+        this.controlsConfig.forEach(ctrl => {
+            if (ctrl.type === 'fieldset') {
+                ctrl.control['fields'].forEach(f => {
+                    this.checkForirgnKey(f);
+                    this.modifyDateFields(f);
+                });
+            } else {
+                this.checkForirgnKey(ctrl);
+                this.modifyDateFields(ctrl);
+            }
+        });
     }
 
     modifyDateFields(ctrl) {
@@ -309,7 +314,9 @@ export class ModelFormComponent implements OnInit {
 
     updateForiegnKeyField(element) {
         if (this.formGroup.get(element.name) !== null &&
-            this.formGroup.get(element.name).value !== null && typeof (this.formGroup.get(element.name).value) !== 'string') {
+            this.formGroup.get(element.name).value !== null &&
+            typeof (this.formGroup.get(element.name).value) !== 'string'
+            && typeof (this.formGroup.get(element.name).value) !== 'number') {
             this.formGroup.get(element.name).patchValue(this.formGroup.get(element.name).value[element.resolveValueFrom]);
             this.formGroup.updateValueAndValidity();
         }

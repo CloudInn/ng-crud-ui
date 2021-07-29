@@ -40,15 +40,16 @@
                 <td class="file-name" id="{{ 'file-' + i }}">
                     {{!isUploaded(file)?file.name+'.'+file.extension:file.name}}
                 </td>
-                <td>
-                    <button mat-icon-button class="delete_btn" (click)="deleteFile(file,i)">
-                  <mat-icon class="delete_icon" id="{{'delete-btn-' + i}}">delete</mat-icon>
-                </button>
-                </td>
                 <td *ngIf="isUploaded(file)">
-                    <a mat-button [href]="file.file" download="file.name" target="_blank" rel="noopener noreferrer">
-                        <mat-icon class="download_icon" id="{{'download-btn-' + i}}">cloud_download</mat-icon>
+                    <a mat-icon-button class="icon_btn" [href]="file.file" download="file.name" target="_blank"
+                        rel="noopener noreferrer">
+                        <mat-icon class="download_icon" id="{{'download-btn-' + i}}">file_download</mat-icon>
                     </a>
+                </td>
+                <td>
+                    <button mat-icon-button class="icon_btn delete_btn" (click)="deleteFile(file,i)">
+                        <mat-icon class="delete_icon" id="{{'delete-btn-' + i}}">delete_outline</mat-icon>
+                    </button>
                 </td>
             </tr>
         </tbody>
