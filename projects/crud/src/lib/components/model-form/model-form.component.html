@@ -8,11 +8,13 @@
             <ng-error-handling></ng-error-handling>
             <div class="header_btn_container" *ngIf="viewConfig?.metadata?.formActions && mode==='edit'">
                 <span class="header_btns">
-                    <button mat-button class="header_btn" [ngStyle]="getStyles(link)" id="{{link.name}}-btn" *ngFor="let link of viewConfig?.metadata?.formActions"
-                        (click)="onAction(link)">
-                        <mat-icon *ngIf="link.icon">{{link.icon}}</mat-icon>
-                        {{link.name}}
-                    </button>
+                    <ng-container *ngFor="let link of viewConfig?.metadata?.formActions">
+                        <button *ngIf="link?.isShow" mat-button class="header_btn" [ngStyle]="getStyles(link)" id="{{link.name}}-btn"
+                            (click)="onAction(link)">
+                            <mat-icon *ngIf="link.icon">{{link.icon}}</mat-icon>
+                            {{link.name}}
+                        </button>
+                    </ng-container>
                 </span>
             </div>
 
