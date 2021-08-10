@@ -44,10 +44,12 @@ export class FormFieldComponent implements OnChanges, OnInit {
   }
 
   ngOnInit() {
-    if (this.config.defaultValue || this.config.defaultValue == 0) {
-      this.formGroup.patchValue({
-        [this.config.name]: this.config.defaultValue
-      });
+    if (this.mode !== 'edit') {
+      if (this.config.defaultValue || this.config.defaultValue == 0) {
+        this.formGroup.patchValue({
+          [this.config.name]: this.config.defaultValue
+        });
+      }
     }
     if (this.config.hasErrorWhen) {
       this.formGroup.get(this.config.hasErrorWhen.field_name).valueChanges.subscribe(() => {

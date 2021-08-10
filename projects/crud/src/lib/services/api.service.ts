@@ -13,7 +13,16 @@ export class ApiService {
     constructor(private http: HttpClient, private attachmentsService: AttachmentsService) { }
 
     public fetch(api: string, params?: HttpParams): Observable<any> {
-        return this.http.get(api, { params: params });
+        return this.http.get(api, {
+            params: params
+        });
+    }
+
+    public download(api: string, params?: HttpParams) {
+        return this.http.get(api, {
+            params: params,
+            responseType: 'blob'
+        });
     }
 
     public put(api: string, body, params = {}): Observable<any> {

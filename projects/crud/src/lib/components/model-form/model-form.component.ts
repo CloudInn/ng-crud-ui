@@ -32,6 +32,8 @@ export class ModelFormComponent implements OnInit {
     _visibleControls: FieldConfig[] = [];
     disabled = false;
     initialLoading = false;
+    fileUrl;
+    fileName;
 
     constructor(
         private api: ApiService,
@@ -65,7 +67,7 @@ export class ModelFormComponent implements OnInit {
     editForm(id, state?) {
         const params = this.populateParams();
         this.api.fetch(this.viewConfig.metadata.api + id, params).subscribe(data => {
-            let data_modified = data;
+            let data_modified = { ...data };
             this.initialLoading = false;
             if (this.viewConfig.metadata.search_key) {
                 data_modified = data[this.viewConfig.metadata.search_key];
@@ -74,6 +76,8 @@ export class ModelFormComponent implements OnInit {
             if (!state) {
                 this.openSnackBar(`Your ${this.viewConfig.metadata.label} is created successfully`, 'success');
             }
+        }, err => {
+            this.displayError(err.error);
         });
     }
     populateParams() {
@@ -111,19 +115,29 @@ export class ModelFormComponent implements OnInit {
             this.formGroup.updateValueAndValidity();
         }
     }
+
     onAction(link) {
         switch (link.action) {
             case 'iframe':
                 this.openIframe(link);
                 break;
             case 'request':
+                this.fileName = `Profile${this.id}.${link.fileType}`;
                 this.api[link.type](link.api + this.id + '/' + link.params, link.body).subscribe(res => {
-                    this._snackBar.open(res['message'], '', {
-                        duration: 2000,
-                        panelClass: 'success'
-                    });
-                    const url = this.router.url;
-                    this.router.navigate([url.substr(0, url.indexOf(this.id))]);
+                    if (link.type === 'download') {
+                        var downloadURL = window.URL.createObjectURL(res);
+                        var a = document.createElement('a');
+                        a.href = downloadURL;
+                        a.download = `${this.id}.${link.fileType}`;
+                        a.click();
+                    } else {
+                        this._snackBar.open(res['message'], '', {
+                            duration: 2000,
+                            panelClass: 'success'
+                        });
+                        const url = this.router.url;
+                        this.router.navigate([url.substr(0, url.indexOf(this.id))]);
+                    }
                 }, err => {
                     this._snackBar.open(err.error.error, '', {
                         duration: 2000,
@@ -199,7 +213,7 @@ export class ModelFormComponent implements OnInit {
                 }, (error) => {
                     this.initialLoading = false;
                     this.disabled = false;
-                    this.openSnackBar('Please review your data and try again!', 'error');
+                    this.displayError(error.error);
                 });
             } else if (this.mode === 'edit') {
                 this.api.put(`${this.viewConfig.metadata.api}${this.id}/`, this.formGroup.value).subscribe(res => {
@@ -208,7 +222,7 @@ export class ModelFormComponent implements OnInit {
                 }, (error) => {
                     this.initialLoading = false;
                     this.disabled = false;
-                    this.openSnackBar('Please review your data and try again!', 'error');
+                    this.displayError(error.error);
                 });
             } else {
                 this.initialLoading = false;
@@ -285,16 +299,29 @@ export class ModelFormComponent implements OnInit {
                             this.performAction(options.action_type);
                         }
                     }, err => {
-                        this.openSnackBar(`${err.error.non_field_errors[0]}`, 'error');
+                        this.initialLoading = false;
+                        this.displayError(err.error);
                         this.editForm(id);
                     });
             } else if (action.type === 'DELETE' && options.elemId) {
                 this.initialLoading = true;
                 this.api.delete(`${this.viewConfig.metadata.api}${id}${action.apiUrl}`, options.elemId).subscribe(res => {
                     this.editForm(id);
+                }, err => {
+                    this.displayError(err.error);
+                    this.initialLoading = false
                 });
             }
         });
+    }
+
+    displayError(error) {
+        console.log(error)
+        if (error) {
+            this.openSnackBar(`${error.non_field_errors[0]}`, 'error');
+        } else {
+            this.openSnackBar('Please review your data and try again!', 'error');
+        }
     }
 
     checkForPostSubmit() {
@@ -340,7 +367,7 @@ export class ModelFormComponent implements OnInit {
 
     openSnackBar(message: string, type: string) {
         this._snackBar.open(message, '', {
-            duration: 3000,
+            duration: 5000,
             panelClass: type === 'success' ? ['success-bar'] : ['others-bar']
         });
     }
