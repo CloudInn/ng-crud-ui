@@ -172,6 +172,7 @@ export class ForeignKeyFieldComponent implements OnChanges, OnInit {
       if (result && result.value) {
         this.availableOptions = of(result.dataSource);
         this._underlyingCtrl.setValue(result.value);
+        this.selectOption(result.value);
       }
     });
   }
