@@ -11,6 +11,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { SelectionModel } from '@angular/cdk/collections';
 import { IframeModalComponent } from '../iframe-modal/iframe-modal.component';
+import { CustomEncoder } from '../../custom-encode';
 
 @Component({
     selector: 'ng-crud-listing',
@@ -28,7 +29,7 @@ export class ListingComponent implements OnInit, AfterViewInit {
     is_actions_set = false;
     @Input() forcedSearchParams: any;
     dataSource = new MatTableDataSource();
-    searchParams = new HttpParams();
+    searchParams = new HttpParams({ encoder: new CustomEncoder() });
     columns = [];
     displayColumns: string[] = [];
     selectedRows = [];
