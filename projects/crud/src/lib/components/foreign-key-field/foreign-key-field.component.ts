@@ -44,18 +44,18 @@ export class ForeignKeyFieldComponent implements OnChanges, OnInit {
       });
     }
     this.controlConfig = this.config.control as ForeignKeyControlConfig;
-    if (this.formGroup.get(this.config.name)) {
+    if (this.formGroup.get([this.config.name])) {
       const ctrl = this.formGroup.get([this.config.name]) as FormControl;
       if (ctrl.value !== null) {
         this._setControlValue(ctrl.value);
         this._underlyingCtrl.setValue(ctrl.value);
       }
       this.formGroup.valueChanges.subscribe(() => {
-        if (this.formGroup.get(this.config.name).touched) {
+        if (this.formGroup.get([this.config.name]).touched) {
           this._underlyingCtrl.markAsTouched();
         }
       });
-      this._underlyingCtrl.setErrors(this.formGroup.get(this.config.name).errors);
+      this._underlyingCtrl.setErrors(this.formGroup.get([this.config.name]).errors);
       this._underlyingCtrl.valueChanges.subscribe(value => {
         if ((typeof value) === 'string') {
           this._filter(value).subscribe(res => {
