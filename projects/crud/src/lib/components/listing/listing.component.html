@@ -92,19 +92,34 @@
                     <ng-container *ngIf="viewConfig?.external_link?.link;else normal">
                         <a class="clickable" [routerLink]="'hms/'+this.viewConfig.external_link.link+row?.id"
                             *ngIf="(mode !== 'pick' && column.clickable); else normalCell">
-                            {{ column.cell(row)}}
+                            <ng-container *ngIf="(isString(column.cell(row)) && column?.isTranslated); else otherTypes">
+                                {{ column.cell(row) | translate }}
+                            </ng-container>
+                            <ng-template #otherTypes>
+                                {{ column.cell(row) }}
+                            </ng-template>
                         </a>
                     </ng-container>
                     <ng-template #normal>
                         <a class="clickable" [routerLink]="row?.id"
                             *ngIf="(mode !== 'pick' && column.clickable); else normalCell">
-                            {{ column.cell(row)}}
+                            <ng-container *ngIf="(isString(column.cell(row)) && column?.isTranslated); else otherTypes">
+                                {{ column.cell(row) | translate }}
+                            </ng-container>
+                            <ng-template #otherTypes>
+                                {{ column.cell(row) }}
+                            </ng-template>
                         </a>
                     </ng-template>
 
                     <ng-template #normalCell>
                         <ng-container *ngIf="column.cell(row)!=='boolean'">
-                            {{ column.cell(row)?column.cell(row):''}}
+                            <ng-container *ngIf="(isString(column.cell(row)) && column?.isTranslated); else otherTypes">
+                                {{ column.cell(row)| translate }}
+                            </ng-container>
+                            <ng-template #otherTypes>
+                                {{ column.cell(row) ? column.cell(row): ''}}
+                            </ng-template>
                         </ng-container>
                         <ng-container *ngIf="column.cell(row)==='boolean'">
                             <mat-icon class="checkmark_icon">checkmark</mat-icon>

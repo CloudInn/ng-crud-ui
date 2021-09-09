@@ -70,6 +70,7 @@ export class FieldConfig {
     maxlength?: string;
     equalsTo?: string;
     postSubmitHookActions?: PostSubmitAction[];
+    translate?: boolean;
 }
 
 export interface PostSubmitAction {

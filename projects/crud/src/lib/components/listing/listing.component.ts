@@ -81,6 +81,7 @@ export class ListingComponent implements OnInit, AfterViewInit {
                 col['columnDef'] = this.generateCode(f.name);
                 col['header'] = f.label;
                 col['type'] = f.type;
+                col['isTranslated'] = f.translate;
                 col['cell'] = (element: Element) => {
                     if (element[field] === null || element[field] === undefined) {
                         element[field] = '';
@@ -340,5 +341,9 @@ export class ListingComponent implements OnInit, AfterViewInit {
                 this.fetch();
             });
         }
+    }
+
+    isString(val: any): boolean {
+        return typeof (val) === 'string';
     }
 }
