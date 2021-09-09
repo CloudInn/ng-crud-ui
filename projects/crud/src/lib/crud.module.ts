@@ -50,6 +50,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatTabsModule } from '@angular/material/tabs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AttachmentsComponent } from './components/attachments/attachments.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -88,6 +89,7 @@ import { AttachmentsComponent } from './components/attachments/attachments.compo
     MatExpansionModule,
     AmazingTimePickerModule,
     MatAutocompleteModule,
+    TranslateModule.forRoot(),
   ],
   declarations: [
     FormFieldComponent,

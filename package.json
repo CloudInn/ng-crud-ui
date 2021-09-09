@@ -25,6 +25,7 @@
         "@angular/platform-browser-dynamic": "^11.0.4",
         "@angular/router": "^11.0.4",
         "@nguniversal/express-engine": "^11.0.1",
+        "@ngx-translate/core": "^13.0.0",
         "@rollup/plugin-commonjs": "^17.0.0",
         "@rollup/plugin-json": "^4.1.0",
         "@rollup/plugin-node-resolve": "^11.0.0",
