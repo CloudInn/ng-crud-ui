@@ -24,8 +24,14 @@
         <span> {{viewConfig.title}}</span>
         <mat-icon class="cancel_icon" (click)="cancel()">cancel</mat-icon>
     </h2>
-
-    <ng-template [ngIf]="viewConfig.search.enabled">
+    <ng-container *ngIf="viewConfig?.dialog_settings?.add_new_btn">
+        <div class="dilaog-btns-container" [ngStyle]="{'display': (initialLoading) ? 'none':'block'}">
+            <a id="dialog-add-new-btn" mat-button color="primary" (click)="openCreationPopUp()">
+                Add New
+            </a>
+        </div>
+    </ng-container>
+    <ng-template [ngIf]="viewConfig?.search?.enabled">
         <mat-expansion-panel [ngStyle]="{'display': (initialLoading)?'none':'block'}" [expanded]="true"
             class="crud-search">
             <mat-expansion-panel-header [collapsedHeight]="'40px'" [expandedHeight]="'40px'">
@@ -87,10 +93,11 @@
             <ng-template [ngIf]="column.columnDef !== 'checked' &&
              column.columnDef !== 'actions' &&
               column.Def !== 'functions'">
-                <mat-header-cell id="{{getColId(column.header)}}" *matHeaderCellDef>{{ column.header }}</mat-header-cell>
+                <mat-header-cell id="{{getColId(column.header)}}" *matHeaderCellDef>{{ column.header }}
+                </mat-header-cell>
                 <mat-cell id="{{'cell-'+i}}" *matCellDef="let row">
                     <ng-container *ngIf="viewConfig?.external_link?.link;else normal">
-                        <a class="clickable" (click) ="redirect(row?.id)"
+                        <a class="clickable" (click)="redirect(row?.id)"
                             *ngIf="(mode !== 'pick' && column.clickable); else normalCell">
                             <ng-container *ngIf="(isString(column.cell(row)) && column?.isTranslated); else otherTypes">
                                 {{ column.cell(row) | translate }}
@@ -128,7 +135,8 @@
                 </mat-cell>
             </ng-template>
             <ng-template [ngIf]="column.columnDef === 'edit'">
-                <mat-header-cell id="{{getColId(column.header)}}" *matHeaderCellDef>{{ column.header }}</mat-header-cell>
+                <mat-header-cell id="{{getColId(column.header)}}" *matHeaderCellDef>{{ column.header }}
+                </mat-header-cell>
                 <mat-cell id="edit-cell" *matCellDef="let row">
                     <a class="clickable" [routerLink]="row?.id">
                         <mat-icon>edit</mat-icon>
@@ -136,7 +144,8 @@
                 </mat-cell>
             </ng-template>
             <ng-template [ngIf]="column.columnDef === 'delete'">
-                <mat-header-cell id="{{getColId(column.header)}}" *matHeaderCellDef>{{ column.header }}</mat-header-cell>
+                <mat-header-cell id="{{getColId(column.header)}}" *matHeaderCellDef>{{ column.header }}
+                </mat-header-cell>
                 <mat-cell id="delete-cell" *matCellDef="let row">
                     <a class="clickable" (click)="deleteRow(row?.id)">
                         <mat-icon>delete</mat-icon>
@@ -144,7 +153,8 @@
                 </mat-cell>
             </ng-template>
             <ng-template [ngIf]="column.columnDef === 'actions'">
-                <mat-header-cell id="{{getColId(column.header)}}" *matHeaderCellDef>{{ column.header }}</mat-header-cell>
+                <mat-header-cell id="{{getColId(column.header)}}" *matHeaderCellDef>{{ column.header }}
+                </mat-header-cell>
                 <mat-cell *matCellDef="let row">
                 </mat-cell>
             </ng-template>

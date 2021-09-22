@@ -53,7 +53,15 @@
     background-color: #5AB857;
     margin-top: 24px;
 }
-
+#dialog-add-new-btn {
+    background-color: #5AB857;
+    color: #fff;
+    margin-bottom: 20px;
+    width: 119px;
+}
+.dilaog-btns-container {
+    text-align: end;
+}
 .crud-new-btn:hover {
     background-color: #84C273;
 }

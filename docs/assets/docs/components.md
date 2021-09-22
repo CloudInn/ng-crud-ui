@@ -75,10 +75,14 @@ export interface ListViewer extends ViewConfig {
     search?: {
         enabled: boolean,
         view: FormViewer
+        creationView?: FormView;
     };
     pagination: {
         enabled: boolean,
         pageSize?: number,
+    };
+    dialog_settings?: {
+        add_new_btn?: boolean;
     };
 }
 ```
@@ -96,12 +100,15 @@ export class ListingView implements ListViewer {
     search = {
         enabled: true,
         view: new FormView(this.metadata),
+        creationView: new FormView(this.metadata);
     };
     pagination = {
         enabled: true,
         pageSize: 20,
     };
-
+    dialog_settings: {
+        add_new_btn: true;
+    };
     constructor(public metadata: Metadata) { }
 }
 ```
@@ -127,6 +134,18 @@ the pick mode is used within NgCrudUi for ForeignKey popup dialogs.
 
 - picked: an EventEmitter that returns the id of the picked record from the listing
 
+<b>to open the creation form in a dialog, in case of listing component is opened in a dialog</b>
+all we need to do is : 
+-  add the key `add_new_btn` with true value
+```
+   dialog_settings: {
+        add_new_btn?: true;
+    };
+```
+-    while registering the screen, just add the key `creationView` and pass to it the formView you'd like for it to be rendered
+```
+        creationView: new FormView(this.metadata);
+```
 
 ModelForm Component
 --------

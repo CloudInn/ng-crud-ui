@@ -32,7 +32,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
@@ -51,6 +51,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AttachmentsComponent } from './components/attachments/attachments.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { SearchDialogComponent } from './containers/search-dialog/search-dialog.component';
 
 @NgModule({
   imports: [
@@ -107,10 +108,15 @@ import { TranslateModule } from '@ngx-translate/core';
     ErrorHandlingComponent,
     IframeModalComponent,
     TimePickerComponent,
-    AttachmentsComponent
+    AttachmentsComponent,
+    SearchDialogComponent
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: CookieInterceptor, multi: true },
+    {
+      provide: MatDialogRef,
+      useValue: {}
+    },
   ],
   exports: [
     HttpClientModule,

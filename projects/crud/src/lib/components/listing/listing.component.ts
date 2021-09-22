@@ -12,6 +12,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { SelectionModel } from '@angular/cdk/collections';
 import { IframeModalComponent } from '../iframe-modal/iframe-modal.component';
 import { CustomEncoder } from '../../custom-encode';
+import { SearchDialogComponent } from '../../containers/search-dialog/search-dialog.component';
 
 @Component({
     selector: 'ng-crud-listing',
@@ -346,5 +347,23 @@ export class ListingComponent implements OnInit, AfterViewInit {
 
     isString(val: any): boolean {
         return typeof (val) === 'string';
+    }
+    openCreationPopUp(): void {
+        const ref = this.dialog.open(SearchDialogComponent, {
+            width: '90%',
+            height: '95%',
+            data: {
+                viewConfig: this.viewConfig,
+            },
+            disableClose: false
+        }).afterClosed().subscribe(response => {
+            if (response) {
+                this.viewConfig.metadata.rows.next({
+                    'value': response,
+                    'dataSource': this.dataSource.data,
+                });
+                this.dialog.closeAll();
+            }
+        });
     }
 }

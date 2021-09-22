@@ -7,9 +7,10 @@ import { FieldConfig, FieldSetControlConfig } from '../../models/metadata';
 import { FormViewer } from '../../models/views';
 import { HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { IframeModalComponent } from '../../components/iframe-modal/iframe-modal.component';
+import { SearchDialogComponent } from '../../containers/search-dialog/search-dialog.component';
 
 @Component({
     selector: 'ng-crud-model-form',
@@ -34,17 +35,20 @@ export class ModelFormComponent implements OnInit {
     initialLoading = false;
     fileUrl;
     fileName;
-
+    openedInaialog: boolean;
+    response: any;
     constructor(
         private api: ApiService,
         private formService: FormService,
         private _snackBar: MatSnackBar,
         private dialog: MatDialog,
-        private router: Router
+        private router: Router,
+        private creationDialogRef: MatDialogRef<SearchDialogComponent>,
     ) {
 
     }
     ngOnInit() {
+        this.openedInaialog = this.viewConfig?.metadata?.isDialog;
         this.controlsConfig = this.viewConfig.controls;
         this._visibleControls = this.controlsConfig.filter(c => c.isHidden !== true);
         this.formGroup = this.formService.create(this.controlsConfig, this.mode);
@@ -181,8 +185,11 @@ export class ModelFormComponent implements OnInit {
     }
     save() {
         this.is_ready = false;
-        const url = this.router.url;
-        this.router.navigate([url.substr(0, url.indexOf(this.id))]);
+        if (!this.openedInaialog) {
+            const url = this.router.url;
+            this.router.navigate([url.substr(0, url.indexOf(this.id))]);
+        }
+
     }
 
     isEmptyObject(obj) {
@@ -205,10 +212,11 @@ export class ModelFormComponent implements OnInit {
             this.disabled = true;
             this.changeFieldsBeforeSending();
             this.removeEmptyFormsets();
-            if (this.mode === 'create') {
+            if (this.mode === 'create' || this.openedInaialog) {
                 this.api.post(this.viewConfig.metadata.api, this.formGroup.value).subscribe(res => {
                     this.disabled = false;
                     this.id = res[this.viewConfig.metadata.search_key].id;
+                    this.response = res[this.viewConfig.metadata.search_key];
                     this.handlePostSubmit(action_type, res);
                 }, (error) => {
                     this.initialLoading = false;
@@ -278,6 +286,9 @@ export class ModelFormComponent implements OnInit {
             });
         } else {
             this.performAction(action_type);
+        }
+        if (this.openedInaialog) {
+            this.creationDialogRef.close(this.response);
         }
     }
 

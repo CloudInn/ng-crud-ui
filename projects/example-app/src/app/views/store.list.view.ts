@@ -17,6 +17,7 @@ export class StoreListView extends ListingView {
         enabled: true,
         view: new FormView(this.metadata),
         search_key: this.viewSettings.search_settings.search_key,
-        mode: this.viewSettings.search_settings.mode
+        mode: this.viewSettings.search_settings.mode,
+        creationView: this.viewSettings.search_settings.creationView
     };
 }

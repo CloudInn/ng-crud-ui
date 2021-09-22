@@ -97,4 +97,5 @@ export interface Metadata {
     formActions: FormActions[];
     bulkActions?: any[];
     externalViews?: any[];
+    isDialog?: boolean;
 }

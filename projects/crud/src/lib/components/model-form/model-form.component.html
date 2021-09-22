@@ -78,16 +78,19 @@
             </div>
 
             <div class="row actions">
-                <ng-container *ngIf="mode==='edit' || mode==='create';else search">
-                    <button mat-raised-button id="saveAndEdit-btn" class="submit-button saveAndEdit"
-                        [disabled]="disabled" (click)="_onSubmit('saveAndEdit')">
-                        Save and Edit
-                    </button>
-                    <button mat-raised-button id="saveAndAdd-btn" class="submit-button saveAndAdd" [disabled]="disabled"
-                        (click)="_onSubmit('saveAndAdd')">
-                        Save and Add
-                    </button>
-                    <button mat-raised-button id="save-btn" class="submit-button save" [disabled]="disabled"
+                <ng-container *ngIf="mode==='edit' || mode==='create' || openedInaialog;else search">
+                    <ng-container *ngIf="!openedInaialog">
+                        <button mat-raised-button id="saveAndEdit-btn" class="submit-button saveAndEdit"
+                            [disabled]="disabled" (click)="_onSubmit('saveAndEdit')">
+                            Save and Edit
+                        </button>
+                        <button mat-raised-button id="saveAndAdd-btn" class="submit-button saveAndAdd"
+                            [disabled]="disabled" (click)="_onSubmit('saveAndAdd')">
+                            Save and Add
+                        </button>
+                    </ng-container>
+                    <button mat-raised-button id="save-btn" [disabled]="disabled"
+                        [ngClass]="{'wide-save-btn': openedInaialog, 'submit-button saveAndAdd': !openedInaialog}"
                         (click)="_onSubmit('save')">
                         Save
                     </button>

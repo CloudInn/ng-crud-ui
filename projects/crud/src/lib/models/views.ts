@@ -15,13 +15,17 @@ export interface ListViewer extends ViewConfig {
         enabled: boolean,
         view: FormViewer,
         search_key?: string[],
-        mode?: string
+        mode?: string,
+        creationView?: FormView;
     };
     external_link?: {
         link: string,
         params: string[]
     };
     dialog_mode?: boolean;
+    dialog_settings?: {
+        add_new_btn?: boolean;
+    };
     pagination?: {
         enabled: boolean,
         pageSize?: number,
@@ -52,10 +56,14 @@ export class FormView implements FormViewer {
 }
 export interface ViewSettingsObj {
     isDialog: boolean;
+    dialog_settings?: {
+        add_new_btn?: boolean;
+    };
     search_settings: {
         enabled: boolean,
         search_key?: string[],
-        mode: string
+        mode: string,
+        creationView?: FormView;
     };
     external_link?: {
         link: string,
@@ -75,12 +83,14 @@ export class ListingView implements ListViewer {
         enabled: this.viewSettings.search_settings.enabled,
         view: new FormView(this.metadata),
         search_key: this.viewSettings.search_settings.search_key,
-        mode: this.viewSettings.search_settings.mode
+        mode: this.viewSettings.search_settings.mode,
+        creationView: this.viewSettings?.search_settings?.creationView
     };
     external_link = {
         ...this.viewSettings.external_link
     };
     dialog_mode = this.viewSettings.isDialog;
+    dialog_settings = this.viewSettings.dialog_settings;
     pagination = this.viewSettings.pagination ? { ...this.viewSettings.pagination } : {
         enabled: false,
         pageSize: 0
