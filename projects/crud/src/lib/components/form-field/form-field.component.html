@@ -17,7 +17,7 @@
     <mat-form-field *ngSwitchCase="'date'">
         <mat-label>{{ config?.label }}</mat-label>
         <input matInput [formControlName]="config?.name" id="{{config?.name}}-field" [matDatepicker]="myDatepicker" />
-        <mat-error *ngIf="f[config.name].hasError('required') && (f[config.name].dirty || f[config.name].touched)">
+        <mat-error *ngIf="f[config.name].hasError('required') && (f[config.name].dirty || f[config.name].touched)" id="{{config.name}}-required-error">
             this field is required</mat-error>
         <mat-datepicker-toggle matSuffix [for]="myDatepicker" style="color: #1490C0"></mat-datepicker-toggle>
         <mat-datepicker #myDatepicker></mat-datepicker>
@@ -50,11 +50,11 @@
     <mat-form-field *ngSwitchDefault>
         <mat-label>{{ config?.label }}</mat-label>
         <input matInput [formControlName]="config?.name" id="{{config?.name}}-field" [maxlength]="config?.maxlength" [required]="f[config?.name].hasError('required')" [type]="config?.control ? config?.control.type : 'text'" />
-        <mat-error *ngIf="f[config.name].hasError('required') && (f[config.name].dirty || f[config.name].touched)">
+        <mat-error *ngIf="f[config.name].hasError('required') && (f[config.name].dirty || f[config.name].touched)" id="{{config.name}}-required-error">
             this field is required</mat-error>
-        <mat-error *ngIf="f[config.name].hasError('maxlength') && (f[config.name].dirty || f[config.name].touched)">
+        <mat-error *ngIf="f[config.name].hasError('maxlength') && (f[config.name].dirty || f[config.name].touched)" id="{{config.name}}-maxLength-error">
             max length is {{config?.maxlength}} characters</mat-error>
-        <mat-error *ngIf="f[config.name].hasError('pattern') && (f[config.name].dirty || f[config.name].touched)">
+        <mat-error *ngIf="f[config.name].hasError('pattern') && (f[config.name].dirty || f[config.name].touched)" id="{{config.name}}-pattern-error">
             pattern for this field is invalid </mat-error>
     </mat-form-field>
 </ng-container>

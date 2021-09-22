@@ -355,7 +355,7 @@ export class ListingComponent implements OnInit, AfterViewInit {
             data: {
                 viewConfig: this.viewConfig,
             },
-            disableClose: false
+            disableClose: true
         }).afterClosed().subscribe(response => {
             if (response) {
                 this.viewConfig.metadata.rows.next({
