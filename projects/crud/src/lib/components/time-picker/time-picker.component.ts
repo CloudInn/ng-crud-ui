@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import * as moment_ from 'moment';
 import { AmazingTimePickerService } from 'amazing-time-picker';
 const moment = moment_;
@@ -10,16 +10,21 @@ const moment = moment_;
   styleUrls: ['./time-picker.component.css']
 })
 export class TimePickerComponent implements OnInit {
-  @Input() formGroup;
+  @Input() formGroup: FormGroup;
   @Input() config;
   public selectedTime = new FormControl('');
   constructor(private atp: AmazingTimePickerService) { }
 
   ngOnInit() {
+    this.formGroup.get([this.config.name]).valueChanges.subscribe(val => {
+      if (!val || val === '') {
+        this.selectedTime.setValue(val);
+      }
+    });
   }
 
   openTimePicker(time) {
-    this.setTimes(time)
+    this.setTimes(time);
   }
 
   setTimes(initial_time) {
