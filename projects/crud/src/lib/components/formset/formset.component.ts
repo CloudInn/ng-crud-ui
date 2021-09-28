@@ -27,7 +27,7 @@ export class FormsetComponent implements OnChanges {
     if (this.formGroup.get(this.config.name) !== null) {
       this.formArray = this.formGroup.get(this.config.name) as FormArray;
     }
-    const hidden_field = this.control.fields.find(f => !f.isEditable && !f.isHidden);
+    const hidden_field = this.getHiddenField();
     const group = this.formArray.controls[0] as FormGroup;
     if (group) {
       if (hidden_field.equalsTo) {
@@ -36,9 +36,14 @@ export class FormsetComponent implements OnChanges {
       hidden_field.defaultValue = group.controls[hidden_field.name].value;
     }
   }
+  getHiddenField(): FieldConfig {
+    return this.control.fields.find(f => !f.isEditable && !f.isHidden);
+  }
 
   addForm() {
     const formGroup = this.formService.create(this.control.fields);
+    const hidden_field = this.getHiddenField();
+    formGroup.controls[hidden_field.name]?.patchValue(null);
     this.formArray.push(formGroup);
   }
 

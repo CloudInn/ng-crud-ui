@@ -51,10 +51,16 @@ export class FormService {
       } else if (c.type === 'formset') {
         ctrls[c.name] = new FormArray([]);
         const controlConfig = c.control as FormSetControlConfig;
-        data[c.name].forEach(ctrl => {
-          const group = this.update(controlConfig.fields, ctrl);
+        if (data[c.name]?.length) {
+          data[c.name].forEach(ctrl => {
+            const group = this.update(controlConfig.fields, ctrl);
+            ctrls[c.name].push(group);
+          });
+        } else {
+          controlConfig.fields = controlConfig.fields.filter(field => field.isHidden !== true);
+          const group = this.create(controlConfig.fields);
           ctrls[c.name].push(group);
-        });
+        }
         return;
       }
       const emptyVar = this.checkIfEmptyArray(data[c.name]);
