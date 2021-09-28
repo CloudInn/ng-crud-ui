@@ -55,9 +55,9 @@ export class FormFieldComponent implements OnChanges, OnInit {
       this.config.hasErrorWhen.forEach(field => {
         this.formGroup.get(field.field_name).valueChanges.subscribe((val) => {
           const control =  this.formGroup.get(this.config.name);
-          if (!val || val === '' && control.hasError(field.error)) {
-            delete control.errors[field.error];
-            if (Object.keys(control.errors).length === 0) {
+          if ((!val || val === '' ) && control.hasError(field.error)) {
+            delete control?.errors[field.error];
+            if (Object.keys(control.errors)?.length === 0) {
               control.setErrors(null);
             }
           } else if (!control.value) {

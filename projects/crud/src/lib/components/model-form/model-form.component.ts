@@ -78,7 +78,7 @@ export class ModelFormComponent implements OnInit {
             }
             this.formGroup = this.formService.update(this.controlsConfig, data_modified);
             if (!state) {
-                this.openSnackBar(`Your ${this.viewConfig.metadata.label} is created successfully`, 'success');
+                this.showSuccessMessage();
             }
         }, err => {
             this.displayError(err.error);
@@ -171,6 +171,7 @@ export class ModelFormComponent implements OnInit {
         } else {
             this.initialLoading = false;
             this.router.navigate([`${url.substr(0, url.indexOf('add'))}/${this.id}`]);
+            this.showSuccessMessage();
         }
     }
     saveAndAdd() {
@@ -182,6 +183,7 @@ export class ModelFormComponent implements OnInit {
         const url = this.router.url;
         this.router.navigate([`${url.substr(0, url.indexOf(this.id))}/add`]);
         this.initialLoading = false;
+        this.showSuccessMessage();
     }
     save() {
         this.is_ready = false;
@@ -189,7 +191,12 @@ export class ModelFormComponent implements OnInit {
             const url = this.router.url;
             this.router.navigate([url.substr(0, url.indexOf(this.id))]);
         }
+        this.showSuccessMessage();
+    }
 
+    showSuccessMessage(): void {
+        const mode = this.mode === 'create' ? 'created' : 'updated';
+        this.openSnackBar(`Your ${this.viewConfig.metadata.label} is ${mode} successfully`, 'success');
     }
 
     isEmptyObject(obj) {
