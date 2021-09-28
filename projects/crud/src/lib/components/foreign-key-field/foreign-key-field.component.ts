@@ -164,7 +164,7 @@ export class ForeignKeyFieldComponent implements OnChanges, OnInit {
       width: '90%',
       height: '90%',
       data: {
-        viewConfig: this.controlConfig.viewConfig,
+        viewConfig: {...this.controlConfig.viewConfig, dialog_mode: true},
       },
       disableClose: false
     });
