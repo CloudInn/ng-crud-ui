@@ -58,6 +58,9 @@ export class ForeignKeyFieldComponent implements OnChanges, OnInit {
       this._underlyingCtrl.setErrors(this.formGroup.get([this.config.name]).errors);
       this._underlyingCtrl.valueChanges.subscribe(value => {
         if ((typeof value) === 'string') {
+          if (value === '') {
+            this._setControlValue(null);
+          }
           this._filter(value).subscribe(res => {
             if (res.results) {
               const keys = this.controlConfig.metadata.filter_key;
@@ -164,7 +167,7 @@ export class ForeignKeyFieldComponent implements OnChanges, OnInit {
       width: '90%',
       height: '90%',
       data: {
-        viewConfig: {...this.controlConfig.viewConfig, dialog_mode: true},
+        viewConfig: { ...this.controlConfig.viewConfig, dialog_mode: true },
       },
       disableClose: false
     });

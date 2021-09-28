@@ -51,13 +51,21 @@ export class FormFieldComponent implements OnChanges, OnInit {
         });
       }
     }
-    if (this.config.hasErrorWhen) {
-      this.formGroup.get(this.config.hasErrorWhen.field_name).valueChanges.subscribe((val) => {
-        if (!this.formGroup.get(this.config.name).value) {
-          this.formGroup.get(this.config.name).setErrors({ [this.config.hasErrorWhen.error]: true });
-        }
-        this.formGroup.get(this.config.name).markAsTouched();
-        this.formGroup.updateValueAndValidity();
+    if (this.config.hasErrorWhen?.length) {
+      this.config.hasErrorWhen.forEach(field => {
+        this.formGroup.get(field.field_name).valueChanges.subscribe((val) => {
+          const control =  this.formGroup.get(this.config.name);
+          if (!val || val === '' && control.hasError(field.error)) {
+            delete control.errors[field.error];
+            if (Object.keys(control.errors).length === 0) {
+              control.setErrors(null);
+            }
+          } else if (!control.value) {
+            control.setErrors({ [field.error]: true });
+            control.markAsTouched();
+          }
+          this.formGroup.updateValueAndValidity();
+        });
       });
     }
   }
