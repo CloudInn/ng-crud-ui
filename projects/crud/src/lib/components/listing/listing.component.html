@@ -1,12 +1,12 @@
 <ng-container *ngIf="!iframeOpened">
     <div [ngStyle]="{'display': (initialLoading)?'none':'block'}" class="row" *ngIf="!viewConfig.dialog_mode">
         <ng-container *ngIf="viewConfig?.external_link?.link;else normal">
-            <a class="crud-new-btn" mat-raised-button (click)="redirect()" color="primary">
+            <a class="crud-new-btn" mat-raised-button (click)="redirect()" color="primary" id="add-new-btn">
                 <mat-icon>add</mat-icon> Add New
             </a>
         </ng-container>
         <ng-template #normal>
-            <a class="crud-new-btn" mat-raised-button routerLink="add" color="primary">
+            <a class="crud-new-btn" mat-raised-button routerLink="add" color="primary" id="create-btn">
                 <mat-icon>add</mat-icon> Create
             </a>
         </ng-template>
@@ -170,7 +170,7 @@
 </ng-container>
 
 <body style="margin:0px;padding:0px;overflow:hidden">
-    <iframe [hidden]="!iframeOpened" #iframe frameborder="0"
+    <iframe [hidden]="!iframeOpened" #iframe frameborder="0" id="crud-iframe"
         style="overflow:hidden;overflow-x:hidden;overflow-y:hidden;height:100%;width:100%;position:absolute;top:0px;left:0px;right:0px;bottom:0px"
         height="100%" width="100%"></iframe>
 </body>
