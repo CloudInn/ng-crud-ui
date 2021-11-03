@@ -16,6 +16,7 @@ export class FormsetComponent implements OnChanges {
   @Input() config: FieldConfig;
   @Input() mode;
   control: FormSetControlConfig;
+  subControl: FormSetControlConfig;
   formArray: FormArray = new FormArray([]);
   choices = {};
 
@@ -29,8 +30,8 @@ export class FormsetComponent implements OnChanges {
     }
     const hidden_field = this.getHiddenField();
     const group = this.formArray.controls[0] as FormGroup;
-    if (group) {
-      if (hidden_field.equalsTo) {
+    if (group && hidden_field) {
+      if (hidden_field?.equalsTo) {
         group.controls[hidden_field.name].patchValue(this.formGroup.get(hidden_field.equalsTo).value);
       }
       hidden_field.defaultValue = group.controls[hidden_field.name].value;
@@ -41,10 +42,18 @@ export class FormsetComponent implements OnChanges {
   }
 
   addForm() {
-    const formGroup = this.formService.create(this.control.fields);
+    let formGroup;
+    if(this.control.subFields) {
+       formGroup = this.formService.create(this.control.subFields);
+    } else {
+     formGroup = this.formService.create(this.control.fields);
+    }
     const hidden_field = this.getHiddenField();
-    formGroup.controls[hidden_field.name]?.patchValue(null);
+    if(hidden_field) {
+      formGroup.controls[hidden_field.name]?.patchValue(null);
+    }
     this.formArray.push(formGroup);
+
   }
 
   delete(index) {

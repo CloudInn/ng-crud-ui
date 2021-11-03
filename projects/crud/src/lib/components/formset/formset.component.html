@@ -5,24 +5,58 @@
             <mat-icon>add</mat-icon> Add
         </button>
     </div>
-    <ng-container [formGroup]="formGroup">
-        <div [formArrayName]="config.name">
-            <ng-container *ngFor="let _formGroup of formArray?.controls; index as i; trackBy: trackByFn">
-                <div class="row">
-                    <ng-container *ngFor="let field of control.fields">
-                        <ng-container *ngIf="field.isEditable">
-                            <ng-crud-form-field [choices]="choices[field.name]" [mode]="mode" [formGroup]="_formGroup" [config]="field">
-                            </ng-crud-form-field>
+    <div *ngIf="control?.subFields; else formsets">
+        <ng-container [formGroup]="formGroup">
+            <div [formArrayName]="config.name">
+                <ng-container *ngFor="let _formGroup of formArray?.controls; index as i; trackBy: trackByFn">
+                    <div class="row formset_container">
+                        <ng-container *ngFor="let field of control.subFields">
+                            <ng-container *ngIf="field.isEditable">
+                                <ng-crud-form-field [choices]="choices[field.name]" [mode]="mode"
+                                    [formGroup]="_formGroup" [config]="field">
+                                </ng-crud-form-field>
+                            </ng-container>
                         </ng-container>
-                    </ng-container>
-                </div>
-                <div *ngIf="i==0" class="delete_btn" style="visibility: hidden;">
-                    <a color="warn" (click)="delete(i)">Delete</a>
-                </div>
-                <div *ngIf="i>=1" class="delete_btn">
-                    <a color="warn" (click)="delete(i)">Delete</a>
-                </div>
-            </ng-container>
-        </div>
-    </ng-container>
+                        <div *ngIf="i==0" class="delete_btn" style="visibility: hidden;">
+                            <button mat-icon-button style="color:red;" (click)="delete(i)">
+                                <mat-icon>delete_outline</mat-icon>
+                            </button>
+                        </div>
+                        <div *ngIf="i>=1" class="delete_btn">
+                            <button mat-icon-button style="color:red;" (click)="delete(i)">
+                                <mat-icon>delete_outline</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+        </ng-container>
+    </div>
+    <ng-template #formsets>
+        <ng-container [formGroup]="formGroup">
+            <div [formArrayName]="config.name">
+                <ng-container *ngFor="let _formGroup of formArray?.controls; index as i; trackBy: trackByFn">
+                    <div class="row formset_container">
+                        <ng-container *ngFor="let field of control.fields">
+                            <ng-container *ngIf="field.isEditable">
+                                <ng-crud-form-field [choices]="choices[field.name]" [mode]="mode"
+                                    [formGroup]="_formGroup" [config]="field">
+                                </ng-crud-form-field>
+                            </ng-container>
+                        </ng-container>
+                        <div *ngIf="i==0" class="delete_btn" style="visibility: hidden;">
+                            <button mat-icon-button style="color:red;" (click)="delete(i)">
+                                <mat-icon>delete_outline</mat-icon>
+                            </button>
+                        </div>
+                        <div *ngIf="i>=1" class="delete_btn">
+                            <button mat-icon-button style="color:red;" (click)="delete(i)">
+                                <mat-icon>delete_outline</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+        </ng-container>
+    </ng-template>
 </div>

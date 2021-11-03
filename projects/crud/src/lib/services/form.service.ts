@@ -19,6 +19,20 @@ export class FormService {
           ctrls[innerC.name] = new FormControl(null, innerC.validators);
           innerC.defaultValue = null;
         });
+        if (controlConfig.collapsibleFields) {
+          controlConfig.collapsibleFields = controlConfig.collapsibleFields.filter(field => field.isHidden !== true);
+          controlConfig.collapsibleFields.forEach(innerC => {
+            ctrls[innerC.name] = new FormControl(null, innerC.validators);
+            innerC.defaultValue = null;
+          });
+        }
+        if (controlConfig.subFields) {
+          ctrls[c.name] = new FormArray([]);
+          controlConfig.subFields = controlConfig.subFields.filter(field => field.isHidden !== true);
+          const group = this.create(controlConfig.subFields);
+          ctrls[c.name].push(group);
+          return;
+        }
         return;
       } else if (c.type === 'formset') {
         ctrls[c.name] = new FormArray([]);
@@ -47,6 +61,28 @@ export class FormService {
           innerC.defaultValue = emptyArrFieldSet ? null : data[innerC.name];
           ctrls[innerC.name] = new FormControl(emptyArrFieldSet ? null : data[innerC.name], innerC.validators);
         });
+        if (c.control.collapsibleFields) {
+          (c.control as FieldSetControlConfig).collapsibleFields.forEach(innerC => {
+            const emptyArrFieldSet = this.checkIfEmptyArray(data[innerC.name]);
+            innerC.defaultValue = emptyArrFieldSet ? null : data[innerC.name];
+            ctrls[innerC.name] = new FormControl(emptyArrFieldSet ? null : data[innerC.name], innerC.validators);
+          });
+        }
+        if (c.control.subFields) {
+          ctrls[c.name] = new FormArray([]);
+          const controlConfig = c.control as FormSetControlConfig;
+          if (data[c.name]?.length) {
+            data[c.name].forEach(ctrl => {
+              const group = this.update(controlConfig.subFields, ctrl);
+              ctrls[c.name].push(group);
+            });
+          } else {
+            controlConfig.subFields = controlConfig.subFields.filter(field => field.isHidden !== true);
+            const group = this.create(controlConfig.subFields);
+            ctrls[c.name].push(group);
+          }
+          return;
+        }
         return;
       } else if (c.type === 'formset') {
         ctrls[c.name] = new FormArray([]);
