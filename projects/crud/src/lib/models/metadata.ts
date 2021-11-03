@@ -3,10 +3,12 @@ import { Subject } from 'rxjs';
 
 export interface ControlConfig {
     type?: string;
+    subFields?: FieldConfig[];
 }
 
 export interface FieldSetControlConfig extends ControlConfig {
     fields: FieldConfig[];
+    collapsibleFields?: FieldConfig[];
 }
 
 export interface FormSetControlConfig extends ControlConfig {
@@ -47,6 +49,7 @@ export interface TouchingFields {
 export class FieldConfig {
     name: string;
     label: string;
+    expanded?: boolean;
     type?: 'text' | 'number' | 'boolean' | 'textArea' | 'select' | 'file' |
         'date' | 'datetime' | 'foreignKey' | 'formset' | 'datetime' | 'time' |
         'fieldset' | 'foreignKey_multiple' = 'text';
@@ -90,6 +93,8 @@ export interface Metadata {
     api: string;
     model: any;
     fields: FieldConfig[];
+    collapsibleFields?: FieldConfig[];
+    subFields?: FieldConfig[];
     listingFields: string[];
     searchParam?: string;
     filter_key?: string[];
