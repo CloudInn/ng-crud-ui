@@ -121,7 +121,6 @@ mat-panel-title {
     .crud_expansion_panel .mat-expansion-panel-body {
         display: flex;
         flex-wrap: wrap;
-        justify-content: space-between;
         background-color: #fff;
         padding-top: 10px;
     }
@@ -189,3 +188,12 @@ mat-panel-title {
         flex: 1 1 100% !important;
     }
 }
+.divider {
+    margin-bottom: 10px;
+}
+#collapsible_control {
+    background-color: white !important;
+}
+::ng-deep .specific-class > .mat-expansion-indicator:after {
+    color: black !important;
+  }

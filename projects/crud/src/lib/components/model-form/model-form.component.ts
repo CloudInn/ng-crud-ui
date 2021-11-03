@@ -26,6 +26,7 @@ export class ModelFormComponent implements OnInit {
     @Output() submit = new EventEmitter<any>();
     formGroup: FormGroup = new FormGroup({});
     formsets: FieldConfig[] = [];
+    subFormsets: FieldConfig[] = [];
     is_ready = false;
     controlsConfig: FieldConfig[] = [];
     actions: {};
@@ -36,6 +37,8 @@ export class ModelFormComponent implements OnInit {
     fileUrl;
     fileName;
     openedInaialog: boolean;
+    actionButtons: any = [];
+    captureIdButton: any = {};
     response: any;
     constructor(
         private api: ApiService,
@@ -51,10 +54,13 @@ export class ModelFormComponent implements OnInit {
         this.openedInaialog = this.viewConfig?.metadata?.isDialog;
         this.controlsConfig = this.viewConfig.controls;
         this._visibleControls = this.controlsConfig.filter(c => c.isHidden !== true);
+        this.captureIdButton = this.viewConfig?.metadata?.formActions.find(button => button.name === "Capture ID");
+        this.actionButtons = this.viewConfig?.metadata?.formActions.filter(button => button.name !== "Capture ID");
         this.formGroup = this.formService.create(this.controlsConfig, this.mode);
         // Separate the formset fields to their object, so that they can be rendered
         // beneath the main controls.
         this.formsets = this.viewConfig.controls.filter(field => field.type === 'formset');
+        this.subFormsets = this.viewConfig.controls.filter(field => field.control?.subFields);
         this.is_ready = true;
         if (this.id === 'add') {
             this.mode = 'create';
@@ -106,6 +112,7 @@ export class ModelFormComponent implements OnInit {
             }
         });
         const formSet = this.viewConfig.controls.find(el => el.type === 'formset');
+
         if (formSet) {
             const formArray = this.formGroup.get(formSet.name) as FormArray;
             formArray.controls.forEach((fg: FormGroup) => {
@@ -205,6 +212,14 @@ export class ModelFormComponent implements OnInit {
         });
     }
     removeEmptyFormsets() {
+        debugger;
+            this.subFormsets.forEach(formset => {
+                const formsetName = formset.name;
+                this.formGroup.value[formsetName] = this.formGroup.value[formsetName].filter(item => {
+                    return this.isEmptyObject(item) ? null : item;
+                });
+            });
+       
         this.formsets.forEach(formset => {
             const formsetName = formset.name;
             this.formGroup.value[formsetName] = this.formGroup.value[formsetName].filter(item => {
