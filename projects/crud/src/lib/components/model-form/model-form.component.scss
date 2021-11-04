@@ -7,7 +7,7 @@
 
 .submit-button {
     align-self: flex-end;
-    background-color: #2A8FC1;
+    background-color: #1490C0;
     color: #fff;
 }
 
@@ -125,7 +125,7 @@ mat-panel-title {
         padding-top: 10px;
     }
     .crud-form-body {
-        padding: 10px 24px 16px;
+        padding: 6px 8px;
     }
 }
 
@@ -170,6 +170,7 @@ mat-panel-title {
 
 .formset_container {
     width: 100%;
+    flex-wrap: wrap;
 }
 
 .wide-save-btn {
@@ -194,6 +195,55 @@ mat-panel-title {
 #collapsible_control {
     background-color: white !important;
 }
+::ng-deep #collapsible_control .mat-expansion-panel-body {
+    padding: 0;
+}
 ::ng-deep .specific-class > .mat-expansion-indicator:after {
     color: black !important;
   }
+
+::ng-deep .crud-accordion {
+    width: 100%;
+    margin: 10px;
+}
+.crud-form-field-container {
+    width:calc(25% - 18px);
+    display:inline-block;
+    box-sizing: border-box;
+}
+.crud-form-field-container:not(:nth-child(4)){
+    margin-right: 18px;
+}
+@media only screen and (max-width: 599px) {
+    ::ng-deep .crud-accordion {
+        margin: 10px 0 ;
+    }
+    .crud-form-field-container.outer-fields:nth-last-child(1) {
+        width: 100%
+    }
+    .crud-form-field-container {
+        width: calc(50% - 17px);
+        flex-grow: 1;
+        margin-right: 0 !important;
+    }
+    ::ng-deep .crud_expansion_panel .mat-expansion-panel-body {
+        padding: 15px 8px 8px 8px;
+        gap: 0 15px;
+    }
+    ::ng-deep .crud_expansion_panel .mat-expansion-panel-header {
+        padding: 0 8px;
+    }
+    .mat-panel-title {
+        font-size: 16px;
+    }
+    .header_btn_container span {
+        margin-right: 0;
+    }
+    .actions {
+        margin: 24px 10px;
+    }
+    .save, .saveAndAdd, .saveAndEdit {
+        margin-right: 5px;
+        width: 31.9%;
+    }
+}

@@ -11,18 +11,13 @@
                 <ng-container *ngFor="let _formGroup of formArray?.controls; index as i; trackBy: trackByFn">
                     <div class="row formset_container">
                         <ng-container *ngFor="let field of control.subFields">
-                            <ng-container *ngIf="field.isEditable">
+                            <div *ngIf="field.isEditable" class="crud-form-field-container">
                                 <ng-crud-form-field [choices]="choices[field.name]" [mode]="mode"
                                     [formGroup]="_formGroup" [config]="field">
                                 </ng-crud-form-field>
-                            </ng-container>
+                            </div>
                         </ng-container>
-                        <div *ngIf="i==0" class="delete_btn" style="visibility: hidden;">
-                            <button mat-icon-button style="color:red;" (click)="delete(i)">
-                                <mat-icon>delete_outline</mat-icon>
-                            </button>
-                        </div>
-                        <div *ngIf="i>=1" class="delete_btn">
+                        <div *ngIf="i>=1" class="delete_btn bottom">
                             <button mat-icon-button style="color:red;" (click)="delete(i)">
                                 <mat-icon>delete_outline</mat-icon>
                             </button>
@@ -38,18 +33,13 @@
                 <ng-container *ngFor="let _formGroup of formArray?.controls; index as i; trackBy: trackByFn">
                     <div class="row formset_container">
                         <ng-container *ngFor="let field of control.fields">
-                            <ng-container *ngIf="field.isEditable">
+                            <div *ngIf="field.isEditable" class="crud-form-field-container">
                                 <ng-crud-form-field [choices]="choices[field.name]" [mode]="mode"
                                     [formGroup]="_formGroup" [config]="field">
                                 </ng-crud-form-field>
-                            </ng-container>
+                            </div>
                         </ng-container>
-                        <div *ngIf="i==0" class="delete_btn" style="visibility: hidden;">
-                            <button mat-icon-button style="color:red;" (click)="delete(i)">
-                                <mat-icon>delete_outline</mat-icon>
-                            </button>
-                        </div>
-                        <div *ngIf="i>=1" class="delete_btn">
+                        <div *ngIf="i>=1" class="delete_btn top">
                             <button mat-icon-button style="color:red;" (click)="delete(i)">
                                 <mat-icon>delete_outline</mat-icon>
                             </button>

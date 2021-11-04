@@ -4,7 +4,7 @@
 
 .row {
     display: flex;
-    justify-content: space-between;
+    // justify-content: space-between;
 }
 
 .row~.delete_btn {
@@ -24,9 +24,51 @@
     color: #fff;
 }
 .formset_container {
+    flex-wrap: wrap;
     background-color: rgba(128, 128, 128, 0.15);
     background-color: hsla(0,0%,50.2%,.15);
     border-radius: 4px;
     margin: 10px 0px 10px;
     padding: 10px;
+}
+
+.crud-form-field-container {
+    width:calc(25% - 18px);
+    display:inline-block;
+    box-sizing: border-box;
+}
+.crud-form-field-container:not(:nth-child(4)){
+    margin-right: 18px;
+}
+.delete_btn.top {
+    width: calc(25% - 18px);
+}
+.delete_btn.bottom {
+    width: calc(50% - 18px);
+}
+.delete_btn button {
+    float: right;
+}
+@media only screen and (max-width: 599px) {
+    .crud-form-field-container {
+        width: calc(50% - 17px);
+        flex-grow: 1;
+        margin-right: 0 !important;
+    }
+    ::ng-deep .crud_expansion_panel .mat-expansion-panel-body {
+        padding: 15px 8px 8px 8px;
+        gap: 0 15px;
+    }
+    ::ng-deep .crud_expansion_panel .mat-expansion-panel-header {
+        padding: 0 8px;
+    }
+    .mat-panel-title {
+        font-size: 16px;
+    }
+    .delete_btn.top, .delete_btn.bottom {
+        width: 100%
+    }
+    .formset_container {
+        gap: 0 15px;
+    }
 }
