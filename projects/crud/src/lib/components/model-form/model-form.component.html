@@ -31,20 +31,19 @@
                     </span>
                 </div>
 
-            <div fxflexfill fxlayoutgap="10px grid" class="row full" [formGroup]="formGroup">
+            <div fxflexfill fxlayoutgap="18px grid" fxlayoutgap.xs="16px grid" class="row full" [formGroup]="formGroup">
                 <ng-container *ngFor="let config of _visibleControls">
                     <ng-container *ngIf="config?.type === 'fieldset'">
-                        <mat-accordion style="width: 100%; margin: 10px;">
+                        <mat-accordion class="crud-accordion">
                             <mat-expansion-panel class="crud_expansion_panel" [expanded]="config.expanded !== undefined ? config.expanded : true">
-                                <mat-expansion-panel-header [collapsedHeight]="'40px'" [expandedHeight]="'40px'">
+                                <mat-expansion-panel-header id="{{config?.label}}-toggle" [collapsedHeight]="'40px'" [expandedHeight]="'40px'">
                                     <mat-panel-title class="panel_title">
                                         <mat-label>{{config?.label}}</mat-label>
                                     </mat-panel-title>
                                 </mat-expansion-panel-header>
                                 <ng-container *ngFor="let config2 of config?.control?.fields">
                                     <div *ngIf="config2?.isEditable"
-                                        style="width:25%;display:inline-block; box-sizing: border-box;"
-                                        [style.width.%]="config2.cssWidth">
+                                        class="crud-form-field-container outer-fields">
                                         <ng-crud-form-field class="FormCell" [style.flex.%]="config.cssWidth"
                                             [reset]="submit" [config]="config2" [mode]="mode" [formGroup]="formGroup"
                                             (elementDeleted)="elementDeleted($event)">
@@ -62,15 +61,15 @@
                                         </ng-container>
                                 </ng-container>
                                 <ng-container *ngIf="config?.control?.collapsibleFields">
-                                        <mat-accordion style="width: 100%; margin: 10px;">
+                                        <mat-accordion style="width: 100%;">
                                             <mat-expansion-panel id="collapsible_control" [expanded]="false">
-                                                <mat-expansion-panel-header class="specific-class">
+                                                <mat-expansion-panel-header class="specific-class" id="collapsed-fields">
                                                     <mat-divider class="divider"></mat-divider>
                                                 </mat-expansion-panel-header>
                                                 <ng-container
                                                     *ngFor="let config2 of config?.control?.collapsibleFields">
                                                     <div *ngIf="config2?.isEditable"
-                                                        style="width:25%;display:inline-block; box-sizing: border-box;"
+                                                        class="crud-form-field-container"
                                                         [style.width.%]="config2.cssWidth">
                                                         <ng-crud-form-field class="FormCell"
                                                             [style.flex.%]="config.cssWidth" [reset]="submit"
@@ -98,7 +97,7 @@
                         </ng-template>
                     </ng-container>
                     <ng-container *ngIf="config?.type === 'formset'">
-                        <mat-accordion style="width: 100%; margin: 10px;">
+                        <mat-accordion class="crud-accordion">
                             <mat-expansion-panel class="crud_expansion_panel" [expanded]="true">
                                 <mat-expansion-panel-header [collapsedHeight]="'40px'" [expandedHeight]="'40px'">
                                     <mat-panel-title class="panel_title">
@@ -130,7 +129,7 @@
                         </button>
                     </ng-container>
                     <button mat-raised-button id="save-btn" [disabled]="disabled"
-                        [ngClass]="{'wide-save-btn': openedInaialog, 'submit-button saveAndAdd': !openedInaialog}"
+                        [ngClass]="{'wide-save-btn': openedInaialog, 'submit-button save': !openedInaialog}"
                         (click)="_onSubmit('save')">
                         Save
                     </button>
