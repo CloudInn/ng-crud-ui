@@ -4,7 +4,7 @@
 
 .row {
     display: flex;
-    justify-content: space-between;
+    // justify-content: space-between;
 }
 
 .row~.delete_btn {
@@ -24,6 +24,7 @@
     color: #fff;
 }
 .formset_container {
+    flex-wrap: wrap;
     background-color: rgba(128, 128, 128, 0.15);
     background-color: hsla(0,0%,50.2%,.15);
     border-radius: 4px;

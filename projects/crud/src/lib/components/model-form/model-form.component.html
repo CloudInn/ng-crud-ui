@@ -6,17 +6,16 @@
     <div class="crud-form-body" [ngStyle]="{'display': (initialLoading && mode==='edit')?'none':''}">
         <ng-template [ngIf]="is_ready">
             <ng-error-handling></ng-error-handling>
-            <div style="width:100%;">
                 <div class="header_btn_container" *ngIf="viewConfig?.metadata?.formActions && mode==='edit'">
                     <span class="header_btns">
                         <ng-container>
-                            <button mat-raised-button *ngIf="captureIdButton?.isShown" class="header_btn"
+                            <button mat-raised-button id="capture-btn" *ngIf="captureIdButton?.isShown" class="header_btn"
                                 [ngStyle]="getStyles(captureIdButton)" id="{{captureIdButton.name}}-btn"
                                 (click)="onAction(captureIdButton)" style="margin-right: 5px;">
                                 <mat-icon *ngIf="captureIdButton.icon">{{captureIdButton.icon}}</mat-icon>
                                 {{captureIdButton.name}}
                             </button>
-                            <button mat-raised-button [matMenuTriggerFor]="menu">
+                            <button mat-raised-button id="actions-btn" [matMenuTriggerFor]="menu">
                                 <mat-icon>more_horiz</mat-icon>
                             </button>
                             <mat-menu #menu="matMenu">
@@ -31,7 +30,6 @@
                         </ng-container>
                     </span>
                 </div>
-            </div>
 
             <div fxflexfill fxlayoutgap="10px grid" class="row full" [formGroup]="formGroup">
                 <ng-container *ngFor="let config of _visibleControls">
@@ -54,20 +52,17 @@
                                     </div>
                                 </ng-container>
                                 <ng-container *ngIf="config?.control?.subFields">
-                                    <div class="formset_container">
                                         <mat-divider class="divider"></mat-divider>
                                         <ng-container *ngFor="let config3 of subFormsets; let i=index">
                                             <div class="formset_container">
-                                                <ng-crud-formset [config]="config3" [mode]="mode"
+                                                <ng-crud-formset class="FormCell" [config]="config3" [mode]="mode"
                                                     [formGroup]="formGroup">
                                                 </ng-crud-formset>
                                             </div>
                                         </ng-container>
-                                    </div>
                                 </ng-container>
                                 <ng-container *ngIf="config?.control?.collapsibleFields">
-                                    <div class="formset_container">
-                                        <mat-accordion>
+                                        <mat-accordion style="width: 100%; margin: 10px;">
                                             <mat-expansion-panel id="collapsible_control" [expanded]="false">
                                                 <mat-expansion-panel-header class="specific-class">
                                                     <mat-divider class="divider"></mat-divider>
@@ -86,7 +81,6 @@
                                                 </ng-container>
                                             </mat-expansion-panel>
                                         </mat-accordion>
-                                    </div>
                                 </ng-container>
                             </mat-expansion-panel>
                         </mat-accordion>
@@ -113,7 +107,7 @@
                                 </mat-expansion-panel-header>
                                 <ng-container *ngFor="let config of formsets; let i=index">
                                     <div class="formset_container">
-                                        <ng-crud-formset [config]="config" [mode]="mode" [formGroup]="formGroup">
+                                        <ng-crud-formset class="FormCell" [config]="config" [mode]="mode" [formGroup]="formGroup">
                                         </ng-crud-formset>
                                     </div>
                                 </ng-container>
