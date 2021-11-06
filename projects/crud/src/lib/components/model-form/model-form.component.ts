@@ -212,14 +212,13 @@ export class ModelFormComponent implements OnInit {
         });
     }
     removeEmptyFormsets() {
-        debugger;
             this.subFormsets.forEach(formset => {
                 const formsetName = formset.name;
                 this.formGroup.value[formsetName] = this.formGroup.value[formsetName].filter(item => {
                     return this.isEmptyObject(item) ? null : item;
                 });
             });
-       
+
         this.formsets.forEach(formset => {
             const formsetName = formset.name;
             this.formGroup.value[formsetName] = this.formGroup.value[formsetName].filter(item => {

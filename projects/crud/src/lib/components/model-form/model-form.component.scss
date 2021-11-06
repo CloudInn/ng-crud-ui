@@ -191,6 +191,8 @@ mat-panel-title {
 }
 .divider {
     margin-bottom: 10px;
+    width: 100%;
+    border-top-width: 2px !important;
 }
 #collapsible_control {
     background-color: white !important;
@@ -198,10 +200,15 @@ mat-panel-title {
 ::ng-deep #collapsible_control .mat-expansion-panel-body {
     padding: 0;
 }
-::ng-deep .specific-class > .mat-expansion-indicator:after {
+::ng-deep .collapsible-accordion > .mat-expansion-indicator:after {
     color: black !important;
-  }
-
+}
+.collapsible-accordion {
+    padding: 0;
+}
+.collapsible-accordion .divider {
+    margin: 0 10px 0 0;
+}
 ::ng-deep .crud-accordion {
     width: 100%;
     margin: 10px;
@@ -210,6 +217,9 @@ mat-panel-title {
     width:calc(25% - 18px);
     display:inline-block;
     box-sizing: border-box;
+}
+.crud-form-field-container.outer-fields:last-child{
+    width: 100%;
 }
 .crud-form-field-container:not(:nth-child(4)){
     margin-right: 18px;
@@ -241,9 +251,9 @@ mat-panel-title {
     }
     .actions {
         margin: 24px 10px;
+        justify-content: space-between !important;
     }
     .save, .saveAndAdd, .saveAndEdit {
         margin-right: 5px;
-        width: 31.9%;
     }
 }

@@ -1,5 +1,11 @@
 <div class="wrapper" fxLayoutWrap="10px">
-    <ng-container [formGroup]="formGroup">
+    <div [formGroup]="formGroup" class="form-container">
+        <mat-hint class="hint" >
+            <p class="pre">
+  Allowed file extensions: PDF, Doc, Docx, Xls, Xlsx, JPEG, GIF, PNG, BMP. <br>
+  Maximum file size: 1 MB.
+            </p>
+        </mat-hint>
         <div class="upload_container">
             <ng-crud-file-upload [formControlName]="config?.name" #fileInput></ng-crud-file-upload>
         </div>
@@ -15,26 +21,8 @@
         <mat-error *ngIf="formControls[config?.name].hasError('requiredFileLength')">
             Ensure this field has no more than 50 characters
         </mat-error>
-        <mat-hint class="hint">
-            <pre>
-  Allowed file extensions: PDF, Doc, Docx, Xls, Xlsx, JPEG, GIF, PNG, BMP.
-  Maximum file size: 1 MB.
-              </pre>
-        </mat-hint>
-    </ng-container>
-    <table class="mat-elevation-z8 table attachment-table" *ngIf="attachments?.length > 0">
-        <thead class="thead">
-            <tr class="table_row">
-                <th>
-                    File Name
-                </th>
-                <th>
-                </th>
-                <th>
-                </th>
-            </tr>
-        </thead>
-
+    </div>
+    <table class="table attachment-table" *ngIf="attachments?.length > 0">
         <tbody class="tableBody">
             <tr *ngFor="let file of attachments; let i=index;" class="border_bottom">
                 <td class="file-name" id="{{ 'file-' + i }}">
