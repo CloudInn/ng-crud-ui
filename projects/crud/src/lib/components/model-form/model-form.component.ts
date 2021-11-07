@@ -196,7 +196,11 @@ export class ModelFormComponent implements OnInit {
         this.is_ready = false;
         if (!this.openedInaialog) {
             const url = this.router.url;
-            this.router.navigate([url.substr(0, url.indexOf(this.id))]);
+            if (this.mode === 'create') {
+                this.router.navigate([url.substr(0, url.indexOf('add'))]);
+            } else {
+                this.router.navigate([url.substr(0, url.indexOf(this.id))]);
+            }
         }
         this.showSuccessMessage();
     }
