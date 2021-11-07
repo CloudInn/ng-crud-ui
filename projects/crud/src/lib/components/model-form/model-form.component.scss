@@ -218,9 +218,7 @@ mat-panel-title {
     display:inline-block;
     box-sizing: border-box;
 }
-.crud-form-field-container.outer-fields:last-child{
-    width: 100%;
-}
+
 .crud-form-field-container:not(:nth-child(4)){
     margin-right: 18px;
 }
