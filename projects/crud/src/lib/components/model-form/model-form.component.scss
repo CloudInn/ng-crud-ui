@@ -200,8 +200,14 @@ mat-panel-title {
 ::ng-deep #collapsible_control .mat-expansion-panel-body {
     padding: 0;
 }
+::ng-deep .collapsible-accordion > .mat-expansion-indicator {
+    padding: 0px 8px 5px;
+    border: 1px solid rgba(0,0,0,.87);
+    border-radius: 50%;
+}
 ::ng-deep .collapsible-accordion > .mat-expansion-indicator:after {
-    color: black !important;
+    color: rgba(0,0,0,.87) !important;
+    
 }
 .collapsible-accordion {
     padding: 0;
@@ -254,4 +260,9 @@ mat-panel-title {
     .save, .saveAndAdd, .saveAndEdit {
         margin-right: 5px;
     }
+}
+//attachments
+.mat-accordion:nth-last-child(1) .crud-form-field-container.outer-fields {
+    display: flex ;
+    width: 100%;
 }
