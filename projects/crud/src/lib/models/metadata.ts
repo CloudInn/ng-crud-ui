@@ -75,6 +75,12 @@ export class FieldConfig {
     equalsTo?: string;
     postSubmitHookActions?: PostSubmitAction[];
     translate?: boolean;
+    errorMessages?: ErrorMessage[];
+}
+
+export interface ErrorMessage {
+    type: string;
+    message: string;
 }
 
 export interface PostSubmitAction {

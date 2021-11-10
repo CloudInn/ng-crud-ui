@@ -79,5 +79,11 @@ export class FormFieldComponent implements OnChanges, OnInit {
       this.formGroup.updateValueAndValidity();
     }
   }
-
+  getFieldErrorMessage(type: string) {
+    let errorMessage;
+    if(this.config.errorMessages){
+      errorMessage = this.config.errorMessages.find(error => error.type = type)
+    }
+    return errorMessage? errorMessage.message: errorMessage;
+  }
 }
