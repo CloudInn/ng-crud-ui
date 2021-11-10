@@ -8,6 +8,8 @@
         "test": "ng test",
         "lint": " ng lint --type-check",
         "e2e": "ng e2e",
+        "build-crud": "ng build crud",
+        "publish-crud": "cd dist/crud && npm publish && cd ../../",
         "postinstall": "ngcc",
         "build-docs": "ng build --prod docs --output-path ./docs --base-href /ng-crud-ui/ --deploy-url /ng-crud-ui/"
     },
