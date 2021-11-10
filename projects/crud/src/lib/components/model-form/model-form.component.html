@@ -62,9 +62,9 @@
                                 </ng-container>
                                 <ng-container *ngIf="config?.control?.collapsibleFields">
                                         <mat-accordion style="width: 100%;">
-                                            <mat-expansion-panel id="collapsible_control" [expanded]="false">
+                                            <mat-expansion-panel (click)="toggleExpansion()" id="collapsible_control" [expanded]="isExpanded">
                                                 <mat-expansion-panel-header id="collapsed-fields" class="collapsible-accordion">
-                                                    <mat-divider class="divider"></mat-divider>
+                                                    <mat-divider *ngIf="isExpanded" class="divider"></mat-divider>
                                                 </mat-expansion-panel-header>
                                                 <ng-container
                                                     *ngFor="let config2 of config?.control?.collapsibleFields">

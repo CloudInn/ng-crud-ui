@@ -21,6 +21,7 @@ import { SearchDialogComponent } from '../../containers/search-dialog/search-dia
 export class ModelFormComponent implements OnInit {
 
     @Input() viewConfig: FormViewer;
+    @Input() expanded: boolean;
     @Input() mode = 'search';
     @Input() id = null;
     @Output() submit = new EventEmitter<any>();
@@ -40,6 +41,7 @@ export class ModelFormComponent implements OnInit {
     actionButtons: any = [];
     captureIdButton: any = {};
     response: any;
+    isExpanded: boolean = false;
     constructor(
         private api: ApiService,
         private formService: FormService,
@@ -73,6 +75,9 @@ export class ModelFormComponent implements OnInit {
             this.actions = this.viewConfig.actions;
             this.editForm(this.id, 'openPage');
         }
+    }
+    toggleExpansion() {
+        this.isExpanded = !this.isExpanded
     }
     editForm(id, state?) {
         const params = this.populateParams();

@@ -133,18 +133,21 @@ mat-panel-title {
     background-color: #5AB857;
     color: #fff;
     margin-right: 0;
+    width: 150px;
 }
 
 .saveAndAdd {
     background-color: #F6AF2F;
     color: #fff;
-    margin-right: 25px;
+    margin-right: 15px;
+    width: 150px;
 }
 
 .saveAndEdit {
     background-color: #1490C0;
     color: #fff;
-    margin-right: 25px;
+    margin-right: 15px;
+    width: 150px;
 }
 
 ::ng-deep snack-bar-container .success-bar {
@@ -211,6 +214,7 @@ mat-panel-title {
 }
 .collapsible-accordion {
     padding: 0;
+    height: auto !important;
 }
 .collapsible-accordion .divider {
     margin: 0 10px 0 0;
@@ -259,7 +263,9 @@ mat-panel-title {
     }
     .save, .saveAndAdd, .saveAndEdit {
         margin-right: 5px;
-    }
+        width: 100px;
+        font-size: smaller;
+        text-align: center;    }
 }
 //attachments
 .mat-accordion:nth-last-child(1) .crud-form-field-container.outer-fields {
