@@ -55,6 +55,7 @@
         <mat-error *ngIf="f[config.name].hasError('maxlength') && (f[config.name].dirty || f[config.name].touched)" id="{{config.name}}-maxLength-error">
             max length is {{config?.maxlength}} characters</mat-error>
         <mat-error *ngIf="f[config.name].hasError('pattern') && (f[config.name].dirty || f[config.name].touched)" id="{{config.name}}-pattern-error">
-            pattern for this field is invalid </mat-error>
+            {{getFieldErrorMessage("pattern")? getFieldErrorMessage("pattern"): "pattern for this field is invalid"}}
+        </mat-error>
     </mat-form-field>
 </ng-container>
