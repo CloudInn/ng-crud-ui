@@ -33,18 +33,18 @@
 }
 
 .crud-form-field-container {
-    width:calc(25% - 18px);
+    width:calc(19% - 18px);
     display:inline-block;
     box-sizing: border-box;
 }
-.crud-form-field-container:not(:nth-child(4)){
+.crud-form-field-container {
     margin-right: 18px;
 }
 .delete_btn.top {
     width: calc(25% - 18px);
 }
 .delete_btn.bottom {
-    width: calc(50% - 18px);
+    width: calc(5% - 5px);
 }
 .delete_btn button {
     float: right;

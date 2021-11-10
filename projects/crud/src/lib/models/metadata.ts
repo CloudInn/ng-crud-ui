@@ -50,6 +50,7 @@ export class FieldConfig {
     name: string;
     label: string;
     expanded?: boolean;
+    disabled?: boolean;
     type?: 'text' | 'number' | 'boolean' | 'textArea' | 'select' | 'file' |
         'date' | 'datetime' | 'foreignKey' | 'formset' | 'datetime' | 'time' |
         'fieldset' | 'foreignKey_multiple' = 'text';
