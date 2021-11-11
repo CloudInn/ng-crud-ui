@@ -286,3 +286,6 @@ mat-expansion-panel-header.mat-expansion-panel-header{
 .action_btn_divider {
     margin: 0px 8px;
 }
+.crud-form-body .mat-accordion:first-child .crud-form-field-container:nth-child(7) {
+    flex-grow: 1;
+}
