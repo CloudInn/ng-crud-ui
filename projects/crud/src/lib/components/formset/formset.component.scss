@@ -57,6 +57,7 @@
         width: calc(50% - 17px);
         flex-grow: 1;
         margin-right: 0 !important;
+        padding: 0;
     }
     ::ng-deep .crud_expansion_panel .mat-expansion-panel-body {
         padding: 15px 8px 8px 8px;
