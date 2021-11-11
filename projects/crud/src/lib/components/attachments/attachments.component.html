@@ -28,7 +28,7 @@
                 <td class="file-name" id="{{ 'file-' + i }}">
                     {{!isUploaded(file)?file.name+'.'+file.extension:file.name}}
                 </td>
-                <td>
+                <td *ngIf="isUploaded(file)">
                     <a mat-icon-button class="icon_btn" [href]="file.file" download="file.name" target="_blank"
                         rel="noopener noreferrer">
                         <mat-icon class="download_icon" id="{{'download-btn-' + i}}">file_download</mat-icon>
