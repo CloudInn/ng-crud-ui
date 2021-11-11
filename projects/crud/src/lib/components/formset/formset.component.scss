@@ -33,18 +33,21 @@
 }
 
 .crud-form-field-container {
-    width:calc(25% - 18px);
+    width: 24%;
     display:inline-block;
     box-sizing: border-box;
-}
-.crud-form-field-container {
-    margin-right: 18px;
+    padding: 0 9px;
 }
 .delete_btn.top {
     width: calc(25% - 18px);
 }
 .delete_btn.bottom {
-    width: calc(5% - 5px);
+    position: absolute;
+    right: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 10px;
 }
 .delete_btn button {
     float: right;
@@ -66,7 +69,10 @@
         font-size: 16px;
     }
     .delete_btn.top, .delete_btn.bottom {
-        width: 100%
+        width: 100%;
+        position: unset;
+        display: block;
+        padding: 0;
     }
     .formset_container {
         gap: 0 15px;

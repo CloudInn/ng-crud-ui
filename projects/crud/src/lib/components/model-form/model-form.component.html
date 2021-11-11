@@ -9,7 +9,7 @@
                 <div class="header_btn_container" *ngIf="viewConfig?.metadata?.formActions && mode==='edit'">
                     <span class="header_btns">
                         <ng-container>
-                            <button mat-raised-button id="capture-btn" *ngIf="captureIdButton?.isShown" class="header_btn"
+                            <button mat-raised-button *ngIf="captureIdButton?.isShown" class="header_btn capture_ID"
                                 [ngStyle]="getStyles(captureIdButton)" id="{{captureIdButton.name}}-btn"
                                 (click)="onAction(captureIdButton)" style="margin-right: 5px;">
                                 <mat-icon *ngIf="captureIdButton.icon">{{captureIdButton.icon}}</mat-icon>
@@ -19,12 +19,13 @@
                                 <mat-icon>more_horiz</mat-icon>
                             </button>
                             <mat-menu #menu="matMenu">
-                                <div *ngFor="let link of actionButtons">
+                                <div *ngFor="let link of actionButtons; last as last">
                                     <button *ngIf="link?.isShown" mat-button class="header_btn"
                                         [ngStyle]="getStyles(link)" id="{{link.name}}-btn" (click)="onAction(link)">
                                         <mat-icon *ngIf="link.icon">{{link.icon}}</mat-icon>
                                         {{link.name}}
                                     </button>
+                                    <mat-divider class="action_btn_divider" *ngIf="!last"></mat-divider>
                                 </div>
                             </mat-menu>
                         </ng-container>
@@ -62,8 +63,8 @@
                                 </ng-container>
                                 <ng-container *ngIf="config?.control?.collapsibleFields">
                                         <mat-accordion style="width: 100%;">
-                                            <mat-expansion-panel (click)="toggleExpansion()" id="collapsible_control" [expanded]="isExpanded">
-                                                <mat-expansion-panel-header id="collapsed-fields" class="collapsible-accordion">
+                                            <mat-expansion-panel id="collapsible_control" [expanded]="isExpanded">
+                                                <mat-expansion-panel-header (click)="toggleExpansion()" id="collapsed-fields" class="collapsible-accordion">
                                                     <mat-divider *ngIf="isExpanded" class="divider"></mat-divider>
                                                 </mat-expansion-panel-header>
                                                 <ng-container
