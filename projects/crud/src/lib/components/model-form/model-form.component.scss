@@ -133,18 +133,21 @@ mat-panel-title {
     background-color: #5AB857;
     color: #fff;
     margin-right: 0;
+    width: 150px;
 }
 
 .saveAndAdd {
     background-color: #F6AF2F;
     color: #fff;
-    margin-right: 25px;
+    margin-right: 15px;
+    width: 150px;
 }
 
 .saveAndEdit {
     background-color: #1490C0;
     color: #fff;
-    margin-right: 25px;
+    margin-right: 15px;
+    width: 150px;
 }
 
 ::ng-deep snack-bar-container .success-bar {
@@ -211,6 +214,7 @@ mat-panel-title {
 }
 .collapsible-accordion {
     padding: 0;
+    height: auto !important;
 }
 .collapsible-accordion .divider {
     margin: 0 10px 0 0;
@@ -220,14 +224,12 @@ mat-panel-title {
     margin: 10px;
 }
 .crud-form-field-container {
-    width:calc(25% - 18px);
+    width: 25%;
+    padding: 0 9px;
     display:inline-block;
     box-sizing: border-box;
 }
 
-.crud-form-field-container:not(:nth-child(4)){
-    margin-right: 18px;
-}
 @media only screen and (max-width: 599px) {
     ::ng-deep .crud-accordion {
         margin: 10px 0 ;
@@ -259,10 +261,31 @@ mat-panel-title {
     }
     .save, .saveAndAdd, .saveAndEdit {
         margin-right: 5px;
-    }
+        width: 120px;
+        font-size: small;
+        text-align: center;    }
 }
 //attachments
 .mat-accordion:nth-last-child(1) .crud-form-field-container.outer-fields {
     display: flex ;
     width: 100%;
+}
+#actions-btn {
+    min-width: 47px;
+    padding: 2px 0px;
+}
+.capture_ID {
+    padding: 2px 16px;
+}
+mat-expansion-panel-header.mat-expansion-panel-header{
+    background-color: unset !important
+}
+.collapsible-accordion {
+    padding: 0 9px;
+}
+.action_btn_divider {
+    margin: 0px 8px;
+}
+.crud-form-body .mat-accordion:first-child .crud-form-field-container:nth-child(7) {
+    flex-grow: 1;
 }
