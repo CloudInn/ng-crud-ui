@@ -47,6 +47,7 @@ export class ScreenWrapperComponent implements OnInit {
     setTimeout(() => {
       this.route.url.subscribe(urls => {
         const p = [];
+        let id;
         urls.forEach(url => {
           p.push(url.path);
         });
@@ -55,6 +56,8 @@ export class ScreenWrapperComponent implements OnInit {
           this.screen = this.reg.screens[this.route.routeConfig.path];
         } else if (this.data) {
           this.screen = this.reg.screens[this.data.path];
+          if(this.data.id) id = this.data.id;
+
         }
         if (!this.screen) {
           throw new Error('Screen not found in registry');
@@ -65,6 +68,7 @@ export class ScreenWrapperComponent implements OnInit {
         Object.keys(this.route.snapshot.params).forEach(k => {
           componentRef.instance[k] = this.route.snapshot.params[k];
         });
+        if(id) componentRef.instance['id'] = id;
         this.dynamicComponentContainer.insert(componentRef.hostView);
       });
     }, 0);

@@ -64,7 +64,7 @@ export class ModelFormComponent implements OnInit {
         this.formsets = this.viewConfig.controls.filter(field => field.type === 'formset');
         this.subFormsets = this.viewConfig.controls.filter(field => field.control?.subFields);
         this.is_ready = true;
-        if (this.id === 'add') {
+        if (this.id === 'add' || (!this.id && this.openedInaialog)) {
             this.mode = 'create';
             this.submitButtonText = 'Create';
             this.formGroup = this.formService.create(this.controlsConfig);
@@ -242,12 +242,13 @@ export class ModelFormComponent implements OnInit {
             this.disabled = true;
             this.changeFieldsBeforeSending();
             this.removeEmptyFormsets();
-            if (this.mode === 'create' || this.openedInaialog) {
+            if (this.mode === 'create') {
                 this.api.post(this.viewConfig.metadata.api, this.formGroup.value).subscribe(res => {
                     this.disabled = false;
                     this.id = res[this.viewConfig.metadata.search_key].id;
                     this.response = res[this.viewConfig.metadata.search_key];
                     this.handlePostSubmit(action_type, res);
+    
                 }, (error) => {
                     this.initialLoading = false;
                     this.disabled = false;
@@ -255,6 +256,7 @@ export class ModelFormComponent implements OnInit {
                 });
             } else if (this.mode === 'edit') {
                 this.api.put(`${this.viewConfig.metadata.api}${this.id}/`, this.formGroup.value).subscribe(res => {
+                    this.response = res[this.viewConfig.metadata.search_key];
                     this.handlePostSubmit(action_type, res);
                     this.disabled = false;
                 }, (error) => {
@@ -416,5 +418,9 @@ export class ModelFormComponent implements OnInit {
         if (link.style) {
             return JSON.parse(link.style);
         }
+    }
+
+    cancel(ref){
+        this.creationDialogRef.close(this.response);
     }
 }
