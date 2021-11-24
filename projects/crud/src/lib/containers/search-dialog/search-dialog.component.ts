@@ -23,8 +23,4 @@ export class SearchDialogComponent implements OnInit {
     component.instance.viewConfig = viewConfig;
     this.formView?.insert(component.hostView);
   }
-
-  cancel(): void {
-    this.ref.close();
-  }
 }

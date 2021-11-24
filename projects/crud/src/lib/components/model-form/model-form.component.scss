@@ -296,3 +296,12 @@ mat-expansion-panel-header.mat-expansion-panel-header{
 .crud-form-body .mat-accordion:first-child .crud-form-field-container:nth-child(7) {
     flex-grow: 1;
 }
+
+.separated {
+    border-bottom: 1px solid #929292;
+}
+.cancel_icon {
+    float: right;
+    cursor: pointer;
+    position: relative;
+}
