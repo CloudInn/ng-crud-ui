@@ -84,6 +84,7 @@ export class ListingComponent implements OnInit, AfterViewInit {
                 col['header'] = f.label;
                 col['type'] = f.type;
                 col['isTranslated'] = f.translate;
+                col['cellStyle'] = f.cellStyle;
                 col['cell'] = (element: Element) => {
                     if (element[field] === null || element[field] === undefined) {
                         element[field] = '';
