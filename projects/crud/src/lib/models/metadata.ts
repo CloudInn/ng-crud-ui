@@ -76,6 +76,7 @@ export class FieldConfig {
     postSubmitHookActions?: PostSubmitAction[];
     translate?: boolean;
     errorMessages?: ErrorMessage[];
+    cellStyle?: {};
 }
 
 export interface ErrorMessage {

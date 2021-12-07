@@ -95,7 +95,7 @@
               column.Def !== 'functions'">
                 <mat-header-cell id="{{getColId(column.header)}}" *matHeaderCellDef>{{ column.header }}
                 </mat-header-cell>
-                <mat-cell id="{{'cell-'+i}}" *matCellDef="let row">
+                <mat-cell  id="{{'cell-'+i}}" *matCellDef="let row" [ngStyle]="column.cellStyle? column.cellStyle[column.cell(row)]: {}">
                     <ng-container *ngIf="viewConfig?.external_link?.link;else normal">
                         <a class="clickable" (click)="redirect(row?.id)"
                             *ngIf="(mode !== 'pick' && column.clickable); else normalCell">
