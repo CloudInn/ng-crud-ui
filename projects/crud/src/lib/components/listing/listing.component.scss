@@ -91,6 +91,9 @@
 .separated {
     border-bottom: 1px solid #929292;
 }
+mat-row {
+    align-items: stretch;
+}
 
 mat-header-cell {
     background-color: #CECECE;
