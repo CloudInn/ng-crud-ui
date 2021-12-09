@@ -52,6 +52,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AttachmentsComponent } from './components/attachments/attachments.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { SearchDialogComponent } from './containers/search-dialog/search-dialog.component';
+import { SafePipe } from './components/pipes/safe.pipe';
 
 @NgModule({
   imports: [
@@ -109,7 +110,8 @@ import { SearchDialogComponent } from './containers/search-dialog/search-dialog.
     IframeModalComponent,
     TimePickerComponent,
     AttachmentsComponent,
-    SearchDialogComponent
+    SearchDialogComponent,
+    SafePipe
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: CookieInterceptor, multi: true },

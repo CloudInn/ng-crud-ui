@@ -1,15 +1,10 @@
-<ng-container *ngIf="!iframeOpened">
+<ng-container>
     <div [ngStyle]="{'display': (initialLoading)?'none':'block'}" class="row" *ngIf="!viewConfig.dialog_mode">
-        <ng-container *ngIf="viewConfig?.external_link?.link;else normal">
-            <a class="crud-new-btn" mat-raised-button (click)="redirect()" color="primary" id="add-new-btn">
-                <mat-icon>add</mat-icon> Add New
-            </a>
-        </ng-container>
-        <ng-template #normal>
+        <ng-container #normal>
             <a class="crud-new-btn" mat-raised-button routerLink="add" color="primary" id="create-btn">
                 <mat-icon>add</mat-icon> Create
             </a>
-        </ng-template>
+        </ng-container>
         <span class="fill-remaining-space"></span>
         <span class="fill-remaining-space"></span>
         <ng-container *ngIf="viewConfig?.metadata?.externalViews">
@@ -96,18 +91,7 @@
                 <mat-header-cell id="{{getColId(column.header)}}" *matHeaderCellDef>{{ column.header }}
                 </mat-header-cell>
                 <mat-cell  id="{{'cell-'+i}}" *matCellDef="let row" [ngStyle]="column.cellStyle? column.cellStyle[column.cell(row)]: {}">
-                    <ng-container *ngIf="viewConfig?.external_link?.link;else normal">
-                        <a class="clickable" (click)="redirect(row?.id)"
-                            *ngIf="(mode !== 'pick' && column.clickable); else normalCell">
-                            <ng-container *ngIf="(isString(column.cell(row)) && column?.isTranslated); else otherTypes">
-                                {{ column.cell(row) | translate }}
-                            </ng-container>
-                            <ng-template #otherTypes>
-                                {{ column.cell(row) }}
-                            </ng-template>
-                        </a>
-                    </ng-container>
-                    <ng-template #normal>
+                    <ng-container #normal>
                         <a class="clickable" [routerLink]="row?.id"
                             *ngIf="(mode !== 'pick' && column.clickable); else normalCell">
                             <ng-container *ngIf="(isString(column.cell(row)) && column?.isTranslated); else otherTypes">
@@ -117,7 +101,7 @@
                                 {{ column.cell(row) }}
                             </ng-template>
                         </a>
-                    </ng-template>
+                    </ng-container>
 
                     <ng-template #normalCell>
                         <ng-container *ngIf="column.cell(row)!=='boolean'">
@@ -168,9 +152,3 @@
         (page)="onChange($event)">
     </mat-paginator>
 </ng-container>
-
-<body style="margin:0px;padding:0px;overflow:hidden">
-    <iframe [hidden]="!iframeOpened" #iframe frameborder="0" id="crud-iframe"
-        style="overflow:hidden;overflow-x:hidden;overflow-y:hidden;height:100%;width:100%;position:absolute;top:0px;left:0px;right:0px;bottom:0px"
-        height="100%" width="100%"></iframe>
-</body>

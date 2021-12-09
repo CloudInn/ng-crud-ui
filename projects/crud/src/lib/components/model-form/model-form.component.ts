@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { FormArray, FormGroup, ValidationErrors } from '@angular/forms';
 
 import { ApiService } from '../../services/api.service';
@@ -25,6 +25,7 @@ export class ModelFormComponent implements OnInit {
     @Input() mode = 'search';
     @Input() id = null;
     @Output() submit = new EventEmitter<any>();
+    @ViewChild('iframe', { static: false }) iframe: ElementRef;
     formGroup: FormGroup = new FormGroup({});
     formsets: FieldConfig[] = [];
     subFormsets: FieldConfig[] = [];
@@ -42,6 +43,8 @@ export class ModelFormComponent implements OnInit {
     captureIdButton: any = {};
     response: any;
     isExpanded: boolean = false;
+    viewMode;
+    iframeSrc = '';
     constructor(
         private api: ApiService,
         private formService: FormService,
@@ -53,6 +56,7 @@ export class ModelFormComponent implements OnInit {
 
     }
     ngOnInit() {
+        this.viewMode = this.viewConfig.viewMode;
         this.openedInaialog = this.viewConfig?.metadata?.isDialog;
         this.controlsConfig = this.viewConfig.controls;
         this._visibleControls = this.controlsConfig.filter(c => c.isHidden !== true);
@@ -64,7 +68,10 @@ export class ModelFormComponent implements OnInit {
         this.formsets = this.viewConfig.controls.filter(field => field.type === 'formset');
         this.subFormsets = this.viewConfig.controls.filter(field => field.control?.subFields);
         this.is_ready = true;
-        if (this.id === 'add' || (!this.id && this.openedInaialog)) {
+        if (this.viewMode === 'iframe'){
+            this.appendIframeSrc(this.id)
+        }
+        else if (this.id === 'add' || (!this.id && this.openedInaialog)) {
             this.mode = 'create';
             this.submitButtonText = 'Create';
             this.formGroup = this.formService.create(this.controlsConfig);
@@ -76,6 +83,11 @@ export class ModelFormComponent implements OnInit {
             this.editForm(this.id, 'openPage');
         }
     }
+
+    appendIframeSrc(id?) {
+        this.iframeSrc = `${this.viewConfig.external_link.link}` + `${this.id}/?` + `${this.viewConfig.external_link.params.join('&')}`;
+    }
+    
     toggleExpansion() {
         this.isExpanded = !this.isExpanded
     }

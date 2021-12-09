@@ -22,11 +22,8 @@ import { SearchDialogComponent } from '../../containers/search-dialog/search-dia
 })
 export class ListingComponent implements OnInit, AfterViewInit {
     @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
-    @ViewChild('iframe', { static: false }) iframe: ElementRef;
-
     @Input() viewConfig: ListViewer;
     mode;
-    iframeOpened = false;
     is_actions_set = false;
     @Input() forcedSearchParams: any;
     dataSource = new MatTableDataSource();
@@ -178,16 +175,6 @@ export class ListingComponent implements OnInit, AfterViewInit {
         this.fetch();
     }
 
-    redirect(id?) {
-        this.iframeOpened = true;
-        if (id) {
-            this.iframe.nativeElement.setAttribute('src',
-                `${this.viewConfig.external_link.link}` + `${id}/?` + `${this.viewConfig.external_link.params.join('&')}`);
-        } else {
-            this.iframe.nativeElement.setAttribute('src',
-                `${this.viewConfig.external_link.link}` + 'add/?' + `${this.viewConfig.external_link.params.join('&')}`);
-        }
-    }
 
     changeView(view) {
         this.dialog.open(IframeModalComponent, {
