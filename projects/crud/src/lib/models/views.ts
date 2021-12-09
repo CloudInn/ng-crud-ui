@@ -38,8 +38,19 @@ export interface FormViewer extends ViewConfig {
     layout: string; // horizontal or vertical
     controls: FieldConfig[];
     actions: FormActions[];
+    external_link?: {
+        link: string;
+        params: string[];
+    };
+    viewMode?: string;
 }
-
+export interface IframeOptions {
+    external_link: {
+      link: string;
+      params: string[];
+    };
+    viewMode: string;
+}
 export class FormView implements FormViewer {
     title = this.metadata.label;
     breadcrumbs = [];
@@ -48,10 +59,16 @@ export class FormView implements FormViewer {
     controls: FieldConfig[] = [];
     actions = this.metadata.formActions;
     search_key = this.metadata.search_key;
-    constructor(public metadata: Metadata) {
+    viewMode = 'form'
+    external_link;
+    constructor(public metadata: Metadata, options?: IframeOptions) {
         metadata.fields.filter(f => f.isHidden !== true).forEach(field => {
             this.controls.push(field as FieldConfig);
         });
+        if (options) {
+            this.viewMode = options.viewMode;
+            this.external_link = options.external_link;
+        }
     }
 }
 export interface ViewSettingsObj {
