@@ -82,6 +82,7 @@ export class ModelFormComponent implements OnInit {
             this.actions = this.viewConfig.actions;
             this.editForm(this.id, 'openPage');
         }
+        this.updateFormBasedOnWindowMessages();
     }
 
     appendIframeSrc(id?) {
@@ -91,6 +92,15 @@ export class ModelFormComponent implements OnInit {
     toggleExpansion() {
         this.isExpanded = !this.isExpanded
     }
+
+    updateFormBasedOnWindowMessages() {
+        window.addEventListener('message', message => {
+            if (typeof message.data === 'string' && message.data?.includes('attachmentsUpdated')) {
+                this.editForm(this.id);
+            }
+        });
+    }
+
     editForm(id, state?) {
         const params = this.populateParams();
         this.api.fetch(this.viewConfig.metadata.api + id, params).subscribe(data => {
