@@ -190,7 +190,7 @@ export class ModelFormComponent implements OnInit, OnDestroy {
         }
     }
     openIframe(link) {
-        this.dialog.open(IframeModalComponent, {
+        this.iframeModal = this.dialog.open(IframeModalComponent, {
             height: '95vh',
             width: '100vw',
             data: {
