@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { FormArray, FormGroup, ValidationErrors } from '@angular/forms';
 
 import { ApiService } from '../../services/api.service';
@@ -18,7 +18,7 @@ import { SearchDialogComponent } from '../../containers/search-dialog/search-dia
     styleUrls: ['./model-form.component.scss'],
     exportAs: 'ngcrudui-model-form'
 })
-export class ModelFormComponent implements OnInit {
+export class ModelFormComponent implements OnInit, OnDestroy {
 
     @Input() viewConfig: FormViewer;
     @Input() expanded: boolean;
@@ -52,6 +52,7 @@ export class ModelFormComponent implements OnInit {
         private dialog: MatDialog,
         private router: Router,
         private creationDialogRef: MatDialogRef<SearchDialogComponent>,
+        private iframeModal: MatDialogRef<IframeModalComponent>,
     ) {
 
     }
@@ -68,7 +69,7 @@ export class ModelFormComponent implements OnInit {
         this.formsets = this.viewConfig.controls.filter(field => field.type === 'formset');
         this.subFormsets = this.viewConfig.controls.filter(field => field.control?.subFields);
         this.is_ready = true;
-        if (this.viewMode === 'iframe'){
+        if (this.viewMode === 'iframe') {
             this.appendIframeSrc(this.id)
         }
         else if (this.id === 'add' || (!this.id && this.openedInaialog)) {
@@ -96,7 +97,10 @@ export class ModelFormComponent implements OnInit {
     updateFormBasedOnWindowMessages() {
         window.addEventListener('message', message => {
             if (typeof message.data === 'string' && message.data?.includes('attachmentsUpdated')) {
-                this.editForm(this.id);
+                if (this.id) {
+                    this.iframeModal.close();
+                    this.editForm(this.id);
+                }
             }
         });
     }
@@ -442,7 +446,11 @@ export class ModelFormComponent implements OnInit {
         }
     }
 
-    cancel(ref){
+    cancel(ref) {
         this.creationDialogRef.close(this.response);
+    }
+
+    ngOnDestroy() {
+        this.id = null;
     }
 }

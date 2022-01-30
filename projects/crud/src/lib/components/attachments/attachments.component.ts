@@ -17,7 +17,7 @@ export class AttachmentsComponent implements OnChanges {
   attachments: Array<any> = [];
   uploadedAttachments = new Array();
   attachments_delete = new Array();
-  allowedTypes = ['PDF', 'Doc', 'Docx', 'Xls', 'Xlsx', 'JPEG', 'GIF', 'PNG', 'BMP'];
+  allowedTypes = ['PDF', 'Doc', 'Docx', 'Xls', 'Xlsx', 'JPEG', 'GIF', 'PNG', 'BMP', 'JPG'];
   @ViewChild('fileInput', { static: true }) fileInput: FileUploadComponent;
   attachments_service_conatiner = new Array();
   get formControls() { return this.formGroup.controls as any; }
