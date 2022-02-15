@@ -118,6 +118,7 @@ export class ListingView implements ListViewer {
         public viewSettings: ViewSettingsObj) {
     }
     setDefaults(values) {
+        this.metadata.default_filters = [];
         Object.keys(values).forEach(key => {
             this.search.view.controls.forEach(ctrl => {
                 if (key === ctrl.name) {
