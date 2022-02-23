@@ -323,6 +323,7 @@ export class ListingComponent implements OnInit, AfterViewInit {
     }
     cancel() {
         this.viewConfig.metadata.rows.next(undefined);
+        this.dialog.closeAll();
     }
     deleteRow(id) {
         const messg = confirm(`Are you sure you want to delete the ${this.viewConfig.title}`);
