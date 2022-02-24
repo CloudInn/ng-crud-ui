@@ -7,12 +7,13 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ApiService } from '../../services/api.service';
 import { ListViewer } from '../../models/views';
 import { HttpParams, HttpErrorResponse } from '@angular/common/http';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { SelectionModel } from '@angular/cdk/collections';
 import { IframeModalComponent } from '../iframe-modal/iframe-modal.component';
 import { CustomEncoder } from '../../custom-encode';
 import { SearchDialogComponent } from '../../containers/search-dialog/search-dialog.component';
+import { ListingDialogComponent } from '../../containers/listing-dialog/listing-dialog.component';
 
 @Component({
     selector: 'ng-crud-listing',
@@ -41,7 +42,8 @@ export class ListingComponent implements OnInit, AfterViewInit {
     constructor(private api: ApiService,
         private container: ViewContainerRef,
         private dialog: MatDialog,
-        private resolver: ComponentFactoryResolver) { }
+        private resolver: ComponentFactoryResolver,
+        private listingDialogRef: MatDialogRef<ListingDialogComponent>) { }
 
     ngOnInit() {
         if (this.viewConfig.pagination.enabled) {
@@ -323,7 +325,7 @@ export class ListingComponent implements OnInit, AfterViewInit {
     }
     cancel() {
         this.viewConfig.metadata.rows.next(undefined);
-        this.dialog.closeAll();
+        this.listingDialogRef.close();
     }
     deleteRow(id) {
         const messg = confirm(`Are you sure you want to delete the ${this.viewConfig.title}`);

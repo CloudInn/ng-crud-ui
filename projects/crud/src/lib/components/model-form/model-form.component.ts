@@ -264,6 +264,7 @@ export class ModelFormComponent implements OnInit, OnDestroy {
 
     _onSubmit(action_type?) {
         this.initialLoading = true;
+        this.viewConfig.metadata.default_filters = [];
         if (this.formGroup.valid) {
             this.disabled = true;
             this.changeFieldsBeforeSending();
@@ -385,7 +386,6 @@ export class ModelFormComponent implements OnInit, OnDestroy {
     }
 
     displayError(error) {
-        console.log(error)
         if (error) {
             this.openSnackBar(`${error.non_field_errors[0]}`, 'error');
         } else {
@@ -430,6 +430,7 @@ export class ModelFormComponent implements OnInit, OnDestroy {
         }
     }
     _onReset() {
+        this.viewConfig.metadata.default_filters = [];
         this.formGroup.reset();
         this.submit.emit({ reset: true });
     }
