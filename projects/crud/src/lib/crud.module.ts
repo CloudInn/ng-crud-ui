@@ -53,6 +53,7 @@ import { AttachmentsComponent } from './components/attachments/attachments.compo
 import { TranslateModule } from '@ngx-translate/core';
 import { SearchDialogComponent } from './containers/search-dialog/search-dialog.component';
 import { SafePipe } from './components/pipes/safe.pipe';
+import { SelectAutocompleteModule } from 'mat-select-autocomplete-angular11';
 
 @NgModule({
   imports: [
@@ -91,6 +92,7 @@ import { SafePipe } from './components/pipes/safe.pipe';
     MatExpansionModule,
     AmazingTimePickerModule,
     MatAutocompleteModule,
+    SelectAutocompleteModule,
     TranslateModule.forRoot(),
   ],
   declarations: [
