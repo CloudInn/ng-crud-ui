@@ -40,24 +40,21 @@ export class ForeignKeyFiledMultipleComponent implements OnChanges {
       });
     }
     this.controlConfig = this.config.control as ForeignKeyControlConfig;
+    let ctrl;
 
     if (this.formGroup.get(this.config.name)) {
-      let ctrl;
       if (this.mode === 'search' && this.config.keyOnSearch) {
         ctrl = this.formGroup.get([this.config.keyOnSearch]) as FormControl;
       } else {
         ctrl = this.formGroup.get([this.config.name]) as FormControl;
       }
-      if (ctrl.value !== null) {
-        this.selectedOptions.push(ctrl.value);
-        this._underlyingCtrl.setValue([ctrl.value]);
-      }
     }
-    this.fetch();
+    this.fetch(ctrl);
   }
 
-  fetch(value?: string): void {
+  fetch(ctrl: FormControl, value?: string): void {
     const apiUrl = this.controlConfig.metadata.api;
+    debugger
     let params = new HttpParams();
     if (this.controlConfig.metadata.includeParams) {
       this.controlConfig.metadata.queryParams.forEach((field) => {
@@ -80,6 +77,11 @@ export class ForeignKeyFiledMultipleComponent implements OnChanges {
       } else {
         this.options$.next(response);
       }
+      if (ctrl?.value) {
+        const defaultVal = +ctrl.value[this.config.resolveValueFrom];
+        this.selectedOptions.push(defaultVal);
+        this._underlyingCtrl.setValue([defaultVal]);
+      }
     });
   }
 
@@ -100,7 +102,7 @@ export class ForeignKeyFiledMultipleComponent implements OnChanges {
     ref.afterClosed().subscribe(result => {
       if (result && result.value) {
         const selectedFromPopUp = result.value[this.config.resolveValueFrom];
-        this._underlyingCtrl.setValue([selectedFromPopUp]);
+        this._underlyingCtrl.setValue([...this.selectedOptions, selectedFromPopUp]);
         this.selectedOptions.push(selectedFromPopUp);
       }
     });
