@@ -264,7 +264,7 @@ export class ListingComponent implements OnInit, AfterViewInit {
                     });
                     if (!containes) {
                         if (searchParams[p] !== '') {
-                            if (p.includes('regex') && Array.isArray(searchParams[p])) {
+                            if (p.includes('regex') && Array.isArray(searchParams[p]) && searchParams[p]?.length) {
                                 this.searchParams = this.searchParams.set(`filter{${p}}`,
                                  `^(${searchParams[p].toString().replace(/,/g, '|')})$`);
                             } else {
