@@ -423,8 +423,8 @@ export class ModelFormComponent implements OnInit, OnDestroy {
     updateForiegnKeyMultipleField(element): void {
         if (this.formGroup.get([element.keyOnSearch]) !== null &&
             this.formGroup.get([element.keyOnSearch]).value !== null &&
-            typeof (this.formGroup.get([element.keyOnSearch]).value) !== 'string'
-            && typeof (this.formGroup.get([element.keyOnSearch]).value) !== 'number') {
+            typeof (this.formGroup.get([element.keyOnSearch]).value[0]) !== 'string'
+            && typeof (this.formGroup.get([element.keyOnSearch]).value[0]) !== 'number') {
             this.formGroup.get([element.keyOnSearch]).patchValue(
                 this.formGroup.get([element.keyOnSearch]).value.map(val => val[element.resolveValueFrom])
             );

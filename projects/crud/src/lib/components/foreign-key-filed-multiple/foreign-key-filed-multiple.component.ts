@@ -81,7 +81,7 @@ export class ForeignKeyFiledMultipleComponent implements OnChanges {
         if (!Array.isArray(defaultVal)) {
           defaultVal = [defaultVal];
         }
-        defaultVal = defaultVal.map(val => val[this.config.resolveValueFrom] ? +val[this.config.resolveValueFrom] : val);
+        defaultVal = defaultVal.map(val => val[this.config.resolveValueFrom] ? val[this.config.resolveValueFrom] : val);
         this.setFormControlValue(defaultVal);
       }
     });
