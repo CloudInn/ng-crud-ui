@@ -48,8 +48,7 @@ export class FormService {
         ctrls[c.name] = new FormControl((c.defaultValue && c.defaultValue !== null) ? c.defaultValue : null, c.validators);
       }
     });
-    const fg = new FormGroup(ctrls);
-    return fg;
+    return new FormGroup(ctrls);
   }
 
   update(config, data): FormGroup {

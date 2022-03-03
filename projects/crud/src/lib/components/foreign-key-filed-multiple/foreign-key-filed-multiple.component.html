@@ -1,29 +1,13 @@
-<mat-form-field class="example-chip-list" >
-  <mat-chip-list #chipList aria-label="Fruit selection">
-    <mat-chip
-      *ngFor="let result of selected_results"
-      [selectable]="selectable"
-      [removable]="removable"
-      (removed)="remove(result)">
-      {{result[config.listFrom]}}
-      <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-    </mat-chip>
-    <input
-    id="{{config?.name}}-field"
-    [placeholder]="config.label"
-      #fruitInput
-      [formControl]="_underlyingCtrl"
-      [matAutocomplete]="auto"
-      [matChipInputFor]="chipList"
-      [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-      (matChipInputTokenEnd)="add($event)">
-  </mat-chip-list>
-  <mat-autocomplete [displayWith]="displayFn" #auto="matAutocomplete" (optionSelected)="selected($event)">
-    <mat-option *ngFor="let option of filtered | async" [value]="option">
-      {{option[controlConfig.metadata.optionName]}}
-    </mat-option>
-  </mat-autocomplete>
-</mat-form-field>
+<mat-select-autocomplete placeholder="{{config.label}}" [fieldFormControl]="_underlyingCtrl"
+  [ElementWidth]="config?.isSearchable ? '85%' : '100%'" [options$]="options$.asObservable()"
+  [display]="config.listFrom" [value]="config.resolveValueFrom" [multiple]='true' [labelCount]="10"
+  [selectedOptions]="selectedOptions" (selectionChange)="selected($event)" (onSearch)="fetch($event)"
+  [fieldsSelectors]="{searchField: config.name+'-search-field', selectField: 'select-'+ config.name, clearFieldIcon: 'icon-clear-' + config.name + '-field', clearSelection: config.name + '-clear-selection'}">
+</mat-select-autocomplete>
+
+<mat-icon class="foriegnkey-lookup-icon" id="lookup-{{config.name}}" *ngIf="config?.isSearchable"
+  (click)="openListingDialog($event)">search
+</mat-icon>
 
 
 <!-- Copyright 2019 Google LLC. All Rights Reserved.

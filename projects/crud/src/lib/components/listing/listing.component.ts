@@ -164,13 +164,18 @@ export class ListingComponent implements OnInit, AfterViewInit {
                 this.searchParams = this.searchParams.append('include[]', field);
             });
         }
+        const foreignKeyMultipleFields = this.viewConfig.metadata.fields.filter(f => f.keyOnSearch).map(f => f.name);
         if (defaultFilter && defaultFilter.length > 0) {
             defaultFilter.forEach(f => {
                 if (f.value && f.value !== '') {
                     if (f.value.id) {
                         f.value = f.value.id;
                     }
-                    this.searchParams = this.searchParams.append(`filter{${f.filter}}`, f.value);
+                    if (foreignKeyMultipleFields.indexOf(f.filter) !== -1) {
+                        this.searchParams = this.searchParams.append(`filter{${f.filter}.id.regex}`, `^(${f.value.toString().replace(/,/g, '|')})$`);
+                    } else {
+                        this.searchParams = this.searchParams.append(`filter{${f.filter}}`, f.value);
+                    }
                 }
             });
         }
@@ -259,7 +264,12 @@ export class ListingComponent implements OnInit, AfterViewInit {
                     });
                     if (!containes) {
                         if (searchParams[p] !== '') {
-                            this.searchParams = this.searchParams.set(`filter{${p}}`, searchParams[p]);
+                            if (p.includes('regex') && Array.isArray(searchParams[p])) {
+                                this.searchParams = this.searchParams.set(`filter{${p}}`,
+                                 `^(${searchParams[p].toString().replace(/,/g, '|')})$`);
+                            } else {
+                                this.searchParams = this.searchParams.set(`filter{${p}}`, searchParams[p]);
+                            }
                         } else {
                             this.searchParams = this.searchParams.delete(`filter{${p}}`);
                         }

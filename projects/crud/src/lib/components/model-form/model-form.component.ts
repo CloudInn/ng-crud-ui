@@ -70,9 +70,8 @@ export class ModelFormComponent implements OnInit, OnDestroy {
         this.subFormsets = this.viewConfig.controls.filter(field => field.control?.subFields);
         this.is_ready = true;
         if (this.viewMode === 'iframe') {
-            this.appendIframeSrc(this.id)
-        }
-        else if (this.id === 'add' || (!this.id && this.openedInaialog)) {
+            this.appendIframeSrc(this.id);
+        } else if (this.id === 'add' || (!this.id && this.openedInaialog)) {
             this.mode = 'create';
             this.submitButtonText = 'Create';
             this.formGroup = this.formService.create(this.controlsConfig);
@@ -89,7 +88,7 @@ export class ModelFormComponent implements OnInit, OnDestroy {
     appendIframeSrc(id?) {
         this.iframeSrc = `${this.viewConfig.external_link.link}` + `${this.id}/?` + `${this.viewConfig.external_link.params.join('&')}`;
     }
-    
+
     toggleExpansion() {
         this.isExpanded = !this.isExpanded
     }
@@ -247,12 +246,12 @@ export class ModelFormComponent implements OnInit, OnDestroy {
         });
     }
     removeEmptyFormsets() {
-            this.subFormsets.forEach(formset => {
-                const formsetName = formset.name;
-                this.formGroup.value[formsetName] = this.formGroup.value[formsetName].filter(item => {
-                    return this.isEmptyObject(item) ? null : item;
-                });
+        this.subFormsets.forEach(formset => {
+            const formsetName = formset.name;
+            this.formGroup.value[formsetName] = this.formGroup.value[formsetName].filter(item => {
+                return this.isEmptyObject(item) ? null : item;
             });
+        });
 
         this.formsets.forEach(formset => {
             const formsetName = formset.name;
@@ -275,7 +274,7 @@ export class ModelFormComponent implements OnInit, OnDestroy {
                     this.id = res[this.viewConfig.metadata.search_key].id;
                     this.response = res[this.viewConfig.metadata.search_key];
                     this.handlePostSubmit(action_type, res);
-    
+
                 }, (error) => {
                     this.initialLoading = false;
                     this.disabled = false;
@@ -352,8 +351,11 @@ export class ModelFormComponent implements OnInit, OnDestroy {
     }
 
     checkForirgnKey(ctrl) {
-        if (ctrl.type === 'foreignKey' || ctrl.type === 'foreignKey_multiple') {
+        if (ctrl.type === 'foreignKey') {
             this.updateForiegnKeyField(ctrl);
+        }
+        if (ctrl.type === 'foreignKey_multiple') {
+            this.updateForiegnKeyMultipleField(ctrl);
         }
     }
     elementDeleted(event) {
@@ -379,7 +381,7 @@ export class ModelFormComponent implements OnInit, OnDestroy {
                     this.editForm(id);
                 }, err => {
                     this.displayError(err.error);
-                    this.initialLoading = false
+                    this.initialLoading = false;
                 });
             }
         });
@@ -414,6 +416,18 @@ export class ModelFormComponent implements OnInit, OnDestroy {
             typeof (this.formGroup.get(element.name).value) !== 'string'
             && typeof (this.formGroup.get(element.name).value) !== 'number') {
             this.formGroup.get(element.name).patchValue(this.formGroup.get(element.name).value[element.resolveValueFrom]);
+            this.formGroup.updateValueAndValidity();
+        }
+    }
+
+    updateForiegnKeyMultipleField(element): void {
+        if (this.formGroup.get([element.keyOnSearch]) !== null &&
+            this.formGroup.get([element.keyOnSearch]).value !== null &&
+            typeof (this.formGroup.get([element.keyOnSearch]).value) !== 'string'
+            && typeof (this.formGroup.get([element.keyOnSearch]).value) !== 'number') {
+            this.formGroup.get([element.keyOnSearch]).patchValue(
+                this.formGroup.get([element.keyOnSearch]).value.map(val => val[element.resolveValueFrom])
+            );
             this.formGroup.updateValueAndValidity();
         }
     }
