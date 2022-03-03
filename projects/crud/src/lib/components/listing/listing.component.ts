@@ -332,10 +332,13 @@ export class ListingComponent implements OnInit, AfterViewInit {
                 'dataSource': this.dataSource.data,
             });
         }
-        this.listingDialogRef.close();
+        this.listingDialogRef.close({
+            'value': value,
+            'dataSource': this.dataSource.data,
+        });
     }
     cancel() {
-        this.viewConfig.metadata.rows.next(undefined);
+        this.viewConfig.metadata.rows.next();
         this.listingDialogRef.close();
     }
     deleteRow(id) {
