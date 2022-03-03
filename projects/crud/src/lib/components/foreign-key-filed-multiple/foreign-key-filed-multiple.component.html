@@ -2,7 +2,7 @@
   [ElementWidth]="config?.isSearchable ? '85%' : '100%'" [options$]="options$.asObservable()"
   [display]="config.listFrom" [value]="config.resolveValueFrom" [multiple]='true' [labelCount]="10"
   [selectedOptions]="selectedOptions" (selectionChange)="selected($event)" (onSearch)="fetch($event)"
-  [fieldsSelectors]="{searchField: '{{config.name}}-search-field', selectField: 'select-{{config.name}}', clearFieldIcon: 'icon-clear-{{config.name}}-field', clearSelection: '{{config.name}}-clear-selection'}">
+  [fieldsSelectors]="{searchField: config.name+'-search-field', selectField: 'select-'+ config.name, clearFieldIcon: 'icon-clear-' + config.name + '-field', clearSelection: config.name + '-clear-selection'}">
 </mat-select-autocomplete>
 
 <mat-icon class="foriegnkey-lookup-icon" id="lookup-{{config.name}}" *ngIf="config?.isSearchable"
