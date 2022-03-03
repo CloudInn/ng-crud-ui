@@ -44,11 +44,11 @@ export class FormService {
       }
       if (mode && mode === 'search' && c.keyOnSearch) {
         ctrls[c.keyOnSearch] = new FormControl((c.defaultValue && c.defaultValue !== null) ? c.defaultValue : null, c.validators);
+      } else {
+        ctrls[c.name] = new FormControl((c.defaultValue && c.defaultValue !== null) ? c.defaultValue : null, c.validators);
       }
-      ctrls[c.name] = new FormControl((c.defaultValue && c.defaultValue !== null) ? c.defaultValue : null, c.validators);
     });
-    const fg = new FormGroup(ctrls);
-    return fg;
+    return new FormGroup(ctrls);
   }
 
   update(config, data): FormGroup {

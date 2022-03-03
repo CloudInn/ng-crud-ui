@@ -24,6 +24,7 @@ export class ForeignKeyFiledMultipleComponent implements OnChanges {
   @Input() reset: Subject<any>;
   controlConfig: ForeignKeyControlConfig = null;
   _underlyingCtrl = new FormControl(null);
+  currentControl: FormControl;
 
   constructor(private api: ApiService, private dialog: MatDialog) { }
 
@@ -40,21 +41,19 @@ export class ForeignKeyFiledMultipleComponent implements OnChanges {
       });
     }
     this.controlConfig = this.config.control as ForeignKeyControlConfig;
-    let ctrl;
 
-    if (this.formGroup.get(this.config.name)) {
+    if (this.formGroup.get(this.config.name) || this.formGroup.get([this.config.keyOnSearch])) {
       if (this.mode === 'search' && this.config.keyOnSearch) {
-        ctrl = this.formGroup.get([this.config.keyOnSearch]) as FormControl;
+        this.currentControl = this.formGroup.get([this.config.keyOnSearch]) as FormControl;
       } else {
-        ctrl = this.formGroup.get([this.config.name]) as FormControl;
+        this.currentControl = this.formGroup.get([this.config.name]) as FormControl;
       }
     }
-    this.fetch(ctrl);
+    this.fetch();
   }
 
-  fetch(ctrl: FormControl, value?: string): void {
+  fetch(value?: string): void {
     const apiUrl = this.controlConfig.metadata.api;
-    debugger
     let params = new HttpParams();
     if (this.controlConfig.metadata.includeParams) {
       this.controlConfig.metadata.queryParams.forEach((field) => {
@@ -77,16 +76,19 @@ export class ForeignKeyFiledMultipleComponent implements OnChanges {
       } else {
         this.options$.next(response);
       }
-      if (ctrl?.value) {
-        const defaultVal = +ctrl.value[this.config.resolveValueFrom];
-        this.selectedOptions.push(defaultVal);
-        this._underlyingCtrl.setValue([defaultVal]);
+      let defaultVal = this.currentControl?.value;
+      if (defaultVal) {
+        if (!Array.isArray(defaultVal)) {
+          defaultVal = [defaultVal];
+        }
+        defaultVal = defaultVal.map(val => val[this.config.resolveValueFrom] ? +val[this.config.resolveValueFrom] : val);
+        this.setFormControlValue(defaultVal);
       }
     });
   }
 
   selected(event): void {
-    this.selectedOptions = [...event];
+    this.setFormControlValue([...event]);
   }
 
   openListingDialog(event: Event) {
@@ -102,9 +104,17 @@ export class ForeignKeyFiledMultipleComponent implements OnChanges {
     ref.afterClosed().subscribe(result => {
       if (result && result.value) {
         const selectedFromPopUp = result.value[this.config.resolveValueFrom];
-        this._underlyingCtrl.setValue([...this.selectedOptions, selectedFromPopUp]);
-        this.selectedOptions.push(selectedFromPopUp);
+        this.setFormControlValue([...this.selectedOptions, selectedFromPopUp]);
       }
     });
+  }
+
+  setFormControlValue(value: unknown[]): void {
+    this.selectedOptions = value;
+    this._underlyingCtrl.setValue(value);
+    this.currentControl.setValue(this.selectedOptions.map(option => {
+      return { [this.config.resolveValueFrom]: option };
+    }
+    ));
   }
 }
