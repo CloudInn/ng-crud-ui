@@ -264,9 +264,8 @@ export class ListingComponent implements OnInit, AfterViewInit {
                     });
                     if (!containes) {
                         if (searchParams[p] !== '') {
-                            if (p.includes('regex') && Array.isArray(searchParams[p]) && searchParams[p]?.length) {
-                                this.searchParams = this.searchParams.set(`filter{${p}}`,
-                                 `^(${searchParams[p].toString().replace(/,/g, '|')})$`);
+                            if (p.includes('regex') && Array.isArray(searchParams[p])) {
+                                this.searchParams = this.setMultipleForeignFieldParams(p, searchParams[p]);
                             } else {
                                 this.searchParams = this.searchParams.set(`filter{${p}}`, searchParams[p]);
                             }
@@ -284,6 +283,13 @@ export class ListingComponent implements OnInit, AfterViewInit {
             });
         }
         this.fetch();
+    }
+
+    setMultipleForeignFieldParams(paramKey: string, paramValue: any): HttpParams {
+        if (paramValue?.length) {
+            return this.searchParams.set(`filter{${paramKey}}`, `^(${paramValue.toString().replace(/,/g, '|')})$`);
+        }
+        return this.searchParams.delete(`filter{${paramKey}}`);
     }
 
     isAllSelected() {
