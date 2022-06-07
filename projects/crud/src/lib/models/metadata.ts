@@ -111,4 +111,5 @@ export interface Metadata {
     bulkActions?: any[];
     externalViews?: any[];
     isDialog?: boolean;
+    sortBy?: string;
 }
