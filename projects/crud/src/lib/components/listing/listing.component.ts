@@ -164,6 +164,9 @@ export class ListingComponent implements OnInit, AfterViewInit {
                 this.searchParams = this.searchParams.append('include[]', field);
             });
         }
+        if(this.viewConfig.metadata.sortBy) {
+            this.searchParams = this.searchParams.append('sort[]', this.viewConfig.metadata.sortBy);
+        }
         const foreignKeyMultipleFields = this.viewConfig.metadata.fields.filter(f => f.keyOnSearch).map(f => f.name);
         if (defaultFilter && defaultFilter.length > 0) {
             defaultFilter.forEach(f => {
