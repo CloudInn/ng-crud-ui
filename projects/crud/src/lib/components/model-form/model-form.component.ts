@@ -11,6 +11,8 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { IframeModalComponent } from '../../components/iframe-modal/iframe-modal.component';
 import { SearchDialogComponent } from '../../containers/search-dialog/search-dialog.component';
+import * as moment from 'moment';
+import { AttachmentsService } from '../../services/attachments.service';
 
 @Component({
     selector: 'ng-crud-model-form',
@@ -53,6 +55,7 @@ export class ModelFormComponent implements OnInit, OnDestroy {
         private router: Router,
         private creationDialogRef: MatDialogRef<SearchDialogComponent>,
         private iframeModal: MatDialogRef<IframeModalComponent>,
+        private attacmentsService: AttachmentsService
     ) {
 
     }
@@ -163,28 +166,7 @@ export class ModelFormComponent implements OnInit, OnDestroy {
                 this.openIframe(link);
                 break;
             case 'request':
-                this.fileName = `Profile${this.id}.${link.fileType}`;
-                this.api[link.type](link.api + this.id + '/' + link.params, link.body).subscribe(res => {
-                    if (link.type === 'download') {
-                        var downloadURL = window.URL.createObjectURL(res);
-                        var a = document.createElement('a');
-                        a.href = downloadURL;
-                        a.download = `${this.id}.${link.fileType}`;
-                        a.click();
-                    } else {
-                        this._snackBar.open(res['message'], '', {
-                            duration: 2000,
-                            panelClass: 'success'
-                        });
-                        const url = this.router.url;
-                        this.router.navigate([url.substr(0, url.indexOf(this.id))]);
-                    }
-                }, err => {
-                    this._snackBar.open(err.error.error, '', {
-                        duration: 2000,
-                        panelClass: 'others-bar'
-                    });
-                });
+                this.requestAction(link);
                 break;
         }
     }
@@ -197,6 +179,97 @@ export class ModelFormComponent implements OnInit, OnDestroy {
                 'title': link.name,
                 'color': 'grey'
             }
+        });
+    }
+    parseApiResponse(json) {
+        const res = {
+            first_name: json.firstName,
+            last_name: json.lastName,
+            gender: json.gender,
+            date_of_birth: moment(json.dateOfBirth),
+            document_type: json.idType == 'NID' ? 'I' : json.idType != 'P' ? 'O' : json.idType,
+            ID_number: json.documentNumber,
+            issue_place: json.issuingPlace,
+            issue_date: moment(json.issueDate),
+            expiry_date: moment(json.expiryDate),
+            countryOfBirth: json.place_of_birth,
+            nationality_object: json.nationality_code2,
+            attachments: Array.from(this.parseAttachamentsBase64(json?.fullImageIR)),
+        };
+        this.subFormsets.forEach(form => {
+            const formValue = this.formGroup.value[form.name];
+            let isMain = formValue.some(f => {
+                return f['contact_type']['id'] === 1;
+            })
+            if (!isMain) {
+                res[form.name] = [
+                    {
+                        country: json.nationality_code2,
+                        address: json.address1,
+                        city: json.city,
+                        zip_code: json.zip,
+                        contact_type: 1,
+                    },
+                    ...formValue
+                ]
+            }
+        })
+        return res;
+    }
+    parseAttachamentsBase64(base64) {
+        const bstr = atob(base64)
+        let length = bstr.length
+        const u8arr = new Uint8Array(length);
+        while (length--) {
+            u8arr[length] = bstr.charCodeAt(length);
+        }
+        const file = new File([u8arr], `${this.id}-documentScan-${moment().format('DD-MM-YYYY')}.png`, { type: "image/png" });
+        const container = new DataTransfer();
+        container.items.add(file);
+        return container.files;
+    }
+    requestAction(link) {
+        this.fileName = `Profile${this.id}.${link.fileType}`;
+        let Api;
+        switch (link.type) {
+            case 'fetch':
+                Api = link.api;
+                break;
+            default:
+                Api = link.api + this.id + '/' + link.params, link.body;
+        }
+        this.api[link.type](Api).subscribe(res => {
+            if (link.type === 'fetch') {
+                if (res) {
+                    let data = res;
+                    if (typeof data === 'string') {
+                        JSON.parse(data);
+                    };
+                    const paresedData = this.parseApiResponse(data);
+                    this.attacmentsService.attachmentsFormData.push(...Array.from(this.parseAttachamentsBase64(data?.fullImageIR)));
+                    this.formGroup = this.formService.update(this.controlsConfig, { ...this.formGroup.value, ...paresedData });
+                    this._onSubmit('saveAndEdit');
+                }
+            }
+            else if (link.type === 'download') {
+                var downloadURL = window.URL.createObjectURL(res);
+                var a = document.createElement('a');
+                a.href = downloadURL;
+                a.download = `${this.id}.${link.fileType}`;
+                a.click();
+            } else {
+                this._snackBar.open(res['message'], '', {
+                    duration: 2000,
+                    panelClass: 'success'
+                });
+                const url = this.router.url;
+                this.router.navigate([url.substr(0, url.indexOf(this.id))]);
+            }
+        }, err => {
+            this._snackBar.open(err.error.error, '', {
+                duration: 2000,
+                panelClass: 'others-bar'
+            });
         });
     }
     saveAndEdit() {
