@@ -77,6 +77,7 @@ export class FieldConfig {
     translate?: boolean;
     errorMessages?: ErrorMessage[];
     cellStyle?: {};
+    dropDownDisplay?: string;
 }
 
 export interface ErrorMessage {

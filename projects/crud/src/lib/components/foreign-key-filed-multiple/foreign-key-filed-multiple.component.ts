@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { FieldConfig, ForeignKeyControlConfig } from '../../models/metadata';
 import { HttpParams } from '@angular/common/http';
 import { ApiService } from '../../services/api.service';
@@ -15,7 +15,7 @@ import { ListingDialogComponent } from '../../containers/listing-dialog/listing-
 export class ForeignKeyFiledMultipleComponent implements OnChanges {
 
   visible = true;
-  options$ = new Subject<any[]>();
+  options$ = new BehaviorSubject<any[]>([]);
   selectedOptions = [];
 
   @Input() formGroup: FormGroup;
