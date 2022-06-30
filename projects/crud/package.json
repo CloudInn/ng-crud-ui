@@ -1,6 +1,6 @@
 {
     "name": "ng-crud-ui",
-    "version": "5.9.7",
+    "version": "5.9.8",
     "dependencies": {
         "tslib": "^2.0.0"
     },
