@@ -13,9 +13,13 @@ export class ApiService {
     constructor(private http: HttpClient, private attachmentsService: AttachmentsService) { }
 
     public fetch(api: string, params?: HttpParams): Observable<any> {
+        const headers = new Headers();
+        headers.append('Access-Control-Allow-Origin', '*');
         return this.http.get(api, {
-            params: params
+            params: params,
+            withCredentials: true
         });
+
     }
 
     public download(api: string, params?: HttpParams) {

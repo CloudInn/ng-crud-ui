@@ -1,3 +1,4 @@
+import { OpenTecPopupComponent } from './../open-tec-popup/open-tec-popup.component';
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { FormArray, FormGroup, ValidationErrors } from '@angular/forms';
 
@@ -55,7 +56,7 @@ export class ModelFormComponent implements OnInit, OnDestroy {
         private router: Router,
         private creationDialogRef: MatDialogRef<SearchDialogComponent>,
         private iframeModal: MatDialogRef<IframeModalComponent>,
-        private attacmentsService: AttachmentsService
+        private attacmentsService: AttachmentsService,
     ) {
 
     }
@@ -161,13 +162,17 @@ export class ModelFormComponent implements OnInit, OnDestroy {
     }
 
     onAction(link) {
-        switch (link.action) {
-            case 'iframe':
-                this.openIframe(link);
-                break;
-            case 'request':
-                this.requestAction(link);
-                break;
+        if(link.action == 'iframe'){
+            this.openIframe(link);
+        }
+        else if (link.action == 'request' && link.type == 'scan') {
+            this.fillFormControls(link);
+        }
+        else if(link.action == 'dialog') {
+            this.openOpentecPopup(link);
+        }
+        else {
+            this.requestAction(link);
         }
     }
     openIframe(link) {
@@ -181,41 +186,29 @@ export class ModelFormComponent implements OnInit, OnDestroy {
             }
         });
     }
-    parseApiResponse(json) {
-        const res = {
-            first_name: json.firstName,
-            last_name: json.lastName,
-            gender: json.gender,
-            date_of_birth: moment(json.dateOfBirth),
-            document_type: json.idType == 'NID' ? 'I' : json.idType != 'P' ? 'O' : json.idType,
-            ID_number: json.documentNumber,
-            issue_place: json.issuingPlace,
-            issue_date: moment(json.issueDate),
-            expiry_date: moment(json.expiryDate),
-            countryOfBirth: json.place_of_birth,
-            nationality_object: json.nationality_code2,
-            attachments: Array.from(this.parseAttachamentsBase64(json?.fullImageIR)),
-        };
-        this.subFormsets.forEach(form => {
-            const formValue = this.formGroup.value[form.name];
-            let isMain = formValue.some(f => {
-                return f['contact_type']['id'] === 1;
-            })
-            if (!isMain) {
-                res[form.name] = [
-                    {
-                        country: json.nationality_code2,
-                        address: json.address1,
-                        city: json.city,
-                        zip_code: json.zip,
-                        contact_type: 1,
-                    },
-                    ...formValue
-                ]
-            }
-        })
-        return res;
+
+    openOpentecPopup(options) {
+        const opts = [];
+        options.apiOptions.forEach(element => opts.push(element.name));
+        const dialogRef = this.dialog.open(OpenTecPopupComponent, {
+            height: '168px',
+            width: '510px',
+            data: opts,
+        });
+        dialogRef.afterClosed().subscribe((result) => {            
+            let link = {};
+            link['function'] = options.apiOptions.find(opt => opt.name == result)?.function;
+            this.fillFormControls(link);
+        });
     }
+
+    fillFormControls(link) {
+        const linkData = link.function();
+        this.attacmentsService.attachmentsFormData.push(...Array.from(linkData?.attachments));
+        this.formGroup = this.formService.update(this.controlsConfig, { ...this.formGroup.value, ...linkData });
+        this._onSubmit('saveAndEdit');
+    }
+   
     parseAttachamentsBase64(base64) {
         const bstr = atob(base64)
         let length = bstr.length
@@ -230,28 +223,8 @@ export class ModelFormComponent implements OnInit, OnDestroy {
     }
     requestAction(link) {
         this.fileName = `Profile${this.id}.${link.fileType}`;
-        let Api;
-        switch (link.type) {
-            case 'fetch':
-                Api = link.api;
-                break;
-            default:
-                Api = link.api + this.id + '/' + link.params, link.body;
-        }
-        this.api[link.type](Api).subscribe(res => {
-            if (link.type === 'fetch') {
-                if (res) {
-                    let data = res;
-                    if (typeof data === 'string') {
-                        JSON.parse(data);
-                    };
-                    const paresedData = this.parseApiResponse(data);
-                    this.attacmentsService.attachmentsFormData.push(...Array.from(this.parseAttachamentsBase64(data?.fullImageIR)));
-                    this.formGroup = this.formService.update(this.controlsConfig, { ...this.formGroup.value, ...paresedData });
-                    this._onSubmit('saveAndEdit');
-                }
-            }
-            else if (link.type === 'download') {
+        this.api[link.type](link.api + this.id + '/' + link.params, link.body).subscribe(res => {
+            if (link.type === 'download') {
                 var downloadURL = window.URL.createObjectURL(res);
                 var a = document.createElement('a');
                 a.href = downloadURL;
