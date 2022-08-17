@@ -162,13 +162,13 @@ export class ModelFormComponent implements OnInit, OnDestroy {
     }
 
     onAction(link) {
-        if(link.action == 'iframe'){
+        if (link.action == 'iframe') {
             this.openIframe(link);
         }
         else if (link.action == 'request' && link.type == 'scan') {
             this.fillFormControls(link);
         }
-        else if(link.action == 'dialog') {
+        else if (link.action == 'dialog') {
             this.openOpentecPopup(link);
         }
         else {
@@ -195,20 +195,36 @@ export class ModelFormComponent implements OnInit, OnDestroy {
             width: '510px',
             data: opts,
         });
-        dialogRef.afterClosed().subscribe((result) => {            
-            let link = {};
-            link['function'] = options.apiOptions.find(opt => opt.name == result)?.function;
-            this.fillFormControls(link);
+        dialogRef.afterClosed().subscribe((result) => {
+            if (result) {
+                let link = {};
+                link['function'] = options.apiOptions.find(opt => opt.name == result)?.function;
+                this.fillFormControls(link);
+            }
         });
     }
 
     fillFormControls(link) {
         const linkData = link.function();
-        this.attacmentsService.attachmentsFormData.push(...Array.from(linkData?.attachments));
-        this.formGroup = this.formService.update(this.controlsConfig, { ...this.formGroup.value, ...linkData });
+        let { formSet = undefined, ...data } = { ...linkData };
+        if (formSet) {
+            for (let key in formSet) {
+                const formValue = this.formGroup.value[key];
+                let isMain = formValue.some(f => {
+                    if (f['contact_type']) {
+                        return f['contact_type']['id'] == 1;
+                    }
+                });
+                if (!isMain) {
+                    data[key] = [formSet[key], ...formValue];
+                }
+            }
+        }
+        this.attacmentsService.attachmentsFormData.push(...Array.from(data?.attachments));
+        this.formGroup = this.formService.update(this.controlsConfig, { ...this.formGroup.value, ...data });
         this._onSubmit('saveAndEdit');
     }
-   
+
     parseAttachamentsBase64(base64) {
         const bstr = atob(base64)
         let length = bstr.length

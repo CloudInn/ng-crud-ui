@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
@@ -6,20 +6,12 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
   templateUrl: './open-tec-popup.component.html',
   styleUrls: ['./open-tec-popup.component.css']
 })
-export class OpenTecPopupComponent implements OnInit {
-
+export class OpenTecPopupComponent {
   constructor(
     @Inject(MAT_DIALOG_DATA) public options: any,
     public dialogRef: MatDialogRef<OpenTecPopupComponent>) { }
 
-  ngOnInit() { 
-    console.log("dataaaaa", this.options);
-    
-  }
-
   dialogAction(option: string){
     this.dialogRef.close(option);
   }
-
-
 }
