@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { OpenTecPopupComponent } from './open-tec-popup.component';
+import { ScannerComponent } from './scanner-popup.component';
 
-describe('OpenTecPopupComponent', () => {
-  let component: OpenTecPopupComponent;
-  let fixture: ComponentFixture<OpenTecPopupComponent>;
+describe('ScannerComponent', () => {
+  let component: ScannerComponent;
+  let fixture: ComponentFixture<ScannerComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ OpenTecPopupComponent ]
+      declarations: [ ScannerComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(OpenTecPopupComponent);
+    fixture = TestBed.createComponent(ScannerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

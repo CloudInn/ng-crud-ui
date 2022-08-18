@@ -54,7 +54,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { SearchDialogComponent } from './containers/search-dialog/search-dialog.component';
 import { SafePipe } from './components/pipes/safe.pipe';
 import { SelectAutocompleteModule } from 'mat-select-autocomplete-angular11';
-import { OpenTecPopupComponent } from './components/open-tec-popup/open-tec-popup.component';
+import { ScannerComponent } from './components/scanner-popup/scanner-popup.component';
 
 @NgModule({
   imports: [
@@ -115,7 +115,7 @@ import { OpenTecPopupComponent } from './components/open-tec-popup/open-tec-popu
     AttachmentsComponent,
     SearchDialogComponent,
     SafePipe,
-    OpenTecPopupComponent
+    ScannerComponent
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: CookieInterceptor, multi: true },
