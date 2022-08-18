@@ -54,7 +54,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { SearchDialogComponent } from './containers/search-dialog/search-dialog.component';
 import { SafePipe } from './components/pipes/safe.pipe';
 import { SelectAutocompleteModule } from 'mat-select-autocomplete-angular11';
-import { ScannerComponent } from './components/scanner-popup/scanner-popup.component';
+import { ActionDialogComponent } from './components/action-dialog/action-dialog.component';
 
 @NgModule({
   imports: [
@@ -115,7 +115,7 @@ import { ScannerComponent } from './components/scanner-popup/scanner-popup.compo
     AttachmentsComponent,
     SearchDialogComponent,
     SafePipe,
-    ScannerComponent
+    ActionDialogComponent
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: CookieInterceptor, multi: true },

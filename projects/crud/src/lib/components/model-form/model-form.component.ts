@@ -1,4 +1,4 @@
-import { ScannerComponent } from '../scanner-popup/scanner-popup.component';
+import { ActionDialogComponent } from '../action-dialog/action-dialog.component';
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { FormArray, FormGroup, ValidationErrors } from '@angular/forms';
 
@@ -188,7 +188,7 @@ export class ModelFormComponent implements OnInit, OnDestroy {
     }
 
     openActionDialog(options) {
-        const dialogRef = this.dialog.open(ScannerComponent, {
+        const dialogRef = this.dialog.open(ActionDialogComponent, {
             height: '168px',
             width: '510px',
             data: options.dialogData,
@@ -196,30 +196,16 @@ export class ModelFormComponent implements OnInit, OnDestroy {
         dialogRef.afterClosed().subscribe((result) => {
             if (result) {
                 let link = {};
-                link['fetchApiData'] = options.dialogData.data.find(opt => opt.name == result)?.fetchApiData;
+                link['fetchApiData'] = options.dialogData.actionButtons.find(opt => opt.name == result)?.fetchApiData;
                 this.fillFormControls(link);
             }
         });
     }
 
     fillFormControls(link) {
-        const linkData = link.fetchApiData();
-        let { formSet = undefined, ...data } = { ...linkData };
-        if (formSet) {
-            for (let key in formSet) {
-                const formValue = this.formGroup.value[key];
-                let isMain = formValue.some(f => {
-                    if (f['contact_type']) {
-                        return f['contact_type']['id'] == 1;
-                    }
-                });
-                if (!isMain) {
-                    data[key] = [formSet[key], ...formValue];
-                }
-            }
-        }
-        this.attacmentsService.attachmentsFormData.push(...Array.from(data?.attachments));
-        this.formGroup = this.formService.update(this.controlsConfig, { ...this.formGroup.value, ...data });
+        const linkData = link.fetchApiData(this.formGroup.value);
+        this.attacmentsService.attachmentsFormData.push(...Array.from(linkData?.attachments));
+        this.formGroup = this.formService.update(this.controlsConfig, { ...this.formGroup.value, ...linkData });
         this._onSubmit('saveAndEdit');
     }
 

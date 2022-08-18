@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ScannerComponent } from './scanner-popup.component';
+import { ActionDialogComponent } from './action-dialog.component';
 
-describe('ScannerComponent', () => {
-  let component: ScannerComponent;
-  let fixture: ComponentFixture<ScannerComponent>;
+describe('ActionDialogComponent', () => {
+  let component: ActionDialogComponent;
+  let fixture: ComponentFixture<ActionDialogComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ScannerComponent ]
+      declarations: [ ActionDialogComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ScannerComponent);
+    fixture = TestBed.createComponent(ActionDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
