@@ -1,4 +1,4 @@
-import { OpenTecPopupComponent } from './../open-tec-popup/open-tec-popup.component';
+import { ScannerComponent } from '../scanner-popup/scanner-popup.component';
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { FormArray, FormGroup, ValidationErrors } from '@angular/forms';
 
@@ -169,7 +169,7 @@ export class ModelFormComponent implements OnInit, OnDestroy {
             this.fillFormControls(link);
         }
         else if (link.action == 'dialog') {
-            this.openOpentecPopup(link);
+            this.openActionDialog(link);
         }
         else {
             this.requestAction(link);
@@ -187,25 +187,23 @@ export class ModelFormComponent implements OnInit, OnDestroy {
         });
     }
 
-    openOpentecPopup(options) {
-        const opts = [];
-        options.apiOptions.forEach(element => opts.push(element.name));
-        const dialogRef = this.dialog.open(OpenTecPopupComponent, {
+    openActionDialog(options) {
+        const dialogRef = this.dialog.open(ScannerComponent, {
             height: '168px',
             width: '510px',
-            data: opts,
+            data: options.dialogData,
         });
         dialogRef.afterClosed().subscribe((result) => {
             if (result) {
                 let link = {};
-                link['function'] = options.apiOptions.find(opt => opt.name == result)?.function;
+                link['fetchApiData'] = options.dialogData.data.find(opt => opt.name == result)?.fetchApiData;
                 this.fillFormControls(link);
             }
         });
     }
 
     fillFormControls(link) {
-        const linkData = link.function();
+        const linkData = link.fetchApiData();
         let { formSet = undefined, ...data } = { ...linkData };
         if (formSet) {
             for (let key in formSet) {
