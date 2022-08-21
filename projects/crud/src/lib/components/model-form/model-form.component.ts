@@ -162,16 +162,13 @@ export class ModelFormComponent implements OnInit, OnDestroy {
     }
 
     onAction(link) {
-        if (link.action == 'iframe') {
+        if (link.action === 'iframe') {
             this.openIframe(link);
-        }
-        else if (link.action == 'request' && link.type == 'scan') {
+        } else if (link.action === 'request' && link.type === 'scan') {
             this.fillFormControls(link);
-        }
-        else if (link.action == 'dialog') {
+        } else if (link.action === 'dialog') {
             this.openActionDialog(link);
-        }
-        else {
+        } else {
             this.requestAction(link);
         }
     }
@@ -195,32 +192,27 @@ export class ModelFormComponent implements OnInit, OnDestroy {
         });
         dialogRef.afterClosed().subscribe((result) => {
             if (result) {
-                let link = {};
-                link['fetchApiData'] = options.dialogData.actionButtons.find(opt => opt.name == result)?.fetchApiData;
+                const link = {};
+                link['fetchDataFunction'] = options.dialogData.actionButtons.find(opt => opt.name === result)?.fetchDataFunction;
                 this.fillFormControls(link);
             }
         });
     }
 
     fillFormControls(link) {
-        const linkData = link.fetchApiData(this.formGroup.value);
-        this.attacmentsService.attachmentsFormData.push(...Array.from(linkData?.attachments));
-        this.formGroup = this.formService.update(this.controlsConfig, { ...this.formGroup.value, ...linkData });
-        this._onSubmit('saveAndEdit');
+        const linkDataObservable = link.fetchDataFunction(this.formGroup.value);
+        linkDataObservable.subscribe(data => {
+            if (data) {
+                if (data?.attachments) {
+                    this.attacmentsService.attachmentsFormData.push(...Array.from(data?.attachments));
+                }
+                this.formGroup = this.formService.update(this.controlsConfig, { ...this.formGroup.value, ...data });
+                this._onSubmit('saveAndEdit');
+            }
+        });
+
     }
 
-    parseAttachamentsBase64(base64) {
-        const bstr = atob(base64)
-        let length = bstr.length
-        const u8arr = new Uint8Array(length);
-        while (length--) {
-            u8arr[length] = bstr.charCodeAt(length);
-        }
-        const file = new File([u8arr], `${this.id}-documentScan-${moment().format('DD-MM-YYYY')}.png`, { type: "image/png" });
-        const container = new DataTransfer();
-        container.items.add(file);
-        return container.files;
-    }
     requestAction(link) {
         this.fileName = `Profile${this.id}.${link.fileType}`;
         this.api[link.type](link.api + this.id + '/' + link.params, link.body).subscribe(res => {
@@ -434,7 +426,7 @@ export class ModelFormComponent implements OnInit, OnDestroy {
     }
 
     displayError(error) {
-        if (error) {
+        if (error && error.non_field_errors) {
             this.openSnackBar(`${error.non_field_errors[0]}`, 'error');
         } else {
             this.openSnackBar('Please review your data and try again!', 'error');
