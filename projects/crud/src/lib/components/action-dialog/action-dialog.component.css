@@ -1,0 +1,27 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    justify-content: space-around;
+    height: 120px;
+    font: 16px/19px Roboto, "Helvetica Neue", sans-serif;
+    font-weight: bold;
+    color: #707070;
+  }
+  
+  .actions {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+  
+  #btn-style {
+    width: 184px;
+    height: 36px;
+    margin: 6px;
+    background-color: #2A55A2;
+    color: white;
+  }
+  
+  

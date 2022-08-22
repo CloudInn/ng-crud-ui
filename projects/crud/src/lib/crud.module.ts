@@ -54,6 +54,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { SearchDialogComponent } from './containers/search-dialog/search-dialog.component';
 import { SafePipe } from './components/pipes/safe.pipe';
 import { SelectAutocompleteModule } from 'mat-select-autocomplete-angular11';
+import { ActionDialogComponent } from './components/action-dialog/action-dialog.component';
 
 @NgModule({
   imports: [
@@ -113,7 +114,8 @@ import { SelectAutocompleteModule } from 'mat-select-autocomplete-angular11';
     TimePickerComponent,
     AttachmentsComponent,
     SearchDialogComponent,
-    SafePipe
+    SafePipe,
+    ActionDialogComponent
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: CookieInterceptor, multi: true },

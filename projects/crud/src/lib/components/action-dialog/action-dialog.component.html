@@ -1,0 +1,7 @@
+<div class="container" id="confirmation-dialog">
+  <div mat-dialog-content>{{dialogData.title | translate}}</div>
+  <div class="actions">
+    <button *ngFor="let option of dialogData.actionButtons" mat-button id="btn-style" (click)="dialogAction(option.name)">{{ option.name |
+      translate }}</button>
+  </div>
+</div>
