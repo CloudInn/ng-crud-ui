@@ -53,8 +53,9 @@ export class FieldConfig {
     disabled?: boolean;
     type?: 'text' | 'number' | 'boolean' | 'textArea' | 'select' | 'file' |
         'date' | 'datetime' | 'foreignKey' | 'formset' | 'datetime' | 'time' |
-        'fieldset' | 'foreignKey_multiple' = 'text';
+        'fieldset' | 'custom_element' | 'foreignKey_multiple' = 'text';
     isEditable?: boolean = true;
+    customElement?: CustomElementConfig;
     isSearchable?: boolean = true;
     isHidden?: boolean = false;
     control?: ControlConfig | ForeignKeyControlConfig | TextAreaControlConfig |
@@ -78,6 +79,21 @@ export class FieldConfig {
     errorMessages?: ErrorMessage[];
     cellStyle?: {};
     dropDownDisplay?: string;
+}
+
+export interface CustomElementConfig {
+    component: any;
+    inputs?:
+    {
+        key: string;
+        value?: any;
+        readValueFrom?: string;
+    }[];
+    outputs?:
+    {
+        name: string;
+        functionToExcute: Function;
+    }[];
 }
 
 export interface ErrorMessage {

@@ -8,6 +8,7 @@ There is different types of fields:
 - Select Field
 - Date Field
 - ForeignKey Field
+- custom_element Field
 
 When you are defining your metadata you need to define
 fields, the config should extend the `FieldConfig`
@@ -52,6 +53,7 @@ Available types:
 - select
 - date
 - foreignKey
+- custom_element
 - default (default HTML input tag)
 
 ## isEditable attribute

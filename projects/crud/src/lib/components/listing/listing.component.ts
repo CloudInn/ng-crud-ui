@@ -1,6 +1,9 @@
 import {
-    Component, OnInit, Input, Output, EventEmitter,
-    ComponentFactoryResolver, ViewChild, ViewContainerRef, AfterContentChecked, AfterViewInit, ElementRef
+    Component, OnInit, Input,
+    ComponentFactoryResolver,
+    ViewChild, ViewContainerRef,
+    AfterViewInit, ViewChildren,
+    QueryList, SimpleChange,
 } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 
@@ -37,10 +40,12 @@ export class ListingComponent implements OnInit, AfterViewInit {
     initialLoading = true;
     pages: number;
     @ViewChild('searchComponent', { read: ViewContainerRef, static: false }) searchComponent: ViewContainerRef;
+    @ViewChildren('customElement', { read: ViewContainerRef }) customElement: QueryList<ViewContainerRef>;
+
     selection = new SelectionModel<any>(true, []);
 
     constructor(private api: ApiService,
-        private container: ViewContainerRef,
+        private viewContainerRef: ViewContainerRef,
         private dialog: MatDialog,
         private resolver: ComponentFactoryResolver,
         private listingDialogRef: MatDialogRef<ListingDialogComponent>) { }
@@ -56,7 +61,7 @@ export class ListingComponent implements OnInit, AfterViewInit {
     ngAfterViewInit() {
         if (this.viewConfig.search.enabled) {
             const factory = this.resolver.resolveComponentFactory(this.viewConfig.search.view.component);
-            const component = this.container.createComponent(factory);
+            const component = this.viewContainerRef.createComponent(factory);
             component.instance.viewConfig = this.viewConfig.search.view;
             component.instance.submit.subscribe(ev => {
                 if (ev.reset) {
@@ -140,7 +145,7 @@ export class ListingComponent implements OnInit, AfterViewInit {
                 }
             );
         }
-        if (this.mode !== 'pick') {
+        if (this.mode !== 'pick' && this.viewConfig.metadata.formActions?.length) {
             this.columns.push({ 'columnDef': 'actions', 'header': '' });
             this.columns.push({ 'columnDef': 'checked', 'header': '' });
         }
@@ -164,7 +169,7 @@ export class ListingComponent implements OnInit, AfterViewInit {
                 this.searchParams = this.searchParams.append('include[]', field);
             });
         }
-        if(this.viewConfig.metadata.sortBy) {
+        if (this.viewConfig.metadata.sortBy) {
             this.searchParams = this.searchParams.append('sort[]', this.viewConfig.metadata.sortBy);
         }
         const foreignKeyMultipleFields = this.viewConfig.metadata.fields.filter(f => f.keyOnSearch).map(f => f.name);
@@ -222,6 +227,8 @@ export class ListingComponent implements OnInit, AfterViewInit {
                 this.resultsCount = newItems.length;
             }
             this.dataSource.data = newItems;
+            this.viewConfig.metadata.rows.next({ IDs: this.dataSource.data.map(item => item['id']) });
+            this.addCustomElementColumnsToTemplate();
             this.isLoading = false;
             this.initialLoading = false;
         }, err => {
@@ -230,6 +237,34 @@ export class ListingComponent implements OnInit, AfterViewInit {
         });
     }
 
+    addCustomElementColumnsToTemplate(): void {
+        const customElementField = this.viewConfig.metadata.fields.find(f => f.type === 'custom_element');
+        this.customElement.changes.subscribe(element => {
+            element.forEach((item, index) => {
+                this.viewContainerRef.clear();
+                const componentFactory = this.resolver.resolveComponentFactory(customElementField.customElement.component);
+                const componentRef = this.viewContainerRef.createComponent(componentFactory);
+                const componentInstance = componentRef.instance as any;
+                const changes = {};
+                // Bind component inputs if exists
+                customElementField.customElement.inputs.forEach(input => {
+                    componentRef.instance[input.key] = input.value ?? this.dataSource.data[index][input.readValueFrom];
+                    changes[input.key] = new SimpleChange(undefined, input.value ??
+                        this.dataSource.data[index][input.readValueFrom], false);
+                });
+                // Bind component outputs if exists
+                customElementField.customElement.outputs.forEach(output => {
+                    componentRef.instance[output.name].subscribe(response => {
+                        output.functionToExcute(response);
+                    });
+                });
+                // Trigger onChanges for the inputs to reflect
+                componentInstance.ngOnChanges(changes);
+                item.clear();
+                item.insert(componentRef.hostView);
+            });
+        });
+    }
     onChange(ev: PageEvent) {
         if (this.searchParams.toString().includes('filter')) {
             this.searchParams = this.searchParams.delete('page');

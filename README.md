@@ -30,6 +30,7 @@ Check the docs at: [https://cloudinn.github.io/ng-crud-ui](https://cloudinn.gith
 - [Metadata Field Definitions](./projects/docs/src/assets/docs/fields.md)
 - [Rendering Forms](./projects/docs/src/assets/docs/forms.md)
 - [Foreign Keys](./projects/docs/src/assets/docs/foreignKeys.md)
+- [Custom Elements](./projects/docs/src/assets/docs/customElementField.md)
 - [Constructing Views](./projects/docs/src/assets/docs/views.md)
 - [Reusable Components](./projects/docs/src/assets/docs/components.md)
 
@@ -77,7 +78,32 @@ export class StoreMetadata implements Metadata {
       control: {
         type: "switch"
       }
-    }
+    },
+    {
+      name: 'alerts',
+      label: '',
+      type: 'custom_element',
+      customElement: {
+          component: AlertsComponent,
+          inputs: [
+              {
+                  key: 'type',
+                  value: 'individual'
+              },
+              {
+                  key: 'id',
+                  readValueFrom: 'id'
+              },
+          ],
+          outputs: [
+              {
+                  name: 'updateCount',
+                  functionToExcute: this.updateCount.bind(this)
+              }
+          ]
+      },
+      isEditable: false,
+    },
   ];
   formActions = {};
 }
@@ -98,3 +124,4 @@ instead of the templates.
 |     | Select Field (single, multiple) |        |
 |     | AutoComplete Field              |        |
 |     | ForeignKey Field                |        |
+|     | CustomElement Field             |        |
