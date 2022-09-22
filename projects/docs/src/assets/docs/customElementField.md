@@ -41,11 +41,11 @@ customElement: {
     component: AlertsComponent,
     inputs: [
         {
-            key: 'reservationType',
-            value: AlertsModels.groupReservation
+            key: 'type',
+            value: 'individual'
         },
         {
-            key: 'reservationID',
+            key: 'id',
             readValueFrom: 'id'
         },
     ],
@@ -55,7 +55,7 @@ customElement: {
             functionToExcute: this.updateCount.bind(this)
         }
     ]
-},
+}
 ```
 - `component` : takes the Component to be rendered in the table
 - `inputs` : (Optional) An array of angular `@input()` to be added to the component when rendering it:
