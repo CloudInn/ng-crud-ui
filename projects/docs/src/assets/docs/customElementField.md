@@ -14,11 +14,11 @@ like the following:
             component: AlertsComponent,
             inputs: [
                 {
-                    key: 'reservationType',
-                    value: AlertsModels.groupReservation
+                    key: 'type',
+                    value: 'individual'
                 },
                 {
-                    key: 'reservationID',
+                    key: 'id',
                     readValueFrom: 'id'
                 },
             ],
