@@ -85,12 +85,22 @@
                 </ng-container>
             </ng-template>
 
+            <ng-container *ngIf="column?.type === 'custom_element'">
+                <mat-header-cell id="{{getColId(column.header)}}" *matHeaderCellDef>
+                    {{ column.header }}
+                </mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                        <span #customElement></span>
+                </mat-cell>
+            </ng-container>
+
             <ng-template [ngIf]="column.columnDef !== 'checked' &&
              column.columnDef !== 'actions' &&
               column.Def !== 'functions'">
                 <mat-header-cell id="{{getColId(column.header)}}" *matHeaderCellDef>{{ column.header }}
                 </mat-header-cell>
-                <mat-cell  id="{{'cell-'+i}}" *matCellDef="let row" [ngStyle]="column.cellStyle? column.cellStyle[column.cell(row)]: {}">
+                <mat-cell id="{{'cell-'+i}}" *matCellDef="let row"
+                    [ngStyle]="column.cellStyle? column.cellStyle[column.cell(row)]: {}">
                     <ng-container #normal>
                         <a class="clickable" [routerLink]="row?.id"
                             *ngIf="(mode !== 'pick' && column.clickable); else normalCell">
@@ -145,7 +155,7 @@
         </ng-container>
         <mat-header-row *matHeaderRowDef="displayColumns"></mat-header-row>
         <mat-row *matRowDef="let row; columns: displayColumns;" [ngClass]="{'clickable': mode === 'pick'}"
-            (click)="_picked(row)"></mat-row>
+            (click)="mode==='pick' && _picked(row)"></mat-row>
     </mat-table>
     <mat-paginator [ngStyle]="{'display': (initialLoading)?'none':'block'}" class="crud-paginator" #paginator
         *ngIf="viewConfig.pagination.enabled" [length]="resultsCount" [pageIndex]="pages-1" [pageSize]="20"
