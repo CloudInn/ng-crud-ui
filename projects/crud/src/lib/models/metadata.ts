@@ -88,7 +88,6 @@ export interface CustomElementConfig {
         key: string;
         value?: any;
         readValueFrom?: string;
-        functionToGetValueFrom?: Function;
     }[];
     outputs?:
     {
