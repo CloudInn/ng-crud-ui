@@ -129,4 +129,5 @@ export interface Metadata {
     externalViews?: any[];
     isDialog?: boolean;
     sortBy?: string;
+    returnRecordsIDS?: boolean;
 }

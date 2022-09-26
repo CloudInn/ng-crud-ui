@@ -227,7 +227,9 @@ export class ListingComponent implements OnInit, AfterViewInit {
                 this.resultsCount = newItems.length;
             }
             this.dataSource.data = newItems;
-            this.viewConfig.metadata.rows.next({ IDs: this.dataSource.data.map(item => item['id']) });
+            if (this.viewConfig.metadata.returnRecordsIDS) {
+                this.viewConfig.metadata.rows.next({ IDs: this.dataSource.data.map(item => item['id']) });
+            }
             this.addCustomElementColumnsToTemplate();
             this.isLoading = false;
             this.initialLoading = false;
