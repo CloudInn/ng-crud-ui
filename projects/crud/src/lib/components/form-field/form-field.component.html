@@ -2,7 +2,7 @@
 
     <ng-container *ngSwitchCase="'boolean'">
         <div class="checkbox-container">
-            <mat-checkbox matInput class="crud_checkbox" id="{{config?.name}}-field" [formControlName]="config.name" color="primary">{{ config.label }}</mat-checkbox>
+            <mat-checkbox matInput class="crud_checkbox" id="{{config?.name}}-field" [formControlName]="config.name" color="primary" attr.data-cy="{{config.label | getSelector}}-checkbox">{{ config.label }}</mat-checkbox>
         </div>
     </ng-container>
 
@@ -49,7 +49,7 @@
     <!-- this fallsback from number and text -->
     <mat-form-field *ngSwitchDefault>
         <mat-label>{{ config?.label }}</mat-label>
-        <input matInput [formControlName]="config?.name" id="{{config?.name}}-field" [maxlength]="config?.maxlength" [required]="f[config?.name].hasError('required')" [type]="config?.control ? config?.control.type : 'text'" [readonly]="config.disabled !== undefined ? config.disabled : false"/>
+        <input matInput [formControlName]="config?.name" attr.data-cy="{{config.label | getSelector}}-input" id="{{config?.name}}-field" [maxlength]="config?.maxlength" [required]="f[config?.name].hasError('required')" [type]="config?.control ? config?.control.type : 'text'" [readonly]="config.disabled !== undefined ? config.disabled : false"/>
         <mat-error *ngIf="f[config.name].hasError('required') && (f[config.name].dirty || f[config.name].touched)" id="{{config.name}}-required-error">
             this field is required</mat-error>
         <mat-error *ngIf="f[config.name].hasError('maxlength') && (f[config.name].dirty || f[config.name].touched)" id="{{config.name}}-maxLength-error">

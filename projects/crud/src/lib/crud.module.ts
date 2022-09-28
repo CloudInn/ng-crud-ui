@@ -55,6 +55,7 @@ import { SearchDialogComponent } from './containers/search-dialog/search-dialog.
 import { SafePipe } from './components/pipes/safe.pipe';
 import { SelectAutocompleteModule } from 'mat-select-autocomplete-angular11';
 import { ActionDialogComponent } from './components/action-dialog/action-dialog.component';
+import { GetSelectorPipe } from './components/pipes/get-selector.pipe';
 
 @NgModule({
   imports: [
@@ -115,7 +116,8 @@ import { ActionDialogComponent } from './components/action-dialog/action-dialog.
     AttachmentsComponent,
     SearchDialogComponent,
     SafePipe,
-    ActionDialogComponent
+    ActionDialogComponent,
+    GetSelectorPipe
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: CookieInterceptor, multi: true },
