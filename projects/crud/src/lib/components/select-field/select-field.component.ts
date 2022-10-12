@@ -12,7 +12,7 @@ import { config } from 'rxjs';
   template: `
     <mat-form-field [formGroup]="formGroup" >
         <mat-label>{{ config.label }}</mat-label>
-        <mat-select id="{{config?.name}}-field" panelClass="SelectClass" disableOptionCentering='true' 
+        <mat-select attr.data-cy="{{config.label | getSelector}}-field" [multiple]="controlConfig.multiple" id="{{config?.name}}-field" panelClass="SelectClass" disableOptionCentering='true' 
         [required]="formGroup.controls[config.name].hasError('required')" [formControlName]="config.name">
             <mat-option *ngFor="let c of controlConfig?.choices" [value]="c['id']" id="{{c?.id}}-option">
                 {{ c["description"] }}
