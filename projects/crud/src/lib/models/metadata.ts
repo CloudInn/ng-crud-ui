@@ -79,6 +79,7 @@ export class FieldConfig {
     errorMessages?: ErrorMessage[];
     cellStyle?: {};
     dropDownDisplay?: string;
+    DatePickerStartAt?: any;
 }
 
 export interface CustomElementConfig {
