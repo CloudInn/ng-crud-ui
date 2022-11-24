@@ -42,6 +42,10 @@
                                 </mat-menu>
                             </ng-container>
                         </span>
+                        <button mat-raised-button *ngIf="historyButton?.isShown" class="header_btn history" data-cy="history-button"
+                            (click)="onAction(historyButton)">
+                            {{historyButton.name}}
+                        </button>
                     </div>
 
                 <div fxflexfill fxlayoutgap="18px grid" fxlayoutgap.xs="16px grid" class="row full" [formGroup]="formGroup">

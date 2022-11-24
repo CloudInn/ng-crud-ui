@@ -6,7 +6,9 @@
         position: absolute;
         bottom: 10px;
         right: 0px;" *ngIf="config?.isSearchable" (click)="openListingDialog($event)">search</mat-icon>
-        <input type="text" matInput id="{{config?.name}}-field" [required]="formGroup.controls[config.name].hasError('required')" [formControl]="_underlyingCtrl" [matAutocomplete]="auto">
+        <input type="text" matInput id="{{config?.name}}-field" [required]="formGroup.controls[config.name].hasError('required')" [formControl]="_underlyingCtrl" 
+        attr.data-cy="{{config.label | getSelector}}-autocomplete"
+        [matAutocomplete]="auto">
         <mat-error *ngIf="formGroup.controls[config.name].hasError('required') && (formGroup.controls[config.name].dirty || formGroup.controls[config.name].touched)">
             this field is required</mat-error>
     </mat-form-field>

@@ -10,7 +10,8 @@ import { FieldConfig, TextAreaControlConfig } from '../../models/metadata';
   styles: ['.form-field-wrapper{margin-right:  24px}'],
   template: `<mat-form-field [formGroup]="formGroup" >
       <mat-label>{{ config.label }}</mat-label>
-      <textarea id="{{config?.name}}-field" [maxlength]="config?.maxlength" matInput matTextareaAutosize [formControlName]="config.name"
+      <textarea id="{{config?.name}}-field" attr.data-cy="{{config.label | getSelector}}-input"
+      [maxlength]="config?.maxlength" matInput matTextareaAutosize [formControlName]="config.name"
       [rows]="controlConfig?.rowSpan || 1"></textarea>
     </mat-form-field>
   `
