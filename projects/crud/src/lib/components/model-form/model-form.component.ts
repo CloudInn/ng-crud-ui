@@ -12,8 +12,8 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { IframeModalComponent } from '../../components/iframe-modal/iframe-modal.component';
 import { SearchDialogComponent } from '../../containers/search-dialog/search-dialog.component';
-import * as moment from 'moment';
 import { AttachmentsService } from '../../services/attachments.service';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'ng-crud-model-form',
@@ -49,6 +49,7 @@ export class ModelFormComponent implements OnInit, OnDestroy {
     isExpanded: boolean = false;
     viewMode;
     iframeSrc = '';
+    subscriptions = new Subscription();
     constructor(
         private api: ApiService,
         private formService: FormService,
@@ -196,6 +197,7 @@ export class ModelFormComponent implements OnInit, OnDestroy {
             if (result) {
                 const link = {};
                 link['fetchDataFunction'] = options.dialogData.actionButtons.find(opt => opt.name === result)?.fetchDataFunction;
+                this.initialLoading = true;
                 this.fillFormControls(link);
             }
         });
@@ -203,15 +205,20 @@ export class ModelFormComponent implements OnInit, OnDestroy {
 
     fillFormControls(link) {
         const linkDataObservable = link.fetchDataFunction(this.formGroup.value);
-        linkDataObservable.subscribe(data => {
-            if (data) {
-                if (data?.attachments) {
-                    this.attacmentsService.attachmentsFormData.push(...Array.from(data?.attachments));
+        this.subscriptions.add(
+            linkDataObservable.subscribe(data => {
+                if (data) {
+                    this.initialLoading = false;
+                    if (data?.attachments) {
+                        this.attacmentsService.attachmentsFormData.push(...Array.from(data?.attachments));
+                    }
+                    this.formGroup = this.formService.update(this.controlsConfig, { ...this.formGroup.value, ...data });
+                    this._onSubmit('saveAndEdit');
                 }
-                this.formGroup = this.formService.update(this.controlsConfig, { ...this.formGroup.value, ...data });
-                this._onSubmit('saveAndEdit');
-            }
-        });
+            }, err => {
+                this.initialLoading = false;
+            })
+        );
 
     }
 
@@ -507,5 +514,6 @@ export class ModelFormComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.id = null;
+        this.subscriptions.unsubscribe();
     }
 }
