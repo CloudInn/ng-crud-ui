@@ -207,13 +207,15 @@ export class ModelFormComponent implements OnInit, OnDestroy {
         const linkDataObservable = link.fetchDataFunction(this.formGroup.value);
         this.subscriptions.add(
             linkDataObservable.subscribe(data => {
-                if (data) {
+                if (data?.scannedData && !data?.error) {
                     this.initialLoading = false;
-                    if (data?.attachments) {
-                        this.attacmentsService.attachmentsFormData.push(...Array.from(data?.attachments));
+                    if (data?.scannedData?.attachments) {
+                        this.attacmentsService.attachmentsFormData.push(...Array.from(data?.scannedData?.attachments));
                     }
-                    this.formGroup = this.formService.update(this.controlsConfig, { ...this.formGroup.value, ...data });
+                    this.formGroup = this.formService.update(this.controlsConfig, { ...this.formGroup.value, ...data?.scannedData });
                     this._onSubmit('saveAndEdit');
+                } else if (data?.error) {
+                    this.initialLoading = false;
                 }
             }, err => {
                 this.initialLoading = false;
@@ -515,5 +517,8 @@ export class ModelFormComponent implements OnInit, OnDestroy {
     ngOnDestroy() {
         this.id = null;
         this.subscriptions.unsubscribe();
+        if (this.viewConfig.metadata.onDestroyFunction) {
+            this.viewConfig.metadata.onDestroyFunction();
+        }
     }
 }
