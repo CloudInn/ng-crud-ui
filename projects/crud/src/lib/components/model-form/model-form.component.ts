@@ -329,7 +329,7 @@ export class ModelFormComponent implements OnInit, OnDestroy {
                     this.disabled = false;
                     this.displayError(error.error);
                 });
-            } else if (this.mode === 'edit') {
+            } else if (this.mode === 'edit' && this.id) {
                 this.api.put(`${this.viewConfig.metadata.api}${this.id}/`, this.formGroup.value).subscribe(res => {
                     this.response = res[this.viewConfig.metadata.search_key];
                     this.handlePostSubmit(action_type, res);
