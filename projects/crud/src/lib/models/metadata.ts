@@ -131,4 +131,5 @@ export interface Metadata {
     isDialog?: boolean;
     sortBy?: string;
     returnRecordsIDS?: boolean;
+    onDestroyFunction?: Function;
 }
