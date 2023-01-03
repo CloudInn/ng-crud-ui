@@ -46,6 +46,10 @@
                             (click)="onAction(historyButton)">
                             {{historyButton.name}}
                         </button>
+                        <button mat-raised-button *ngIf="guestHistoryButton?.isShown" class="header_btn history" data-cy="guest-history-button"
+                            (click)="onAction(guestHistoryButton)">
+                            {{guestHistoryButton.name}}
+                        </button>
                     </div>
 
                 <div fxflexfill fxlayoutgap="18px grid" fxlayoutgap.xs="16px grid" class="row full" [formGroup]="formGroup">
@@ -65,7 +69,7 @@
                                                 [reset]="submit" [config]="config2" [mode]="mode" [formGroup]="formGroup"
                                                 (elementDeleted)="elementDeleted($event)">
                                             </ng-crud-form-field>
-                                        </div>
+                                        </div> ***************
                                     </ng-container>
                                     <ng-container *ngIf="config?.control?.subFields">
                                             <mat-divider class="divider"></mat-divider>

@@ -45,6 +45,7 @@ export class ModelFormComponent implements OnInit, OnDestroy {
     actionButtons: any = [];
     captureIdButton: any = {};
     historyButton: any = {};
+    guestHistoryButton: any = {};
     response: any;
     isExpanded: boolean = false;
     viewMode;
@@ -69,6 +70,7 @@ export class ModelFormComponent implements OnInit, OnDestroy {
         this._visibleControls = this.controlsConfig.filter(c => c.isHidden !== true);
         this.captureIdButton = this.viewConfig?.metadata?.formActions.find(button => button.name === 'Capture ID');
         this.historyButton = this.viewConfig?.metadata?.formActions?.find(button => button.name === 'History');
+        this.guestHistoryButton = this.viewConfig?.metadata?.formActions?.find(button => button.name === 'Guest History');
         this.actionButtons = this.viewConfig?.metadata?.formActions.filter(button => button.name !== 'Capture ID' && button.name !== 'History');
         this.formGroup = this.formService.create(this.controlsConfig, this.mode);
         // Separate the formset fields to their object, so that they can be rendered
@@ -180,7 +182,7 @@ export class ModelFormComponent implements OnInit, OnDestroy {
             height: '95vh',
             width: '100vw',
             data: {
-                'src': `${link.api}${this.id}/${link.params}`,
+                'src': `${link.api}${this.id}${link.params}`,
                 'title': link.name,
                 'color': 'grey'
             }
