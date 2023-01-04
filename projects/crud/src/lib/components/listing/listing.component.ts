@@ -261,7 +261,7 @@ export class ListingComponent implements OnInit, AfterViewInit {
                     });
                 });
                 // Trigger onChanges for the inputs to reflect
-                if(componentInstance.ngOnChange) {
+                if(componentInstance.ngOnChanges) {
                     componentInstance?.ngOnChanges(changes);
                 }
                 item.clear();
