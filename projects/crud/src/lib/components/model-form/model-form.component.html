@@ -37,7 +37,8 @@
                             </ng-container>
                         </span>
                         <ng-container *ngFor="let link of normalActionButtons;">
-                            <button [ngStyle]="getStyles(link)" mat-raised-button *ngIf="link?.isShown" class="header_btn history" data-cy="history-button"
+                            <button [ngStyle]="getStyles(link)" mat-raised-button *ngIf="link?.isShown" class="header_btn history"
+                                attr.data-cy="{{link.name | getSelector}}"
                                 (click)="onAction(link)">
                                 {{link.name}}
                             </button>
