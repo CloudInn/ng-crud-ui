@@ -21,17 +21,11 @@
                     <div class="header_btn_container" *ngIf="viewConfig?.metadata?.formActions && mode==='edit'">
                         <span class="header_btns">
                             <ng-container>
-                                <button mat-raised-button *ngIf="captureIdButton?.isShown" class="header_btn capture_ID"
-                                    [ngStyle]="getStyles(captureIdButton)" id="{{captureIdButton.name}}-btn"
-                                    (click)="onAction(captureIdButton)" style="margin-right: 5px;">
-                                    <mat-icon *ngIf="captureIdButton.icon">{{captureIdButton.icon}}</mat-icon>
-                                    {{captureIdButton.name}}
-                                </button>
                                 <button mat-raised-button id="actions-btn" [matMenuTriggerFor]="menu">
                                     <mat-icon>more_horiz</mat-icon>
                                 </button>
                                 <mat-menu #menu="matMenu">
-                                    <div *ngFor="let link of actionButtons; last as last">
+                                    <div *ngFor="let link of dropDownActionButtons; last as last">
                                         <button *ngIf="link?.isShown" mat-button class="header_btn"
                                             [ngStyle]="getStyles(link)" id="{{link.name}}-btn" (click)="onAction(link)">
                                             <mat-icon *ngIf="link.icon">{{link.icon}}</mat-icon>
@@ -42,14 +36,12 @@
                                 </mat-menu>
                             </ng-container>
                         </span>
-                        <button mat-raised-button *ngIf="historyButton?.isShown" class="header_btn history" data-cy="history-button"
-                            (click)="onAction(historyButton)">
-                            {{historyButton.name}}
-                        </button>
-                        <button mat-raised-button *ngIf="guestHistoryButton?.isShown" class="header_btn history" data-cy="guest-history-button"
-                            (click)="onAction(guestHistoryButton)">
-                            {{guestHistoryButton.name}}
-                        </button>
+                        <ng-container *ngFor="let link of normalActionButtons;">
+                            <button [ngStyle]="getStyles(link)" mat-raised-button *ngIf="link?.isShown" class="header_btn history" data-cy="history-button"
+                                (click)="onAction(link)">
+                                {{link.name}}
+                            </button>
+                        </ng-container>
                     </div>
 
                 <div fxflexfill fxlayoutgap="18px grid" fxlayoutgap.xs="16px grid" class="row full" [formGroup]="formGroup">
