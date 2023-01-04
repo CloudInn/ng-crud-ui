@@ -240,7 +240,7 @@ export class ListingComponent implements OnInit, AfterViewInit {
     }
 
     addCustomElementColumnsToTemplate(): void {
-        const customElementField = this.viewConfig.metadata.fields.find(f => f.type === 'custom_element');
+        const customElementField = this.viewConfig.metadata.fields.find(f => f.type === 'custom_element');      
         this.customElement.changes.subscribe(element => {
             element.forEach((item, index) => {
                 this.viewContainerRef.clear();
@@ -249,19 +249,21 @@ export class ListingComponent implements OnInit, AfterViewInit {
                 const componentInstance = componentRef.instance as any;
                 const changes = {};
                 // Bind component inputs if exists
-                customElementField.customElement.inputs.forEach(input => {
+                customElementField.customElement?.inputs?.forEach(input => {
                     componentRef.instance[input.key] = input.value ?? this.dataSource.data[index][input.readValueFrom];
                     changes[input.key] = new SimpleChange(undefined, input.value ??
                         this.dataSource.data[index][input.readValueFrom], false);
                 });
                 // Bind component outputs if exists
-                customElementField.customElement.outputs.forEach(output => {
+                customElementField.customElement?.outputs?.forEach(output => {
                     componentRef.instance[output.name].subscribe(response => {
                         output.functionToExcute(response);
                     });
                 });
                 // Trigger onChanges for the inputs to reflect
-                componentInstance.ngOnChanges(changes);
+                if(componentInstance.ngOnChanges) {
+                    componentInstance?.ngOnChanges(changes);
+                }
                 item.clear();
                 item.insert(componentRef.hostView);
             });

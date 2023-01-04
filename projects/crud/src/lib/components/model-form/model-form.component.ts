@@ -42,9 +42,8 @@ export class ModelFormComponent implements OnInit, OnDestroy {
     fileUrl;
     fileName;
     openedInaialog: boolean;
-    actionButtons: any = [];
-    captureIdButton: any = {};
-    historyButton: any = {};
+    dropDownActionButtons: any = [];
+    normalActionButtons: any = [];
     response: any;
     isExpanded: boolean = false;
     viewMode;
@@ -67,9 +66,8 @@ export class ModelFormComponent implements OnInit, OnDestroy {
         this.openedInaialog = this.viewConfig?.metadata?.isDialog;
         this.controlsConfig = this.viewConfig.controls;
         this._visibleControls = this.controlsConfig.filter(c => c.isHidden !== true);
-        this.captureIdButton = this.viewConfig?.metadata?.formActions.find(button => button.name === 'Capture ID');
-        this.historyButton = this.viewConfig?.metadata?.formActions?.find(button => button.name === 'History');
-        this.actionButtons = this.viewConfig?.metadata?.formActions.filter(button => button.name !== 'Capture ID' && button.name !== 'History');
+        this.dropDownActionButtons = this.viewConfig?.metadata?.formActions.filter(action => action.dropdown);
+        this.normalActionButtons = this.viewConfig?.metadata?.formActions.filter(action => !action.dropdown);
         this.formGroup = this.formService.create(this.controlsConfig, this.mode);
         // Separate the formset fields to their object, so that they can be rendered
         // beneath the main controls.
@@ -180,9 +178,10 @@ export class ModelFormComponent implements OnInit, OnDestroy {
             height: '95vh',
             width: '100vw',
             data: {
-                'src': `${link.api}${this.id}/${link.params}`,
+                'src': `${link.api}${this.id}${link.params}`,
                 'title': link.name,
-                'color': 'grey'
+                'color': 'grey',
+                'iframeId': link.iframeID
             }
         });
     }
