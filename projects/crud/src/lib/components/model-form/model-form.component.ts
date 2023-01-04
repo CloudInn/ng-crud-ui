@@ -184,7 +184,8 @@ export class ModelFormComponent implements OnInit, OnDestroy {
             data: {
                 'src': `${link.api}${this.id}${link.params}`,
                 'title': link.name,
-                'color': 'grey'
+                'color': 'grey',
+                'iframeId': link.iframeID
             }
         });
     }
