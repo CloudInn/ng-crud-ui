@@ -213,15 +213,13 @@ export class ListingComponent implements OnInit, AfterViewInit {
         this.api.fetch(this.viewConfig.metadata.api, this.searchParams).subscribe(res => {
             let newItems = [];
             if (this.viewConfig.pagination.enabled) {
-                if (res.results) {
                     const keys = this.viewConfig.search.search_key;
-                    let value = res.results[keys[0]]; // search_key is an array of keys
+                    let value = res.results ? res.results[keys[0]] : res[keys[0]];
                     for (let i = 1; i < keys.length; i++) {
                         value = value[keys[i]];
                     }
                     newItems = value;
                     this.resultsCount = res.count;
-                }
             } else {
                 newItems = res;
                 this.resultsCount = newItems.length;
@@ -241,7 +239,7 @@ export class ListingComponent implements OnInit, AfterViewInit {
 
     addCustomElementColumnsToTemplate(): void {
         const customElementField = this.viewConfig.metadata.fields.find(f => f.type === 'custom_element');      
-        this.customElement.changes.subscribe(element => {
+        this.customElement?.changes.subscribe(element => {
             element.forEach((item, index) => {
                 this.viewContainerRef.clear();
                 const componentFactory = this.resolver.resolveComponentFactory(customElementField.customElement.component);
