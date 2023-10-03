@@ -22,7 +22,6 @@ import { IframeModalComponent } from './components/iframe-modal/iframe-modal.com
 import { FileUploadComponent } from './components/file-upload/file-upload.component';
 import { DateTimePickerComponent } from './components/date-time-picker/date-time-picker.component';
 import { TimePickerComponent } from './components/time-picker/time-picker.component';
-import { AmazingTimePickerModule } from 'amazing-time-picker';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatChipsModule } from '@angular/material/chips';
@@ -56,6 +55,7 @@ import { SafePipe } from './components/pipes/safe.pipe';
 import { SelectAutocompleteModule } from 'mat-select-autocomplete-angular11';
 import { ActionDialogComponent } from './components/action-dialog/action-dialog.component';
 import { GetSelectorPipe } from './components/pipes/get-selector.pipe';
+import { AmazingTimePickerModule } from '@jonijnm/amazing-time-picker';
 
 @NgModule({
   imports: [
