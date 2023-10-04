@@ -72,6 +72,7 @@ export class FieldConfig {
     listFrom?: string; // if filed is an array of objects
     touching?: TouchingFields;
     cssWidth?: string;
+    cssMaxWidth? : string;
     maxlength?: string;
     equalsTo?: string;
     postSubmitHookActions?: PostSubmitAction[];
