@@ -59,6 +59,7 @@
                                         <div *ngIf="config2?.isEditable"
                                             class="crud-form-field-container outer-fields">
                                             <ng-crud-form-field class="FormCell" [style.flex.%]="config.cssWidth"
+                                                [style.max-width.%]="config.cssMaxWidth"
                                                 [reset]="submit" [config]="config2" [mode]="mode" [formGroup]="formGroup"
                                                 (elementDeleted)="elementDeleted($event)">
                                             </ng-crud-form-field>
