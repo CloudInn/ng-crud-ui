@@ -18,7 +18,7 @@
         <div class="crud-form-body" [ngStyle]="{'display': (initialLoading && mode==='edit')?'none':''}">
             <ng-template [ngIf]="is_ready">
                 <ng-error-handling></ng-error-handling>
-                    <div class="header_btn_container" *ngIf="viewConfig?.metadata?.formActions && mode==='edit'">
+                    <div class="header_btn_container" *ngIf="viewConfig?.metadata?.formActions?.length && mode==='edit'">
                         <span class="header_btns">
                             <ng-container>
                                 <button mat-raised-button id="actions-btn" [matMenuTriggerFor]="menu">
