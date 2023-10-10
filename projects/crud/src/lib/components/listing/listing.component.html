@@ -1,6 +1,6 @@
 <ng-container>
     <div *ngIf="!userHasPermission">
-        You don't have permissions to access this page!
+        {{"You don't have permissions to access this page!" | translate}}
     </div>
     <div [ngStyle]="{'display': (initialLoading || !userHasPermission)?'none':'block'}" class="row" *ngIf="!viewConfig.dialog_mode">
         <ng-container #normal>
