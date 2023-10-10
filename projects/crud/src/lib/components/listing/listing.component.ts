@@ -38,6 +38,7 @@ export class ListingComponent implements OnInit, AfterViewInit {
     resultsCount = 0;
     isLoading = false;
     initialLoading = true;
+    userHasPermission = true;
     pages: number;
     @ViewChild('searchComponent', { read: ViewContainerRef, static: false }) searchComponent: ViewContainerRef;
     @ViewChildren('customElement', { read: ViewContainerRef }) customElement: QueryList<ViewContainerRef>;
@@ -229,9 +230,15 @@ export class ListingComponent implements OnInit, AfterViewInit {
                 this.viewConfig.metadata.rows.next({ IDs: this.dataSource.data.map(item => item['id']) });
             }
             this.addCustomElementColumnsToTemplate();
+            this.userHasPermission = true;
             this.isLoading = false;
             this.initialLoading = false;
         }, err => {
+            if(err?.status === 403 || err?.status === 401){
+                this.userHasPermission = false;
+            } else {
+                this.userHasPermission = true;
+            }
             this.isLoading = false;
             this.initialLoading = false;
         });

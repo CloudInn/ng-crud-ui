@@ -1,5 +1,8 @@
 <ng-container>
-    <div [ngStyle]="{'display': (initialLoading)?'none':'block'}" class="row" *ngIf="!viewConfig.dialog_mode">
+    <div *ngIf="!userHasPermission">
+        You don't have permissions to access this page!
+    </div>
+    <div [ngStyle]="{'display': (initialLoading || !userHasPermission)?'none':'block'}" class="row" *ngIf="!viewConfig.dialog_mode">
         <ng-container #normal>
             <a class="crud-new-btn" mat-raised-button routerLink="add" color="primary" id="create-btn">
                 <mat-icon>add</mat-icon> Create
@@ -27,7 +30,7 @@
         </div>
     </ng-container>
     <ng-template [ngIf]="viewConfig?.search?.enabled">
-        <mat-expansion-panel [ngStyle]="{'display': (initialLoading)?'none':'block'}" [expanded]="true"
+        <mat-expansion-panel [ngStyle]="{'display': (initialLoading || !userHasPermission)?'none':'block'}" [expanded]="true"
             class="crud-search">
             <mat-expansion-panel-header [collapsedHeight]="'40px'" [expandedHeight]="'40px'">
                 <mat-panel-title>
@@ -65,7 +68,7 @@
             </ng-container>
         </mat-menu>
     </div>
-    <mat-table [dataSource]="dataSource" class="crud-table" [ngStyle]="{'display': (initialLoading)?'none':'block'}">
+    <mat-table [dataSource]="dataSource" class="crud-table" [ngStyle]="{'display': (initialLoading || !userHasPermission)?'none':'block'}">
         <ng-container *ngFor="let column of columns;let i=index" [matColumnDef]="column.columnDef">
             <ng-template [ngIf]="column.columnDef === 'checked'">
                 <ng-container matColumnDef="select">
@@ -157,7 +160,7 @@
         <mat-row *matRowDef="let row; columns: displayColumns;index as i" id="listing-row-{{i}}" [ngClass]="{'clickable': mode === 'pick'}"
             (click)="mode==='pick' && _picked(row)"></mat-row>
     </mat-table>
-    <mat-paginator [ngStyle]="{'display': (initialLoading)?'none':'block'}" class="crud-paginator" #paginator
+    <mat-paginator [ngStyle]="{'display': (initialLoading || !userHasPermission)?'none':'block'}" class="crud-paginator" #paginator
         *ngIf="viewConfig.pagination.enabled" [length]="resultsCount" [pageIndex]="pages-1" [pageSize]="20"
         (page)="onChange($event)">
     </mat-paginator>
