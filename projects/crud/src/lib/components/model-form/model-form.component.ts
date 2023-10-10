@@ -122,6 +122,7 @@ export class ModelFormComponent implements OnInit, OnDestroy {
                 this.showSuccessMessage();
             }
         }, err => {
+            this.initialLoading = false;
             this.displayError(err.error);
         });
     }
@@ -436,8 +437,10 @@ export class ModelFormComponent implements OnInit, OnDestroy {
     }
 
     displayError(error) {
-        if (error && error.non_field_errors) {
+        if (error?.non_field_errors) {
             this.openSnackBar(`${error.non_field_errors[0]}`, 'error');
+        } else if (error?.detail) {
+            this.openSnackBar(error.detail, 'error');
         } else {
             this.openSnackBar('Please review your data and try again!', 'error');
         }
