@@ -503,7 +503,7 @@ export class ModelFormComponent implements OnInit, OnDestroy {
     openSnackBar(message: string, type: string) {
         this._snackBar.open(message, '', {
             duration: 5000,
-            panelClass: type === 'success' ? ['success-bar'] : ['others-bar']
+            panelClass: type === 'success' ? ['success-bar', 'result-snackbar'] : ['others-bar', 'result-snackbar']
         });
     }
     getStyles(link) {
