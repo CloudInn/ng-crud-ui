@@ -133,4 +133,8 @@ export interface Metadata {
     sortBy?: string;
     returnRecordsIDS?: boolean;
     onDestroyFunction?: Function;
+    selectFromGridFunction?: Function;
+    containsGrid?: {
+        api: string;
+    }
 }
