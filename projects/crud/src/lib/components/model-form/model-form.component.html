@@ -151,10 +151,10 @@
                     </ng-container>
                     <ng-template #search>
                         <div class="search-actions">
-                            <button mat-raised-button class="submit-button" (click)="_onSubmit()">
+                            <button mat-raised-button class="submit-button" id="search-button" (click)="_onSubmit()">
                                 Search
                             </button>
-                            <a mat-button (click)="_onReset()" class="reset_btn">
+                            <a mat-button id="reset-button" (click)="_onReset()" class="reset_btn">
                                 Reset
                             </a>
                         </div>
