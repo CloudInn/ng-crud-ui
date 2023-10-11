@@ -164,4 +164,5 @@
         *ngIf="viewConfig.pagination.enabled" [length]="resultsCount" [pageIndex]="pages-1" [pageSize]="20"
         (page)="onChange($event)">
     </mat-paginator>
+    <ng-listing-grid *ngIf="openGrid" [gridData]="viewConfig" (selectElementFromGrid)="selectElement($event)"></ng-listing-grid>
 </ng-container>

@@ -29,6 +29,7 @@ export class ListingComponent implements OnInit, AfterViewInit {
     @Input() viewConfig: ListViewer;
     mode;
     is_actions_set = false;
+    openGrid: boolean = false;
     @Input() forcedSearchParams: any;
     dataSource = new MatTableDataSource();
     searchParams = new HttpParams({ encoder: new CustomEncoder() });
@@ -40,6 +41,7 @@ export class ListingComponent implements OnInit, AfterViewInit {
     initialLoading = true;
     userHasPermission = true;
     pages: number;
+    value;
     @ViewChild('searchComponent', { read: ViewContainerRef, static: false }) searchComponent: ViewContainerRef;
     @ViewChildren('customElement', { read: ViewContainerRef }) customElement: QueryList<ViewContainerRef>;
 
@@ -378,17 +380,24 @@ export class ListingComponent implements OnInit, AfterViewInit {
         }
     }
 
-    _picked(value) {
-        if (this.viewConfig.metadata.rows) {
-            this.viewConfig.metadata.rows.next({
+    _picked(value, selectFromGrid?) {
+        this.value = value;
+        if (this.viewConfig.metadata.containsGrid) {
+            console.log("contains griid");
+            this.openGrid = true;
+        }
+        else {
+            if (this.viewConfig.metadata.rows) {
+                this.viewConfig.metadata.rows.next({
+                    'value': value,
+                    'dataSource': this.dataSource.data,
+                });
+            }
+            this.listingDialogRef.close({
                 'value': value,
                 'dataSource': this.dataSource.data,
             });
         }
-        this.listingDialogRef.close({
-            'value': value,
-            'dataSource': this.dataSource.data,
-        });
     }
     cancel() {
         this.viewConfig.metadata.rows.next();
@@ -422,6 +431,18 @@ export class ListingComponent implements OnInit, AfterViewInit {
                 });
                 this.dialog.closeAll();
             }
+        });
+    }
+    selectElement(element) {
+        if (this.viewConfig.metadata.rows) {
+            this.viewConfig.metadata.rows.next({
+                'value': this.value,
+                'dataSource': this.dataSource.data,
+            });
+        }
+        this.listingDialogRef.close({
+            'value': this.value,
+            'dataSource': this.dataSource.data,
         });
     }
 }

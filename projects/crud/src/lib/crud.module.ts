@@ -56,6 +56,7 @@ import { SelectAutocompleteModule } from 'mat-select-autocomplete-angular11';
 import { ActionDialogComponent } from './components/action-dialog/action-dialog.component';
 import { GetSelectorPipe } from './components/pipes/get-selector.pipe';
 import { AmazingTimePickerModule } from '@jonijnm/amazing-time-picker';
+import { ListingGridComponent } from './components/listing-grid/listing-grid.component';
 
 @NgModule({
   imports: [
@@ -117,7 +118,8 @@ import { AmazingTimePickerModule } from '@jonijnm/amazing-time-picker';
     SearchDialogComponent,
     SafePipe,
     ActionDialogComponent,
-    GetSelectorPipe
+    GetSelectorPipe,
+    ListingGridComponent
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: CookieInterceptor, multi: true },
