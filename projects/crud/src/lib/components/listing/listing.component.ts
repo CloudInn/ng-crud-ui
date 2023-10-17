@@ -42,8 +42,10 @@ export class ListingComponent implements OnInit, AfterViewInit {
     userHasPermission = true;
     pages: number;
     value;
+    gridData;
     @ViewChild('searchComponent', { read: ViewContainerRef, static: false }) searchComponent: ViewContainerRef;
     @ViewChildren('customElement', { read: ViewContainerRef }) customElement: QueryList<ViewContainerRef>;
+    @ViewChildren('customGrid', { read: ViewContainerRef }) customGrid: QueryList<ViewContainerRef>;
 
     selection = new SelectionModel<any>(true, []);
 
@@ -276,6 +278,33 @@ export class ListingComponent implements OnInit, AfterViewInit {
             });
         });
     }
+
+    addCustomGrid(value) {
+        const customGridField = this.viewConfig.metadata.fields.find(f => f.type === 'custom_grid');
+        this.viewContainerRef.clear();
+        const componentFactory = this.resolver.resolveComponentFactory(customGridField.customGrid.component);
+        const componentRef = this.viewContainerRef.createComponent(componentFactory);
+        const componentInstance = componentRef.instance as any;
+
+        const changes = {};
+        // Bind component inputs if exists
+        customGridField.customGrid?.inputs?.forEach(input => {
+            componentRef.instance[input.key] = input.value ?? value[input.readValueFrom];
+            changes[input.key] = new SimpleChange(undefined, input.value ??
+                value[input.readValueFrom], false);
+        });
+        // Bind component outputs if exists
+        customGridField.customGrid?.outputs?.forEach(output => {
+            componentRef.instance[output.name].subscribe(response => {
+                output.functionToExcute(response);
+            });
+        });
+        // Trigger onChanges for the inputs to reflect
+        if (componentInstance.ngOnChanges) {
+            componentInstance?.ngOnChanges(changes);
+        }
+    }
+
     onChange(ev: PageEvent) {
         if (this.searchParams.toString().includes('filter')) {
             this.searchParams = this.searchParams.delete('page');
@@ -383,7 +412,7 @@ export class ListingComponent implements OnInit, AfterViewInit {
     _picked(value, selectFromGrid?) {
         this.value = value;
         if (this.viewConfig.metadata.containsGrid) {
-            console.log("contains griid");
+            this.addCustomGrid(value);
             this.openGrid = true;
         }
         else {
@@ -431,18 +460,6 @@ export class ListingComponent implements OnInit, AfterViewInit {
                 });
                 this.dialog.closeAll();
             }
-        });
-    }
-    selectElement(element) {
-        if (this.viewConfig.metadata.rows) {
-            this.viewConfig.metadata.rows.next({
-                'value': this.value,
-                'dataSource': this.dataSource.data,
-            });
-        }
-        this.listingDialogRef.close({
-            'value': this.value,
-            'dataSource': this.dataSource.data,
         });
     }
 }
