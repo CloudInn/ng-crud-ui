@@ -53,10 +53,10 @@ export class FieldConfig {
     disabled?: boolean;
     type?: 'text' | 'number' | 'boolean' | 'textArea' | 'select' | 'file' |
         'date' | 'datetime' | 'foreignKey' | 'formset' | 'datetime' | 'time' |
-        'fieldset' | 'custom_element' | 'custom_grid' | 'foreignKey_multiple' = 'text';
+        'fieldset' | 'custom_element' | 'custom_component' | 'foreignKey_multiple' = 'text';
     isEditable?: boolean = true;
     customElement?: CustomElementConfig;
-    customGrid?: CustomElementConfig;
+    customComponent?: CustomElementConfig;
     isSearchable?: boolean = true;
     isHidden?: boolean = false;
     control?: ControlConfig | ForeignKeyControlConfig | TextAreaControlConfig |
@@ -135,5 +135,5 @@ export interface Metadata {
     returnRecordsIDS?: boolean;
     onDestroyFunction?: Function;
     selectFromGridFunction?: Function;
-    containsGrid?: true;
+    containsGrid?: boolean;
 }

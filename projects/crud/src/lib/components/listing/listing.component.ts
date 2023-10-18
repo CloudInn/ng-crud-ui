@@ -41,11 +41,10 @@ export class ListingComponent implements OnInit, AfterViewInit {
     initialLoading = true;
     userHasPermission = true;
     pages: number;
-    value;
     gridData;
     @ViewChild('searchComponent', { read: ViewContainerRef, static: false }) searchComponent: ViewContainerRef;
+    @ViewChild('customComponent', { read: ViewContainerRef }) customComponent: QueryList<ViewContainerRef>;
     @ViewChildren('customElement', { read: ViewContainerRef }) customElement: QueryList<ViewContainerRef>;
-    @ViewChildren('customGrid', { read: ViewContainerRef }) customGrid: QueryList<ViewContainerRef>;
 
     selection = new SelectionModel<any>(true, []);
 
@@ -280,21 +279,21 @@ export class ListingComponent implements OnInit, AfterViewInit {
     }
 
     addCustomGrid(value) {
-        const customGridField = this.viewConfig.metadata.fields.find(f => f.type === 'custom_grid');
+        const customGridField = this.viewConfig.metadata.fields.find(f => f.type === 'custom_component');
         this.viewContainerRef.clear();
-        const componentFactory = this.resolver.resolveComponentFactory(customGridField.customGrid.component);
+        const componentFactory = this.resolver.resolveComponentFactory(customGridField.customComponent.component);
         const componentRef = this.viewContainerRef.createComponent(componentFactory);
         const componentInstance = componentRef.instance as any;
 
         const changes = {};
         // Bind component inputs if exists
-        customGridField.customGrid?.inputs?.forEach(input => {
+        customGridField.customComponent?.inputs?.forEach(input => {
             componentRef.instance[input.key] = input.value ?? value[input.readValueFrom];
             changes[input.key] = new SimpleChange(undefined, input.value ??
                 value[input.readValueFrom], false);
         });
         // Bind component outputs if exists
-        customGridField.customGrid?.outputs?.forEach(output => {
+        customGridField.customComponent?.outputs?.forEach(output => {
             componentRef.instance[output.name].subscribe(response => {
                 output.functionToExcute(response);
             });
@@ -409,8 +408,7 @@ export class ListingComponent implements OnInit, AfterViewInit {
         }
     }
 
-    _picked(value, selectFromGrid?) {
-        this.value = value;
+    _picked(value) {
         if (this.viewConfig.metadata.containsGrid) {
             this.addCustomGrid(value);
             this.openGrid = true;
