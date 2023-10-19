@@ -278,7 +278,7 @@ export class ListingComponent implements OnInit, AfterViewInit {
         });
     }
 
-    addCustomGrid(value) {
+    addCustomComponent(value) {
         const customGridField = this.viewConfig.metadata.fields.find(f => f.type === 'custom_component');
         this.viewContainerRef.clear();
         const componentFactory = this.resolver.resolveComponentFactory(customGridField.customComponent.component);
@@ -410,7 +410,9 @@ export class ListingComponent implements OnInit, AfterViewInit {
 
     _picked(value) {
         if (this.viewConfig.metadata.containsGrid) {
-            this.addCustomGrid(value);
+            value.api_start_date = this.viewConfig.metadata.default_filters[0].value;
+            value.api_end_date = this.viewConfig.metadata.default_filters[1].value;
+            this.addCustomComponent(value);
             this.openGrid = true;
         }
         else {
