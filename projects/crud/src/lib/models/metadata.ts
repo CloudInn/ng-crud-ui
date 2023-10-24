@@ -135,5 +135,5 @@ export interface Metadata {
     returnRecordsIDS?: boolean;
     onDestroyFunction?: Function;
     selectFromGridFunction?: Function;
-    containsGrid?: boolean;
+    containsComponent?: boolean;
 }
