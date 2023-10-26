@@ -117,7 +117,7 @@ import { AmazingTimePickerModule } from '@jonijnm/amazing-time-picker';
     SearchDialogComponent,
     SafePipe,
     ActionDialogComponent,
-    GetSelectorPipe
+    GetSelectorPipe,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: CookieInterceptor, multi: true },

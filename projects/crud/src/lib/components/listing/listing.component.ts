@@ -29,6 +29,7 @@ export class ListingComponent implements OnInit, AfterViewInit {
     @Input() viewConfig: ListViewer;
     mode;
     is_actions_set = false;
+    openComponent: boolean = false;
     @Input() forcedSearchParams: any;
     dataSource = new MatTableDataSource();
     searchParams = new HttpParams({ encoder: new CustomEncoder() });
@@ -39,8 +40,10 @@ export class ListingComponent implements OnInit, AfterViewInit {
     isLoading = false;
     initialLoading = true;
     userHasPermission = true;
+    defaultFilters= {};
     pages: number;
     @ViewChild('searchComponent', { read: ViewContainerRef, static: false }) searchComponent: ViewContainerRef;
+    @ViewChild('customComponent', { read: ViewContainerRef }) customComponent: ViewContainerRef;
     @ViewChildren('customElement', { read: ViewContainerRef }) customElement: QueryList<ViewContainerRef>;
 
     selection = new SelectionModel<any>(true, []);
@@ -174,8 +177,9 @@ export class ListingComponent implements OnInit, AfterViewInit {
             this.searchParams = this.searchParams.append('sort[]', this.viewConfig.metadata.sortBy);
         }
         const foreignKeyMultipleFields = this.viewConfig.metadata.fields.filter(f => f.keyOnSearch).map(f => f.name);
-        if (defaultFilter && defaultFilter.length > 0) {
-            defaultFilter.forEach(f => {
+        if (defaultFilter && defaultFilter.length > 0) {            
+            defaultFilter.forEach(f => {                
+                this.defaultFilters[f.filter] = f.value;
                 if (f.value && f.value !== '') {
                     if (f.value.id) {
                         f.value = f.value.id;
@@ -274,6 +278,33 @@ export class ListingComponent implements OnInit, AfterViewInit {
             });
         });
     }
+
+    addCustomComponent(value) {
+        const customCoponentField = this.viewConfig.metadata.fields.find(f => f.type === 'custom_component');
+        this.viewContainerRef.clear();
+        const componentFactory = this.resolver.resolveComponentFactory(customCoponentField.customComponent.component);
+        const componentRef = this.viewContainerRef.createComponent(componentFactory);
+        const componentInstance = componentRef.instance as any;
+
+        const changes = {};
+        // Bind component inputs if exists
+        customCoponentField.customComponent?.inputs?.forEach(input => {
+            componentRef.instance[input.key] = input.value ?? value[input.readValueFrom];
+            changes[input.key] = new SimpleChange(undefined, input.value ??
+                value[input.readValueFrom], false);
+        });
+        // Bind component outputs if exists
+        customCoponentField.customComponent?.outputs?.forEach(output => {
+            componentRef.instance[output.name].subscribe(response => {
+                output.functionToExcute(response);
+            });
+        });
+        // Trigger onChanges for the inputs to reflect
+        if (componentInstance.ngOnChanges) {
+            componentInstance?.ngOnChanges(changes);
+        }
+    }
+
     onChange(ev: PageEvent) {
         if (this.searchParams.toString().includes('filter')) {
             this.searchParams = this.searchParams.delete('page');
@@ -379,16 +410,26 @@ export class ListingComponent implements OnInit, AfterViewInit {
     }
 
     _picked(value) {
-        if (this.viewConfig.metadata.rows) {
-            this.viewConfig.metadata.rows.next({
+        if (this.viewConfig.metadata.containsComponent) {
+            if(this.defaultFilters) {
+                value.api_start_date = this.defaultFilters["start_date.lte"];
+                value.api_end_date = this.defaultFilters["end_date.gte"];
+            }
+            this.addCustomComponent(value);
+            this.openComponent = true;
+        }
+        else {
+            if (this.viewConfig.metadata.rows) {
+                this.viewConfig.metadata.rows.next({
+                    'value': value,
+                    'dataSource': this.dataSource.data,
+                });
+            }
+            this.listingDialogRef.close({
                 'value': value,
                 'dataSource': this.dataSource.data,
             });
         }
-        this.listingDialogRef.close({
-            'value': value,
-            'dataSource': this.dataSource.data,
-        });
     }
     cancel() {
         this.viewConfig.metadata.rows.next();
