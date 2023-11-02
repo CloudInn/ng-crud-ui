@@ -109,6 +109,7 @@ export interface PostSubmitAction {
     type: string;
 }
 export interface Metadata {
+    expanded?: boolean;
     name: string;
     optionName?: string;
     queryParams?: string[];

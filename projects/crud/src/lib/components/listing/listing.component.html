@@ -30,7 +30,7 @@
         </div>
     </ng-container>
     <ng-template [ngIf]="viewConfig?.search?.enabled">
-        <mat-expansion-panel [ngStyle]="{'display': (initialLoading || !userHasPermission)?'none':'block'}" [expanded]="true"
+        <mat-expansion-panel [ngStyle]="{'display': (initialLoading || !userHasPermission)?'none':'block'}" [expanded]="viewConfig.metadata.expanded !== undefined ? viewConfig.metadata.expanded : true"
             class="crud-search">
             <mat-expansion-panel-header [collapsedHeight]="'40px'" [expandedHeight]="'40px'">
                 <mat-panel-title>

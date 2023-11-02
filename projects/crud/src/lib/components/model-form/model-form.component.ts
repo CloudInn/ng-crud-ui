@@ -495,7 +495,6 @@ export class ModelFormComponent implements OnInit, OnDestroy {
         }
     }
     _onReset() {
-        this.viewConfig.metadata.default_filters = [];
         this.formGroup.reset();
         this.submit.emit({ reset: true });
     }
