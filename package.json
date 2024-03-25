@@ -36,7 +36,7 @@
         "moment": "^2.29.4",
         "ng-pick-datetime": "^7.0.0",
         "ngx-cookie": "^5.0.0",
-        "ngx-markdown": "^11.0.1",
+        "ngx-markdown": "^17.1.1",
         "rxjs": "^6.6.3",
         "tslib": "^2.0.0",
         "zone.js": "~0.10.2"
