@@ -82,6 +82,7 @@ export class FieldConfig {
     cellStyle?: {};
     dropDownDisplay?: string;
     DatePickerStartAt?: any;
+    showInListing?: boolean;
 }
 
 export interface CustomElementConfig {

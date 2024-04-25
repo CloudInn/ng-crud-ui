@@ -342,6 +342,11 @@ export class ModelFormComponent implements OnInit, OnDestroy {
             } else {
                 this.initialLoading = false;
                 const contains_ctrl = this.viewConfig.controls.filter(ctrl => ctrl.iContains);
+                this.viewConfig.controls.forEach(ctrl => {
+                    if (ctrl.showInListing === false && this.formGroup.value.hasOwnProperty(ctrl.name)) {
+                        delete this.formGroup.value[ctrl.name];
+                    }
+                });
                 this.submit.emit({ ...this.formGroup.value, iContains: contains_ctrl });
             }
         } else {
