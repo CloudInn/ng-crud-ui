@@ -37,6 +37,7 @@ export class FormFieldComponent implements OnChanges, OnInit {
         }
       });
     }
+    this.checkValidity();
   }
 
   deleteAttachment(event) {

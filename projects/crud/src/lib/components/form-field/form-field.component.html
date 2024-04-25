@@ -1,4 +1,4 @@
-<ng-container [ngSwitch]="config?.type" [formGroup]="formGroup">
+<ng-container [ngSwitch]="config?.type" [formGroup]="formGroup" *ngIf="config?.showInListing !== false || mode !== 'search'">
 
     <ng-container *ngSwitchCase="'boolean'">
         <div class="checkbox-container">
@@ -51,12 +51,14 @@
     <mat-form-field *ngSwitchDefault>
         <mat-label>{{ config?.label }}</mat-label>
         <input matInput [formControlName]="config?.name" attr.data-cy="{{config.label | getSelector}}-input" id="{{config?.name}}-field" [maxlength]="config?.maxlength" [required]="f[config?.name].hasError('required') && mode !== 'search'" [type]="config?.control ? config?.control.type : 'text'" [readonly]="config.disabled !== undefined ? config.disabled : false"/>
-        <mat-error *ngIf="mode !== 'search' && f[config.name].hasError('required') && (f[config.name].dirty || f[config.name].touched)" id="{{config.name}}-required-error">
-            this field is required</mat-error>
-        <mat-error *ngIf="f[config.name].hasError('maxlength') && (f[config.name].dirty || f[config.name].touched)" id="{{config.name}}-maxLength-error">
-            max length is {{config?.maxlength}} characters</mat-error>
-        <mat-error *ngIf="f[config.name].hasError('pattern') && (f[config.name].dirty || f[config.name].touched)" id="{{config.name}}-pattern-error">
-            {{getFieldErrorMessage("pattern")? getFieldErrorMessage("pattern"): "pattern for this field is invalid"}}
-        </mat-error>
+        <ng-container *ngIf="mode !== 'search'">
+            <mat-error *ngIf="f[config.name].hasError('required') && (f[config.name].dirty || f[config.name].touched)" id="{{config.name}}-required-error">
+                this field is required</mat-error>
+            <mat-error *ngIf="f[config.name].hasError('maxlength') && (f[config.name].dirty || f[config.name].touched)" id="{{config.name}}-maxLength-error">
+                max length is {{config?.maxlength}} characters</mat-error>
+            <mat-error *ngIf="f[config.name].hasError('pattern') && (f[config.name].dirty || f[config.name].touched)" id="{{config.name}}-pattern-error">
+                {{getFieldErrorMessage("pattern")? getFieldErrorMessage("pattern"): "pattern for this field is invalid"}}
+            </mat-error>
+        </ng-container>
     </mat-form-field>
 </ng-container>
