@@ -59,6 +59,10 @@
             <mat-error *ngIf="f[config.name].hasError('pattern') && (f[config.name].dirty || f[config.name].touched)" id="{{config.name}}-pattern-error">
                 {{getFieldErrorMessage("pattern")? getFieldErrorMessage("pattern"): "pattern for this field is invalid"}}
             </mat-error>
+            <mat-error *ngIf="(f[config.name].hasError('min') || f[config.name].hasError('max')) 
+            && (f[config.name].dirty || f[config.name].touched)" id="{{config.name}}-min-max-error">
+                {{getFieldErrorMessage("minOrMax") ? getFieldErrorMessage("minOrMax"): "Wrong minimum or maximum value."}}
+            </mat-error>
         </ng-container>
     </mat-form-field>
 </ng-container>

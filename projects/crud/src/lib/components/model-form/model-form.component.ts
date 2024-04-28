@@ -457,8 +457,12 @@ export class ModelFormComponent implements OnInit, OnDestroy {
     displayError(error) {
         if (error?.non_field_errors) {
             this.openSnackBar(`${error.non_field_errors[0]}`, 'error');
-        } else if (error?.detail) {
-            this.openSnackBar(error.detail, 'error');
+        } else if (Object.keys(error)?.length) {
+            let message = '';
+            Object.keys(error).forEach((key: string) => {
+                message += key + ' : ' + error[key];
+            });
+            this.openSnackBar(message, 'error');
         } else {
             this.openSnackBar('Please review your data and try again!', 'error');
         }
