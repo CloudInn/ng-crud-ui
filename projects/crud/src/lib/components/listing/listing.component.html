@@ -102,7 +102,7 @@
               column.Def !== 'functions'">
                 <mat-header-cell id="{{getColId(column.header)}}" *matHeaderCellDef>{{ column.header }}
                 </mat-header-cell>
-                <mat-cell id="{{'cell-'+i}}" *matCellDef="let row"
+                <mat-cell id="{{'cell-'+i}}" attr.data-cy="{{'cell-'+i}}" *matCellDef="let row"
                     [ngStyle]="column.cellStyle? column.cellStyle[column.cell(row)]: {}">
                     <ng-container #normal>
                         <a class="clickable" [routerLink]="row?.id"
@@ -157,8 +157,9 @@
             </ng-template>
         </ng-container>
         <mat-header-row *matHeaderRowDef="displayColumns"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: displayColumns;index as i" id="listing-row-{{i}}" [ngClass]="{'clickable': mode === 'pick'}"
-            (click)="mode==='pick' && _picked(row)"></mat-row>
+        <mat-row *matRowDef="let row; columns: displayColumns;index as i" id="listing-row-{{i}}" attr.data-cy="listing-row-{{i}}"
+        [ngClass]="{'clickable': mode === 'pick'}"
+        (click)="mode==='pick' && _picked(row)"></mat-row>
     </mat-table>
     <mat-paginator [ngStyle]="{'display': (initialLoading || !userHasPermission)?'none':'block'}" class="crud-paginator" #paginator
         *ngIf="viewConfig.pagination.enabled" [length]="resultsCount" [pageIndex]="pages-1" [pageSize]="20"
