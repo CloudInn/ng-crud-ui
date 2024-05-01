@@ -522,11 +522,20 @@ export class ModelFormComponent implements OnInit, OnDestroy {
     }
 
     openSnackBar(message: string, type: string) {
+        const classes = ['result-snackbar'];
+        if (type === 'success') {
+            classes.push('success-bar');
+        } else if (type === 'error') {
+            classes.push('error-bar');
+        } else {
+            classes.push('others-bar');
+        }
         this._snackBar.open(message, '', {
             duration: 5000,
-            panelClass: type === 'success' ? ['success-bar', 'result-snackbar'] : ['others-bar', 'result-snackbar']
+            panelClass: classes
         });
     }
+
     getStyles(link) {
         if (link.style) {
             return JSON.parse(link.style);

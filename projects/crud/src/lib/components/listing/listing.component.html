@@ -2,14 +2,12 @@
     <div *ngIf="!userHasPermission" data-cy="no-permission-label">
         {{"You don't have permissions to access this page!" | translate}}
     </div>
-    <div [ngStyle]="{'display': (initialLoading || !userHasPermission)?'none':'block'}" class="row" *ngIf="!viewConfig.dialog_mode">
+    <div [ngStyle]="{'display': (initialLoading || !userHasPermission)?'none':'flex'}" class="row add-new-row" *ngIf="!viewConfig.dialog_mode">
         <ng-container #normal>
-            <a class="crud-new-btn" mat-raised-button routerLink="add" color="primary" id="create-btn">
-                <mat-icon>add</mat-icon> Create
-            </a>
+            <button class="crud-new-btn" mat-button routerLink="add" id="create-btn">
+                <mat-icon>add</mat-icon> Add New
+            </button>
         </ng-container>
-        <span class="fill-remaining-space"></span>
-        <span class="fill-remaining-space"></span>
         <ng-container *ngIf="viewConfig?.metadata?.externalViews">
             <button class="crud-views-button" mat-raised-button color="primary"
                 *ngFor="let view of viewConfig?.metadata?.externalViews" (click)="changeView(view.link)">
@@ -30,9 +28,10 @@
         </div>
     </ng-container>
     <ng-template [ngIf]="viewConfig?.search?.enabled">
-        <mat-expansion-panel [ngStyle]="{'display': (initialLoading || !userHasPermission)?'none':'block'}" [expanded]="viewConfig.metadata.expanded !== undefined ? viewConfig.metadata.expanded : true"
+        <mat-expansion-panel [ngStyle]="{'display': (initialLoading || !userHasPermission)?'none':'block'}"
+        [expanded]="viewConfig.metadata.expanded !== undefined ? viewConfig.metadata.expanded : true"
             class="crud-search">
-            <mat-expansion-panel-header [collapsedHeight]="'40px'" [expandedHeight]="'40px'">
+            <mat-expansion-panel-header>
                 <mat-panel-title>
                     <mat-icon>search</mat-icon>
                     <mat-label>Search</mat-label>
@@ -55,7 +54,6 @@
         <mat-spinner></mat-spinner>
     </div>
 
-    <!-- <mat-progress-bar *ngIf="isLoading" mode="query"></mat-progress-bar> -->
     <div class="bulk_container">
         <button mat-raised-button class="bulk_btn" [matMenuTriggerFor]="menu" *ngIf="selection.selected.length>0 &&
             viewConfig.metadata.bulkActions?.length>0">Bulk Actions
