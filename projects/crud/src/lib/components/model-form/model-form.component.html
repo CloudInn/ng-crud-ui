@@ -131,32 +131,32 @@
                     </ng-container>
                 </div>
 
-                <div class="row actions">
-                    <ng-container *ngIf="mode==='edit' || mode==='create' || openedInaialog;else search">
+                <div class="actions">
+                    <div *ngIf="mode==='edit' || mode==='create' || openedInaialog;else search" class="edit-view">
                         <ng-container *ngIf="!openedInaialog">
-                            <button mat-raised-button id="saveAndEdit-btn" class="submit-button saveAndEdit"
+                            <button mat-raised-button id="saveAndEdit-btn" data-cy="save-and-edit-button" class="submit-button saveAndEdit"
                                 [disabled]="disabled" (click)="_onSubmit('saveAndEdit')">
                                 Save and Edit
                             </button>
-                            <button mat-raised-button id="saveAndAdd-btn" class="submit-button saveAndAdd"
+                            <button mat-raised-button id="saveAndAdd-btn" data-cy="save-and-add-button" class="submit-button saveAndAdd"
                                 [disabled]="disabled" (click)="_onSubmit('saveAndAdd')">
                                 Save and Add
                             </button>
                         </ng-container>
-                        <button mat-raised-button id="save-btn" [disabled]="disabled"
+                        <button mat-raised-button id="save-btn" [disabled]="disabled" data-cy="save-button"
                             [ngClass]="{'wide-save-btn': openedInaialog, 'submit-button save': !openedInaialog}"
                             (click)="_onSubmit('save')">
                             Save
                         </button>
-                    </ng-container>
+                    </div>
                     <ng-template #search>
                         <div class="search-actions">
-                            <button mat-raised-button class="submit-button" id="search-button" (click)="_onSubmit()">
+                            <button mat-button class="search submit-button" id="search-button" (click)="_onSubmit()" data-cy="search-button">
                                 Search
                             </button>
-                            <a mat-button id="reset-button" (click)="_onReset()" class="reset_btn">
+                            <button mat-button class="reset-button" id="reset-button" (click)="_onReset()" class="reset_btn" data-cy="reset-button">
                                 Reset
-                            </a>
+                            </button>
                         </div>
                     </ng-template>
                 </div>

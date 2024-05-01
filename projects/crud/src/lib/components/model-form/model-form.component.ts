@@ -444,8 +444,12 @@ export class ModelFormComponent implements OnInit, OnDestroy {
     displayError(error) {
         if (error?.non_field_errors) {
             this.openSnackBar(`${error.non_field_errors[0]}`, 'error');
-        } else if (error?.detail) {
-            this.openSnackBar(error.detail, 'error');
+        } else if (Object.keys(error)?.length) {
+            let message = '';
+            Object.keys(error).forEach((key: string) => {
+                message += key + ' : ' + error[key];
+            });
+            this.openSnackBar(message, 'error');
         } else {
             this.openSnackBar('Please review your data and try again!', 'error');
         }
@@ -505,11 +509,20 @@ export class ModelFormComponent implements OnInit, OnDestroy {
     }
 
     openSnackBar(message: string, type: string) {
+        const classes = ['result-snackbar'];
+        if (type === 'success') {
+            classes.push('success-bar');
+        } else if (type === 'error') {
+            classes.push('error-bar');
+        } else {
+            classes.push('others-bar');
+        }
         this._snackBar.open(message, '', {
             duration: 5000,
-            panelClass: type === 'success' ? ['success-bar', 'result-snackbar'] : ['others-bar', 'result-snackbar']
+            panelClass: classes
         });
     }
+
     getStyles(link) {
         if (link.style) {
             return JSON.parse(link.style);
