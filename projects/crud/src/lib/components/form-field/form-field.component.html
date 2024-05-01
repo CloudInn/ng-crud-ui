@@ -20,7 +20,7 @@
          attr.data-cy="{{config.label | getSelector}}-input" [matDatepicker]="myDatepicker" />
         <mat-error *ngIf="f[config.name].hasError('required') && (f[config.name].dirty || f[config.name].touched)" id="{{config.name}}-required-error">
             this field is required</mat-error>
-        <mat-datepicker-toggle matSuffix [for]="myDatepicker" style="color: #1490C0"></mat-datepicker-toggle>
+        <mat-datepicker-toggle matSuffix [for]="myDatepicker" style="color: #2A55A2"></mat-datepicker-toggle>
         <mat-datepicker [startAt]="config?.DatePickerStartAt" #myDatepicker></mat-datepicker>
     </mat-form-field>
 
