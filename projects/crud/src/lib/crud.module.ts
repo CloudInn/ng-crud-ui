@@ -33,7 +33,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
@@ -88,7 +88,7 @@ import { AmazingTimePickerModule } from '@jonijnm/amazing-time-picker';
     MatGridListModule,
     MatSnackBarModule,
     MatDatepickerModule,
-    MatNativeDateModule,
+    MatMomentDateModule,
     MatSelectModule,
     MatTabsModule,
     MatExpansionModule,
@@ -121,6 +121,7 @@ import { AmazingTimePickerModule } from '@jonijnm/amazing-time-picker';
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: CookieInterceptor, multi: true },
+    { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },
     {
       provide: MatDialogRef,
       useValue: {}
@@ -144,7 +145,7 @@ import { AmazingTimePickerModule } from '@jonijnm/amazing-time-picker';
     MatButtonToggleModule,
     MatGridListModule,
     MatSnackBarModule,
-    MatNativeDateModule,
+    MatMomentDateModule,
     MatDatepickerModule,
     MatSelectModule,
     MatTabsModule,

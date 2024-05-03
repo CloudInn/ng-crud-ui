@@ -14,6 +14,7 @@ import { IframeModalComponent } from '../../components/iframe-modal/iframe-modal
 import { SearchDialogComponent } from '../../containers/search-dialog/search-dialog.component';
 import { AttachmentsService } from '../../services/attachments.service';
 import { Subscription } from 'rxjs';
+import * as moment from 'moment';
 
 @Component({
     selector: 'ng-crud-model-form',
@@ -371,13 +372,12 @@ export class ModelFormComponent implements OnInit, OnDestroy {
 
     modifyDateFields(ctrl) {
         if (ctrl.type === 'date') {
-            const today_time = new Date().getHours();
             if (this.formGroup.get([ctrl.name]).value !== null) {
-                const date = new Date(this.formGroup.get([ctrl.name]).value);
-                date.setHours(today_time);
-                const date_string = date.toISOString();
-                this.formGroup.get([ctrl.name]).patchValue(
-                    date_string.slice(0, date_string.indexOf('T')));
+                let date = this.formGroup.get([ctrl.name]).value;
+                if(typeof date !=='string') {
+                    date = moment(date).format('YYYY-MM-DD');
+                }
+                this.formGroup.get([ctrl.name]).patchValue(date);
                 this.formGroup.updateValueAndValidity();
             }
         }

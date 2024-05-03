@@ -35,9 +35,9 @@ export class FormFieldComponent implements OnChanges, OnInit {
             this.formGroup.get(this.config.touching.field).setValue(this.config.touching.change_value);
           }
         }
+        this.checkValidity();
       });
     }
-    this.checkValidity();
   }
 
   deleteAttachment(event) {
@@ -71,11 +71,11 @@ export class FormFieldComponent implements OnChanges, OnInit {
     }
   }
   checkValidity() {
-    if (this.formGroup.get(this.config.name) !== null) {
+    if (this.formGroup?.get(this.config.name) !== null) {
       if (this.mode === 'edit' || this.mode === 'create') {
-        this.formGroup.get(this.config.name).setValidators(this.config.validators);
+        this.formGroup?.get(this.config.name)?.setValidators(this.config.validators);
       } else {
-        this.formGroup.get(this.config.name).clearValidators();
+        this.formGroup.get(this.config.name)?.clearValidators();
       }
       this.formGroup.updateValueAndValidity();
     }
