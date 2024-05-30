@@ -33,7 +33,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
@@ -56,6 +55,8 @@ import { SelectAutocompleteModule } from 'mat-select-autocomplete-angular11';
 import { ActionDialogComponent } from './components/action-dialog/action-dialog.component';
 import { GetSelectorPipe } from './components/pipes/get-selector.pipe';
 import { AmazingTimePickerModule } from '@jonijnm/amazing-time-picker';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { CustomDateAdapter, MY_FORMATS } from './custom-date-adapter';
 
 @NgModule({
   imports: [
@@ -88,7 +89,6 @@ import { AmazingTimePickerModule } from '@jonijnm/amazing-time-picker';
     MatGridListModule,
     MatSnackBarModule,
     MatDatepickerModule,
-    MatMomentDateModule,
     MatSelectModule,
     MatTabsModule,
     MatExpansionModule,
@@ -121,11 +121,13 @@ import { AmazingTimePickerModule } from '@jonijnm/amazing-time-picker';
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: CookieInterceptor, multi: true },
-    { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },
+    { provide: MAT_DATE_LOCALE, useValue: 'en_US' },
     {
       provide: MatDialogRef,
       useValue: {}
     },
+    { provide: DateAdapter, useClass: CustomDateAdapter },
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS }
   ],
   exports: [
     HttpClientModule,
@@ -145,7 +147,6 @@ import { AmazingTimePickerModule } from '@jonijnm/amazing-time-picker';
     MatButtonToggleModule,
     MatGridListModule,
     MatSnackBarModule,
-    MatMomentDateModule,
     MatDatepickerModule,
     MatSelectModule,
     MatTabsModule,

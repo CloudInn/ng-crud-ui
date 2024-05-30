@@ -374,7 +374,7 @@ export class ModelFormComponent implements OnInit, OnDestroy {
         if (ctrl.type === 'date') {
             if (this.formGroup.get([ctrl.name]).value !== null) {
                 let date = this.formGroup.get([ctrl.name]).value;
-                if(typeof date !=='string') {
+                if (typeof date !== 'string') {
                     date = moment(date).format('YYYY-MM-DD');
                 }
                 this.formGroup.get([ctrl.name]).patchValue(date);
