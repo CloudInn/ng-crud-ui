@@ -69,7 +69,6 @@ export class ModelFormComponent implements OnInit, OnDestroy {
 
     }
     ngOnInit() {
-        console.log("ALaaaaa")
         this.viewMode = this.viewConfig.viewMode;
         this.openedInaialog = this.viewConfig?.metadata?.isDialog;
         this.controlsConfig = this.viewConfig.controls;
