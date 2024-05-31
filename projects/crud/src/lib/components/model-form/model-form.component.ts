@@ -15,12 +15,18 @@ import { SearchDialogComponent } from '../../containers/search-dialog/search-dia
 import { AttachmentsService } from '../../services/attachments.service';
 import { Subscription } from 'rxjs';
 import * as moment from 'moment';
+import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
+import { CustomDateAdapter, MY_FORMATS } from '../../custom-date-adapter';
 
 @Component({
     selector: 'ng-crud-model-form',
     templateUrl: './model-form.component.html',
     styleUrls: ['./model-form.component.scss'],
-    exportAs: 'ngcrudui-model-form'
+    exportAs: 'ngcrudui-model-form',
+    providers: [
+        { provide: DateAdapter, useClass: CustomDateAdapter },
+        { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS }
+      ]
 })
 export class ModelFormComponent implements OnInit, OnDestroy {
 
