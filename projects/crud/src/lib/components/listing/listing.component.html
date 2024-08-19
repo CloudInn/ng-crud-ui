@@ -93,7 +93,7 @@
                     {{ column.header }}
                 </mat-header-cell>
                 <mat-cell *matCellDef="let row">
-                        <span #customElement></span>
+                    <span #customElement></span>
                 </mat-cell>
             </ng-container>
 
@@ -105,7 +105,7 @@
                 <mat-cell id="{{'cell-'+i}}" *matCellDef="let row"
                     [ngStyle]="column.cellStyle? column.cellStyle[column.cell(row)]: {}">
                     <ng-container #normal>
-                        <a class="clickable" [routerLink]="row?.id"
+                        <a class="clickable" (click)="openEditView(row?.id)"
                             *ngIf="(mode !== 'pick' && column.clickable); else normalCell">
                             <ng-container *ngIf="(isString(column.cell(row)) && column?.isTranslated); else otherTypes">
                                 {{ column.cell(row) | translate }}
@@ -165,5 +165,5 @@
         (page)="onChange($event)">
     </mat-paginator>
     <ng-container *ngIf="openComponent">
-            <div #customComponent></div>
+        <div #customComponent></div>
     </ng-container>

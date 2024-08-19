@@ -1,4 +1,4 @@
-import { Type, Optional } from '@angular/core';
+import { Type } from '@angular/core';
 import { ListingComponent } from '../components/listing/listing.component';
 import { ModelFormComponent } from '../components/model-form/model-form.component';
 import { Metadata, FieldConfig } from './metadata';
@@ -8,6 +8,7 @@ export interface ViewConfig {
     breadcrumbs: any[];
     metadata: Metadata;
     component: Type<any>;
+    iframeMode?: IFrameMode;
 }
 
 export interface ListViewer extends ViewConfig {
@@ -51,6 +52,11 @@ export interface IframeOptions {
     };
     viewMode: string;
 }
+
+export enum IFrameMode {
+    POP_UP = 'pop_up',
+    NEW_PAGE = 'new_page'
+}
 export class FormView implements FormViewer {
     title = this.metadata.label;
     breadcrumbs = [];
@@ -90,6 +96,7 @@ export interface ViewSettingsObj {
         enabled: boolean,
         pageSize: number,
     };
+    iframeMode?: IFrameMode;
 }
 
 export class ListingView implements ListViewer {
@@ -113,6 +120,7 @@ export class ListingView implements ListViewer {
         pageSize: 0
     };
     defaults = {};
+    iframeMode = this.viewSettings.iframeMode;
     constructor(
         public metadata: Metadata,
         public viewSettings: ViewSettingsObj) {
