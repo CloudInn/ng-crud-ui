@@ -113,6 +113,7 @@ export class ModelFormComponent implements OnInit, OnDestroy {
                     this.editForm(this.id);
                 }
             } else if (typeof message.data === 'string' && message.data?.includes('refreshForm')) {
+                this.dialog.closeAll();
                 this._submitSearchFormWithFilters();
             }
         });

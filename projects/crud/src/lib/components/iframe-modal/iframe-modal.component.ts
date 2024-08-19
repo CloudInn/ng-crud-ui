@@ -25,6 +25,6 @@ export class IframeModalComponent implements OnInit {
   }
 
   closeDialog() {
-    this.iframeDialog.close();
+    this.iframeDialog.close(true);
   }
 }
