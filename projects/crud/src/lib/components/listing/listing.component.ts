@@ -220,14 +220,19 @@ export class ListingComponent implements OnInit, AfterViewInit {
 
     openEditView(id: number): void {
         if (this.viewConfig.iframeMode === IFrameMode.POP_UP) {
-            const src = `${this.viewConfig.external_link.link}` + `${id}/?` + `${this.viewConfig.external_link.params.join('&')}`;
+            const src = `${this.viewConfig.external_link.link}` + `${id}/?ispopup=1&` + `${this.viewConfig.external_link.params.join('&')}`;
             this.dialog.open(IframeModalComponent, {
                 height: '95vh',
                 width: '100vw',
+                panelClass: 'edit-view-popup',
                 data: {
                     'src': `${src}`,
                     'title': this.viewConfig?.title,
                     'color': 'grey'
+                }
+            }).afterClosed().subscribe((res)=> {
+                if(res) {
+                    window.postMessage("refreshForm", "*");
                 }
             });
         } else {

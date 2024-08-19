@@ -30,3 +30,7 @@ mat-icon{
   color: #606060;
   font-size: 30px;
 }
+
+::ng-deep .edit-view-popup .mat-dialog-container {
+  overflow: hidden;
+}
