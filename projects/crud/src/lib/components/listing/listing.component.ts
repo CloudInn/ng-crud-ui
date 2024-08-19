@@ -8,7 +8,7 @@ import {
 import { MatTableDataSource } from '@angular/material/table';
 
 import { ApiService } from '../../services/api.service';
-import { ListViewer } from '../../models/views';
+import { IFrameMode, ListViewer } from '../../models/views';
 import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
@@ -17,6 +17,7 @@ import { IframeModalComponent } from '../iframe-modal/iframe-modal.component';
 import { CustomEncoder } from '../../custom-encode';
 import { SearchDialogComponent } from '../../containers/search-dialog/search-dialog.component';
 import { ListingDialogComponent } from '../../containers/listing-dialog/listing-dialog.component';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
     selector: 'ng-crud-listing',
@@ -52,7 +53,10 @@ export class ListingComponent implements OnInit, AfterViewInit {
         private viewContainerRef: ViewContainerRef,
         private dialog: MatDialog,
         private resolver: ComponentFactoryResolver,
-        private listingDialogRef: MatDialogRef<ListingDialogComponent>) { }
+        private listingDialogRef: MatDialogRef<ListingDialogComponent>,
+        private router: Router,
+        private activeRoute: ActivatedRoute
+    ) { }
 
     ngOnInit() {
         if (this.viewConfig.pagination.enabled) {
@@ -177,8 +181,8 @@ export class ListingComponent implements OnInit, AfterViewInit {
             this.searchParams = this.searchParams.append('sort[]', this.viewConfig.metadata.sortBy);
         }
         const foreignKeyMultipleFields = this.viewConfig.metadata.fields.filter(f => f.keyOnSearch).map(f => f.name);
-        if (defaultFilter && defaultFilter.length > 0) {            
-            defaultFilter.forEach(f => {                
+        if (defaultFilter && defaultFilter.length > 0) {
+            defaultFilter.forEach(f => {
                 this.defaultFilters[f.filter] = f.value;
                 if (f.value && f.value !== '') {
                     if (f.value.id) {
@@ -214,17 +218,34 @@ export class ListingComponent implements OnInit, AfterViewInit {
         }
     }
 
+    openEditView(id: number): void {
+        if (this.viewConfig.iframeMode === IFrameMode.POP_UP) {
+            const src = `${this.viewConfig.external_link.link}` + `${id}/?` + `${this.viewConfig.external_link.params.join('&')}`;
+            this.dialog.open(IframeModalComponent, {
+                height: '95vh',
+                width: '100vw',
+                data: {
+                    'src': `${src}`,
+                    'title': this.viewConfig?.title,
+                    'color': 'grey'
+                }
+            });
+        } else {
+            this.router.navigate([id], { relativeTo: this.activeRoute });
+        }
+    }
+
     fetch() {
         this.api.fetch(this.viewConfig.metadata.api, this.searchParams).subscribe(res => {
             let newItems = [];
             if (this.viewConfig.pagination.enabled) {
-                    const keys = this.viewConfig.search.search_key;
-                    let value = res.results ? res.results[keys[0]] : res[keys[0]];
-                    for (let i = 1; i < keys.length; i++) {
-                        value = value[keys[i]];
-                    }
-                    newItems = value;
-                    this.resultsCount = res.count;
+                const keys = this.viewConfig.search.search_key;
+                let value = res.results ? res.results[keys[0]] : res[keys[0]];
+                for (let i = 1; i < keys.length; i++) {
+                    value = value[keys[i]];
+                }
+                newItems = value;
+                this.resultsCount = res.count;
             } else {
                 newItems = res;
                 this.resultsCount = newItems.length;
@@ -249,7 +270,7 @@ export class ListingComponent implements OnInit, AfterViewInit {
     }
 
     addCustomElementColumnsToTemplate(): void {
-        const customElementField = this.viewConfig.metadata.fields.find(f => f.type === 'custom_element');      
+        const customElementField = this.viewConfig.metadata.fields.find(f => f.type === 'custom_element');
         this.customElement?.changes.subscribe(element => {
             element.forEach((item, index) => {
                 this.viewContainerRef.clear();

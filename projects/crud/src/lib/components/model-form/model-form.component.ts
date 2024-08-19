@@ -26,7 +26,7 @@ import { CustomDateAdapter, MY_FORMATS } from '../../custom-date-adapter';
     providers: [
         { provide: DateAdapter, useClass: CustomDateAdapter },
         { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS }
-      ]
+    ]
 })
 export class ModelFormComponent implements OnInit, OnDestroy {
 
@@ -98,7 +98,7 @@ export class ModelFormComponent implements OnInit, OnDestroy {
     }
 
     appendIframeSrc(id?) {
-        this.iframeSrc = `${this.viewConfig.external_link.link}` + `${this.id}/?` + `${this.viewConfig.external_link.params.join('&')}`;
+         this.iframeSrc = `${this.viewConfig.external_link.link}` + `${this.id}/?` + `${this.viewConfig.external_link.params.join('&')}`;
     }
 
     toggleExpansion() {
@@ -112,6 +112,8 @@ export class ModelFormComponent implements OnInit, OnDestroy {
                     this.iframeModal.close();
                     this.editForm(this.id);
                 }
+            } else if (typeof message.data === 'string' && message.data?.includes('refreshForm')) {
+                this._submitSearchFormWithFilters();
             }
         });
     }
@@ -347,7 +349,16 @@ export class ModelFormComponent implements OnInit, OnDestroy {
                     this.displayError(error.error);
                 });
             } else {
-                this.initialLoading = false;
+               this._submitSearchFormWithFilters();
+            }
+        } else {
+            this.initialLoading = false;
+            this.getFormErrors();
+        }
+    }
+
+    private _submitSearchFormWithFilters(): void {
+        this.initialLoading = false;
                 const contains_ctrl = this.viewConfig.controls.filter(ctrl => ctrl.iContains);
                 this.viewConfig.controls.forEach(ctrl => {
                     if (ctrl.showInListing === false && this.formGroup.value.hasOwnProperty(ctrl.name)) {
@@ -355,11 +366,6 @@ export class ModelFormComponent implements OnInit, OnDestroy {
                     }
                 });
                 this.submit.emit({ ...this.formGroup.value, iContains: contains_ctrl });
-            }
-        } else {
-            this.initialLoading = false;
-            this.getFormErrors();
-        }
     }
 
     changeFieldsBeforeSending() {
