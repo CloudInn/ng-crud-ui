@@ -42,6 +42,7 @@ export class ListingComponent implements OnInit, AfterViewInit {
     initialLoading = true;
     userHasPermission = true;
     defaultFilters= {};
+    queryParams = {};
     pages: number;
     @ViewChild('searchComponent', { read: ViewContainerRef, static: false }) searchComponent: ViewContainerRef;
     @ViewChild('customComponent', { read: ViewContainerRef }) customComponent: ViewContainerRef;
@@ -56,7 +57,11 @@ export class ListingComponent implements OnInit, AfterViewInit {
         private listingDialogRef: MatDialogRef<ListingDialogComponent>,
         private router: Router,
         private activeRoute: ActivatedRoute
-    ) { }
+    ) {
+        this.activeRoute.queryParams.subscribe(params=>{
+            this.queryParams = params;
+        });
+     }
 
     ngOnInit() {
         if (this.viewConfig.pagination.enabled) {
@@ -172,6 +177,27 @@ export class ListingComponent implements OnInit, AfterViewInit {
     }
 
     populateParams(defaultFilter?) {
+        if (this.queryParams) {
+            Object.keys(this.queryParams).forEach(paramKey => {
+                if(defaultFilter){
+                    defaultFilter.push(
+                        {
+                            filter: paramKey,
+                            value: this.queryParams[paramKey]
+
+                        },
+                    )
+                } else {
+                    this.defaultFilters = [
+                        {
+                            filter: paramKey,
+                            value: this.queryParams[paramKey]
+
+                        }
+                    ]
+                }
+            });
+        }
         if (this.viewConfig.metadata.includeParams) {
             this.viewConfig.metadata.queryParams.forEach((field) => {
                 this.searchParams = this.searchParams.append('include[]', field);
