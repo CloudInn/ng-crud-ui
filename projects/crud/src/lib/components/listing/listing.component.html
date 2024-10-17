@@ -102,7 +102,7 @@
               column.Def !== 'functions'">
                 <mat-header-cell id="{{getColId(column.header)}}" *matHeaderCellDef>{{ column.header }}
                 </mat-header-cell>
-                <mat-cell id="{{'cell-'+i}}" *matCellDef="let row"
+                <mat-cell id="{{'cell-'+i}}" attr.data-cy="{{column.header | getSelector}}"  *matCellDef="let row"
                     [ngStyle]="column.cellStyle? column.cellStyle[column.cell(row)]: {}">
                     <ng-container #normal>
                         <a class="clickable" (click)="openEditView(row?.id)"
