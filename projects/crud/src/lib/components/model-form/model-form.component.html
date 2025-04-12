@@ -20,7 +20,7 @@
                 <ng-error-handling></ng-error-handling>
                     <div class="header_btn_container" *ngIf="viewConfig?.metadata?.formActions?.length && mode==='edit'">
                         <span class="header_btns">
-                            <ng-container>
+                            <ng-container *ngIf="dropDownActionButtons?.length">
                                 <button mat-raised-button id="actions-btn" [matMenuTriggerFor]="menu">
                                     <mat-icon>more_horiz</mat-icon>
                                 </button>

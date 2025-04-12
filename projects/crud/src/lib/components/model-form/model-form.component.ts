@@ -17,6 +17,7 @@ import { Subscription } from 'rxjs';
 import * as moment from 'moment';
 import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
 import { CustomDateAdapter, MY_FORMATS } from '../../custom-date-adapter';
+import { HistoryComponent } from '../history/history.component';
 
 @Component({
     selector: 'ng-crud-model-form',
@@ -173,17 +174,51 @@ export class ModelFormComponent implements OnInit, OnDestroy {
         }
     }
 
-    onAction(link) {
-        if (link.action === 'iframe') {
-            this.openIframe(link);
-        } else if (link.action === 'request' && link.type === 'scan') {
-            this.fillFormControls(link);
-        } else if (link.action === 'dialog') {
-            this.openActionDialog(link);
-        } else {
-            this.requestAction(link);
+    onAction(link: any): void {
+        switch (link.action) {
+            case 'iframe':
+                this.openIframe(link);
+                break;
+    
+            case 'request':
+                this.handleRequest(link);
+                break;
+    
+            case 'dialog':
+                this.openActionDialog(link);
+                break;
+    
+            default:
+                this.requestAction(link);
+                break;
         }
     }
+
+    private handleRequest(link: any): void {
+        const type = link.type?.toLowerCase();
+    
+        if (type === 'scan') {
+            this.fillFormControls(link);
+        } else if (type === 'history') {
+            this.initialLoading = true;
+            const url = link.api?.replace('{id}', this.id);
+    
+            this.api.fetch(url).subscribe(
+                logs => {
+                    this.initialLoading = false;
+                    this.dialog.open(HistoryComponent, {
+                        height: '95vh',
+                        width: '100vw',
+                        data: { logs }
+                    });
+                },
+                () => {
+                    this.initialLoading = false;
+                }
+            );
+        }
+    }
+    
     openIframe(link) {
         this.iframeModal = this.dialog.open(IframeModalComponent, {
             height: '95vh',
