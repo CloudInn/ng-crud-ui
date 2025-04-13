@@ -57,6 +57,8 @@ import { GetSelectorPipe } from './components/pipes/get-selector.pipe';
 import { AmazingTimePickerModule } from '@jonijnm/amazing-time-picker';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { CustomDateAdapter, MY_FORMATS } from './custom-date-adapter';
+import { HistoryComponent } from './components/history/history.component';
+import { DateTimeFormatPipe } from './components/pipes/date-time-format.pipe';
 
 @NgModule({
   imports: [
@@ -118,6 +120,8 @@ import { CustomDateAdapter, MY_FORMATS } from './custom-date-adapter';
     SafePipe,
     ActionDialogComponent,
     GetSelectorPipe,
+    HistoryComponent,
+    DateTimeFormatPipe
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: CookieInterceptor, multi: true },
@@ -163,7 +167,8 @@ import { CustomDateAdapter, MY_FORMATS } from './custom-date-adapter';
     TimePickerComponent,
     TextAreaFieldComponent,
     SelectFieldComponent,
-    AttachmentsComponent
+    AttachmentsComponent,
+    HistoryComponent
   ],
   entryComponents: [
     ListingComponent,
@@ -171,7 +176,8 @@ import { CustomDateAdapter, MY_FORMATS } from './custom-date-adapter';
     ListingDialogComponent,
     ScreenWrapperComponent,
     IframeModalComponent,
-    AttachmentsComponent
+    AttachmentsComponent,
+    HistoryComponent
   ]
 })
 export class CrudModule { }

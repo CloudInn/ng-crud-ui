@@ -17,6 +17,7 @@ import { Subscription } from 'rxjs';
 import * as moment from 'moment';
 import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
 import { CustomDateAdapter, MY_FORMATS } from '../../custom-date-adapter';
+import { HistoryComponent } from '../history/history.component';
 
 @Component({
     selector: 'ng-crud-model-form',
@@ -173,17 +174,51 @@ export class ModelFormComponent implements OnInit, OnDestroy {
         }
     }
 
-    onAction(link) {
-        if (link.action === 'iframe') {
-            this.openIframe(link);
-        } else if (link.action === 'request' && link.type === 'scan') {
-            this.fillFormControls(link);
-        } else if (link.action === 'dialog') {
-            this.openActionDialog(link);
-        } else {
-            this.requestAction(link);
+    onAction(link: any): void {
+        switch (link.action) {
+            case 'iframe':
+                this.openIframe(link);
+                break;
+    
+            case 'request':
+                this.handleRequest(link);
+                break;
+    
+            case 'dialog':
+                this.openActionDialog(link);
+                break;
+    
+            default:
+                this.requestAction(link);
+                break;
         }
     }
+
+    private handleRequest(link: any): void {
+        const type = link.type?.toLowerCase();
+    
+        if (type === 'scan') {
+            this.fillFormControls(link);
+        } else if (type === 'history') {
+            this.initialLoading = true;
+            const url = link.api?.replace('{id}', this.id);
+    
+            this.api.fetch(url).subscribe(
+                logs => {
+                    this.initialLoading = false;
+                    this.dialog.open(HistoryComponent, {
+                        height: '95vh',
+                        width: '100vw',
+                        data: { logs }
+                    });
+                },
+                () => {
+                    this.initialLoading = false;
+                }
+            );
+        }
+    }
+    
     openIframe(link) {
         this.iframeModal = this.dialog.open(IframeModalComponent, {
             height: '95vh',
@@ -457,8 +492,12 @@ export class ModelFormComponent implements OnInit, OnDestroy {
     displayError(error) {
         if (error?.non_field_errors) {
             this.openSnackBar(`${error.non_field_errors[0]}`, 'error');
-        } else if (error?.detail) {
-            this.openSnackBar(error.detail, 'error');
+        } else if (Object.keys(error)?.length) {
+            let message = '';
+            Object.keys(error).forEach((key: string) => {
+                message += key + ' : ' + error[key];
+            });
+            this.openSnackBar(message, 'error');
         } else {
             this.openSnackBar('Please review your data and try again!', 'error');
         }
@@ -518,11 +557,20 @@ export class ModelFormComponent implements OnInit, OnDestroy {
     }
 
     openSnackBar(message: string, type: string) {
+        const classes = ['result-snackbar'];
+        if (type === 'success') {
+            classes.push('success-bar');
+        } else if (type === 'error') {
+            classes.push('error-bar');
+        } else {
+            classes.push('others-bar');
+        }
         this._snackBar.open(message, '', {
             duration: 5000,
-            panelClass: type === 'success' ? ['success-bar', 'result-snackbar'] : ['others-bar', 'result-snackbar']
+            panelClass: classes
         });
     }
+
     getStyles(link) {
         if (link.style) {
             return JSON.parse(link.style);

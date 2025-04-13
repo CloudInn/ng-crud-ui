@@ -1,7 +1,7 @@
 import { Component, OnChanges, Input, SimpleChanges, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControlName, FormControl } from '@angular/forms';
 import { Observable, Subject, config } from 'rxjs';
-import { Metadata, FieldConfig } from '../../models/metadata';
+import { Metadata, FieldConfig, ErrorMessage } from '../../models/metadata';
 
 @Component({
   selector: 'ng-crud-form-field',
@@ -80,11 +80,12 @@ export class FormFieldComponent implements OnChanges, OnInit {
       this.formGroup.updateValueAndValidity();
     }
   }
+
   getFieldErrorMessage(type: string) {
-    let errorMessage;
-    if(this.config.errorMessages){
-      errorMessage = this.config.errorMessages.find(error => error.type = type)
+    let errorMessage: ErrorMessage;
+    if (this.config?.errorMessages?.length) {
+      errorMessage = this.config.errorMessages.find(error => error.type === type);
     }
-    return errorMessage? errorMessage.message: errorMessage;
+    return errorMessage ? errorMessage.message : errorMessage;
   }
 }

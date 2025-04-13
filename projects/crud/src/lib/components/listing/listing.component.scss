@@ -1,5 +1,18 @@
+.add-new-row {
+    margin: 10px 20px;
+    flex-direction: row;
+    box-sizing: border-box;
+    display: flex;
+    place-content: space-between;
+    align-items: center;
+}
+
+.search-form-comp {
+    margin: 0 30px;
+}
+
 .clickable {
-    color: #1490C0;
+    color: #2A55A2;
     cursor: pointer;
     text-decoration: none;
 }
@@ -17,22 +30,30 @@
 
 .crud-search {
     border: 1px solid #D3D6DD;
-    background-color: #1490C0;
+    margin: 0 20px;
 }
 
 ::ng-deep {
     .crud-search .mat-expansion-panel-body {
         display: block;
     }
+
     .crud-search .mat-expansion-panel-body .FormCell {
         padding: 0 10px;
         -webkit-box-sizing: border-box;
         box-sizing: border-box;
     }
+
     .crud-search .mat-form-field {
         border-right: 0;
         width: 100%;
     }
+}
+
+.mat-expansion-panel-header,
+.mat-expansion-panel-header:hover {
+    background-color: #2a55a2 !important;
+    height: 45px;
 }
 
 .bulk_container {
@@ -51,17 +72,21 @@
 
 .crud-new-btn {
     background-color: #5AB857;
-    margin-top: 24px;
+    width: 9rem;
+    color: #fff;
 }
+
 #dialog-add-new-btn {
     background-color: #5AB857;
     color: #fff;
     margin-bottom: 20px;
     width: 119px;
 }
+
 .dilaog-btns-container {
     text-align: end;
 }
+
 .crud-new-btn:hover {
     background-color: #84C273;
 }
@@ -77,7 +102,6 @@
 .crud-views-button {
     float: right;
     background-color: #5AB857;
-    margin-top: 24px;
 }
 
 .crud-views-button:hover {
@@ -91,6 +115,7 @@
 .separated {
     border-bottom: 1px solid #929292;
 }
+
 mat-row {
     align-items: stretch;
 }
@@ -101,7 +126,7 @@ mat-header-cell {
 }
 
 mat-expansion-panel {
-    background-color: #298CDE;
+    background-color: #2A55A2;
     margin-bottom: 10px;
 }
 
@@ -115,6 +140,7 @@ mat-panel-title {
         background-color: #fff;
         padding: 0;
     }
+
     .crud-form-body {
         padding: 10px 24px 16px;
     }
@@ -125,26 +151,38 @@ mat-panel-title {
 }
 
 .crud-table {
-    margin-top: 8px;
+    margin: 8px 20px;
+
+    .mat-header-cell {
+        color: #231f20;
+        border-bottom: 1px solid black;
+        font-weight: 600;
+        font-size: 14px;
+        background-color: #fff;
+    }
 }
 
 @media (min-width: 992px) and (max-width: 1600px) {
     .crud-search {
         margin: 8px 50px;
     }
+
     .crud-paginator {
         margin: 24px 50px;
         font-family: 'Roboto', sans-serif;
         font-size: 16;
     }
+
     .crud-table {
         margin: 0px 50px;
         font-family: 'Roboto', sans-serif;
         font-size: 16;
     }
+
     .crud-views-button {
         margin-right: 50px;
     }
+
     .crud-new-btn {
         margin-left: 50px;
     }

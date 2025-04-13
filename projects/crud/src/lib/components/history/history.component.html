@@ -1,0 +1,30 @@
+<div>
+    <h2 mat-dialog-title style="padding:10px;">
+        <span> History</span>
+        <mat-icon class="cancel_icon"
+         (click)="closeDialog()">cancel
+        </mat-icon>
+    </h2>
+    <div class="history-container">
+        <mat-card class="room-type-rules-card">
+        <div class="header-row">
+            <div class="column date-time">{{'Date/time' | translate }}</div>
+            <div class="column user">{{'User'| translate }}</div>
+            <div class="column action">{{'Action'| translate }}</div>
+        </div>
+
+        <div class="data-row" *ngFor="let record of logs; let i = index">
+            <div class="column date-time" attr.data-cy="history-datetime-{{i}}">
+                {{ record.action_time | dateTimeFormat : dateTimeFormat}}
+            </div>
+            <div class="column user" attr.data-cy="history-username-{{i}}">
+                {{ record.user.username }}
+            </div>
+            <div class="column action action-box" attr.data-cy="history-change_message-{{i}}">
+                {{ record.change_message }}
+            </div>
+        </div>
+    </mat-card>
+    </div>
+
+</div>
