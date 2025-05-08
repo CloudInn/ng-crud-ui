@@ -362,6 +362,7 @@ export class ModelFormComponent implements OnInit, OnDestroy {
             this.disabled = true;
             this.changeFieldsBeforeSending();
             this.removeEmptyFormsets();
+            this.transformEmptyStringsToNull();
             if (this.mode === 'create') {
                 this.api.post(this.viewConfig.metadata.api, this.formGroup.value).subscribe(res => {
                     this.disabled = false;
@@ -579,6 +580,16 @@ export class ModelFormComponent implements OnInit, OnDestroy {
 
     cancel(ref) {
         this.creationDialogRef.close(this.response);
+    }
+
+    transformEmptyStringsToNull() {
+        Object.keys(this.formGroup.value).forEach(key => {
+            const control = this.formGroup.get(key);
+            const fieldConfig = this.controlsConfig.find(ctrl => ctrl.name === key);
+            if (fieldConfig?.type === 'number' && control?.value === '') {
+                control.setValue(null, { emitEvent: false });
+            }
+        });
     }
 
     ngOnDestroy() {
