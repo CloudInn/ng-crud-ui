@@ -30,6 +30,9 @@ export class FormFieldComponent implements OnChanges, OnInit {
   ngOnChanges(changes: SimpleChanges) {
     if (this.formGroup.get(this.config.name) !== null) {
       this.formGroup.get(this.config.name).valueChanges.subscribe(res => {
+        if (this.config.type === 'number' && res === '') {
+          this.formGroup.get(this.config.name).setValue(null, { emitEvent: false });
+        }
         if (this.config.touching) {
           if (res == this.config.touching.field_value) {
             this.formGroup.get(this.config.touching.field).setValue(this.config.touching.change_value);
