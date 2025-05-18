@@ -216,6 +216,8 @@ export class ModelFormComponent implements OnInit, OnDestroy {
                     this.initialLoading = false;
                 }
             );
+        } else {
+            this.requestAction(link);
         }
     }
     
