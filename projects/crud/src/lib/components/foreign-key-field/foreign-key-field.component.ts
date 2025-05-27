@@ -54,13 +54,41 @@ export class ForeignKeyFieldComponent implements OnChanges, OnInit {
         if (this.formGroup.get([this.config.name]).touched) {
           this._underlyingCtrl.markAsTouched();
         }
+        if (this.config.validateOptionSelected) {
+          const value = this.formGroup.get([this.config.name]).value;
+          this._underlyingCtrl.setErrors(this.formGroup.get([this.config.name]).errors);
+          if (value && !this.hasValue) {
+            this.formGroup.get([this.config.name]).setErrors({
+              ...this.formGroup.get([this.config.name]).errors,
+              noOptionSelected: true
+            });
+        }
+      }
       });
       this._underlyingCtrl.setErrors(this.formGroup.get([this.config.name]).errors);
       this._underlyingCtrl.valueChanges.subscribe(value => {
         if ((typeof value) === 'string') {
+          if (this.hasValue) {
+            this.hasValue = false;
+          }
+          
           if (value === '') {
             this._setControlValue(null);
           }
+          else {
+            this._setControlValue(value);
+          }
+          
+          if (this.config.validateOptionSelected) {
+            const formValue = this.formGroup.get([this.config.name]).value;
+            if (formValue && !this.hasValue) {
+              this.formGroup.get([this.config.name]).setErrors({
+                ...this.formGroup.get([this.config.name]).errors,
+                noOptionSelected: true
+              });
+            }
+          }
+        
           this._filter(value).subscribe(res => {
             if (res.results) {
               const keys = this.controlConfig.metadata.filter_key;
@@ -89,11 +117,18 @@ export class ForeignKeyFieldComponent implements OnChanges, OnInit {
   selectOption(value) {
     if (value !== null) {
       this._setControlValue(value[this.config.resolveValueFrom]);
+      this.hasValue = true;      
+      if (this.config.validateOptionSelected && this.formGroup.get([this.config.name]).hasError('noOptionSelected')) {
+        const errors = {...this.formGroup.get([this.config.name]).errors};
+        delete errors.noOptionSelected;
+        this.formGroup.get([this.config.name]).setErrors(Object.keys(errors).length ? errors : null);
+        this._underlyingCtrl.setErrors(this.formGroup.get([this.config.name]).errors);
+      }
     } else {
       this._setControlValue(null);
+      this.hasValue = false;
     }
-
-  }
+}
 
   fetchById(id: number | string = null) {
     let url = `${this.controlConfig.metadata.api}`;
@@ -182,5 +217,6 @@ export class ForeignKeyFieldComponent implements OnChanges, OnInit {
 
   removeSelection() {
     this._underlyingCtrl.setValue(null);
+    this.hasValue = false;
   }
 }
