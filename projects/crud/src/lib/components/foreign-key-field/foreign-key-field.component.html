@@ -11,6 +11,9 @@
         [matAutocomplete]="auto">
         <mat-error *ngIf="formGroup.controls[config.name].hasError('required') && (formGroup.controls[config.name].dirty || formGroup.controls[config.name].touched)">
             this field is required</mat-error>
+        <mat-error *ngIf="formGroup.controls[config.name].hasError('noOptionSelected')">
+            Please select a valid option from the list
+        </mat-error>
     </mat-form-field>
 
     <mat-autocomplete (optionSelected)="selectOption($event.option.value)" #auto="matAutocomplete" [displayWith]="displayFn">
