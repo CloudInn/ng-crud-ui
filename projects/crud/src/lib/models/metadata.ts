@@ -83,6 +83,7 @@ export class FieldConfig {
     dropDownDisplay?: string;
     DatePickerStartAt?: any;
     showInListing?: boolean;
+    validateOptionSelected?: boolean; // if true, it will validate that if input should not be empty and no option selected
 }
 
 export interface CustomElementConfig {
