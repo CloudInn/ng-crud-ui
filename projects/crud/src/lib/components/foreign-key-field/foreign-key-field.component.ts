@@ -49,6 +49,7 @@ export class ForeignKeyFieldComponent implements OnChanges, OnInit {
       if (ctrl.value !== null) {
         this._setControlValue(ctrl.value);
         this._underlyingCtrl.setValue(ctrl.value);
+        this.hasValue = true;
       }
       this.formGroup.valueChanges.subscribe(() => {
         if (this.formGroup.get([this.config.name]).touched) {
@@ -75,7 +76,7 @@ export class ForeignKeyFieldComponent implements OnChanges, OnInit {
           if (value === '') {
             this._setControlValue(null);
           }
-          else {
+          else if(this.config.validateOptionSelected) {
             this._setControlValue(value);
           }
           
