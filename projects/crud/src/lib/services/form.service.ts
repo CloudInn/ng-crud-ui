@@ -43,7 +43,11 @@ export class FormService {
         return;
       }
       if (mode && mode === 'search' && c.keyOnSearch) {
-        ctrls[c.keyOnSearch] = new FormControl((c.defaultValue && c.defaultValue !== null) ? c.defaultValue : null, c.validators);
+        if(c.keyOnSearch) {
+          ctrls[c.keyOnSearch] = new FormControl((c.defaultValue && c.defaultValue !== null) ? c.defaultValue : null, c.validators);
+        } else {
+          ctrls[c.name] = new FormControl((c.defaultValue && c.defaultValue !== null) ? c.defaultValue : null);
+        }
       } else {
         ctrls[c.name] = new FormControl((c.defaultValue && c.defaultValue !== null) ? c.defaultValue : null, c.validators);
       }
