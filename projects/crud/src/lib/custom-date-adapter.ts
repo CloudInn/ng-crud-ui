@@ -17,7 +17,8 @@ export class CustomDateAdapter extends MomentDateAdapter {
         const day = date.toDate().getDate();
         const month = date.toDate().getMonth();
         const year = date.toDate().getFullYear();
-        const M = month < 10 ? `0${Number(month) + 1}` : Number(month) + 1;
+        const monthNumber = month + 1;
+        const M = monthNumber < 10 ? `0${monthNumber}` : monthNumber;
         const D = day < 10 ? `0${day}` : day;
         return `${D}-${M}-${year}`;
     }
