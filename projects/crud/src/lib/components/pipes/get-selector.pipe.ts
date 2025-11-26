@@ -1,7 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'getSelector'
+  name: 'getSelector',
+  standalone: false
 })
 export class GetSelectorPipe implements PipeTransform {
 

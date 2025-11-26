@@ -3,6 +3,7 @@ import { AttachmentsService } from '../../services/attachments.service';
 import { FileUploadComponent } from '../file-upload/file-upload.component';
 
 @Component({
+  standalone: false,
   selector: 'ng-crud-attachments',
   templateUrl: './attachments.component.html',
   styleUrls: ['./attachments.component.css']

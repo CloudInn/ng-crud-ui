@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 import { ListingComponent } from './components/listing/listing.component';
 import { ModelFormComponent } from './components/model-form/model-form.component';
 import { FormFieldComponent } from './components/form-field/form-field.component';
@@ -15,7 +16,7 @@ import { SelectFieldComponent } from './components/select-field/select-field.com
 import { ScreenWrapperComponent } from './containers/screen-wrapper/screen-wrapper.component';
 import { ListingDialogComponent } from './containers/listing-dialog/listing-dialog.component';
 import { CookieInterceptor } from './cookie.interceptor';
-import { CookieModule } from 'ngx-cookie';
+import { CookieService } from 'ngx-cookie-service';
 import { ForeignKeyFiledMultipleComponent } from './components/foreign-key-filed-multiple/foreign-key-filed-multiple.component';
 import { ErrorHandlingComponent } from './components/error-handling/error-handling.component';
 import { IframeModalComponent } from './components/iframe-modal/iframe-modal.component';
@@ -43,15 +44,13 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatTabsModule } from '@angular/material/tabs';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AttachmentsComponent } from './components/attachments/attachments.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { SearchDialogComponent } from './containers/search-dialog/search-dialog.component';
 import { SafePipe } from './components/pipes/safe.pipe';
-import { SelectAutocompleteModule } from 'mat-select-autocomplete-angular11';
+import { SelectAutocompleteModule } from 'mat-select-autocomplete-angular19';
 import { ActionDialogComponent } from './components/action-dialog/action-dialog.component';
 import { GetSelectorPipe } from './components/pipes/get-selector.pipe';
 import { AmazingTimePickerModule } from '@jonijnm/amazing-time-picker';
@@ -67,9 +66,8 @@ import { DateTimeFormatPipe } from './components/pipes/date-time-format.pipe';
     ReactiveFormsModule,
     HttpClientModule,
     RouterModule,
-    OwlDateTimeModule,
-    OwlNativeDateTimeModule,
-    CookieModule.forChild(),
+    MatDatepickerModule,
+    MatNativeDateModule,
     MatToolbarModule,
     MatSidenavModule,
     MatChipsModule,
@@ -82,7 +80,6 @@ import { DateTimeFormatPipe } from './components/pipes/date-time-format.pipe';
     MatMenuModule,
     MatProgressBarModule,
     MatProgressSpinnerModule,
-    BrowserAnimationsModule,
     MatFormFieldModule,
     MatInputModule,
     MatCheckboxModule,
@@ -90,14 +87,13 @@ import { DateTimeFormatPipe } from './components/pipes/date-time-format.pipe';
     MatButtonToggleModule,
     MatGridListModule,
     MatSnackBarModule,
-    MatDatepickerModule,
     MatSelectModule,
     MatTabsModule,
     MatExpansionModule,
-    AmazingTimePickerModule,
+    // AmazingTimePickerModule,
     MatAutocompleteModule,
     SelectAutocompleteModule,
-    TranslateModule.forRoot(),
+    TranslateModule,
   ],
   declarations: [
     FormFieldComponent,
@@ -131,7 +127,8 @@ import { DateTimeFormatPipe } from './components/pipes/date-time-format.pipe';
       useValue: {}
     },
     { provide: DateAdapter, useClass: CustomDateAdapter },
-    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS }
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+    CookieService
   ],
   exports: [
     HttpClientModule,
@@ -151,7 +148,6 @@ import { DateTimeFormatPipe } from './components/pipes/date-time-format.pipe';
     MatButtonToggleModule,
     MatGridListModule,
     MatSnackBarModule,
-    MatDatepickerModule,
     MatSelectModule,
     MatTabsModule,
     MatAutocompleteModule,
@@ -170,14 +166,5 @@ import { DateTimeFormatPipe } from './components/pipes/date-time-format.pipe';
     AttachmentsComponent,
     HistoryComponent
   ],
-  entryComponents: [
-    ListingComponent,
-    ModelFormComponent,
-    ListingDialogComponent,
-    ScreenWrapperComponent,
-    IframeModalComponent,
-    AttachmentsComponent,
-    HistoryComponent
-  ]
 })
 export class CrudModule { }

@@ -20,6 +20,7 @@ import { ListingDialogComponent } from '../../containers/listing-dialog/listing-
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
+  standalone: false,
     selector: 'ng-crud-listing',
     templateUrl: './listing.component.html',
     styleUrls: ['./listing.component.scss'],
@@ -484,7 +485,7 @@ export class ListingComponent implements OnInit, AfterViewInit {
         }
     }
     cancel() {
-        this.viewConfig.metadata.rows.next();
+        this.viewConfig.metadata.rows.next(null);
         this.listingDialogRef.close();
     }
     deleteRow(id) {

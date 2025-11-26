@@ -5,6 +5,7 @@ import * as moment_ from 'moment';
 const moment = moment_;
 
 @Component({
+  standalone: false,
   selector: 'ng-time-picker',
   templateUrl: './time-picker.component.html',
   styleUrls: ['./time-picker.component.css']

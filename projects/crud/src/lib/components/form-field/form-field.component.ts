@@ -4,6 +4,7 @@ import { Observable, Subject, config } from 'rxjs';
 import { Metadata, FieldConfig, ErrorMessage } from '../../models/metadata';
 
 @Component({
+  standalone: false,
   selector: 'ng-crud-form-field',
   templateUrl: './form-field.component.html',
   exportAs: 'ngcrudui-form-field',

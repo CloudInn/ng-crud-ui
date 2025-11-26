@@ -5,6 +5,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 
 @Component({
+  standalone: false,
   selector: 'ng-crud-iframe-modal',
   templateUrl: './iframe-modal.component.html',
   styleUrls: ['./iframe-modal.component.css']

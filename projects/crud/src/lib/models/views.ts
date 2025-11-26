@@ -58,16 +58,19 @@ export enum IFrameMode {
     NEW_PAGE = 'new_page'
 }
 export class FormView implements FormViewer {
-    title = this.metadata.label;
+    title: string;
     breadcrumbs = [];
     component = ModelFormComponent;
     layout = 'vertical';
     controls: FieldConfig[] = [];
-    actions = this.metadata.formActions;
-    search_key = this.metadata.search_key;
+    actions: any[];
+    search_key: any;
     viewMode = 'form'
-    external_link;
+    external_link: any;
     constructor(public metadata: Metadata, options?: IframeOptions) {
+        this.title = this.metadata.label;
+        this.actions = this.metadata.formActions;
+        this.search_key = this.metadata.search_key;
         metadata.fields.filter(f => f.isHidden !== true).forEach(field => {
             this.controls.push(field as FieldConfig);
         });
@@ -100,30 +103,37 @@ export interface ViewSettingsObj {
 }
 
 export class ListingView implements ListViewer {
-    title = this.metadata.label;
+    title: string;
     breadcrumbs = [];
     component = ListingComponent;
-    search = {
-        enabled: this.viewSettings.search_settings.enabled,
-        view: new FormView(this.metadata),
-        search_key: this.viewSettings.search_settings.search_key,
-        mode: this.viewSettings.search_settings.mode,
-        creationView: this.viewSettings?.search_settings?.creationView
-    };
-    external_link = {
-        ...this.viewSettings.external_link
-    };
-    dialog_mode = this.viewSettings.isDialog;
-    dialog_settings = this.viewSettings.dialog_settings;
-    pagination = this.viewSettings.pagination ? { ...this.viewSettings.pagination } : {
-        enabled: false,
-        pageSize: 0
-    };
+    search: any;
+    external_link: any;
+    dialog_mode: boolean;
+    dialog_settings: any;
+    pagination: any;
     defaults = {};
-    iframeMode = this.viewSettings.iframeMode;
+    iframeMode: IFrameMode;
     constructor(
         public metadata: Metadata,
         public viewSettings: ViewSettingsObj) {
+        this.title = this.metadata.label;
+        this.search = {
+            enabled: this.viewSettings.search_settings.enabled,
+            view: new FormView(this.metadata),
+            search_key: this.viewSettings.search_settings.search_key,
+            mode: this.viewSettings.search_settings.mode,
+            creationView: this.viewSettings?.search_settings?.creationView
+        };
+        this.external_link = {
+            ...this.viewSettings.external_link
+        };
+        this.dialog_mode = this.viewSettings.isDialog;
+        this.dialog_settings = this.viewSettings.dialog_settings;
+        this.pagination = this.viewSettings.pagination ? { ...this.viewSettings.pagination } : {
+            enabled: false,
+            pageSize: 0
+        };
+        this.iframeMode = this.viewSettings.iframeMode;
     }
     setDefaults(values) {
         this.metadata.default_filters = [];

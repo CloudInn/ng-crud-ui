@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs';
 import { ErrorHanlderService } from '../../services/error-hanlder.service';
 
 @Component({
+  standalone: false,
   selector: 'ng-error-handling',
   templateUrl: './error-handling.component.html',
   styleUrls: ['./error-handling.component.css']

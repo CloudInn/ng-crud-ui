@@ -19,6 +19,7 @@ const Components = {
 };
 
 @Component({
+  standalone: false,
   templateUrl: 'screen-wrapper.component.html',
   styleUrls: ['screen-wrapper.component.css']
 })

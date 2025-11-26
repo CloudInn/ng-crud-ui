@@ -4,6 +4,7 @@ import * as moment_ from 'moment';
 const moment = moment_;
 
 @Component({
+  standalone: false,
   selector: 'ng-date-time-picker',
   templateUrl: './date-time-picker.component.html',
   styleUrls: ['./date-time-picker.component.css']
@@ -16,8 +17,10 @@ export class DateTimePickerComponent implements OnInit {
 
   ngOnInit() {
     this.selectedMoment.valueChanges.subscribe(res => {
-      const momentValue = moment(res).format('YYYY-MM-DD HH:mm:ssZ');
-      this.setValue(momentValue);
+      if (res) {
+        const momentValue = moment(res).format('YYYY-MM-DD');
+        this.setValue(momentValue);
+      }
     });
   }
 

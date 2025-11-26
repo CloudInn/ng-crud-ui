@@ -2,6 +2,7 @@ import { Component, Input, HostListener, ElementRef } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 
 @Component({
+  standalone: false,
   selector: 'ng-crud-file-upload',
   templateUrl: './file-upload.component.html',
   styleUrls: ['./file-upload.component.css'],

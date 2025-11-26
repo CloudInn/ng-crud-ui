@@ -1,5 +1,7 @@
 <mat-form-field [formGroup]="formGroup">
     <mat-label>{{config.label}}</mat-label>
-    <input id="{{config?.name}}-field" matInput [formControl]="selectedMoment" [owlDateTimeTrigger]="dtPicker" [owlDateTime]="dtPicker">
-    <owl-date-time #dtPicker></owl-date-time>
+    <input id="{{config?.name}}-field" matInput [formControl]="selectedMoment" [matDatepicker]="dtPicker" readonly>
+    <mat-hint>MM/DD/YYYY</mat-hint>
+    <mat-datepicker-toggle matIconSuffix [for]="dtPicker"></mat-datepicker-toggle>
+    <mat-datepicker #dtPicker></mat-datepicker>
 </mat-form-field>

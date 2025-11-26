@@ -10,6 +10,7 @@ import { ListingDialogComponent } from '../../containers/listing-dialog/listing-
 import { HttpParams } from '@angular/common/http';
 
 @Component({
+  standalone: false,
   selector: 'ng-crud-foreign-key-field',
   exportAs: 'ngcrudui-foreign-key',
   templateUrl: './foreign-key-field.component.html',

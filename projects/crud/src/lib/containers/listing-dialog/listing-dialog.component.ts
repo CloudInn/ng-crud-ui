@@ -4,6 +4,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Metadata } from '../../models/metadata';
 
 @Component({
+  standalone: false,
   templateUrl: 'listing-dialog.component.html',
   styleUrls: ['listing-dialog.component.css']
 })

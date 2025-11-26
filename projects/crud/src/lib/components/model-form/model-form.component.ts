@@ -20,6 +20,7 @@ import { CustomDateAdapter, MY_FORMATS } from '../../custom-date-adapter';
 import { HistoryComponent } from '../history/history.component';
 
 @Component({
+  standalone: false,
     selector: 'ng-crud-model-form',
     templateUrl: './model-form.component.html',
     styleUrls: ['./model-form.component.scss'],

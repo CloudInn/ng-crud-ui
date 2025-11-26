@@ -8,6 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ListingDialogComponent } from '../../containers/listing-dialog/listing-dialog.component';
 
 @Component({
+  standalone: false,
   selector: 'ng-foreign-key-filed-multiple',
   templateUrl: './foreign-key-filed-multiple.component.html',
   styleUrls: ['./foreign-key-filed-multiple.component.css']

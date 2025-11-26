@@ -6,6 +6,7 @@ import { config } from 'rxjs';
 
 
 @Component({
+  standalone: false,
   selector: 'ng-crud-select-field',
   exportAs: 'ngcrudui-select-field',
   styleUrls: ['./select-field.component.scss'],

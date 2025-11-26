@@ -5,6 +5,7 @@ import { FieldConfig, TextAreaControlConfig } from '../../models/metadata';
 
 
 @Component({
+  standalone: false,
   selector: 'ng-crud-text-area-field',
   exportAs: 'ngcrudui-text-area-field',
   styles: ['.form-field-wrapper{margin-right:  24px}'],

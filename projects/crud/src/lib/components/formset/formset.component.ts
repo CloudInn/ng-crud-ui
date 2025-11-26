@@ -5,6 +5,7 @@ import { FormService } from '../../services/form.service';
 import { FieldConfig, FormSetControlConfig } from '../../models/metadata';
 
 @Component({
+  standalone: false,
   selector: 'ng-crud-formset',
   templateUrl: './formset.component.html',
   styleUrls: ['./formset.component.scss'],
