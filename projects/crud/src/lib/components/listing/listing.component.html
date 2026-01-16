@@ -88,7 +88,7 @@
 
             <ng-container *ngIf="column?.type === 'custom_element'">
                 <mat-header-cell id="{{getColId(column.header)}}" *matHeaderCellDef>
-                    {{ column.header }}
+                    {{ column.header | translate }}
                 </mat-header-cell>
                 <mat-cell *matCellDef="let row">
                     <span #customElement></span>
@@ -98,7 +98,7 @@
             <ng-template [ngIf]="column.columnDef !== 'checked' &&
              column.columnDef !== 'actions' &&
               column.Def !== 'functions'">
-                <mat-header-cell id="{{getColId(column.header)}}" *matHeaderCellDef>{{ column.header }}
+                <mat-header-cell id="{{getColId(column.header)}}" *matHeaderCellDef>{{ column.header | translate }}
                 </mat-header-cell>
                 <mat-cell id="{{'cell-'+i}}" attr.data-cy="{{column.header | getSelector}}"  *matCellDef="let row"
                     [ngStyle]="column.cellStyle? column.cellStyle[column.cell(row)]: {}">
@@ -130,7 +130,7 @@
                 </mat-cell>
             </ng-template>
             <ng-template [ngIf]="column.columnDef === 'edit'">
-                <mat-header-cell id="{{getColId(column.header)}}" *matHeaderCellDef>{{ column.header }}
+                <mat-header-cell id="{{getColId(column.header)}}" *matHeaderCellDef>{{ column.header | translate }}
                 </mat-header-cell>
                 <mat-cell id="edit-cell" *matCellDef="let row">
                     <a class="clickable" [routerLink]="row?.id">
@@ -139,7 +139,7 @@
                 </mat-cell>
             </ng-template>
             <ng-template [ngIf]="column.columnDef === 'delete'">
-                <mat-header-cell id="{{getColId(column.header)}}" *matHeaderCellDef>{{ column.header }}
+                <mat-header-cell id="{{getColId(column.header)}}" *matHeaderCellDef>{{ column.header | translate }}
                 </mat-header-cell>
                 <mat-cell id="delete-cell" *matCellDef="let row">
                     <a class="clickable" (click)="deleteRow(row?.id)">
@@ -148,7 +148,7 @@
                 </mat-cell>
             </ng-template>
             <ng-template [ngIf]="column.columnDef === 'actions'">
-                <mat-header-cell id="{{getColId(column.header)}}" *matHeaderCellDef>{{ column.header }}
+                <mat-header-cell id="{{getColId(column.header)}}" *matHeaderCellDef>{{ column.header | translate }}
                 </mat-header-cell>
                 <mat-cell *matCellDef="let row">
                 </mat-cell>

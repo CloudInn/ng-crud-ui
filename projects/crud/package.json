@@ -1,14 +1,14 @@
 {
     "name": "ng-crud-ui",
-    "version": "5.11.16",
+    "version": "5.11.19",
     "dependencies": {
         "tslib": "^2.0.0"
     },
     "peerDependencies": {
-        "@angular/common": "^6.0.0-rc.0 || ^6.0.0",
-        "@angular/core": "^6.0.0-rc.0 || ^6.0.0",
-        "@angular/material": "^6.0.0-rc.0 || ^6.0.0",
+        "@angular/common": ">=6.0.0",
+        "@angular/core": ">=6.0.0",
+        "@angular/material": ">=6.0.0",
         "moment": "^2.22.2",
-        "ngx-moment": "^3.0.1"
+        "ngx-moment": ">=3.0.1"
     }
 }

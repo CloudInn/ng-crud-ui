@@ -52,7 +52,7 @@
                                 <mat-expansion-panel class="crud_expansion_panel" [expanded]="config.expanded !== undefined ? config.expanded : true">
                                     <mat-expansion-panel-header id="{{config?.label}}-toggle" [collapsedHeight]="'40px'" [expandedHeight]="'40px'">
                                         <mat-panel-title class="panel_title">
-                                            <mat-label>{{config?.label}}</mat-label>
+                                            <mat-label>{{config?.label | translate}}</mat-label>
                                         </mat-panel-title>
                                     </mat-expansion-panel-header>
                                     <ng-container *ngFor="let config2 of config?.control?.fields">
@@ -116,7 +116,7 @@
                                 <mat-expansion-panel class="crud_expansion_panel" [expanded]="true">
                                     <mat-expansion-panel-header [collapsedHeight]="'40px'" [expandedHeight]="'40px'">
                                         <mat-panel-title class="panel_title">
-                                            <mat-label>{{config?.label}}</mat-label>
+                                            <mat-label>{{config?.label | translate}}</mat-label>
                                         </mat-panel-title>
                                     </mat-expansion-panel-header>
                                     <ng-container *ngFor="let config of formsets; let i=index">
