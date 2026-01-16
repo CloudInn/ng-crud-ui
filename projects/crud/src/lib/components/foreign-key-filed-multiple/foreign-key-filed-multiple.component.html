@@ -1,4 +1,4 @@
-<mat-select-autocomplete placeholder="{{config.label}}" [fieldFormControl]="_underlyingCtrl"
+<mat-select-autocomplete [placeholder]="config.label | translate" [fieldFormControl]="_underlyingCtrl"
   [ElementWidth]="config?.isSearchable ? '85%' : '100%'" [options$]="options$.asObservable()"
   [display]="config.dropDownDisplay? config.dropDownDisplay : config.listFrom" [value]="config.resolveValueFrom" [multiple]='true' [labelCount]="10"
   [selectedOptions]="selectedOptions" (selectionChange)="selected($event)" (onSearch)="fetch($event)"

@@ -11,15 +11,14 @@ import { config } from 'rxjs';
   styleUrls: ['./select-field.component.scss'],
   template: `
     <mat-form-field [formGroup]="formGroup" >
-        <mat-label>{{ config.label }}</mat-label>
-        <mat-select attr.data-cy="{{config.label | getSelector}}-field" [multiple]="controlConfig.multiple" id="{{config?.name}}-field" panelClass="SelectClass" disableOptionCentering='true' 
+        <mat-label>{{ config.label | translate }}</mat-label>
+        <mat-select attr.data-cy="{{config.label | getSelector}}-field" [multiple]="controlConfig.multiple" id="{{config?.name}}-field" panelClass="SelectClass" disableOptionCentering='true'
         [required]="formGroup.controls[config.name].hasError('required')" [formControlName]="config.name">
             <mat-option *ngFor="let c of controlConfig?.choices" [value]="c['id']" id="{{c?.id}}-option">
-                {{ c["description"] }}
+                {{ c["description"] | translate }}
             </mat-option>
         </mat-select>
-        <mat-error *ngIf="f[config.name].hasError('required') && (f[config.name].dirty || f[config.name].touched)">this
-            field is required</mat-error>
+        <mat-error *ngIf="f[config.name].hasError('required') && (f[config.name].dirty || f[config.name].touched)">{{ 'this field is required' | translate }}</mat-error>
     </mat-form-field>
   `
 })

@@ -2,24 +2,24 @@
     <div [formGroup]="formGroup" class="form-container">
         <mat-hint class="hint" >
             <p class="pre">
-  Allowed file extensions: PDF, Doc, Docx, Xls, Xlsx, JPEG, GIF, PNG, BMP, JPG. <br>
-  Maximum file size: 1 MB.
+  {{ 'Allowed file extensions: PDF, Doc, Docx, Xls, Xlsx, JPEG, GIF, PNG, BMP, JPG.' | translate }} <br>
+  {{ 'Maximum file size: 1 MB.' | translate }}
             </p>
         </mat-hint>
         <div class="upload_container">
             <ng-crud-file-upload [formControlName]="config?.name" #fileInput></ng-crud-file-upload>
         </div>
         <mat-error *ngIf="formControls[config?.name].hasError('requiredFileType')">
-            The selected file type is not allowed
+            {{ 'The selected file type is not allowed' | translate }}
         </mat-error>
         <mat-error *ngIf="formControls[config?.name].hasError('fileExsist')">
-            A file with the same name is already attached
+            {{ 'A file with the same name is already attached' | translate }}
         </mat-error>
         <mat-error *ngIf="formControls[config?.name].hasError('requiredFileSize')">
-            The selected file size exceeds the allowed size
+            {{ 'The selected file size exceeds the allowed size' | translate }}
         </mat-error>
         <mat-error *ngIf="formControls[config?.name].hasError('requiredFileLength')">
-            Ensure this field has no more than 50 characters
+            {{ 'Ensure this field has no more than 50 characters' | translate }}
         </mat-error>
     </div>
     <table class="table attachment-table" *ngIf="attachments?.length > 0">

@@ -84,11 +84,11 @@ export class FormFieldComponent implements OnChanges, OnInit {
     }
   }
 
-  getFieldErrorMessage(type: string) {
+  getFieldErrorMessage(type: string): string {
     let errorMessage: ErrorMessage;
     if (this.config?.errorMessages?.length) {
       errorMessage = this.config.errorMessages.find(error => error.type === type);
     }
-    return errorMessage ? errorMessage.message : errorMessage;
+    return errorMessage ? errorMessage.message : '';
   }
 }

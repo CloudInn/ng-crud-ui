@@ -12,7 +12,7 @@
     </div>
     <ng-container #crudComponent *ngIf="viewMode === 'form'">
         <h2 mat-dialog-title style="padding:10px;" class="separated" *ngIf="openedInaialog">
-            <span> {{id? "Edit " + viewConfig.title : "Add New " + viewConfig.title}}</span>
+            <span> {{id? ("Edit" | translate) + " " + viewConfig.title : ("Add New" | translate) + " " + viewConfig.title}}</span>
             <mat-icon class="cancel_icon" (click)="cancel($event)" id="close-dialog-icon">cancel</mat-icon>
         </h2>
         <div class="crud-form-body" [ngStyle]="{'display': (initialLoading && mode==='edit')?'none':''}">
@@ -29,7 +29,7 @@
                                         <button *ngIf="link?.isShown" mat-button class="header_btn"
                                             [ngStyle]="getStyles(link)" id="{{link.name}}-btn" (click)="onAction(link)">
                                             <mat-icon *ngIf="link.icon">{{link.icon}}</mat-icon>
-                                            {{link.name}}
+                                            {{link.name | translate}}
                                         </button>
                                         <mat-divider class="action_btn_divider" *ngIf="!last"></mat-divider>
                                     </div>
@@ -40,7 +40,7 @@
                             <button [ngStyle]="getStyles(link)" mat-raised-button *ngIf="link?.isShown" class="header_btn history"
                                 attr.data-cy="{{link.name | getSelector}}"
                                 (click)="onAction(link)">
-                                {{link.name}}
+                                {{link.name | translate}}
                             </button>
                         </ng-container>
                     </div>
@@ -136,26 +136,26 @@
                         <ng-container *ngIf="!openedInaialog">
                             <button mat-raised-button id="saveAndEdit-btn" data-cy="save-and-edit-button" class="submit-button saveAndEdit"
                                 [disabled]="disabled" (click)="_onSubmit('saveAndEdit')">
-                                Save and Edit
+                                {{ 'Save and Edit' | translate }}
                             </button>
                             <button mat-raised-button id="saveAndAdd-btn" data-cy="save-and-add-button" class="submit-button saveAndAdd"
                                 [disabled]="disabled" (click)="_onSubmit('saveAndAdd')">
-                                Save and Add
+                                {{ 'Save and Add' | translate }}
                             </button>
                         </ng-container>
                         <button mat-raised-button id="save-btn" [disabled]="disabled" data-cy="save-button"
                             [ngClass]="{'wide-save-btn': openedInaialog, 'submit-button save': !openedInaialog}"
                             (click)="_onSubmit('save')">
-                            Save
+                            {{ 'Save' | translate }}
                         </button>
                     </div>
                     <ng-template #search>
                         <div class="search-actions">
                             <button mat-button class="search submit-button" id="search-button" (click)="_onSubmit()" data-cy="search-button">
-                                Search
+                                {{ 'Search' | translate }}
                             </button>
                             <button mat-button class="reset-button" id="reset-button" (click)="_onReset()" class="reset_btn" data-cy="reset-button">
-                                Reset
+                                {{ 'Reset' | translate }}
                             </button>
                         </div>
                     </ng-template>

@@ -18,6 +18,7 @@ import * as moment from 'moment';
 import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
 import { CustomDateAdapter, MY_FORMATS } from '../../custom-date-adapter';
 import { HistoryComponent } from '../history/history.component';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'ng-crud-model-form',
@@ -66,6 +67,7 @@ export class ModelFormComponent implements OnInit, OnDestroy {
         private creationDialogRef: MatDialogRef<SearchDialogComponent>,
         private iframeModal: MatDialogRef<IframeModalComponent>,
         private attacmentsService: AttachmentsService,
+        private translate: TranslateService
     ) {
 
     }
@@ -86,12 +88,12 @@ export class ModelFormComponent implements OnInit, OnDestroy {
             this.appendIframeSrc(this.id);
         } else if (this.id === 'add' || (!this.id && this.openedInaialog)) {
             this.mode = 'create';
-            this.submitButtonText = 'Create';
+            this.submitButtonText = this.translate.instant('Create');
             this.formGroup = this.formService.create(this.controlsConfig);
         } else if (this.id !== null) {
             this.mode = 'edit';
             this.initialLoading = true;
-            this.submitButtonText = 'Update';
+            this.submitButtonText = this.translate.instant('Update');
             this.actions = this.viewConfig.actions;
             this.editForm(this.id, 'openPage');
         }
@@ -501,7 +503,7 @@ export class ModelFormComponent implements OnInit, OnDestroy {
             });
             this.openSnackBar(message, 'error');
         } else {
-            this.openSnackBar('Please review your data and try again!', 'error');
+            this.openSnackBar(this.translate.instant('Please review your data and try again!'), 'error');
         }
     }
 

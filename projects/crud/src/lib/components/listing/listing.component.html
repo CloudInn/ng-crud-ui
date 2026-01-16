@@ -5,25 +5,25 @@
     <div [ngStyle]="{'display': (initialLoading || !userHasPermission)?'none':'flex'}" class="row add-new-row" *ngIf="!viewConfig.dialog_mode">
         <ng-container #normal>
             <button class="crud-new-btn" mat-button routerLink="add" id="create-btn">
-                <mat-icon>add</mat-icon> Add New
+                <mat-icon>add</mat-icon> {{ 'Add New' | translate }}
             </button>
         </ng-container>
         <ng-container *ngIf="viewConfig?.metadata?.externalViews">
             <button class="crud-views-button" mat-raised-button color="primary"
                 *ngFor="let view of viewConfig?.metadata?.externalViews" (click)="changeView(view.link)">
                 <mat-icon>{{view.icon}}</mat-icon>
-                {{view.name}}
+                {{view.name | translate}}
             </button>
         </ng-container>
     </div>
     <h2 mat-dialog-title style="padding:10px;" class="separated" *ngIf="viewConfig.dialog_mode">
-        <span> {{viewConfig.title + " Search"}}</span>
+        <span> {{viewConfig.title}} {{ 'Search' | translate }}</span>
         <mat-icon class="cancel_icon" (click)="cancel()" id="close-dialog-icon">cancel</mat-icon>
     </h2>
     <ng-container *ngIf="viewConfig?.dialog_settings?.add_new_btn">
         <div class="dilaog-btns-container" [ngStyle]="{'display': (initialLoading) ? 'none':'block'}">
             <a id="dialog-add-new-btn" mat-button color="primary" (click)="openCreationPopUp()">
-                Add New
+                {{ 'Add New' | translate }}
             </a>
         </div>
     </ng-container>
@@ -34,7 +34,7 @@
             <mat-expansion-panel-header>
                 <mat-panel-title>
                     <mat-icon>search</mat-icon>
-                    <mat-label>Search</mat-label>
+                    <mat-label>{{ 'Search' | translate }}</mat-label>
                 </mat-panel-title>
             </mat-expansion-panel-header>
 
@@ -56,13 +56,13 @@
 
     <div class="bulk_container">
         <button mat-raised-button class="bulk_btn" [matMenuTriggerFor]="menu" *ngIf="selection.selected.length>0 &&
-            viewConfig.metadata.bulkActions?.length>0">Bulk Actions
+            viewConfig.metadata.bulkActions?.length>0">{{ 'Bulk Actions' | translate }}
             <mat-icon>arrow_drop_down</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
             <ng-container *ngFor="let action of viewConfig.metadata.bulkActions">
                 <button mat-menu-item (click)="onAction(action)"
-                    *ngIf="selection.selected.length>=action.minLength">{{action.name}}</button>
+                    *ngIf="selection.selected.length>=action.minLength">{{action.name | translate}}</button>
             </ng-container>
         </mat-menu>
     </div>

@@ -1,18 +1,18 @@
 <ng-container [formGroup]="formGroup">
     <mat-form-field>
-        <mat-label>{{ config.label }}</mat-label>
+        <mat-label>{{ config.label | translate }}</mat-label>
         <mat-icon class="input_icon" style="color: #2A55A2;
         cursor: pointer;
         position: absolute;
         bottom: 10px;
         right: 0px;" *ngIf="config?.isSearchable" (click)="openListingDialog($event)">search</mat-icon>
-        <input type="text" matInput id="{{config?.name}}-field" [required]="formGroup.controls[config.name].hasError('required')" [formControl]="_underlyingCtrl" 
+        <input type="text" matInput id="{{config?.name}}-field" [required]="formGroup.controls[config.name].hasError('required')" [formControl]="_underlyingCtrl"
         attr.data-cy="{{config.label | getSelector}}-autocomplete"
         [matAutocomplete]="auto">
         <mat-error *ngIf="formGroup.controls[config.name].hasError('required') && (formGroup.controls[config.name].dirty || formGroup.controls[config.name].touched)">
-            this field is required</mat-error>
+            {{ 'this field is required' | translate }}</mat-error>
         <mat-error *ngIf="formGroup.controls[config.name].hasError('noOptionSelected')">
-            Please select a valid option from the list
+            {{ 'Please select a valid option from the list' | translate }}
         </mat-error>
     </mat-form-field>
 

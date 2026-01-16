@@ -2,7 +2,7 @@
     <div class="row">
         <span class="spacer"></span>
         <button mat-raised-button (click)="addForm()" class="add_btn">
-            <mat-icon>add</mat-icon> Add
+            <mat-icon>add</mat-icon> {{ 'Add' | translate }}
         </button>
     </div>
     <div *ngIf="control?.subFields; else formsets">

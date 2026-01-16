@@ -18,6 +18,7 @@ import { CustomEncoder } from '../../custom-encode';
 import { SearchDialogComponent } from '../../containers/search-dialog/search-dialog.component';
 import { ListingDialogComponent } from '../../containers/listing-dialog/listing-dialog.component';
 import { ActivatedRoute, Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'ng-crud-listing',
@@ -56,7 +57,8 @@ export class ListingComponent implements OnInit, AfterViewInit {
         private resolver: ComponentFactoryResolver,
         private listingDialogRef: MatDialogRef<ListingDialogComponent>,
         private router: Router,
-        private activeRoute: ActivatedRoute
+        private activeRoute: ActivatedRoute,
+        private translate: TranslateService
     ) {
         this.activeRoute.queryParams.subscribe(params=>{
             this.queryParams = params;
@@ -232,7 +234,7 @@ export class ListingComponent implements OnInit, AfterViewInit {
             width: '100vw',
             data: {
                 'src': `${view}`,
-                'title': 'Import Guest Profiles',
+                'title': this.translate.instant('Import Guest Profiles'),
                 'color': 'grey'
             }
         });
@@ -438,9 +440,9 @@ export class ListingComponent implements OnInit, AfterViewInit {
     /** The label for the checkbox on the passed row */
     checkboxLabel(row?: any): string {
         if (!row) {
-            return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
+            return `${this.isAllSelected() ? this.translate.instant('select') : this.translate.instant('deselect')} ${this.translate.instant('all')}`;
         }
-        return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
+        return `${this.selection.isSelected(row) ? this.translate.instant('deselect') : this.translate.instant('select')} ${this.translate.instant('row')} ${row.position + 1}`;
     }
 
     onAction(action) {
@@ -488,7 +490,7 @@ export class ListingComponent implements OnInit, AfterViewInit {
         this.listingDialogRef.close();
     }
     deleteRow(id) {
-        const messg = confirm(`Are you sure you want to delete the ${this.viewConfig.title}`);
+        const messg = confirm(this.translate.instant('Are you sure you want to delete the') + ' ' + this.viewConfig.title);
         if (messg) {
             this.api.delete(this.viewConfig.metadata.api, id).subscribe(res => {
                 this.fetch();
