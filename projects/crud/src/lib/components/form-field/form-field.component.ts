@@ -1,7 +1,8 @@
-import { Component, OnChanges, Input, SimpleChanges, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnChanges, Input, SimpleChanges, OnInit, Output, EventEmitter, Inject, Optional, Type } from '@angular/core';
 import { FormGroup, FormControlName, FormControl } from '@angular/forms';
 import { Observable, Subject, config } from 'rxjs';
 import { Metadata, FieldConfig, ErrorMessage } from '../../models/metadata';
+import { CRUD_CALENDAR_HEADER } from '../../calendar-header.token';
 
 @Component({
   selector: 'ng-crud-form-field',
@@ -24,7 +25,9 @@ export class FormFieldComponent implements OnChanges, OnInit {
 
   get f() { return this.formGroup.controls; }
 
-  constructor() {
+  constructor(
+    @Optional() @Inject(CRUD_CALENDAR_HEADER) public calendarHeader: Type<any> = null,
+  ) {
   }
 
   ngOnChanges(changes: SimpleChanges) {

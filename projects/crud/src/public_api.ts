@@ -2,6 +2,7 @@
  * Public API Surface of ng-crud-ui
  */
 
+export * from './lib/calendar-header.token';
 export * from './lib/models/metadata';
 export * from './lib/models/views';
 

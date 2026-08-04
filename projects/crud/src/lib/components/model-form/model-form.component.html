@@ -4,11 +4,11 @@
 
 <ng-template #page>
     <div [hidden]="viewMode === 'form'">
-        <body style="margin:0px;padding:0px;overflow:hidden">
+        <div style="margin:0px;padding:0px;overflow:hidden">
             <iframe [src]="iframeSrc | safe" #iframe frameborder="0" id="crud-iframe"
             style="overflow:hidden;overflow-x:hidden;overflow-y:hidden;height:100%;width:100%;position:absolute;top:0px;left:0px;right:0px;bottom:0px"
             height="100%" width="100%"></iframe>
-        </body>
+        </div>
     </div>
     <ng-container #crudComponent *ngIf="viewMode === 'form'">
         <h2 mat-dialog-title style="padding:10px;" class="separated" *ngIf="openedInaialog">
