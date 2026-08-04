@@ -1,0 +1,92 @@
+name: Publish ng-crud-ui
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Build and validate without publishing'
+        type: boolean
+        default: true
+
+jobs:
+  publish:
+    # Angular 11 / ng-packagr 11 build on Node 14; 24.04 no longer ships a usable Node 14.
+    runs-on: ubuntu-22.04
+
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Resolve version
+        id: version
+        env:
+          REF_TYPE: ${{ github.ref_type }}
+          REF_NAME: ${{ github.ref_name }}
+        run: |
+          source_version=$(node -p "require('./projects/crud/package.json').version")
+          echo "source=$source_version" >> "$GITHUB_OUTPUT"
+          echo "Source version: $source_version"
+
+          if [ "$REF_TYPE" = "tag" ]; then
+            tag_version="${REF_NAME#v}"
+            echo "Tag version:    $tag_version"
+            if [ "$tag_version" != "$source_version" ]; then
+              echo "::error::Tag $REF_NAME does not match projects/crud/package.json ($source_version). Bump the version in the repo and re-tag."
+              exit 1
+            fi
+          fi
+
+      - name: Reject an already-published version
+        env:
+          VERSION: ${{ steps.version.outputs.source }}
+        run: |
+          if npm view "ng-crud-ui@$VERSION" version >/dev/null 2>&1; then
+            echo "::error::ng-crud-ui@$VERSION is already on npm. Bump projects/crud/package.json."
+            exit 1
+          fi
+          echo "ng-crud-ui@$VERSION is unpublished, continuing."
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '14'
+
+      - run: npm ci
+
+      - run: npm run build-crud
+
+      - name: Verify the built package carries the expected version
+        env:
+          EXPECTED: ${{ steps.version.outputs.source }}
+        run: |
+          built=$(node -p "require('./dist/crud/package.json').version")
+          if [ "$built" != "$EXPECTED" ]; then
+            echo "::error::dist/crud was built as $built but $EXPECTED was expected."
+            exit 1
+          fi
+          echo "Built ng-crud-ui@$built"
+
+      # Trusted publishing needs Node >= 22.14 and npm >= 11.5.1; the Node 14 build
+      # toolchain ships npm 6. No token: npm authenticates via the OIDC id-token, and
+      # provenance is attached automatically.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          registry-url: 'https://registry.npmjs.org'
+
+      - run: npm install -g npm@latest
+
+      - name: Publish
+        if: github.event_name == 'push' || inputs.dry_run == false
+        working-directory: dist/crud
+        run: npm publish --access public
+
+      - name: Dry run
+        if: github.event_name == 'workflow_dispatch' && inputs.dry_run == true
+        working-directory: dist/crud
+        run: npm publish --access public --dry-run
