@@ -1,6 +1,10 @@
 {
     "name": "ng-crud-ui",
-    "version": "5.11.19",
+    "version": "5.11.21",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/CloudInn/ng-crud-ui.git"
+    },
     "dependencies": {
         "tslib": "^2.0.0"
     },

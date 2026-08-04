@@ -41,7 +41,7 @@
     .edit-view {
         position: fixed;
         background-color: #fafafa;
-        right: 0;
+        inset-inline-end: 0;
         margin: 24px 10px;
         bottom: 0;
     }
@@ -172,21 +172,21 @@ mat-panel-title {
 .save {
     background-color: #82c572;
     color: #fff;
-    margin-right: 0;
+    margin-inline-end: 0;
     width: 150px;
 }
 
 .saveAndAdd {
     background-color: #f1b661;
     color: #fff;
-    margin-right: 15px;
+    margin-inline-end: 15px;
     width: 150px;
 }
 
 .saveAndEdit {
     background-color: #3f51b5;
     color: #fff;
-    margin-right: 15px;
+    margin-inline-end: 15px;
     width: 150px;
 }
 
@@ -329,7 +329,7 @@ mat-panel-title {
     .save,
     .saveAndAdd,
     .saveAndEdit {
-        margin-right: 5px;
+        margin-inline-end: 5px;
         width: 30%;
         font-size: small;
         text-align: center;
