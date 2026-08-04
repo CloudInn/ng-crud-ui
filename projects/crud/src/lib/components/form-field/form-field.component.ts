@@ -2,7 +2,7 @@ import { Component, OnChanges, Input, SimpleChanges, OnInit, Output, EventEmitte
 import { FormGroup, FormControlName, FormControl } from '@angular/forms';
 import { Observable, Subject, config } from 'rxjs';
 import { Metadata, FieldConfig, ErrorMessage } from '../../models/metadata';
-import { CRUD_CALENDAR_HEADER } from '../../calendar-header.token';
+import { CRUD_CALENDAR_HEADER, CRUD_DATE_HINT, CrudDateHintFn } from '../../calendar-header.token';
 
 @Component({
   selector: 'ng-crud-form-field',
@@ -27,7 +27,12 @@ export class FormFieldComponent implements OnChanges, OnInit {
 
   constructor(
     @Optional() @Inject(CRUD_CALENDAR_HEADER) public calendarHeader: Type<any> = null,
+    @Optional() @Inject(CRUD_DATE_HINT) private dateHintFn: CrudDateHintFn = null,
   ) {
+  }
+
+  dateHint(value: any): string {
+    return this.dateHintFn && value ? this.dateHintFn(value) : '';
   }
 
   ngOnChanges(changes: SimpleChanges) {

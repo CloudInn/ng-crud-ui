@@ -23,6 +23,7 @@
         <mat-datepicker-toggle matSuffix [for]="myDatepicker" style="color: #2A55A2"></mat-datepicker-toggle>
         <mat-datepicker [startAt]="config?.DatePickerStartAt" [calendarHeaderComponent]="calendarHeader"
             #myDatepicker></mat-datepicker>
+        <mat-hint class="crud-date-hint" *ngIf="dateHint(f[config.name].value)">{{ dateHint(f[config.name].value) }}</mat-hint>
     </mat-form-field>
 
     <ng-container *ngSwitchCase="'foreignKey'">
