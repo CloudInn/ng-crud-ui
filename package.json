@@ -33,13 +33,13 @@
     "@rollup/plugin-commonjs": "^17.0.0",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^11.0.0",
-    "mat-select-autocomplete-angular11": "^1.4.21",
     "moment": "^2.29.4",
     "ngx-cookie": "^5.0.0",
     "ngx-markdown": "^11.0.1",
     "rxjs": "^6.6.3",
     "tslib": "^2.0.0",
-    "zone.js": "~0.11.4"
+    "zone.js": "~0.11.4",
+    "@cloudinn/mat-select-autocomplete": "file:/home/atoulan/.claude/worktrees/nav-artifacts/msa-cloudinn-1.0.0-ng15build.tgz"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^15.2.11",

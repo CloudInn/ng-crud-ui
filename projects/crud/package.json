@@ -22,7 +22,7 @@
     "moment": "^2.29.4",
     "rxjs": "^6.6.3",
     "@jonijnm/amazing-time-picker": "^2.2.0",
-    "mat-select-autocomplete-angular11": "^1.4.21",
-    "ngx-cookie": "^5.0.0"
+    "ngx-cookie": "^5.0.0",
+    "@cloudinn/mat-select-autocomplete": "^1.0.0"
   }
 }

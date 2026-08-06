@@ -50,7 +50,7 @@ import { AttachmentsComponent } from './components/attachments/attachments.compo
 import { TranslateModule } from '@ngx-translate/core';
 import { SearchDialogComponent } from './containers/search-dialog/search-dialog.component';
 import { SafePipe } from './components/pipes/safe.pipe';
-import { SelectAutocompleteModule } from 'mat-select-autocomplete-angular11';
+import { SelectAutocompleteModule } from '@cloudinn/mat-select-autocomplete';
 import { ActionDialogComponent } from './components/action-dialog/action-dialog.component';
 import { GetSelectorPipe } from './components/pipes/get-selector.pipe';
 import { AmazingTimePickerModule } from '@jonijnm/amazing-time-picker';
