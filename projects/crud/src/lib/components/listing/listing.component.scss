@@ -23,7 +23,7 @@
     position: relative;
 }
 
-.mat-dialog-title {
+.mat-mdc-dialog-title {
     margin: 0 0 20px;
     display: block;
 }
@@ -44,7 +44,7 @@
         box-sizing: border-box;
     }
 
-    .crud-search .mat-form-field {
+    .crud-search .mat-mdc-form-field {
         border-right: 0;
         width: 100%;
     }
@@ -146,14 +146,14 @@ mat-panel-title {
     }
 }
 
-::ng-deep .mat-paginator-container {
+::ng-deep .mat-mdc-paginator-container {
     justify-content: center !important;
 }
 
 .crud-table {
     margin: 8px 20px;
 
-    .mat-header-cell {
+    .mat-mdc-header-cell {
         color: #231f20;
         border-bottom: 1px solid black;
         font-weight: 600;

@@ -1,10 +1,7 @@
 import { TestBed } from '@angular/core/testing';
-import {
-  HttpClientTestingModule,
-  HttpTestingController
-} from '@angular/common/http/testing';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { AttachmentsService } from './attachments.service';
-import { HttpClientModule, HttpRequest } from '@angular/common/http';
+import { HttpRequest, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('AttachmentsService', () => {
@@ -17,10 +14,10 @@ describe('AttachmentsService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, HttpClientModule],
-      providers: [AttachmentsService],
-      schemas: [NO_ERRORS_SCHEMA],
-    });
+    schemas: [NO_ERRORS_SCHEMA],
+    imports: [],
+    providers: [AttachmentsService, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+});
 
     httpTestingController = TestBed.inject(HttpTestingController);
     httpClientSpy = jasmine.createSpyObj('HttpClient', ['get']);

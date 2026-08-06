@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ListingComponent } from './components/listing/listing.component';
@@ -23,28 +23,28 @@ import { DateTimePickerComponent } from './components/date-time-picker/date-time
 import { TimePickerComponent } from './components/time-picker/time-picker.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatLegacyChipsModule as MatChipsModule } from '@angular/material/legacy-chips';
-import { MatLegacyListModule as MatListModule } from '@angular/material/legacy-list';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
-import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
-import { MatLegacyPaginatorModule as MatPaginatorModule } from '@angular/material/legacy-paginator';
-import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
-import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field';
-import { MatLegacyDialogModule as MatDialogModule, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
-import { MatLegacySnackBarModule as MatSnackBarModule } from '@angular/material/legacy-snack-bar';
-import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
-import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
-import { MatLegacyMenuModule as MatMenuModule } from '@angular/material/legacy-menu';
-import { MatLegacyProgressBarModule as MatProgressBarModule } from '@angular/material/legacy-progress-bar';
-import { MatLegacyProgressSpinnerModule as MatProgressSpinnerModule } from '@angular/material/legacy-progress-spinner';
-import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
-import { MatLegacyCheckboxModule as MatCheckboxModule } from '@angular/material/legacy-checkbox';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSelectModule } from '@angular/material/select';
+import { MatCardModule } from '@angular/material/card';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatInputModule } from '@angular/material/input';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatGridListModule } from '@angular/material/grid-list';
-import { MatLegacyAutocompleteModule as MatAutocompleteModule } from '@angular/material/legacy-autocomplete';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { MatLegacyTabsModule as MatTabsModule } from '@angular/material/legacy-tabs';
+import { MatTabsModule } from '@angular/material/tabs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AttachmentsComponent } from './components/attachments/attachments.component';
 import { TranslateModule } from '@ngx-translate/core';
@@ -59,43 +59,7 @@ import { CustomDateAdapter, MY_FORMATS } from './custom-date-adapter';
 import { HistoryComponent } from './components/history/history.component';
 import { DateTimeFormatPipe } from './components/pipes/date-time-format.pipe';
 
-@NgModule({
-    imports: [
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        HttpClientModule,
-        RouterModule,
-        MatToolbarModule,
-        MatSidenavModule,
-        MatChipsModule,
-        MatListModule,
-        MatIconModule,
-        MatTableModule,
-        MatCardModule,
-        MatPaginatorModule,
-        MatButtonModule,
-        MatMenuModule,
-        MatProgressBarModule,
-        MatProgressSpinnerModule,
-        BrowserAnimationsModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatCheckboxModule,
-        MatDialogModule,
-        MatButtonToggleModule,
-        MatGridListModule,
-        MatSnackBarModule,
-        MatDatepickerModule,
-        MatSelectModule,
-        MatTabsModule,
-        MatExpansionModule,
-        AmazingTimePickerModule,
-        MatAutocompleteModule,
-        SelectAutocompleteModule,
-        TranslateModule.forRoot(),
-    ],
-    declarations: [
+@NgModule({ declarations: [
         FormFieldComponent,
         ListingComponent,
         ModelFormComponent,
@@ -118,17 +82,6 @@ import { DateTimeFormatPipe } from './components/pipes/date-time-format.pipe';
         GetSelectorPipe,
         HistoryComponent,
         DateTimeFormatPipe
-    ],
-    providers: [
-        CookieService,
-        { provide: HTTP_INTERCEPTORS, useClass: CookieInterceptor, multi: true },
-        { provide: MAT_DATE_LOCALE, useValue: 'en_US' },
-        {
-            provide: MatDialogRef,
-            useValue: {}
-        },
-        { provide: DateAdapter, useClass: CustomDateAdapter },
-        { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS }
     ],
     exports: [
         HttpClientModule,
@@ -166,6 +119,47 @@ import { DateTimeFormatPipe } from './components/pipes/date-time-format.pipe';
         SelectFieldComponent,
         AttachmentsComponent,
         HistoryComponent
-    ]
-})
+    ], imports: [CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        RouterModule,
+        MatToolbarModule,
+        MatSidenavModule,
+        MatChipsModule,
+        MatListModule,
+        MatIconModule,
+        MatTableModule,
+        MatCardModule,
+        MatPaginatorModule,
+        MatButtonModule,
+        MatMenuModule,
+        MatProgressBarModule,
+        MatProgressSpinnerModule,
+        BrowserAnimationsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatCheckboxModule,
+        MatDialogModule,
+        MatButtonToggleModule,
+        MatGridListModule,
+        MatSnackBarModule,
+        MatDatepickerModule,
+        MatSelectModule,
+        MatTabsModule,
+        MatExpansionModule,
+        AmazingTimePickerModule,
+        MatAutocompleteModule,
+        SelectAutocompleteModule,
+        TranslateModule.forRoot()], providers: [
+        CookieService,
+        { provide: HTTP_INTERCEPTORS, useClass: CookieInterceptor, multi: true },
+        { provide: MAT_DATE_LOCALE, useValue: 'en_US' },
+        {
+            provide: MatDialogRef,
+            useValue: {}
+        },
+        { provide: DateAdapter, useClass: CustomDateAdapter },
+        { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+        provideHttpClient(withInterceptorsFromDi())
+    ] })
 export class CrudModule { }

@@ -5,7 +5,7 @@ iframe {
  .close {
    float: right;
  }
- .mat-dialog-title {
+ .mat-mdc-dialog-title {
   margin-top: -25px !important;
 }
 h2{
@@ -14,7 +14,7 @@ h2{
 .separated{
   border-bottom: 1px solid #E0E0E0;
 }
-.mat-dialog-content{
+.mat-mdc-dialog-content{
   display: contents !important;
 }
 mat-icon{
@@ -31,6 +31,6 @@ mat-icon{
   font-size: 30px;
 }
 
-::ng-deep .edit-view-popup .mat-dialog-container {
+::ng-deep .edit-view-popup .mat-mdc-dialog-container {
   overflow: hidden;
 }

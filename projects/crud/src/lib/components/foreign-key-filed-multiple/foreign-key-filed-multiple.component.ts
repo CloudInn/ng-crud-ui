@@ -4,7 +4,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { FieldConfig, ForeignKeyControlConfig } from '../../models/metadata';
 import { HttpParams } from '@angular/common/http';
 import { ApiService } from '../../services/api.service';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { ListingDialogComponent } from '../../containers/listing-dialog/listing-dialog.component';
 
 @Component({

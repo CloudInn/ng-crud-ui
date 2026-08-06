@@ -5,13 +5,13 @@ import {
     AfterViewInit, ViewChildren,
     QueryList, SimpleChange,
 } from '@angular/core';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
+import { MatTableDataSource } from '@angular/material/table';
 
 import { ApiService } from '../../services/api.service';
 import { IFrameMode, ListViewer } from '../../models/views';
 import { HttpParams, HttpErrorResponse } from '@angular/common/http';
-import { MatLegacyDialog as MatDialog, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
-import { MatLegacyPaginator as MatPaginator, LegacyPageEvent as PageEvent } from '@angular/material/legacy-paginator';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { SelectionModel } from '@angular/cdk/collections';
 import { IframeModalComponent } from '../iframe-modal/iframe-modal.component';
 import { CustomEncoder } from '../../custom-encode';

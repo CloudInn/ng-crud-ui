@@ -7,8 +7,9 @@
   color: #333;
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version. */
 mat-tab-nav-bar,
-.mat-tab-nav-bar {
+.mat-mdc-tab-nav-bar {
   border: none !important;
 }
 
