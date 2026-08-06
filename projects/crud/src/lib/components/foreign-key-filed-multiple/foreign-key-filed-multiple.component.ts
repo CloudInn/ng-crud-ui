@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { FieldConfig, ForeignKeyControlConfig } from '../../models/metadata';
 import { HttpParams } from '@angular/common/http';
@@ -18,13 +18,13 @@ export class ForeignKeyFiledMultipleComponent implements OnChanges {
   options$ = new BehaviorSubject<any[]>([]);
   selectedOptions = [];
 
-  @Input() formGroup: FormGroup;
+  @Input() formGroup: UntypedFormGroup;
   @Input() mode: string;
   @Input() config: FieldConfig;
   @Input() reset: Subject<any>;
   controlConfig: ForeignKeyControlConfig = null;
-  _underlyingCtrl = new FormControl(null);
-  currentControl: FormControl;
+  _underlyingCtrl = new UntypedFormControl(null);
+  currentControl: UntypedFormControl;
 
   constructor(private api: ApiService, private dialog: MatDialog) { }
 
@@ -44,9 +44,9 @@ export class ForeignKeyFiledMultipleComponent implements OnChanges {
 
     if (this.formGroup.get(this.config.name) || this.formGroup.get([this.config.keyOnSearch])) {
       if (this.mode === 'search' && this.config.keyOnSearch) {
-        this.currentControl = this.formGroup.get([this.config.keyOnSearch]) as FormControl;
+        this.currentControl = this.formGroup.get([this.config.keyOnSearch]) as UntypedFormControl;
       } else {
-        this.currentControl = this.formGroup.get([this.config.name]) as FormControl;
+        this.currentControl = this.formGroup.get([this.config.name]) as UntypedFormControl;
       }
     }
     this.fetch();

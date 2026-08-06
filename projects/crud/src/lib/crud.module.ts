@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { ListingComponent } from './components/listing/listing.component';
 import { ModelFormComponent } from './components/model-form/model-form.component';
 import { FormFieldComponent } from './components/form-field/form-field.component';
@@ -67,8 +66,6 @@ import { DateTimeFormatPipe } from './components/pipes/date-time-format.pipe';
         ReactiveFormsModule,
         HttpClientModule,
         RouterModule,
-        OwlDateTimeModule,
-        OwlNativeDateTimeModule,
         CookieModule.forChild(),
         MatToolbarModule,
         MatSidenavModule,

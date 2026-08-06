@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 
 import { FieldConfig, TextAreaControlConfig } from '../../models/metadata';
 
@@ -18,7 +18,7 @@ import { FieldConfig, TextAreaControlConfig } from '../../models/metadata';
 })
 export class TextAreaFieldComponent implements OnInit {
 
-  @Input() formGroup: FormGroup;
+  @Input() formGroup: UntypedFormGroup;
   @Input() config: FieldConfig;
   controlConfig: TextAreaControlConfig;
 

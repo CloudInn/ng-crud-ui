@@ -1,5 +1,5 @@
 import { Component, OnChanges, Input, SimpleChanges, OnInit, Output, EventEmitter, Inject, Optional, Type } from '@angular/core';
-import { FormGroup, FormControlName, FormControl } from '@angular/forms';
+import { UntypedFormGroup, FormControlName, FormControl } from '@angular/forms';
 import { Observable, Subject, config } from 'rxjs';
 import { Metadata, FieldConfig, ErrorMessage } from '../../models/metadata';
 import { CRUD_CALENDAR_HEADER, CRUD_DATE_HINT, CrudDateHintFn } from '../../calendar-header.token';
@@ -12,7 +12,7 @@ import { CRUD_CALENDAR_HEADER, CRUD_DATE_HINT, CrudDateHintFn } from '../../cale
 })
 export class FormFieldComponent implements OnChanges, OnInit {
 
-  @Input() formGroup: FormGroup;
+  @Input() formGroup: UntypedFormGroup;
   @Input() mode: string;
   @Input() forcedSearchParams: any = [];
   @Input() config: FieldConfig;

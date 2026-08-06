@@ -269,7 +269,6 @@
       }
     }
   },
-  "defaultProject": "example-app",
   "cli": {
     "analytics": "b947cb7c-aed3-4050-a7d1-b7dea612e6af"
   }

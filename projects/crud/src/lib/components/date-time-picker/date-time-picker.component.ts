@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import * as moment_ from 'moment';
 const moment = moment_;
 
@@ -11,13 +11,17 @@ const moment = moment_;
 export class DateTimePickerComponent implements OnInit {
   @Input() formGroup;
   @Input() config;
-  public selectedMoment = new FormControl(null);
+  public selectedMoment = new UntypedFormControl(null);
   constructor() { }
 
   ngOnInit() {
     this.selectedMoment.valueChanges.subscribe(res => {
-      const momentValue = moment(res).format('YYYY-MM-DD HH:mm:ssZ');
-      this.setValue(momentValue);
+      // mat-datepicker has no time component, so this is date-only now; the null guard matches
+      // it emitting null when the field is cleared.
+      if (res) {
+        const momentValue = moment(res).format('YYYY-MM-DD');
+        this.setValue(momentValue);
+      }
     });
   }
 

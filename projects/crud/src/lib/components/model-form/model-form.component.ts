@@ -1,11 +1,13 @@
 import { ActionDialogComponent } from '../action-dialog/action-dialog.component';
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, OnDestroy } from '@angular/core';
-import { FormArray, FormGroup, ValidationErrors } from '@angular/forms';
+import { UntypedFormArray, UntypedFormGroup, ValidationErrors } from '@angular/forms';
 
 import { ApiService } from '../../services/api.service';
 import { FormService } from '../../services/form.service';
 import { FieldConfig, FieldSetControlConfig } from '../../models/metadata';
-import { FormViewer } from '../../models/views';
+// type-only: models/views imports this component back, and from Angular 14 the partial compiler
+// rejects that cycle (NG3003). A type import is erased, so nothing changes at runtime.
+import type { FormViewer } from '../../models/views';
 import { HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
@@ -38,7 +40,7 @@ export class ModelFormComponent implements OnInit, OnDestroy {
     @Input() id = null;
     @Output() submit = new EventEmitter<any>();
     @ViewChild('iframe', { static: false }) iframe: ElementRef;
-    formGroup: FormGroup = new FormGroup({});
+    formGroup: UntypedFormGroup = new UntypedFormGroup({});
     formsets: FieldConfig[] = [];
     subFormsets: FieldConfig[] = [];
     is_ready = false;
@@ -163,8 +165,8 @@ export class ModelFormComponent implements OnInit, OnDestroy {
         const formSet = this.viewConfig.controls.find(el => el.type === 'formset');
 
         if (formSet) {
-            const formArray = this.formGroup.get(formSet.name) as FormArray;
-            formArray.controls.forEach((fg: FormGroup) => {
+            const formArray = this.formGroup.get(formSet.name) as UntypedFormArray;
+            formArray.controls.forEach((fg: UntypedFormGroup) => {
                 Object.keys(fg.controls).forEach(k => {
                     const controlErrors = fg.get(k).errors;
                     if (controlErrors !== null) {

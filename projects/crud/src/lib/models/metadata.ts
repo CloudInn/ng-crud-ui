@@ -1,4 +1,7 @@
-import { ViewConfig, FormActions } from './views';
+// type-only: views.ts imports ModelFormComponent as a value, and that component imports back
+// through here, which from Angular 14 the partial compiler rejects (NG3003). Both of these are
+// interfaces used only as annotations, so the import is erased and nothing changes at runtime.
+import type { ViewConfig, FormActions } from './views';
 import { Subject } from 'rxjs';
 
 export interface ControlConfig {

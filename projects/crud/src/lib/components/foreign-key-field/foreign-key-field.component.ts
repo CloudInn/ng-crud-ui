@@ -1,5 +1,5 @@
 import { Component, OnChanges, Input, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
 import { Observable, of, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
@@ -17,7 +17,7 @@ import { HttpParams } from '@angular/common/http';
 })
 export class ForeignKeyFieldComponent implements OnChanges, OnInit {
 
-  @Input() formGroup: FormGroup;
+  @Input() formGroup: UntypedFormGroup;
   @Input() forcedSearchParams: any = [];
   @Input() config: FieldConfig;
   @Input() display_name: FieldConfig;
@@ -25,7 +25,7 @@ export class ForeignKeyFieldComponent implements OnChanges, OnInit {
   @Input() reset: Subject<any>;
   controlConfig: ForeignKeyControlConfig = null;
   availableOptions: Observable<any[]>;
-  _underlyingCtrl = new FormControl(null);
+  _underlyingCtrl = new UntypedFormControl(null);
   hasValue = false;
 
   constructor(private api: ApiService, private dialog: MatDialog) {
@@ -45,7 +45,7 @@ export class ForeignKeyFieldComponent implements OnChanges, OnInit {
     }
     this.controlConfig = this.config.control as ForeignKeyControlConfig;
     if (this.formGroup.get([this.config.name])) {
-      const ctrl = this.formGroup.get([this.config.name]) as FormControl;
+      const ctrl = this.formGroup.get([this.config.name]) as UntypedFormControl;
       if (ctrl.value !== null) {
         this._setControlValue(ctrl.value);
         this._underlyingCtrl.setValue(ctrl.value);
