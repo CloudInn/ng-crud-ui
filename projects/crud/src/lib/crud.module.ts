@@ -14,7 +14,7 @@ import { SelectFieldComponent } from './components/select-field/select-field.com
 import { ScreenWrapperComponent } from './containers/screen-wrapper/screen-wrapper.component';
 import { ListingDialogComponent } from './containers/listing-dialog/listing-dialog.component';
 import { CookieInterceptor } from './cookie.interceptor';
-import { CookieModule } from 'ngx-cookie';
+import { CookieService } from 'ngx-cookie-service';
 import { ForeignKeyFiledMultipleComponent } from './components/foreign-key-filed-multiple/foreign-key-filed-multiple.component';
 import { ErrorHandlingComponent } from './components/error-handling/error-handling.component';
 import { IframeModalComponent } from './components/iframe-modal/iframe-modal.component';
@@ -53,7 +53,7 @@ import { SafePipe } from './components/pipes/safe.pipe';
 import { SelectAutocompleteModule } from '@cloudinn/mat-select-autocomplete';
 import { ActionDialogComponent } from './components/action-dialog/action-dialog.component';
 import { GetSelectorPipe } from './components/pipes/get-selector.pipe';
-import { AmazingTimePickerModule } from '@jonijnm/amazing-time-picker';
+import { AmazingTimePickerModule } from '@cloudinn/amazing-time-picker';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { CustomDateAdapter, MY_FORMATS } from './custom-date-adapter';
 import { HistoryComponent } from './components/history/history.component';
@@ -66,7 +66,6 @@ import { DateTimeFormatPipe } from './components/pipes/date-time-format.pipe';
         ReactiveFormsModule,
         HttpClientModule,
         RouterModule,
-        CookieModule.forChild(),
         MatToolbarModule,
         MatSidenavModule,
         MatChipsModule,
@@ -121,6 +120,7 @@ import { DateTimeFormatPipe } from './components/pipes/date-time-format.pipe';
         DateTimeFormatPipe
     ],
     providers: [
+        CookieService,
         { provide: HTTP_INTERCEPTORS, useClass: CookieInterceptor, multi: true },
         { provide: MAT_DATE_LOCALE, useValue: 'en_US' },
         {

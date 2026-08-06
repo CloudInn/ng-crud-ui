@@ -27,19 +27,19 @@
     "@angular/platform-browser": "^15.2.10",
     "@angular/platform-browser-dynamic": "^15.2.10",
     "@angular/router": "^15.2.10",
-    "@jonijnm/amazing-time-picker": "^2.2.0",
     "@nguniversal/express-engine": "^11.0.1",
     "@ngx-translate/core": "^13.0.0",
     "@rollup/plugin-commonjs": "^17.0.0",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^11.0.0",
     "moment": "^2.29.4",
-    "ngx-cookie": "^5.0.0",
     "ngx-markdown": "^11.0.1",
     "rxjs": "^6.6.3",
     "tslib": "^2.0.0",
     "zone.js": "~0.11.4",
-    "@cloudinn/mat-select-autocomplete": "file:/home/atoulan/.claude/worktrees/nav-artifacts/msa-cloudinn-1.0.0-ng15build.tgz"
+    "@cloudinn/mat-select-autocomplete": "file:/home/atoulan/.claude/worktrees/nav-artifacts/msa-cloudinn-1.0.0-ng15build.tgz",
+    "ngx-cookie-service": "^15.0.0",
+    "@cloudinn/amazing-time-picker": "file:/home/atoulan/.claude/worktrees/nav-artifacts/atp-cloudinn-1.0.0.tgz"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^15.2.11",

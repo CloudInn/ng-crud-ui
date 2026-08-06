@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
-import { AmazingTimePickerService } from '@jonijnm/amazing-time-picker';
+import { AmazingTimePickerService } from '@cloudinn/amazing-time-picker';
 import * as moment_ from 'moment';
 const moment = moment_;
 
