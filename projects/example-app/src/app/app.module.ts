@@ -23,7 +23,7 @@ const routes: Route[] = [
     BrowserAnimationsModule,
     HttpClientModule,
     CrudModule,
-    RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' }),
+    RouterModule.forRoot(routes, {}),
   ],
   providers: [
   ],

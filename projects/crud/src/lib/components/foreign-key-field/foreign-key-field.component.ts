@@ -2,7 +2,7 @@ import { Component, OnChanges, Input, OnInit } from '@angular/core';
 import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
 import { Observable, of, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 
 import { ApiService } from '../../services/api.service';
 import { FieldConfig, ForeignKeyControlConfig } from '../../models/metadata';
