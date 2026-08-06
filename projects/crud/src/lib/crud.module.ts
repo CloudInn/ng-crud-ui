@@ -84,7 +84,8 @@ import { DateTimeFormatPipe } from './components/pipes/date-time-format.pipe';
         DateTimeFormatPipe
     ],
     exports: [
-        HttpClientModule,
+        // HttpClientModule is gone in v17; HttpClient now comes from provideHttpClient() below
+
         MatToolbarModule,
         MatSidenavModule,
         MatListModule,
