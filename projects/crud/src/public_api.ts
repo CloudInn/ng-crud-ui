@@ -17,6 +17,10 @@ export * from './lib/components/text-area-field/text-area-field.component';
 export * from './lib/components/file-upload/file-upload.component';
 export * from './lib/components/date-time-picker/date-time-picker.component';
 export * from './lib/components/time-picker/time-picker.component';
+// Both are declared and exported by CrudModule, so from Angular 13 on the partial compiler
+// requires them here too (NG3001) - a consumer can already use them via the module.
+export * from './lib/components/history/history.component';
+export * from './lib/components/attachments/attachments.component';
 
 export * from './lib/containers/listing-dialog/listing-dialog.component';
 export * from './lib/containers/screen-wrapper/screen-wrapper.component';
