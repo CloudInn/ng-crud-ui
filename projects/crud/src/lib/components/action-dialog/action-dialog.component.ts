@@ -2,6 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
+    standalone: false,
   selector: 'action-dialog',
   templateUrl: './action-dialog.component.html',
   styleUrls: ['./action-dialog.component.css']

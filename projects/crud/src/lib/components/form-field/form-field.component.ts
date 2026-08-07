@@ -5,6 +5,7 @@ import { Metadata, FieldConfig, ErrorMessage } from '../../models/metadata';
 import { CRUD_CALENDAR_HEADER, CRUD_DATE_HINT, CrudDateHintFn } from '../../calendar-header.token';
 
 @Component({
+    standalone: false,
   selector: 'ng-crud-form-field',
   templateUrl: './form-field.component.html',
   exportAs: 'ngcrudui-form-field',

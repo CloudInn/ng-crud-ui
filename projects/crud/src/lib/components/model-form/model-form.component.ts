@@ -23,6 +23,7 @@ import { HistoryComponent } from '../history/history.component';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
+    standalone: false,
     selector: 'ng-crud-model-form',
     templateUrl: './model-form.component.html',
     styleUrls: ['./model-form.component.scss'],

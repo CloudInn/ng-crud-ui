@@ -4,6 +4,7 @@ import * as moment_ from 'moment';
 const moment = moment_;
 
 @Component({
+    standalone: false,
   selector: 'ng-date-time-picker',
   templateUrl: './date-time-picker.component.html',
   styleUrls: ['./date-time-picker.component.css']
