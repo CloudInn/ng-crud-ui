@@ -13,8 +13,7 @@ on:
 
 jobs:
   publish:
-    # Angular 11 / ng-packagr 11 build on Node 14; 24.04 no longer ships a usable Node 14.
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
 
     permissions:
       contents: read
@@ -52,13 +51,15 @@ jobs:
           fi
           echo "ng-crud-ui@$VERSION is unpublished, continuing."
 
+      # Angular 19 needs Node >= 18.19 and a lockfileVersion 3 aware npm; the old Node 14 step
+      # failed at npm ci with "Cannot read property '@angular/animations' of undefined".
       - uses: actions/setup-node@v4
         with:
-          node-version: '14'
+          node-version: '20'
 
       - run: npm ci
 
-      - run: npm run build-crud
+      - run: npm run build-crud -- --configuration production
 
       - name: Verify the built package carries the expected version
         env:
@@ -71,9 +72,8 @@ jobs:
           fi
           echo "Built ng-crud-ui@$built"
 
-      # Trusted publishing needs Node >= 22.14 and npm >= 11.5.1; the Node 14 build
-      # toolchain ships npm 6. No token: npm authenticates via the OIDC id-token, and
-      # provenance is attached automatically.
+      # Trusted publishing needs Node >= 22.14 and npm >= 11.5.1. No token: npm authenticates via
+      # the OIDC id-token, and provenance is attached automatically.
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
