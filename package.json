@@ -57,6 +57,7 @@
     "karma-coverage-istanbul-reporter": "~3.0.2",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "^1.5.0",
+    "mat-select-autocomplete-angular19": "file:../nav-artifacts/mat-select-autocomplete-angular19-1.5.39.tgz",
     "ng-packagr": "^19.2.2",
     "protractor": "~7.0.0",
     "ts-node": "~8.0.2",

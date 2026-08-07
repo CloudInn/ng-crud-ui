@@ -1,6 +1,6 @@
 {
   "name": "ng-crud-ui",
-  "version": "5.11.23",
+  "version": "5.11.24",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/CloudInn/ng-crud-ui.git"
@@ -21,8 +21,8 @@
     "@ngx-translate/core": "^14.0.0",
     "moment": "^2.29.4",
     "rxjs": "^7.4.0",
-    "@cloudinn/mat-select-autocomplete": "^1.1.0",
     "ngx-cookie-service": "^19.0.0",
-    "@cloudinn/amazing-time-picker": "^1.0.0"
+    "@cloudinn/amazing-time-picker": "^1.0.0",
+    "mat-select-autocomplete-angular19": "^1.5.39"
   }
 }
