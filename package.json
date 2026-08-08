@@ -27,7 +27,7 @@
     "@angular/platform-browser-dynamic": "^19.2.25",
     "@angular/router": "^19.2.25",
     "@angular/ssr": "^19.2.27",
-    "@cloudinn/amazing-time-picker": "file:/home/atoulan/.claude/worktrees/nav-artifacts/atp-cloudinn-2.0.0-ng19.tgz",
+    "@cloudinn/amazing-time-picker": "^2.0.0",
     "@ngx-translate/core": "^14.0.0",
     "@rollup/plugin-commonjs": "^17.0.0",
     "@rollup/plugin-json": "^4.1.0",
