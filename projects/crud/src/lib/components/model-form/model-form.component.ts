@@ -48,6 +48,10 @@ export class ModelFormComponent implements OnInit, OnDestroy {
     _visibleControls: FieldConfig[] = [];
     disabled = false;
     initialLoading = false;
+    // Kept separate from initialLoading: that one swaps the whole form out for a
+    // spinner, which would destroy the fields mid-edit and detach them from the
+    // form group. A submit only ever covers the form with an overlay.
+    saving = false;
     fileUrl;
     fileName;
     openedInaialog: boolean;
@@ -360,7 +364,7 @@ export class ModelFormComponent implements OnInit, OnDestroy {
     }
 
     _onSubmit(action_type?) {
-        this.initialLoading = true;
+        this.saving = true;
         this.viewConfig.metadata.default_filters = [];
         if (this.formGroup.valid) {
             this.disabled = true;
@@ -368,23 +372,27 @@ export class ModelFormComponent implements OnInit, OnDestroy {
             this.removeEmptyFormsets();
             if (this.mode === 'create') {
                 this.api.post(this.viewConfig.metadata.api, this.formGroup.value).subscribe(res => {
+                    this.saving = false;
+                    this.initialLoading = true;
                     this.disabled = false;
                     this.id = res[this.viewConfig.metadata.search_key].id;
                     this.response = res[this.viewConfig.metadata.search_key];
                     this.handlePostSubmit(action_type, res);
 
                 }, (error) => {
-                    this.initialLoading = false;
+                    this.saving = false;
                     this.disabled = false;
                     this.displayError(error.error);
                 });
             } else if (this.mode === 'edit' && this.id) {
                 this.api.put(`${this.viewConfig.metadata.api}${this.id}/`, this.formGroup.value).subscribe(res => {
+                    this.saving = false;
+                    this.initialLoading = true;
+                    this.disabled = false;
                     this.response = res[this.viewConfig.metadata.search_key];
                     this.handlePostSubmit(action_type, res);
-                    this.disabled = false;
                 }, (error) => {
-                    this.initialLoading = false;
+                    this.saving = false;
                     this.disabled = false;
                     this.displayError(error.error);
                 });
@@ -392,12 +400,13 @@ export class ModelFormComponent implements OnInit, OnDestroy {
                this._submitSearchFormWithFilters();
             }
         } else {
-            this.initialLoading = false;
+            this.saving = false;
             this.getFormErrors();
         }
     }
 
     private _submitSearchFormWithFilters(): void {
+        this.saving = false;
         this.initialLoading = false;
                 const contains_ctrl = this.viewConfig.controls.filter(ctrl => ctrl.iContains);
                 this.viewConfig.controls.forEach(ctrl => {
@@ -553,6 +562,12 @@ export class ModelFormComponent implements OnInit, OnDestroy {
                 break;
             case 'save':
                 this.save();
+                break;
+            default:
+                // Every branch above ends up clearing initialLoading, which the
+                // save path raises. Without this the form would stay hidden
+                // behind the spinner for an action type we do not handle.
+                this.initialLoading = false;
         }
     }
     _onReset() {
