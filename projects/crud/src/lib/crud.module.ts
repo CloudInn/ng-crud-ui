@@ -16,7 +16,6 @@ import { ListingDialogComponent } from './containers/listing-dialog/listing-dial
 import { CookieInterceptor } from './cookie.interceptor';
 import { CookieService } from 'ngx-cookie-service';
 import { ForeignKeyFiledMultipleComponent } from './components/foreign-key-filed-multiple/foreign-key-filed-multiple.component';
-import { ErrorHandlingComponent } from './components/error-handling/error-handling.component';
 import { IframeModalComponent } from './components/iframe-modal/iframe-modal.component';
 import { FileUploadComponent } from './components/file-upload/file-upload.component';
 import { DateTimePickerComponent } from './components/date-time-picker/date-time-picker.component';
@@ -72,7 +71,6 @@ import { DateTimeFormatPipe } from './components/pipes/date-time-format.pipe';
         TextAreaFieldComponent,
         SelectFieldComponent,
         ForeignKeyFiledMultipleComponent,
-        ErrorHandlingComponent,
         IframeModalComponent,
         TimePickerComponent,
         AttachmentsComponent,
