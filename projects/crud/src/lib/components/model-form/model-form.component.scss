@@ -50,9 +50,6 @@
 .crud-form-body {
     display: flex;
     flex-wrap: wrap;
-    // Anchors .saving-overlay, which covers the form while a submit is in
-    // flight. Being absolute rather than fixed keeps the surrounding app
-    // navigable if a request hangs.
     position: relative;
 }
 
@@ -77,8 +74,6 @@
     margin-top: calc(50vh - 100px);
 }
 
-// Covers the form while a submit is in flight instead of replacing it, so the
-// fields stay alive and keep their values when the request comes back failed.
 .saving-overlay {
     position: absolute;
     top: 0;

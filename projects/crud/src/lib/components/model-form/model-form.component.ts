@@ -48,9 +48,6 @@ export class ModelFormComponent implements OnInit, OnDestroy {
     _visibleControls: FieldConfig[] = [];
     disabled = false;
     initialLoading = false;
-    // Kept separate from initialLoading: that one swaps the whole form out for a
-    // spinner, which would destroy the fields mid-edit and detach them from the
-    // form group. A submit only ever covers the form with an overlay.
     saving = false;
     fileUrl;
     fileName;
@@ -564,9 +561,6 @@ export class ModelFormComponent implements OnInit, OnDestroy {
                 this.save();
                 break;
             default:
-                // Every branch above ends up clearing initialLoading, which the
-                // save path raises. Without this the form would stay hidden
-                // behind the spinner for an action type we do not handle.
                 this.initialLoading = false;
         }
     }
