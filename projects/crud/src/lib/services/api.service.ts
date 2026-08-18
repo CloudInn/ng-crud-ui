@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable, of, forkJoin, throwError } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { Observable, of, forkJoin, from, throwError } from 'rxjs';
+import { catchError, mergeMap, tap, toArray } from 'rxjs/operators';
 import { AttachmentsService } from './attachments.service';
 
+// Uploading every selected file at once occupies one server request slot per file.
+const MAX_CONCURRENT_UPLOADS = 2;
 
 @Injectable({
     providedIn: 'root'
@@ -63,7 +65,10 @@ export class ApiService {
                             catchError(error => throwError(error))
                         ));
                 });
-                return forkJoin(responses);
+                return from(responses).pipe(
+                    mergeMap(upload => upload, MAX_CONCURRENT_UPLOADS),
+                    toArray()
+                );
             } else {
                 return of(null)
             }
