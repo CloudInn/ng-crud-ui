@@ -128,21 +128,28 @@ mat-panel-title {
 
     // checkBox
     
+    // Material 21 no longer puts .mat-primary / .mat-accent on the checkbox host - palette classes
+    // gave way to tokens - so the old palette-qualified selectors never match and a checked box
+    // fell through to the grey below. Key off the checked/indeterminate class alone.
     .mat-checkbox-checked.mat-accent .mat-checkbox-background,
     .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background,
     .mat-checkbox-checked.mat-primary .mat-checkbox-background,
-    // checkBox .mat-mdc-checkbox-checked.mat-accent .mdc-checkbox__background,
-    .mat-mdc-checkbox-indeterminate.mat-accent .mdc-checkbox__background,
-    .mat-mdc-checkbox-checked.mat-primary .mdc-checkbox__background {
+    .mat-mdc-checkbox-checked .mdc-checkbox__background,
+    .mat-mdc-checkbox-indeterminate .mdc-checkbox__background {
         background-color: #2A55A2 !important;
     }
-    /* TODO(mdc-migration): The following rule targets internal classes of checkbox that may no longer apply for the MDC version.*/
-    .mat-checkbox-checked.mat-accent .mat-checkbox-ripple .mat-ripple-element, .mat-mdc-checkbox-checked.mat-accent .mat-mdc-checkbox-ripple .mat-ripple-element {
+    // Material 21 puts neither .mat-accent nor .mat-primary on a checkbox host, so qualifying by
+    // palette stopped matching and the checked ripple fell back to the theme colour.
+    .mat-checkbox-checked.mat-accent .mat-checkbox-ripple .mat-ripple-element,
+    .mat-mdc-checkbox-checked .mat-mdc-checkbox-ripple .mat-ripple-element {
         opacity: 0.03 !important;
         background-color: #2A55A2 !important;
     }
-    /* TODO(mdc-migration): The following rule targets internal classes of checkbox that may no longer apply for the MDC version.*/
-    .mat-mdc-checkbox .mat-checkbox-frame, .mat-mdc-checkbox .mdc-checkbox__background {
+    // .mat-checkbox-frame was legacy's UNCHECKED outline element; MDC merges outline and fill into
+    // .mdc-checkbox__background, so this grey has to be limited to the unchecked state or it paints
+    // over a checked box too.
+    .mat-mdc-checkbox .mat-checkbox-frame,
+    .mat-mdc-checkbox .mdc-checkbox__native-control:not(:checked):not(:indeterminate) ~ .mdc-checkbox__background {
         background-color: #CECECE !important;
         border: none;
     }
@@ -150,20 +157,28 @@ mat-panel-title {
     .mat-mdc-form-field.mat-focused .mat-form-field-label, .mat-mdc-form-field.mat-focused .mat-mdc-floating-label {
         color: #2A55A2 !important;
     }
-    /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version.*/
-    .mat-focused .mat-form-field-underline .mat-form-field-ripple, .mat-focused .mdc-line-ripple .mdc-line-ripple {
+    // The migrated selector was `.mdc-line-ripple .mdc-line-ripple` - a line ripple inside a line
+    // ripple, which never matches. MDC also draws the focus underline with
+    // `.mdc-line-ripple::after { border-bottom-color }` rather than a background on the element,
+    // so the colour has to go through the token that pseudo-element reads.
+    .mat-focused .mat-form-field-underline .mat-form-field-ripple {
         background-color: #2A55A2 !important;
+    }
+
+    .mat-mdc-form-field {
+        --mat-form-field-filled-focus-active-indicator-color: #2A55A2;
+        --mat-form-field-outlined-focus-outline-color: #2A55A2;
     }
 
     .mat-mdc-checkbox-layout:hover,
     .mat-checkbox:hover,
     .mat-mdc-checkbox:hover {
-        /* TODO(mdc-migration): The following rule targets internal classes of checkbox that may no longer apply for the MDC version.*/
-        .mat-mdc-checkbox .mat-checkbox-frame, .mat-mdc-checkbox .mdc-checkbox__background {
-            border: 1px solid #2A55A2 !important;
-        }
-        /* TODO(mdc-migration): The following rule targets internal classes of checkbox that may no longer apply for the MDC version.*/
-        .mat-checkbox-frame, .mdc-checkbox__background {
+        // Legacy kept the unchecked outline (.mat-checkbox-frame) and the checked fill
+        // (.mat-checkbox-background) on separate elements, so clearing the background here only
+        // ever touched the outline. MDC merges both into .mdc-checkbox__background, so without a
+        // guard this also wipes a checked box's fill and it reads as unselected while hovered.
+        .mat-checkbox-frame,
+        .mdc-checkbox__native-control:not(:checked):not(:indeterminate) ~ .mdc-checkbox__background {
             background-color: transparent !important;
             border: 1px solid #2A55A2 !important;
         }
@@ -210,17 +225,24 @@ mat-panel-title {
     width: 150px;
 }
 
-::ng-deep snack-bar-container.success-bar {
-    background-color: #1e9765;
+// Material 11 rendered <snack-bar-container>; MDC renders <mat-snack-bar-container>, so the old
+// element selectors stopped matching and these toasts fell back to Material's default dark. MDC
+// also leaves the container transparent and paints an inner .mat-mdc-snackbar-surface, so the
+// colour has to go through the token the surface reads rather than a background on the container.
+::ng-deep .mat-mdc-snack-bar-container.success-bar {
+    --mat-snack-bar-container-color: #1e9765;
 }
 
-::ng-deep snack-bar-container.others-bar {
-    background-color: #000;
+::ng-deep .mat-mdc-snack-bar-container.others-bar {
+    --mat-snack-bar-container-color: #000;
 }
 
-::ng-deep snack-bar-container.error-bar {
-    background-color: #E45155;
-    font-weight: bold;
+::ng-deep .mat-mdc-snack-bar-container.error-bar {
+    --mat-snack-bar-container-color: #E45155;
+
+    .mdc-snackbar__label {
+        font-weight: bold;
+    }
 }
 
 .header_btn_container {
