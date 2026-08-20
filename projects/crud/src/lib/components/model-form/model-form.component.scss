@@ -128,12 +128,14 @@ mat-panel-title {
 
     // checkBox
     
+    // Material 21 no longer puts .mat-primary / .mat-accent on the checkbox host - palette classes
+    // gave way to tokens - so the old palette-qualified selectors never match and a checked box
+    // fell through to the grey below. Key off the checked/indeterminate class alone.
     .mat-checkbox-checked.mat-accent .mat-checkbox-background,
     .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background,
     .mat-checkbox-checked.mat-primary .mat-checkbox-background,
-    // checkBox .mat-mdc-checkbox-checked.mat-accent .mdc-checkbox__background,
-    .mat-mdc-checkbox-indeterminate.mat-accent .mdc-checkbox__background,
-    .mat-mdc-checkbox-checked.mat-primary .mdc-checkbox__background {
+    .mat-mdc-checkbox-checked .mdc-checkbox__background,
+    .mat-mdc-checkbox-indeterminate .mdc-checkbox__background {
         background-color: #2A55A2 !important;
     }
     /* TODO(mdc-migration): The following rule targets internal classes of checkbox that may no longer apply for the MDC version.*/
@@ -141,8 +143,11 @@ mat-panel-title {
         opacity: 0.03 !important;
         background-color: #2A55A2 !important;
     }
-    /* TODO(mdc-migration): The following rule targets internal classes of checkbox that may no longer apply for the MDC version.*/
-    .mat-mdc-checkbox .mat-checkbox-frame, .mat-mdc-checkbox .mdc-checkbox__background {
+    // .mat-checkbox-frame was legacy's UNCHECKED outline element; MDC merges outline and fill into
+    // .mdc-checkbox__background, so this grey has to be limited to the unchecked state or it paints
+    // over a checked box too.
+    .mat-mdc-checkbox .mat-checkbox-frame,
+    .mat-mdc-checkbox .mdc-checkbox__native-control:not(:checked):not(:indeterminate) ~ .mdc-checkbox__background {
         background-color: #CECECE !important;
         border: none;
     }
@@ -162,8 +167,12 @@ mat-panel-title {
         .mat-mdc-checkbox .mat-checkbox-frame, .mat-mdc-checkbox .mdc-checkbox__background {
             border: 1px solid #2A55A2 !important;
         }
-        /* TODO(mdc-migration): The following rule targets internal classes of checkbox that may no longer apply for the MDC version.*/
-        .mat-checkbox-frame, .mdc-checkbox__background {
+        // Legacy kept the unchecked outline (.mat-checkbox-frame) and the checked fill
+        // (.mat-checkbox-background) on separate elements, so clearing the background here only
+        // ever touched the outline. MDC merges both into .mdc-checkbox__background, so without a
+        // guard this also wipes a checked box's fill and it reads as unselected while hovered.
+        .mat-checkbox-frame,
+        .mdc-checkbox__native-control:not(:checked):not(:indeterminate) ~ .mdc-checkbox__background {
             background-color: transparent !important;
             border: 1px solid #2A55A2 !important;
         }
