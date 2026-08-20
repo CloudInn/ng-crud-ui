@@ -134,9 +134,19 @@ mat-panel-title {
     .mat-checkbox-checked.mat-accent .mat-checkbox-background,
     .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background,
     .mat-checkbox-checked.mat-primary .mat-checkbox-background,
+    // Material 21 emits mat-mdc-checkbox-checked but NOT mat-mdc-checkbox-indeterminate (only
+    // -checked, -disabled and -disabled-interactive exist), so the partial select-all state has to
+    // be matched through the native control's :indeterminate pseudo-class or it falls through to
+    // MDC's own rule and paints itself the theme accent.
     .mat-mdc-checkbox-checked .mdc-checkbox__background,
+    .mdc-checkbox__native-control:indeterminate ~ .mdc-checkbox__background,
     .mat-mdc-checkbox-indeterminate .mdc-checkbox__background {
         background-color: #2A55A2 !important;
+        // MDC paints the checked box's border from the same token as its fill, so overriding only
+        // the background left the border on the theme accent - a pink ring around a blue box.
+        // Legacy never showed one: its fill element carried `border: none` and the outline lived
+        // on the separate .mat-checkbox-frame.
+        border-color: #2A55A2 !important;
     }
     // Material 21 puts neither .mat-accent nor .mat-primary on a checkbox host, so qualifying by
     // palette stopped matching and the checked ripple fell back to the theme colour.
