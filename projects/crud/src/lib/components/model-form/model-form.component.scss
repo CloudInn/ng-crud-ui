@@ -138,8 +138,10 @@ mat-panel-title {
     .mat-mdc-checkbox-indeterminate .mdc-checkbox__background {
         background-color: #2A55A2 !important;
     }
-    /* TODO(mdc-migration): The following rule targets internal classes of checkbox that may no longer apply for the MDC version.*/
-    .mat-checkbox-checked.mat-accent .mat-checkbox-ripple .mat-ripple-element, .mat-mdc-checkbox-checked.mat-accent .mat-mdc-checkbox-ripple .mat-ripple-element {
+    // Material 21 puts neither .mat-accent nor .mat-primary on a checkbox host, so qualifying by
+    // palette stopped matching and the checked ripple fell back to the theme colour.
+    .mat-checkbox-checked.mat-accent .mat-checkbox-ripple .mat-ripple-element,
+    .mat-mdc-checkbox-checked .mat-mdc-checkbox-ripple .mat-ripple-element {
         opacity: 0.03 !important;
         background-color: #2A55A2 !important;
     }
@@ -155,18 +157,22 @@ mat-panel-title {
     .mat-mdc-form-field.mat-focused .mat-form-field-label, .mat-mdc-form-field.mat-focused .mat-mdc-floating-label {
         color: #2A55A2 !important;
     }
-    /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version.*/
-    .mat-focused .mat-form-field-underline .mat-form-field-ripple, .mat-focused .mdc-line-ripple .mdc-line-ripple {
+    // The migrated selector was `.mdc-line-ripple .mdc-line-ripple` - a line ripple inside a line
+    // ripple, which never matches. MDC also draws the focus underline with
+    // `.mdc-line-ripple::after { border-bottom-color }` rather than a background on the element,
+    // so the colour has to go through the token that pseudo-element reads.
+    .mat-focused .mat-form-field-underline .mat-form-field-ripple {
         background-color: #2A55A2 !important;
+    }
+
+    .mat-mdc-form-field {
+        --mat-form-field-filled-focus-active-indicator-color: #2A55A2;
+        --mat-form-field-outlined-focus-outline-color: #2A55A2;
     }
 
     .mat-mdc-checkbox-layout:hover,
     .mat-checkbox:hover,
     .mat-mdc-checkbox:hover {
-        /* TODO(mdc-migration): The following rule targets internal classes of checkbox that may no longer apply for the MDC version.*/
-        .mat-mdc-checkbox .mat-checkbox-frame, .mat-mdc-checkbox .mdc-checkbox__background {
-            border: 1px solid #2A55A2 !important;
-        }
         // Legacy kept the unchecked outline (.mat-checkbox-frame) and the checked fill
         // (.mat-checkbox-background) on separate elements, so clearing the background here only
         // ever touched the outline. MDC merges both into .mdc-checkbox__background, so without a
@@ -219,17 +225,24 @@ mat-panel-title {
     width: 150px;
 }
 
-::ng-deep snack-bar-container.success-bar {
-    background-color: #1e9765;
+// Material 11 rendered <snack-bar-container>; MDC renders <mat-snack-bar-container>, so the old
+// element selectors stopped matching and these toasts fell back to Material's default dark. MDC
+// also leaves the container transparent and paints an inner .mat-mdc-snackbar-surface, so the
+// colour has to go through the token the surface reads rather than a background on the container.
+::ng-deep .mat-mdc-snack-bar-container.success-bar {
+    --mat-snack-bar-container-color: #1e9765;
 }
 
-::ng-deep snack-bar-container.others-bar {
-    background-color: #000;
+::ng-deep .mat-mdc-snack-bar-container.others-bar {
+    --mat-snack-bar-container-color: #000;
 }
 
-::ng-deep snack-bar-container.error-bar {
-    background-color: #E45155;
-    font-weight: bold;
+::ng-deep .mat-mdc-snack-bar-container.error-bar {
+    --mat-snack-bar-container-color: #E45155;
+
+    .mdc-snackbar__label {
+        font-weight: bold;
+    }
 }
 
 .header_btn_container {
