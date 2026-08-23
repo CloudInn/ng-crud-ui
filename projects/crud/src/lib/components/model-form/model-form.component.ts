@@ -16,7 +16,8 @@ import { IframeModalComponent } from '../../components/iframe-modal/iframe-modal
 import { SearchDialogComponent } from '../../containers/search-dialog/search-dialog.component';
 import { AttachmentsService } from '../../services/attachments.service';
 import { Subscription } from 'rxjs';
-import * as moment from 'moment';
+import * as moment_ from 'moment';
+const moment = (moment_ as any).default ?? moment_;
 import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
 import { CustomDateAdapter, MY_FORMATS } from '../../custom-date-adapter';
 import { HistoryComponent } from '../history/history.component';
