@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import * as moment_ from 'moment';
-const moment = moment_;
+const moment = (moment_ as any).default ?? moment_;
 
 @Component({
     standalone: false,
