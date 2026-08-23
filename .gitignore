@@ -1,2 +1,5 @@
+/.angular/cache
 node_modules/
 dist/
+
+rebuild-and-link.sh

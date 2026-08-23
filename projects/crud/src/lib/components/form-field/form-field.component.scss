@@ -11,7 +11,9 @@
     display: flex;
     align-items: center;
 }
-::ng-deep.mat-checkbox-layout
+/* TODO(mdc-migration): The following rule targets internal classes of checkbox that may no longer apply for the MDC version. */
+::ng-deep.mat-checkbox-layout,
+::ng-deep.mdc-form-field
 {
     padding:.4375em 0;
 }

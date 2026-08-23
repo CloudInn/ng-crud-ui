@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
 import { ViewConfig } from '../models/views';
 import { Metadata } from '../models/metadata';
@@ -10,7 +10,7 @@ import { Metadata } from '../models/metadata';
 })
 export class Registry {
 
-  public forms: {[key: string]: FormGroup} = {};
+  public forms: {[key: string]: UntypedFormGroup} = {};
   public screens: {[key: string]: ViewConfig} = {};
   public metadata: {[key: string]: Metadata} = {};
   public isReady: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
@@ -28,9 +28,9 @@ export class Registry {
   registerForm(metadata: Metadata, formClass: any) {
     const ctrls = {};
     for (const ctrl of metadata.fields) {
-      ctrls[ctrl.name] = new FormControl({}, ctrl.validators);
+      ctrls[ctrl.name] = new UntypedFormControl({}, ctrl.validators);
     }
-    const f = new FormGroup(ctrls);
+    const f = new UntypedFormGroup(ctrls);
     this.forms[metadata.name] = f;
   }
 

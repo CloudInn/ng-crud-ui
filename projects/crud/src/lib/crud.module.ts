@@ -1,9 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { ListingComponent } from './components/listing/listing.component';
 import { ModelFormComponent } from './components/model-form/model-form.component';
 import { FormFieldComponent } from './components/form-field/form-field.component';
@@ -15,7 +14,7 @@ import { SelectFieldComponent } from './components/select-field/select-field.com
 import { ScreenWrapperComponent } from './containers/screen-wrapper/screen-wrapper.component';
 import { ListingDialogComponent } from './containers/listing-dialog/listing-dialog.component';
 import { CookieInterceptor } from './cookie.interceptor';
-import { CookieModule } from 'ngx-cookie';
+import { CookieService } from 'ngx-cookie-service';
 import { ForeignKeyFiledMultipleComponent } from './components/foreign-key-filed-multiple/foreign-key-filed-multiple.component';
 import { IframeModalComponent } from './components/iframe-modal/iframe-modal.component';
 import { FileUploadComponent } from './components/file-upload/file-upload.component';
@@ -50,132 +49,116 @@ import { AttachmentsComponent } from './components/attachments/attachments.compo
 import { TranslateModule } from '@ngx-translate/core';
 import { SearchDialogComponent } from './containers/search-dialog/search-dialog.component';
 import { SafePipe } from './components/pipes/safe.pipe';
-import { SelectAutocompleteModule } from 'mat-select-autocomplete-angular11';
+import { SelectAutocompleteModule } from '@cloudinn/mat-select-autocomplete';
 import { ActionDialogComponent } from './components/action-dialog/action-dialog.component';
 import { GetSelectorPipe } from './components/pipes/get-selector.pipe';
-import { AmazingTimePickerModule } from '@jonijnm/amazing-time-picker';
+import { AmazingTimePickerModule } from '@cloudinn/amazing-time-picker';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { CustomDateAdapter, MY_FORMATS } from './custom-date-adapter';
 import { HistoryComponent } from './components/history/history.component';
 import { DateTimeFormatPipe } from './components/pipes/date-time-format.pipe';
 
-@NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    RouterModule,
-    OwlDateTimeModule,
-    OwlNativeDateTimeModule,
-    CookieModule.forChild(),
-    MatToolbarModule,
-    MatSidenavModule,
-    MatChipsModule,
-    MatListModule,
-    MatIconModule,
-    MatTableModule,
-    MatCardModule,
-    MatPaginatorModule,
-    MatButtonModule,
-    MatMenuModule,
-    MatProgressBarModule,
-    MatProgressSpinnerModule,
-    BrowserAnimationsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatCheckboxModule,
-    MatDialogModule,
-    MatButtonToggleModule,
-    MatGridListModule,
-    MatSnackBarModule,
-    MatDatepickerModule,
-    MatSelectModule,
-    MatTabsModule,
-    MatExpansionModule,
-    AmazingTimePickerModule,
-    MatAutocompleteModule,
-    SelectAutocompleteModule,
-    TranslateModule.forRoot(),
-  ],
-  declarations: [
-    FormFieldComponent,
-    ListingComponent,
-    ModelFormComponent,
-    ScreenWrapperComponent,
-    FormsetComponent,
-    ForeignKeyFieldComponent,
-    FileUploadComponent,
-    DateTimePickerComponent,
-    ListingDialogComponent,
-    TextAreaFieldComponent,
-    SelectFieldComponent,
-    ForeignKeyFiledMultipleComponent,
-    IframeModalComponent,
-    TimePickerComponent,
-    AttachmentsComponent,
-    SearchDialogComponent,
-    SafePipe,
-    ActionDialogComponent,
-    GetSelectorPipe,
-    HistoryComponent,
-    DateTimeFormatPipe
-  ],
-  providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: CookieInterceptor, multi: true },
-    { provide: MAT_DATE_LOCALE, useValue: 'en_US' },
-    {
-      provide: MatDialogRef,
-      useValue: {}
-    },
-    { provide: DateAdapter, useClass: CustomDateAdapter },
-    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS }
-  ],
-  exports: [
-    HttpClientModule,
-    MatToolbarModule,
-    MatSidenavModule,
-    MatListModule,
-    MatIconModule,
-    MatTableModule,
-    MatCardModule,
-    MatPaginatorModule,
-    MatButtonModule,
-    MatMenuModule,
-    MatProgressBarModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatCheckboxModule,
-    MatButtonToggleModule,
-    MatGridListModule,
-    MatSnackBarModule,
-    MatDatepickerModule,
-    MatSelectModule,
-    MatTabsModule,
-    MatAutocompleteModule,
-    MatExpansionModule,
-    FormFieldComponent,
-    ListingComponent,
-    ModelFormComponent,
-    ScreenWrapperComponent,
-    FormsetComponent,
-    ForeignKeyFieldComponent,
-    FileUploadComponent,
-    DateTimePickerComponent,
-    TimePickerComponent,
-    TextAreaFieldComponent,
-    SelectFieldComponent,
-    AttachmentsComponent,
-    HistoryComponent
-  ],
-  entryComponents: [
-    ListingComponent,
-    ModelFormComponent,
-    ListingDialogComponent,
-    ScreenWrapperComponent,
-    IframeModalComponent,
-    AttachmentsComponent,
-    HistoryComponent
-  ]
-})
+@NgModule({ declarations: [
+        FormFieldComponent,
+        ListingComponent,
+        ModelFormComponent,
+        ScreenWrapperComponent,
+        FormsetComponent,
+        ForeignKeyFieldComponent,
+        FileUploadComponent,
+        DateTimePickerComponent,
+        ListingDialogComponent,
+        TextAreaFieldComponent,
+        SelectFieldComponent,
+        ForeignKeyFiledMultipleComponent,
+        IframeModalComponent,
+        TimePickerComponent,
+        AttachmentsComponent,
+        SearchDialogComponent,
+        SafePipe,
+        ActionDialogComponent,
+        GetSelectorPipe,
+        HistoryComponent,
+        DateTimeFormatPipe
+    ],
+    exports: [
+        // HttpClientModule is gone in v17; HttpClient now comes from provideHttpClient() below
+
+        MatToolbarModule,
+        MatSidenavModule,
+        MatListModule,
+        MatIconModule,
+        MatTableModule,
+        MatCardModule,
+        MatPaginatorModule,
+        MatButtonModule,
+        MatMenuModule,
+        MatProgressBarModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatCheckboxModule,
+        MatButtonToggleModule,
+        MatGridListModule,
+        MatSnackBarModule,
+        MatDatepickerModule,
+        MatSelectModule,
+        MatTabsModule,
+        MatAutocompleteModule,
+        MatExpansionModule,
+        FormFieldComponent,
+        ListingComponent,
+        ModelFormComponent,
+        ScreenWrapperComponent,
+        FormsetComponent,
+        ForeignKeyFieldComponent,
+        FileUploadComponent,
+        DateTimePickerComponent,
+        TimePickerComponent,
+        TextAreaFieldComponent,
+        SelectFieldComponent,
+        AttachmentsComponent,
+        HistoryComponent
+    ], imports: [CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        RouterModule,
+        MatToolbarModule,
+        MatSidenavModule,
+        MatChipsModule,
+        MatListModule,
+        MatIconModule,
+        MatTableModule,
+        MatCardModule,
+        MatPaginatorModule,
+        MatButtonModule,
+        MatMenuModule,
+        MatProgressBarModule,
+        MatProgressSpinnerModule,
+        BrowserAnimationsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatCheckboxModule,
+        MatDialogModule,
+        MatButtonToggleModule,
+        MatGridListModule,
+        MatSnackBarModule,
+        MatDatepickerModule,
+        MatSelectModule,
+        MatTabsModule,
+        MatExpansionModule,
+        AmazingTimePickerModule,
+        MatAutocompleteModule,
+        SelectAutocompleteModule,
+        TranslateModule.forRoot()], providers: [
+        CookieService,
+        { provide: HTTP_INTERCEPTORS, useClass: CookieInterceptor, multi: true },
+        { provide: MAT_DATE_LOCALE, useValue: 'en_US' },
+        {
+            provide: MatDialogRef,
+            useValue: {}
+        },
+        { provide: DateAdapter, useClass: CustomDateAdapter },
+        { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+        provideHttpClient(withInterceptorsFromDi())
+    ] })
 export class CrudModule { }

@@ -1,18 +1,28 @@
 {
-    "name": "ng-crud-ui",
-    "version": "5.11.24",
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/CloudInn/ng-crud-ui.git"
-    },
-    "dependencies": {
-        "tslib": "^2.0.0"
-    },
-    "peerDependencies": {
-        "@angular/common": ">=6.0.0",
-        "@angular/core": ">=6.0.0",
-        "@angular/material": ">=6.0.0",
-        "moment": "^2.22.2",
-        "ngx-moment": ">=3.0.1"
-    }
+  "name": "@cloudinn/ng-crud-ui",
+  "version": "21.0.1",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CloudInn/ng-crud-ui.git"
+  },
+  "dependencies": {
+    "tslib": "^2.0.0"
+  },
+  "peerDependencies": {
+    "@angular/cdk": "^21.0.0",
+    "@angular/common": "^21.0.0",
+    "@angular/core": "^21.0.0",
+    "@angular/forms": "^21.0.0",
+    "@angular/material": "^21.0.0",
+    "@angular/material-moment-adapter": "^21.0.0",
+    "@angular/platform-browser": "^21.0.0",
+    "@angular/platform-browser-dynamic": "^21.0.0",
+    "@angular/router": "^21.0.0",
+    "@cloudinn/amazing-time-picker": "^3.0.0",
+    "@ngx-translate/core": "^14.0.0",
+    "@cloudinn/mat-select-autocomplete": "^21.0.0",
+    "moment": "^2.29.4",
+    "ngx-cookie-service": "^21.0.0",
+    "rxjs": "^7.4.0"
+  }
 }

@@ -1,10 +1,11 @@
 import { Component, OnChanges, Input, SimpleChanges, SimpleChange } from '@angular/core';
-import { FormGroup, FormArray } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormArray } from '@angular/forms';
 
 import { FormService } from '../../services/form.service';
 import { FieldConfig, FormSetControlConfig } from '../../models/metadata';
 
 @Component({
+    standalone: false,
   selector: 'ng-crud-formset',
   templateUrl: './formset.component.html',
   styleUrls: ['./formset.component.scss'],
@@ -12,12 +13,12 @@ import { FieldConfig, FormSetControlConfig } from '../../models/metadata';
 })
 export class FormsetComponent implements OnChanges {
 
-  @Input() formGroup: FormGroup;
+  @Input() formGroup: UntypedFormGroup;
   @Input() config: FieldConfig;
   @Input() mode;
   control: FormSetControlConfig;
   subControl: FormSetControlConfig;
-  formArray: FormArray = new FormArray([]);
+  formArray: UntypedFormArray = new UntypedFormArray([]);
   choices = {};
 
   constructor(private formService: FormService) {
@@ -26,10 +27,10 @@ export class FormsetComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     this.control = this.config.control as FormSetControlConfig;
     if (this.formGroup.get(this.config.name) !== null) {
-      this.formArray = this.formGroup.get(this.config.name) as FormArray;
+      this.formArray = this.formGroup.get(this.config.name) as UntypedFormArray;
     }
     const hidden_field = this.getHiddenField();
-    const group = this.formArray.controls[0] as FormGroup;
+    const group = this.formArray.controls[0] as UntypedFormGroup;
     if (group && hidden_field) {
       if (hidden_field?.equalsTo) {
         group.controls[hidden_field.name].patchValue(this.formGroup.get(hidden_field.equalsTo).value);

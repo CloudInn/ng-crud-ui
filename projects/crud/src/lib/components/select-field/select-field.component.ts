@@ -1,11 +1,12 @@
 import { Component, Input, OnInit, OnChanges } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 
 import { FieldConfig, SelectControlConfig } from '../../models/metadata';
 import { config } from 'rxjs';
 
 
 @Component({
+    standalone: false,
   selector: 'ng-crud-select-field',
   exportAs: 'ngcrudui-select-field',
   styleUrls: ['./select-field.component.scss'],
@@ -24,7 +25,7 @@ import { config } from 'rxjs';
 })
 export class SelectFieldComponent implements OnInit, OnChanges {
 
-  @Input() formGroup: FormGroup;
+  @Input() formGroup: UntypedFormGroup;
   @Input() config: FieldConfig;
   controlConfig: SelectControlConfig;
 

@@ -1,10 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 
 import { FieldConfig, TextAreaControlConfig } from '../../models/metadata';
 
 
 @Component({
+    standalone: false,
   selector: 'ng-crud-text-area-field',
   exportAs: 'ngcrudui-text-area-field',
   styles: ['.form-field-wrapper{margin-right:  24px}'],
@@ -18,7 +19,7 @@ import { FieldConfig, TextAreaControlConfig } from '../../models/metadata';
 })
 export class TextAreaFieldComponent implements OnInit {
 
-  @Input() formGroup: FormGroup;
+  @Input() formGroup: UntypedFormGroup;
   @Input() config: FieldConfig;
   controlConfig: TextAreaControlConfig;
 
