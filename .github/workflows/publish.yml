@@ -84,9 +84,9 @@ jobs:
       - name: Publish
         if: github.event_name == 'push' || inputs.dry_run == false
         working-directory: dist/crud
-        run: npm publish --access public
+        run: npm publish --access public --tag angular11
 
       - name: Dry run
         if: github.event_name == 'workflow_dispatch' && inputs.dry_run == true
         working-directory: dist/crud
-        run: npm publish --access public --dry-run
+        run: npm publish --access public --tag angular11 --dry-run
