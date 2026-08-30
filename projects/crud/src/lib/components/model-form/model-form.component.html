@@ -15,6 +15,10 @@
             <span> {{id? ("Edit" | translate) + " " + viewConfig.title : ("Add New" | translate) + " " + viewConfig.title}}</span>
             <mat-icon class="cancel_icon" (click)="cancel($event)" id="close-dialog-icon">cancel</mat-icon>
         </h2>
+        <div class="err-container" *ngIf="hasSearchError">
+            <div class="one" *ngFor="let err of searchErrors">{{ err }}</div>
+            <div class="one" *ngFor="let err of searchFieldErrors">{{ err.key }} : {{ err.value }}</div>
+        </div>
         <div class="crud-form-body" [ngStyle]="{'display': (initialLoading && mode==='edit')?'none':''}">
             <div class="saving-overlay" *ngIf="saving">
                 <mat-spinner diameter="60"></mat-spinner>
