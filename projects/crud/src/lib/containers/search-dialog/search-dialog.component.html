@@ -1,3 +1,9 @@
 <section class="app-settings">
+  <!-- Same err-container/one markup the removed ErrorHandlingComponent rendered, so the styling
+       and the existing selectors keep working. -->
+  <div class="err-container" *ngIf="hasErr">
+    <div class="one" *ngFor="let err of strErrors">{{ err }}</div>
+    <div class="one" *ngFor="let err of errors">{{ err.key }} : {{ err.value }}</div>
+  </div>
   <div #formView></div>
 </section>
