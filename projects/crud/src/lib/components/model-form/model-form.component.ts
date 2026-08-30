@@ -22,6 +22,7 @@ import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
 import { CustomDateAdapter, MY_FORMATS } from '../../custom-date-adapter';
 import { HistoryComponent } from '../history/history.component';
 import { TranslateService } from '@ngx-translate/core';
+import { ErrorHanlderService } from '../../services/error-hanlder.service';
 
 @Component({
     standalone: false,
@@ -63,6 +64,9 @@ export class ModelFormComponent implements OnInit, OnDestroy {
     viewMode;
     iframeSrc = '';
     subscriptions = new Subscription();
+    searchErrors: string[] = [];
+    searchFieldErrors: Array<{ key: string, value: string }> = [];
+    hasSearchError = false;
     constructor(
         private api: ApiService,
         private formService: FormService,
@@ -72,9 +76,49 @@ export class ModelFormComponent implements OnInit, OnDestroy {
         private creationDialogRef: MatDialogRef<SearchDialogComponent>,
         private iframeModal: MatDialogRef<IframeModalComponent>,
         private attacmentsService: AttachmentsService,
-        private translate: TranslateService
+        private translate: TranslateService,
+        private errorService: ErrorHanlderService
     ) {
+        // Only in search mode. A rejected search has no other surface - it never reaches
+        // displayError/openSnackBar, because submitting a filter form emits and the parent runs the
+        // request. Create and edit do call those, and showing both is the duplicate that got
+        // ErrorHandlingComponent removed.
+        this.subscriptions.add(this.errorService.getError().subscribe(err => {
+            this.hasSearchError = this.mode === 'search' && err?.hasErr === true && err?.error !== undefined;
+            this.searchErrors = [];
+            this.searchFieldErrors = [];
+            if (!this.hasSearchError) {
+                return;
+            }
+            if (err.type === 'forbidden') {
+                this.searchErrors.push(err.error);
+            } else if (err.type === 'bad request') {
+                this.collectSearchErrors(err.error);
+            }
+        }));
+    }
 
+    /** DRF body: {field: messages}; `detail` and `error` are request-wide rather than per field. */
+    private collectSearchErrors(error: any): void {
+        if (error === null || error === undefined) {
+            return;
+        }
+        if (typeof error === 'string') {
+            this.searchErrors.push(error);
+            return;
+        }
+        Object.keys(error).forEach(key => {
+            const messages = Array.isArray(error[key]) ? error[key] : [error[key]];
+            messages.forEach(message => {
+                if (typeof message !== 'string') {
+                    this.collectSearchErrors(message);
+                } else if (key === 'error' || key === 'detail') {
+                    this.searchErrors.push(message);
+                } else {
+                    this.searchFieldErrors.push({ key, value: message });
+                }
+            });
+        });
     }
     ngOnInit() {
         this.viewMode = this.viewConfig.viewMode;
