@@ -2,6 +2,8 @@ name: Publish @cloudinn/ng-crud-ui
 
 on:
   push:
+    branches:
+      - master
     tags:
       - 'v*'
   workflow_dispatch:
@@ -41,25 +43,40 @@ jobs:
             fi
           fi
 
-      - name: Reject an already-published version
+      # A tag says "publish this"; a push to master only says the code moved. So a version that is
+      # already on npm is an error for a tag and a normal no-op for a merge - otherwise every merge
+      # that does not bump the version would report a red build.
+      - name: Decide whether there is anything to publish
+        id: gate
         env:
           VERSION: ${{ steps.version.outputs.source }}
+          REF_TYPE: ${{ github.ref_type }}
         run: |
           if npm view "@cloudinn/ng-crud-ui@$VERSION" version >/dev/null 2>&1; then
-            echo "::error::@cloudinn/ng-crud-ui@$VERSION is already on npm. Bump projects/crud/package.json."
-            exit 1
+            if [ "$REF_TYPE" = "tag" ]; then
+              echo "::error::@cloudinn/ng-crud-ui@$VERSION is already on npm. Bump projects/crud/package.json."
+              exit 1
+            fi
+            echo "::notice::@cloudinn/ng-crud-ui@$VERSION is already on npm; nothing to publish for this push."
+            echo "publish=false" >> "$GITHUB_OUTPUT"
+            exit 0
           fi
           echo "@cloudinn/ng-crud-ui@$VERSION is unpublished, continuing."
+          echo "publish=true" >> "$GITHUB_OUTPUT"
 
       - uses: actions/setup-node@v4
+        if: steps.gate.outputs.publish == 'true'
         with:
           node-version: '22'
 
       - run: npm ci
+        if: steps.gate.outputs.publish == 'true'
 
       - run: npm run build-crud -- --configuration production
+        if: steps.gate.outputs.publish == 'true'
 
       - name: Verify the built package carries the expected version
+        if: steps.gate.outputs.publish == 'true'
         env:
           EXPECTED: ${{ steps.version.outputs.source }}
         run: |
@@ -73,13 +90,14 @@ jobs:
       # Trusted publishing needs npm >= 11.5.1 and NO .npmrc auth config: setup-node's
       # registry-url writes a placeholder NODE_AUTH_TOKEN that preempts the OIDC exchange.
       - run: npm install -g npm@latest
+        if: steps.gate.outputs.publish == 'true'
 
       - name: Publish
-        if: github.event_name == 'push' || inputs.dry_run == false
+        if: steps.gate.outputs.publish == 'true' && (github.event_name == 'push' || inputs.dry_run == false)
         working-directory: dist/crud
         run: npm publish --access public
 
       - name: Dry run
-        if: github.event_name == 'workflow_dispatch' && inputs.dry_run == true
+        if: steps.gate.outputs.publish == 'true' && github.event_name == 'workflow_dispatch' && inputs.dry_run == true
         working-directory: dist/crud
         run: npm publish --access public --dry-run
