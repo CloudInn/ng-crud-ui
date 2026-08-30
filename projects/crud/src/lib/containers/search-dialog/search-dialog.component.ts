@@ -12,9 +12,7 @@ import { ErrorHanlderService } from '../../services/error-hanlder.service';
 })
 export class SearchDialogComponent implements OnInit, OnDestroy {
   metadata: Metadata;
-  /** Messages with no field of their own - the `detail` and `error` keys, and every 403. */
   strErrors: string[] = [];
-  /** Messages the backend attached to a named field, rendered as "field : message". */
   errors: Array<{ key: string, value: string }> = [];
   hasErr = false;
 
@@ -27,14 +25,8 @@ export class SearchDialogComponent implements OnInit, OnDestroy {
     private errorService: ErrorHanlderService,
     @Inject(MAT_DIALOG_DATA) public data: any) {
 
-    // A search rejected by the backend has no other way to reach the user. The form in here only
-    // emits its filters - the parent runs the request - so nothing on this path calls
-    // ModelFormComponent.displayError/openSnackBar. That is what makes it safe to render the
-    // error here: the duplicate that got ErrorHandlingComponent removed was the save flow showing
-    // the snackbar and that component at once, and no save happens inside this dialog.
-    //
-    // Keep it that way. If a search view is ever configured with a form that saves, this
-    // subscription and that snackbar would both fire and the double is back.
+    // Nothing saves in here, so this cannot duplicate the save flow's snackbar - the double that
+    // got ErrorHandlingComponent removed. A search view whose form can save would bring it back.
     this.errorSubscription = this.errorService.getError().subscribe(err => {
       this.hasErr = err?.hasErr === true && err?.error !== undefined;
       this.strErrors = [];
@@ -42,7 +34,7 @@ export class SearchDialogComponent implements OnInit, OnDestroy {
       if (!this.hasErr) {
         return;
       }
-      // 'forbidden' arrives already unwrapped to error.detail by ErrorHanlderService.
+      // ErrorHanlderService already unwraps a 403 to error.detail.
       if (err.type === 'forbidden') {
         this.strErrors.push(err.error);
       } else if (err.type === 'bad request') {
@@ -51,11 +43,7 @@ export class SearchDialogComponent implements OnInit, OnDestroy {
     });
   }
 
-  /**
-   * A DRF error body is {field: messages}, where messages is a string, a list of strings, or a
-   * nested body for a related object. `detail` and `error` are the two keys that carry a message
-   * about the request as a whole rather than about a field.
-   */
+  /** DRF body: {field: messages}; `detail` and `error` are request-wide rather than per field. */
   private collectErrors(error: any): void {
     if (error === null || error === undefined) {
       return;
