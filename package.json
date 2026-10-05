@@ -24,7 +24,7 @@
     "@angular/material-moment-adapter": "^21.2.14",
     "@angular/platform-browser": "^21.2.19",
     "@angular/platform-browser-dynamic": "^21.2.19",
-    "@angular/router": "^21.2.19",
+    "@angular/router": "^21.2.24",
     "@angular/ssr": "^19.2.27",
     "@cloudinn/amazing-time-picker": "3.0.0",
     "@cloudinn/mat-select-autocomplete": "^21.0.0",
