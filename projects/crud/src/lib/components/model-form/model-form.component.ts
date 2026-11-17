@@ -409,6 +409,9 @@ export class ModelFormComponent implements OnInit, OnDestroy {
     }
 
     _onSubmit(action_type?) {
+        if (this.saving) {
+            return;
+        }
         this.saving = true;
         this.viewConfig.metadata.default_filters = [];
         if (this.formGroup.valid) {
